@@ -62,3 +62,6 @@ div.workbench-info-block {
     width: auto !important;
     margin: 5px;
 }
+#block-menu-block-3 .menu-block-3 .introduction-title {
+    display: none;
+}

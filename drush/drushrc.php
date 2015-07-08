@@ -493,6 +493,7 @@ $options['init-modules'] = array(
   'ncw_migration',
   'hwc_menu',
   'feeds',
+  'hwc_social_sprites',
 
 );
 

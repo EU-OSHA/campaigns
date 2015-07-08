@@ -1,0 +1,7 @@
+printfriendly 7.x-1.1 2013-01-30
+-----------------------------------
+Add support for views (column within context group).
+
+printfriendly 7.x-1.0 2012-12-13
+-----------------------------------
+Initial Release for Drupal 7.x.

@@ -1,0 +1,177 @@
+<?php
+
+/**
+ * @file
+ * Creates a small block with jQuery links that resize text within the BODY tag.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function text_resize_menu() {
+  $items = array();
+  $items['admin/config/user-interface/text_resize'] = array(
+    'title' => 'Text Resize',
+    'description' => 'Settings for your Text Resize block.',
+    'access arguments' => array('administer site configuration'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('_text_resize_admin_settings'),
+    'type' => MENU_NORMAL_ITEM
+  );
+  return $items;
+}
+
+/**
+ * Builder function for admin settings form.
+ */
+function _text_resize_admin_settings() {
+  $form = array();
+
+  $form['text_resize_scope'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Text Resize Scope'),
+    '#default_value' => variable_get('text_resize_scope', 'main'),
+    '#description' => t('Which portion of the body would you like to be resized by the Text Resize block? You may enter either the CSS class attribute, the CSS id attribute, or an HTML tag.<br />For example, if you want all text within &lt;div id="my-container"&gt; to be resized, enter the ID <strong>my-container</strong>.<br />If, on the other hand, you would like all text within the BODY tag to be resized, enter <strong>body</strong>.'),
+    '#required' => TRUE,
+  );
+  $form['text_resize_minimum'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Default/Minimum Text Size'),
+    '#maxlength' => 2,
+    '#default_value' => variable_get('text_resize_minimum', '12'),
+    '#description' => t('What is the smallest font size (in pixels) that your text can be resized to by users?'),
+    '#required' => TRUE,
+  );
+  $form['text_resize_maximum'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Maximum Text Size'),
+    '#maxlength' => 2,
+    '#default_value' => variable_get('text_resize_maximum', '25'),
+    '#description' => t('What is the largest font size (in pixels) that your text can be resized to by users?'),
+    '#required' => TRUE,
+  );
+  $form['text_resize_reset_button'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Add Reset Button'),
+    '#default_value' => variable_get('text_resize_reset_button', FALSE),
+    '#description' => t('Do you want to add an extra button to the block to allow the font size to be reset to the default/minimum size set above?'),
+  );
+  $form['text_resize_line_height_allow'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Allow Line-Height Adjustment'),
+    '#default_value' => variable_get('text_resize_line_height_allow', FALSE),
+    '#description' => t('Do you want to allow Text Resize to change the spacing between the lines of text?'),
+  );
+  $form['text_resize_line_height_min'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Minimum Line-Height'),
+    '#maxlength' => 2,
+    '#default_value' => variable_get('text_resize_line_height_min', 16),
+    '#description' => t('What is the smallest line-height (in pixels) that your text can be resized to by users?'),
+  );
+  $form['text_resize_line_height_max'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Maximum Line-Height'),
+    '#maxlength' => 2,
+    '#default_value' => variable_get('text_resize_line_height_max', 36),
+    '#description' => t('What is the largest line-height (in pixels) that your text can be resized to by users?'),
+  );
+  $form = system_settings_form($form);
+  // Rebuild the menu after updating the settings.
+  $form['#submit'][] = 'menu_rebuild';
+  return $form;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function text_resize_block_info() {
+  // Makes it show up on /admin/build/block page.
+  $blocks[0] = array(
+    'info' => t('Text Resize'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function text_resize_block_view() {
+  // Show the block.
+  $block['subject'] = t('Text Resize');
+  $block['content'] = theme('text_resize_block');
+  return $block;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function text_resize_theme() {
+  return array(
+    'text_resize_block' => array(),
+  );
+}
+
+// Create a theme function that can be overridden by other theme developers.
+function theme_text_resize_block() {
+  // Add js, css, and library
+  $content = array(
+    '#attached' => array(
+      'js' => array(
+        array(
+          'data' => "var text_resize_scope = " . drupal_json_encode(variable_get('text_resize_scope', 'main')) . ";
+          var text_resize_minimum = " . drupal_json_encode(variable_get('text_resize_minimum', '12')) . ";
+          var text_resize_maximum = " . drupal_json_encode(variable_get('text_resize_maximum', '25')) . ";
+          var text_resize_line_height_allow = " . drupal_json_encode(variable_get('text_resize_line_height_allow', FALSE)) . ";
+          var text_resize_line_height_min = " . drupal_json_encode(variable_get('text_resize_line_height_min', 16)) . ";
+          var text_resize_line_height_max = " . drupal_json_encode(variable_get('text_resize_line_height_max', 36)) . ";",
+          'type' => 'inline',
+        ),
+        array(
+          'data' => drupal_get_path('module', 'text_resize') . '/text_resize.js',
+          'type' => 'file',
+        )
+      ),
+      'css' => array(
+        drupal_get_path('module', 'text_resize') . '/text_resize.css',
+      ),
+      'library' => array(
+        array('system', 'jquery.cookie')
+      ),
+    ),
+  );
+  if (variable_get('text_resize_reset_button', FALSE) == TRUE) {
+    $content['#markup'] = t('<a href="javascript:;" class="changer" id="text_resize_decrease"><sup>-</sup>A</a> <a href="javascript:;" class="changer" id="text_resize_reset">A</a> <a href="javascript:;" class="changer" id="text_resize_increase"><sup>+</sup>A</a><div id="text_resize_clear"></div>');
+  }
+  else {
+    $content['#markup'] = t('<a href="javascript:;" class="changer" id="text_resize_decrease"><sup>-</sup>A</a> <a href="javascript:;" class="changer" id="text_resize_increase"><sup>+</sup>A</a><div id="text_resize_clear"></div>');
+  }
+
+  return render($content);
+}
+
+/**
+ * Implements hook_help().
+ */
+function text_resize_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#text_resize':
+      $output = '<p>' . t('The Text Resize module creates a block on the page that can be used by your site visitors to quickly and easily adjust the sizing of text as it displays for them.  In order to enable the functionality of the Text Resize module, you will need to make sure that you have enabled the Text Resize block on the <a href="admin/build/block">blocks page</a>. You will also probably want to configure the behavior of the module at the administration pages listed at the bottom of this page.') . '</p>';
+      $output .= '<h2>' . t('Changing How Text Resize Looks') . '</h2>';
+      $output .= '<h3>' . t('Method 1: Just CSS') . '</h3>';
+      $output .= '<p>' . t('Text Resize creates two stylized hyperlinks on the page (and a third if you enable the reset button option). You can add new styles to your own theme\'s stylesheet that will override the default CSS styles produced by Text Resize. The ids you\'ll want to add and modify in your stylesheet are:') . '</p>';
+      $output .= '<ul><li>#text_resize_increase</li>';
+      $output .= '<li>#text_resize_decrease</li>';
+      $output .= '<li>#text_resize_reset ' . t('(if you\'ve chosen to use the reset button option)') . '</li></ul>';
+      $output .= '<h3>' . t('Method 2: A Theme Function') . '</h3>';
+      $output .= '<p>' . t('If you need to change the HTML that is produced by Text Resize in some way, you can create a small function in your theme\'s template.php file. An example is below:') . '</p>';
+      $output .= '<p><code>function YOUR_THEME_NAME_text_resize_block() {<br />&nbsp;&nbsp;$output = t(\'&lt;a href="javascript:;" class="changer" id="text_resize_decrease"&gt;&lt;sup&gt;-&lt;/sup&gt;A&lt;/a&gt; &lt;a href="javascript:;" class="changer" id="text_resize_increase"&gt;&lt;sup&gt;+&lt;/sup&gt;A&lt;/a&gt; &lt;a href="/contact"&gt;Contact&lt;/a&gt; | &lt;a href="/pages/site-map"&gt;Site Map&lt;/a&gt;&lt;div id="text_resize_clear"&gt;&lt;/div&gt;\');<br />&nbsp;&nbsp;return $output;<br />}</code></p>';
+      $output .= '<p>' . t('In the example above, the HTML output code is just modified so that two new hyperlinks are added into the original block code.') . '</p>';
+      return $output;
+      break;
+    case 'admin/settings/modules#description':
+      return t('Creates a block that allows your users to resize text on the page.');
+      break;
+  }
+}

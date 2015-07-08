@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the HWC social sprites feature.
+ */
+
+include_once 'hwc_social_sprites.features.inc';

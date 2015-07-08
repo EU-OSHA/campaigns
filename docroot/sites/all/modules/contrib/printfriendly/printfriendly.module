@@ -1,0 +1,170 @@
+<?php
+
+/**
+ * @file
+ * Adds PrintFriendly button to chosen node types and provides a block.
+ */
+
+/**
+ * Implements hook_help().
+ */
+function printfriendly_help($path) {
+  switch ($path) {
+    case 'admin/config/services/printfriendly':
+    case 'admin/help#printfriendly':
+      return t('PrintFriendly module lets you include a link to let your site users to quickly print, email or download the page as a PDF file using !printfriendly service.', array('!printfriendly' => '<a href="http://www.printfriendly.com">PrintFriendly.com</a>'));
+  }
+}
+
+/**
+ * Implements hook_permission().
+ */
+function printfriendly_permission() {
+  return array(
+    'administer printfriendly' => array(
+      'title' => t('Administer PrintFriendly'),
+      'description' => t('Configure how PrintFriendly is used on the site.'),
+    ),
+    'access printfriendly' => array(
+      'title' => t('Access PrintFriendly'),
+      'description' => t('Users with this permission will be able to use and see PrintFriendly.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function printfriendly_menu() {
+  $items['admin/config/services/printfriendly'] = array(
+    'title' => 'PrintFriendly',
+    'description' => 'Provides the configuration options for how PrintFriendly operates on the site.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('printfriendly_admin_settings'),
+    'access arguments' => array('administer printfriendly'),
+    'file' => 'printfriendly.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function printfriendly_block_info() {
+  $blocks['printfriendly'] = array(
+    'info' => t('PrintFriendly Widget'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function printfriendly_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'printfriendly':
+      $block['subject'] = t('PrintFriendly');
+      $block['content'] = printfriendly_create_button();
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Implements hook_node_view().
+ */
+function printfriendly_node_view($node, $view_mode) {
+  if (in_array($view_mode, array_filter(variable_get('printfriendly_display', array('full'))))) {
+    if (in_array($node->type, variable_get('printfriendly_types', array()), TRUE) && user_access('access printfriendly')) {
+      if ($view_mode == 'teaser') {
+        $block = printfriendly_create_button('node/' . $node->nid, FALSE);
+      }
+      else {
+        $block = printfriendly_create_button();
+        $js = key($block['#attached']['js']);
+        drupal_add_js($js, $block['#attached']['js'][$js]);
+      }
+      $links['printfriendly'] = array(
+        'title' => $block['#markup'],
+        'attributes' => array('class' => array('printfriendly-node', $node->type)),
+        'html' => TRUE,
+      );
+      $node->content['links']['printfriendly'] = array(
+        '#theme' => 'links',
+        '#links' => $links,
+        '#attributes' => array('class' => array('links', 'inline')),
+      );
+    }
+  }
+}
+
+
+/**
+ * Register module with views api.
+ */
+function printfriendly_views_api() {
+  return array(
+    'api' => '3.0',
+    'path' => drupal_get_path('module', 'printfriendly') . '/views',
+  );
+}
+
+/**
+ * Shared function generate code for printfriendly button for nodes and block.
+ *
+ * @param string $url
+ *   Path to the page to pass to PrintFriendly.
+ * @param bool $popup
+ *   Whether the JavaScript should be added or not (popup).
+ * @return string
+ *   String containing html code for the button
+ *
+ */
+function printfriendly_create_button($url = NULL, $popup = TRUE) {
+  if (!$url && !is_numeric($url)) {
+    $url = $_GET['q'];
+  }
+  $query_string = $_GET;
+  unset($query_string['q']);
+  $url = url($url, array('absolute' => TRUE, 'query' => $query_string));
+
+  $js = 'http://cdn.printfriendly.com/printfriendly.js';
+  if (variable_get('printfriendly_website_protocol') == 'https') {
+    $js = 'https://pf-cdn.printfriendly.com/ssl/main.js';
+  }
+
+  $image = drupal_get_path('module', 'printfriendly') . '/images/' . variable_get('printfriendly_image', 'button-print-grnw20.png');
+  $link_content = theme('image', array(
+    'path' => $image,
+    'alt' => variable_get('printfriendly_description', t('Printer Friendly and PDF')),
+  ));
+
+  $options = array(
+    'attributes' => array(
+      'class' => 'printfriendly',
+      'onclick' => 'window.print(); return false;',
+      'title' => variable_get('printfriendly_description', t('Printer Friendly and PDF')),
+    ),
+    'html' => TRUE,
+    'query' => array(
+      'url' => $url,
+    ),
+    'external' => TRUE,
+  );
+  if ($popup) {
+    return array(
+      '#markup' => l($link_content, 'http://www.printfriendly.com/print', $options),
+      '#attached' => array(
+        'js' => array($js => array('type' => 'external', 'scope' => 'footer')),
+      ),
+    );
+  }
+  else {
+    unset($options['attributes']['onclick']);
+    return array(
+      '#markup' => l($link_content, 'http://www.printfriendly.com/print', $options),
+    );
+  }
+}
