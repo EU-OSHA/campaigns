@@ -17,5 +17,5 @@
 ?>
 <div class="tools-and-resources-block">
 <?php print($content); ?>
-<?php print l(t('Go to the tools'), 'tools-and-resources', array('attributes' => array('class' => array('btn btn-default')))); ?>
+
 </div>

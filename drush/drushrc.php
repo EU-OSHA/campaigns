@@ -324,6 +324,7 @@ $options['init-modules'] = array(
   'media_wysiwyg',
   'languagefield',
   'image_field_caption',
+  'entityqueue',
 
   'tmgmt',
   'tmgmt_local',
@@ -495,6 +496,7 @@ $options['init-modules'] = array(
   'hwc_menu',
   'hwc_partner',
   'hwc_feeds',
+  'HWC_homepage_featured',
 );
 
 

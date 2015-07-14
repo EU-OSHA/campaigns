@@ -1,0 +1,21 @@
+<?php
+/**
+ * @file
+ * Code for the HWC_homepage_featured feature.
+ */
+
+include_once 'hwc_homepage_featured.features.inc';
+/*
+ * Implements  hook_block_view_MODULE_DELTA_alter(&$data, $block)
+ */
+function hcw_homepage_featured_block_view_hwc_homepage_featured_1_alter(&$data, $block) {
+  // This code will only run for a specific block. For example, if MODULE_DELTA
+  // in the function definition above is set to "mymodule_somedelta", the code
+  // will only run on the "somedelta" block provided by the "mymodule" module.
+
+  // Change the title of the "somedelta" block provided by the "mymodule"
+  // module.
+  $data['subject'] = t('New title of the block');
+ echo t('New title of the block');
+
+}
