@@ -1,0 +1,276 @@
+<?php
+/**
+ * This menu appears only if 'Generate PDF' option is enabled
+ */
+function webform2pdf_enabled_pdf_access() {
+  $param = func_get_args();
+
+  $node = array_shift($param);
+  $call = array_shift($param);
+
+  $row = db_select('webform2pdf', 'w2p')
+    ->fields('w2p', array('enabled'))
+    ->condition('nid', $node->nid, '=')
+    ->condition('enabled', 1, '=')
+    ->execute()
+    ->fetchAssoc();
+
+  return ($row['enabled'] && call_user_func_array($call, $param));
+} // function webform2pdf_enabled_pdf_access()
+
+/**
+ * Implements hook_menu().
+ */
+function webform2pdf_menu() {
+  $items = array();
+
+  $items['node/%webform_menu/webform/webform2pdf'] = array(
+    'title' => 'Generate PDF',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('webform2pdf_edit_form', 1),
+    'access callback' => 'node_access',
+    'access arguments' => array('update', 1),
+    'file' => 'includes/webform2pdf.settings.inc',
+    'weight' => 4,
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  $items['node/%webform_menu/webform-results/downloadpdf'] = array(
+    'title' => 'Download PDF',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('webform2pdf_download_pdf_form', 1),
+    'access callback' => 'webform2pdf_enabled_pdf_access',
+    'access arguments' => array(1, 'webform_results_access', 1),
+    'file' => 'includes/webform2pdf.download.inc',
+    'weight' => 9,
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  $items['node/%webform_menu/submission/%webform_menu_submission/downloadpdf'] = array(
+    'title' => 'Download PDF',
+    'load arguments' => array(1),
+    'page callback' => 'webform2pdf_submission_download_pdf',
+    'page arguments' => array(1, 3),
+    'access callback' => 'webform2pdf_enabled_pdf_access',
+    'access arguments' => array(1, 'webform_submission_access', 1, 3, 'view'),
+    'file' => 'includes/webform2pdf.download.inc',
+    'weight' => 6,
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  $items['admin/config/content/webform2pdf'] = array(
+    'title' => 'Webform to PDF',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('webform2pdf_admin_settings'),
+    'access callback' => 'user_access',
+    'access arguments' => array('administer site configuration'),
+    'description' => 'Global configuration of webform2pdf functionality.',
+    'file' => 'includes/webform2pdf.settings.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+/*  $items['webform2pdf/%'] = array(
+    'title' => 'Download PDF',
+    'access arguments' => TRUE,
+    'page callback' => 'webform2pdf_url_decode',
+    'page arguments' => array(1),
+    'file' => 'includes/webform2pdf.download.inc',
+    'weight' => 4,
+    'type' => MENU_CALLBACK,
+  );*/
+
+  return $items;
+} // function webform2pdf_menu()
+
+/**
+ * Implements hook_theme().
+ */
+function webform2pdf_theme() {
+  return array(
+    // webform2pdf.module
+    // webform2pdf.settings.inc
+    'webform2pdf_pdf_init' => array(
+      'variables' => array('node' => NULL, 'template' => NULL),
+      'file' => 'includes/webform2pdf.theme.inc',
+    ),
+    'webform2pdf_pdf_header' => array(
+      'variables' => array('pdf' => NULL, 'node' => NULL, 'template' => NULL),
+      'file' => 'includes/webform2pdf.theme.inc',
+    ),
+    'webform2pdf_pdf_page' => array(
+      'variables' => array('pdf' => NULL, 'node' => NULL, 'template' => NULL),
+      'file' => 'includes/webform2pdf.theme.inc',
+    ),
+    'webform2pdf_pdf_content' => array(
+      'variables' => array('pdf' => NULL, 'node' => NULL, 'template' => NULL),
+      'file' => 'includes/webform2pdf.theme.inc',
+    ),
+    'webform2pdf_pdf_footer' => array(
+      'variables' => array('pdf' => NULL, 'node' => NULL, 'template' => NULL),
+      'file' => 'includes/webform2pdf.theme.inc',
+    ),
+    'webform2pdf_mail2pdf' => array(
+      'variables' => array('nid' => NULL, 'sid' => NULL),
+      'file' => 'includes/webform2pdf.theme.inc',
+    ),
+    'webform2pdf_filename' => array(
+      'variables' => array('node' => NULL, 'submission' => NULL),
+      'file' => 'includes/webform2pdf.theme.inc',
+    ),
+    'webform2pdf_content' => array(
+      'variables' => array('node' => NULL, 'submission' => NULL, 'template' => NULL),
+      'file' => 'includes/webform2pdf.theme.inc',
+    ),
+  );
+
+} // function webform2pdf_theme()
+
+/**
+ * Implements hook_help().
+ */
+function webform2pdf_help($path, $arg) {
+  global $base_url;
+
+  switch ($path) {
+    case 'node/%/webform-results/downloadpdf':
+      return $output = '<p>' . t('A PDF document will be generated from the marked results.') . '</p>';
+    break;
+  }
+} // function webform2pdf_help()
+
+/**
+ * Adds a pdf download link to the webform submission page.
+ */
+function webform2pdf_preprocess_webform_results_submissions(&$vars) {
+  $rows =& $vars['table']['#rows'];
+
+  $i = 0;
+  $table_row_keys = array_keys($vars['table']['#rows']);
+  foreach ($vars['submissions'] as $sid => $submission) {
+    if (webform2pdf_enabled_pdf_access($vars['node'], 'webform_submission_access', $vars['node'], $submission, 'view')) {
+      $rows[$table_row_keys[$i]][] = l(t('Download PDF'), 'node/' . $submission->nid . '/submission/' . $submission->sid . '/downloadpdf');
+    }
+    else {
+      $rows[$table_row_keys[$i]][] = '';
+    }
+    $i++;
+  }
+
+  $header_keys = array_keys($vars['table']['#header']);
+  $last_header_key = array_pop($header_keys);
+  $vars['table']['#operation_total'] += 1;
+  $vars['table']['#header'][$last_header_key]['colspan'] += 1;
+}
+
+/*
+ * _webform2pdf_get_template: returns the PDF settings of the given webform
+ */
+function _webform2pdf_get_template($nid) {
+  $setting = webform2pdf_get_setting($nid);
+  $setting['p_body']['value'] = check_markup($setting['p_body']['value'], $setting['p_body']['format'], FALSE);
+
+  return $setting;
+} // function _webform2pdf_get_template()
+
+/*
+ * webform2pdf_mail_alter: hook_mail_alter
+ */
+function webform2pdf_mail_alter(&$message) {
+  if (($message['id'] == 'webform_submission') && isset($message['params']['node']) && isset($message['params']['submission'])) {
+    module_load_include('inc', 'webform2pdf', 'includes/webform2pdf.mail');
+
+    $webform2pdf_send2pdf = webform2pdf_send2pdf($message['params']['node'], $message['params']['submission']);
+    if (isset($webform2pdf_send2pdf['nid'])) {
+      $attach_pdf = 1;
+
+      if ( !empty($webform2pdf_send2pdf['nopdf']) ) {
+        if (in_array($message['to'], $webform2pdf_send2pdf['nopdf'])) {
+            $attach_pdf = 0;
+        }
+      }
+
+      if ( $attach_pdf ) {
+        $node = node_load($webform2pdf_send2pdf['nid']);
+        $filename = theme('webform2pdf_filename', array('node' => $node, 'submission' => $webform2pdf_send2pdf['sid']));
+        unset($node);
+        $html_capable = variable_get('webform_email_html_capable', false);
+        if ($html_capable) {
+          if (module_exists('mimemail')) {
+            $attachment = new stdClass;
+            $attachment->filecontent = theme('webform2pdf_mail2pdf', array('nid'=>$webform2pdf_send2pdf['nid'],'sid'=> $webform2pdf_send2pdf['sid']));
+            $attachment->filename = $filename;
+            $attachment->filemime = 'application/pdf';
+            $message['params']['attachments'][] = $attachment;
+          }
+        }
+        else {
+          $trenner  = '------------' . md5(uniqid(time()));
+
+          $content_type = $message['headers']['Content-Type'];
+          $message['headers']['Content-Type'] = 'multipart/mixed; boundary="' . $trenner . '"';
+          unset($message['headers']['Content-Transfer-Encoding']);
+
+          $body = "\n\n--" . $trenner . "\n" .
+            "Content-Type: " . $content_type . "\n" .
+            "Content-Transfer-Encoding: 8bit\n\n";
+          $body .= is_array($message['body']) ? drupal_wrap_mail(implode("\n\n", $message['body'])) : drupal_wrap_mail($message['body']);
+
+          unset($message['body']);
+
+          $message['body'][0] = $body;
+          unset($body);
+
+          $message['body'][0] .= "\n\n--" . $trenner . "\n";
+          $message['body'][0] .= "Content-Type: application/pdf; name=\"" . $filename . "\"\n";
+          $message['body'][0] .= "Content-Transfer-Encoding: base64\n";
+          $message['body'][0] .= "Content-Disposition: attachment; filename=\"" . $filename . "\"\n\n";
+          $message['body'][0] .= chunk_split( base64_encode( theme('webform2pdf_mail2pdf', array('nid' => $webform2pdf_send2pdf['nid'], 'sid' => $webform2pdf_send2pdf['sid'])) ) );
+          $message['body'][0] .= "\n\n";
+          $message['body'][0] .= "--" . $trenner . "--";
+        }
+      }
+    }
+  }
+} // function webform2pdf_mail_alter()
+
+/*
+ * webform2pdf_url_encode: pdf download anonymous url generation.
+ */
+function webform2pdf_url_encode($nid, $sid, $encode = TRUE) {
+  $url = 'node/' . $nid . '/submission/' . $sid . '/downloadpdf';
+  if ($encode && ( function_exists('mcrypt_encrypt') ) ) {
+    $key = variable_get('webform2pdf_key', '');
+    return 'webform2pdf/' . urlencode(trim(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $key, $url, MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND)))));
+  }
+  return $url;
+} // function webform2pdf_url_encode()
+
+/**
+ * Get webform2pdf setting.
+ */
+function webform2pdf_get_setting($nid) {
+  $default = db_select('webform2pdf', 'w2p')
+    ->fields('w2p')
+    ->condition('nid', $nid, '=')
+    ->execute()
+    ->fetchAssoc();
+
+  if ($default) {
+    $data = unserialize($default['data']);
+    unset($default['data']);
+
+    return array_merge($default, $data);
+  }
+
+  return array();
+} // function webform2pdf_enabled_pdf_access()
+
+/**
+ * Implements hook_views_api().
+ */
+function webform2pdf_views_api() {
+  return array(
+    'api' => 3.0,
+    'path' => drupal_get_path('module', 'webform2pdf') . '/views',
+  );
+}

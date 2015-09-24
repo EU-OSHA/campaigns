@@ -1,0 +1,448 @@
+<?php
+/**
+ * @file
+ *   Webform2pdf module install/schema hooks.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function webform2pdf_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+  $error = FALSE;
+  $value = $version = '';
+
+  if ($phase == 'runtime') {
+    $tcpdf_dir = libraries_get_path('tcpdf');
+
+    if ( !is_file($tcpdf_dir . '/tcpdf.php')   ) {
+      $error = TRUE;
+      $value = $t('The Webform2PDF module requires you to !link.', array('!link' => l($t('set the TCPDF library directory'), 'admin/settings/webform2pdf')));
+    }
+    else {
+      include_once($tcpdf_dir . '/tcpdf.php' );
+      if (class_exists('TCPDF_STATIC')) {
+        $version = TCPDF_STATIC::getTCPDFVersion();
+      }
+
+      if (version_compare('6.0.000', $version) >= 0) {
+        $error = TRUE;
+        $value = $t('The Webform2PDF module requires !TCPDF 6.0.000 or later, your version: !ver.', array('!TCPDF' => l('TCPDF', 'http://www.tcpdf.org/'), '!ver' => $version));
+      }
+    }
+  }
+
+  if ($error) {
+    $requirements['webform2pdf_tcpdf_library'] = array(
+      'title' => $t('TCPDF Library requirements'),
+      'value' => $value,
+      'severity' => REQUIREMENT_ERROR,
+    );
+  }
+  else {
+    $requirements['webform2pdf_tcpdf_library'] = array(
+      'title' => $t('TCPDF Library version'),
+      'value' => $version,
+      'severity' => REQUIREMENT_OK,
+    );
+  }
+
+  return $requirements;
+}
+
+/**
+ * Implements hook_install().
+ */
+function webform2pdf_install() {
+  variable_set('webform2pdf_default', array( 'pdf_lib' => 'sites/all/libraries/tcpdf',
+    'download' => 0, 'pdf_send_email' => 0,
+    'page_format' => 'A4', 'page_orientation' => 'P', 'h_left_logo' => 0,
+    'h_right_logo' => 0, 'f_left_logo' => 0, 'f_right_logo' => 0,
+    'h_font_size' => 10, 'p_font_size' => 12, 'f_font_size' => 10,
+    'h_txt_align' => 'L', 'h_font_family' => 'dejavuserif',
+    'p_txt_align' => 'L', 'p_font_family' => 'dejavuserif',
+    'f_txt_align' => 'L', 'f_font_family' => 'dejavuserif',
+    'h_txt' => '', 'f_txt' => '', 'p_body' => array('value' => '[submission:values]', 'format' => 'filtered_html'),
+    'h_left_logo_size' => '270x205', 'h_right_logo_size' => '270x205',
+    'f_left_logo_size' => '270x56', 'f_right_logo_size' => '270x56',
+    'p_background' => 0,
+  ));
+}
+
+/**
+ * Implements hook_enable().
+ */
+function webform2pdf_enable() {
+  $key = variable_get('webform2pdf_key', '');
+  if ( empty($key) ) {
+    variable_set('webform2pdf_key', md5(uniqid(rand(), TRUE)));
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function webform2pdf_uninstall() {
+  variable_del('webform2pdf_default');
+}
+
+/**
+ * Implements hook_schema().
+ */
+function webform2pdf_schema() {
+  $schema['webform2pdf'] = array(
+    'description' => 'Database containing the settings of webform2pdf.',
+    'fields' => array(
+      'nid' => array(
+        'description' => 'The node identifier of a webform2pdf.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'enabled' => array(
+        'description' => 'Show if a pdf will be generated: 0: OFF, 1: ON.',
+        'type' => 'int',
+        'size' => 'tiny',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+
+      'data' => array(
+        'type' => 'blob',
+        'size' => 'big',
+        'serialize' => TRUE,
+        'description' => 'Serialized data containing the webform2pdf properties.',
+      ),
+    ),
+    'primary key' => array('nid'),
+  );
+  return $schema;
+}
+
+function webform2pdf_update_6001() {
+  $default = variable_get('webform2pdf_default', '');
+  $default['pdf_lib'] = drupal_get_path('module', 'webform2pdf') . '/tcpdf';
+  variable_set('webform2pdf_default', $default);
+
+  $ret = array();
+  db_add_field($ret, 'webform2pdf', 'no_send_email_addr', array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => ''));
+
+  return $ret;
+}
+
+function webform2pdf_update_6200() {
+  $result = db_query("SELECT nid, no_send_email_addr FROM {webform2pdf} WHERE enabled = 1");
+  while ( $row = db_fetch_array($result) ) {
+    $no_send_email_addr = unserialize($row['no_send_email_addr']);
+    $no_send_email_addr = array_diff($no_send_email_addr, array(0));
+    if (!empty ($no_send_email_addr)) {
+      $no_send_mail = array();
+      $node = node_load($row['nid']);
+
+      foreach ($no_send_email_addr as $key => $nomail) {
+        if ($nomail === 'email') {
+          foreach ($node->webform['emails'] as $eid => $email) {
+            if ( !is_numeric($email['email']) ) {
+              $no_send_mail[$eid] = $eid;
+              break;
+            }
+          }
+        }
+        elseif (is_numeric($nomail)) {
+          foreach ($node->webform['emails'] as $eid => $email) {
+            if ( $email['email'] == $nomail ) {
+              $no_send_mail[$eid] = $eid;
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    if ( !empty($no_send_mail) ) {
+      db_query("UPDATE {webform2pdf} SET no_send_email_addr = '%s' WHERE nid = %d", serialize($no_send_mail), $row['nid']);
+    }
+  }
+
+  $ret = array();
+  return $ret;
+}
+
+/**
+ * Convert the webform2pdf template.
+ */
+function webform2pdf_update_7300(&$sandbox) {
+  $sandbox['#finished'] = 0;
+
+  // Multi-part update.
+  if (!isset($sandbox['webform2pdf_convert'])) {
+    db_change_field('webform2pdf', 'format', 'format', array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => ''));
+    $sandbox['webform2pdf_convert'] = 0;
+    $sandbox['webform2pdf_count'] = db_query("SELECT COUNT(nid) FROM {webform2pdf}")->fetchField();
+  }
+  else {
+    $result = db_select('filter_format', 'f')
+      ->fields('f', array('format'))
+      ->condition('status', 0, '>')
+      ->execute();
+
+    $i = 0;
+    while ($filter = $result->fetchAssoc()) {
+      $i++;
+      $filters[$i] = $filter['format'];
+    }
+
+    $results = db_query_range("SELECT nid, format, p_body FROM {webform2pdf} ORDER BY nid", $sandbox['webform2pdf_convert'], 100);
+    foreach ($results as $setting) {
+      $node = node_load($setting->nid);
+      foreach ($node->webform['components'] as $component) {
+        if ($component['type'] == 'select') {
+          $tokens['%' . $component['form_key'] . '-nl'] = '%nl[' . $component['form_key'] . ']';
+          $tokens['%' . $component['form_key'] . '-all'] = '%all[' . $component['form_key'] . ']';
+          $tokens['%' . $component['form_key'] . '-all-nl'] = '%all_nl[' . $component['form_key'] . ']';
+        }
+        $tokens['%' . $component['form_key']] = '%value[' . $component['form_key'] . ']';
+      }
+
+      $p_body = strtr($setting->p_body, $tokens);
+
+      db_update('webform2pdf')
+        ->fields(array('format' => $filters[$setting->format]))
+        ->fields(array('p_body' => $p_body))
+        ->condition('nid', $setting->nid)
+        ->execute();
+      $sandbox['webform2pdf_convert']++;
+    }
+
+    $sandbox['#finished'] = $sandbox['webform2pdf_convert'] / $sandbox['webform2pdf_count'];
+    if ($sandbox['webform2pdf_convert'] == $sandbox['webform2pdf_count']) {
+      return t('Migrated webform to pdf format settings');
+    }
+  }
+}
+
+/**
+ * Convert the default body filter and body token.
+ */
+function webform2pdf_update_7301() {
+  $default = variable_get('webform2pdf_default', '');
+
+  if (is_numeric($default['format'])) {
+    $default['format'] = 'filtered_html';
+  }
+
+  if (empty($default['p_body'])) {
+    $default['p_body'] = '%email_values';
+  }
+  variable_set('webform2pdf_default', $default);
+}
+
+/*
+ * Add background field
+ */
+function webform2pdf_update_7302(&$sandbox) {
+  db_add_field('webform2pdf', 'p_background', array('description' => 'Page background image.', 'type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0));
+
+  $webform2pdf_default = variable_get('webform2pdf_default', array());
+  $webform2pdf_default['p_background'] = 0;
+  variable_set('webform2pdf_default', $webform2pdf_default);
+
+  $sandbox['#finished'] = 1;
+  return t('The page background field added to the webform2pdf table.');
+}
+
+/**
+ * The data field added to webform2pdf table and remove old fields.
+ */
+function webform2pdf_update_7400() {
+  db_add_field('webform2pdf', 'data', array('type' => 'blob', 'size' => 'big', 'serialize' => TRUE, 'description' => 'Serialized data containing the webform2pdf properties.'));
+
+  $w2pdf_settings = db_select('webform2pdf', 'w2p')
+    ->fields('w2p')
+    ->execute()
+    ->fetchAllAssoc('nid')
+  ;
+
+  foreach ($w2pdf_settings as $setting) {
+    $nid = $setting->nid;
+    unset($setting->nid);
+    unset($setting->enabled);
+    $setting = (array) $setting;
+    $setting['no_send_email_addr'] = unserialize($setting['no_send_email_addr']);
+    $p_body['value'] = $setting['p_body'];
+    $p_body['format'] = $setting['format'];
+    $setting['p_body'] = $p_body;
+    $setting = serialize($setting);
+
+    db_update('webform2pdf')
+      ->fields(array('data' => $setting))
+      ->condition('nid', $nid, '=')
+      ->execute()
+    ;
+  }
+
+  db_drop_field('webform2pdf', 'download');
+  db_drop_field('webform2pdf', 'pdf_send_email');
+  db_drop_field('webform2pdf', 'no_send_email_addr');
+  db_drop_field('webform2pdf', 'page_format');
+  db_drop_field('webform2pdf', 'page_orientation');
+  db_drop_field('webform2pdf', 'h_left_logo');
+  db_drop_field('webform2pdf', 'h_right_logo');
+  db_drop_field('webform2pdf', 'f_left_logo');
+  db_drop_field('webform2pdf', 'f_right_logo');
+  db_drop_field('webform2pdf', 'h_font_size');
+  db_drop_field('webform2pdf', 'p_font_size');
+  db_drop_field('webform2pdf', 'f_font_size');
+  db_drop_field('webform2pdf', 'h_txt_align');
+  db_drop_field('webform2pdf', 'h_font_family');
+  db_drop_field('webform2pdf', 'p_txt_align');
+  db_drop_field('webform2pdf', 'p_font_family');
+  db_drop_field('webform2pdf', 'f_txt_align');
+  db_drop_field('webform2pdf', 'f_font_family');
+  db_drop_field('webform2pdf', 'h_txt');
+  db_drop_field('webform2pdf', 'f_txt');
+  db_drop_field('webform2pdf', 'p_body');
+  db_drop_field('webform2pdf', 'format');
+  db_drop_field('webform2pdf', 'p_background');
+
+  $w2pdf_default = variable_get('webform2pdf_default', array());
+  $p_body['value'] = $w2pdf_default['p_body'];
+  $p_body['format'] = $w2pdf_default['format'];
+  $w2pdf_default['p_body'] = $p_body;
+
+//  [submission:values]
+  variable_set('webform2pdf_default', $w2pdf_default);
+
+  return t('The data field added to webform2pdf table and remove old fields.');
+}
+
+/**
+ * Rewrite token replacement system to use D7 tokens.
+ */
+function webform2pdf_update_7401(&$sandbox) {
+  // Define replacements.
+  $patterns = array(
+    '%username',
+    '%useremail',
+    '%uid',
+    '%date',
+    '%ip_address',
+    '%site',
+    '%nid',
+    '%title',
+    '%email_values',
+    '%submission_url',
+    '%sid',
+    '%server[REQUEST_URI]',
+    '][', // Used to convert nested arrays of %value and %email.
+  );
+  $replacements = array(
+    '[current-user:name]',
+    '[current-user:mail]',
+    '[current-user:uid]',
+    '[submission:date:long]',
+    '[current-user:ip-address]',
+    '[site:name]',
+    '[node:nid]',
+    '[node:title]',
+    '[submission:values]',
+    '[submission:url]',
+    '[submission:sid]',
+    '[current-page:url]',
+    ':', // Replace "][" with ":" for %value and %email.
+  );
+  $dpatterns = array(
+    '/%get\[([^\]]+)\]/m',
+    '/%email\[([^% \n\r\t]+)?\]/m',
+    '/%value\[([^% \n\r\t]+)?\]/m',
+    '/%profile\[([^\]]+)\]/m',
+    '/\[submission:values(:(?!nolabel)[a-z_]+)+\]/m',
+    '/\[submission:values(:([a-z_:]+))?:nolabel\]/m',
+    '/%label_nl\[([^% \n\r\t]+)?\]/m',
+    '/%label_all\[([^% \n\r\t]+)?\]/m',
+    '/%label_all_nl\[([^% \n\r\t]+)?\]/m',
+    '/%nl\[([^% \n\r\t]+)?\]/m',
+    '/%all\[([^% \n\r\t]+)?\]/m',
+    '/%all_nl\[([^% \n\r\t]+)?\]/m',
+  );
+  $dreplacements = array(
+    '[current-page:query:$1]',
+    '[submission:values:$1]',
+    '[submission:values:$1:nolabel]',
+    '[current-user:$1]',
+    '[submission:values$1:withlabel]',
+    '[submission:values$1]',
+    '[submission:nl:$1:withlabel]',
+    '[submission:all:$1:withlabel]',
+    '[submission:all-nl:$1:withlabel]',
+    '[submission:nl:$1:nolabel]',
+    '[submission:all:$1:nolabel]',
+    '[submission:all-nl:$1:nolabel]',
+  );
+
+  $limit = variable_get('webform_update_batch_size', 100);
+  $processed_count = _webform2pdf_update_7401_batch($sandbox, $patterns, $replacements, $dpatterns, $dreplacements, $limit);
+
+  // If less than limit was processed, the update process is finished.
+  if ($processed_count < $limit || $sandbox['progress'] == $sandbox['max']) {
+    $finished = TRUE;
+  }
+
+  // If there's no max value then there's nothing to update and we're finished.
+  if (empty($sandbox['max']) || isset($finished)) {
+    return t('Replaced tokens using [submission:values:x] with [submission:values:x:withlabel].');
+  }
+  else {
+    // Indicate our current progress to the batch update system.
+    $sandbox['#finished'] = $sandbox['progress'] / $sandbox['max'];
+  }
+}
+
+/**
+ * Utility function to update all the locations that use tokens.
+ */
+function _webform2pdf_update_7401_batch(&$sandbox, $patterns, $replacements, $dpatterns, $dreplacements, $limit) {
+  // Set up the initial batch process.
+  if (!isset($sandbox['progress'])) {
+    $sandbox['progress'] = 0;
+    $sandbox['last_nid_processed'] = -1;
+    $sandbox['max'] = db_select('webform2pdf')
+      ->countQuery()
+      ->execute()
+      ->fetchField();
+
+    $w2pdf_default = variable_get('webform2pdf_default', array());
+    $p_body = $w2pdf_default['p_body']['value'];
+    $p_body = str_replace($patterns, $replacements, $p_body);
+    $p_body = preg_replace($dpatterns, $dreplacements, $p_body);
+    $w2pdf_default['p_body']['value'] = $p_body;
+    variable_set('webform2pdf_default', $w2pdf_default);
+  }
+
+  $webform2pdf_settings = db_select('webform2pdf', 'w2p')
+    ->fields('w2p')
+    ->condition('nid', $sandbox['last_nid_processed'], '>')
+    ->orderBy('nid', 'ASC')
+    ->range(0, $limit)
+    ->execute()
+    ->fetchAllAssoc('nid', PDO::FETCH_ASSOC);
+
+  foreach ($webform2pdf_settings as $nid => $webform2pdf_setting) {
+    // Update the webform record itself.
+    $data = unserialize($webform2pdf_setting['data']);
+
+    $data['p_body'] = str_replace($patterns, $replacements, $data['p_body']);
+    $data['p_body'] = preg_replace($dpatterns, $dreplacements, $data['p_body']);
+    $webform2pdf_setting['data'] = $data;
+
+    drupal_write_record('webform2pdf', $webform2pdf_setting, array('nid'));
+
+    // Update the last processed NID.
+    $sandbox['last_nid_processed'] = $nid;
+    $sandbox['progress']++;
+  }
+
+  return count($webform2pdf_settings);
+}

@@ -1,0 +1,12 @@
+name = hwc certificates form
+description = form emits participation certificates via email
+core = 7.x
+package = HWC
+version = 7.x-1.0
+project = hwc_certificates_form
+dependencies[] = mailsystem
+dependencies[] = print_pdf_tcpdf
+dependencies[] = webform
+dependencies[] = webform2pdf
+dependencies[] = webform_localization
+features[features_api][] = api:2
