@@ -1,0 +1,328 @@
+<?php
+
+/**
+ * @file
+ * Field support for Form element layout (fel.module).
+ *
+ * Allow the administrator to configure help text position of fields in forms,
+ * in addition to theme override for default rendering of multi value fields.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function fel_fields_theme() {
+  $theme_file = array(
+    'file' => 'fel_fields.theme.inc',
+  );
+  return array(
+    'fel_fields_multiple_form' => array(
+      'render element' => 'element',
+    ),
+    'fel_date_combo' => $theme_file + array(
+      'render element' => 'element',
+    ),
+    'fel_fields_matrix_table' => $theme_file + array(
+      'render element' => 'form',
+    ),
+    'fel_fields_collection_table' => $theme_file + array(
+      'render element' => 'element',
+      'includes' => array(drupal_get_path('module', 'field_collection_table') . '/theme/theme.inc'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_ctools_plugin_type().
+ */
+function fel_fields_ctools_plugin_type() {
+  $plugins['description_display'] = array();
+  return $plugins;
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * AKA our own plugin implementation of 'description_display'.
+ */
+function fel_fields_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'fel_fields') {
+    return 'plugins/' . $plugin_type;
+  }
+}
+
+/**
+ * Implements hook_field_attach_form().
+ *
+ * Convert field setting for description position to Form API attribute
+ * '#description_display' and insert it in the form element tree where the
+ * configured field description resides.
+ */
+function fel_fields_field_attach_form($entity_type, $entity, &$form, &$form_state, $langcode) {
+  ctools_include('plugins');
+  list(, , $bundle) = entity_extract_ids($entity_type, $entity);
+  $instances = field_info_instances($entity_type, $bundle);
+  $field_langcodes = field_language($entity_type, $entity, NULL, $langcode);
+  foreach ($instances as $instance) {
+    $field_name = $instance['field_name'];
+    $field_lang = empty($field_langcodes[$field_name]) ? LANGUAGE_NONE : $field_langcodes[$field_name];
+    if (empty($form[$field_name][$field_lang])) {
+      continue;
+    }
+
+    $field = field_info_field($field_name);
+    $default_behavior = field_behaviors_widget('multiple values', $instance) == FIELD_BEHAVIOR_DEFAULT;
+    $multiple = ($field['cardinality'] > 1 or $field['cardinality'] == FIELD_CARDINALITY_UNLIMITED);
+    $field_form = &$form[$field_name][$field_lang];
+
+    // We're unconditionally taking over the theme for rendering fields with
+    // default behavior, for all fields, all over.
+    if ($default_behavior) {
+      $field_form['#theme'] = 'fel_fields_multiple_form';
+    }
+
+    // Add attributes to the root item. For default behavior with single
+    // values, also add it to $delta = 0. This covers a lot of ground.
+    _fel_fields_add_attributes($field_form, $instance);
+    if ($default_behavior and !$multiple) {
+      _fel_fields_add_attributes($field_form[0], $instance);
+    }
+
+    // The plugin system should run independent of whether descriptions exists
+    // or not. Some plugins use this to replace themes down the form tree.
+    $plugin = ctools_get_plugins('fel_fields', 'description_display', $instance['widget']['module']);
+    if ($plugin) {
+      $columns = array();
+      if (!empty($plugin['callback'])) {
+        $ret = $plugin['callback']($field, $instance, $field_form);
+        $columns = is_array($ret) ? $ret : array();
+      }
+      elseif (!empty($plugin['columns'])) {
+        $columns = $plugin['columns'];
+      }
+    }
+
+    if ($default_behavior) {
+      if ($multiple) {
+        // This is handled in theme_fel_fields_multiple_form().
+        continue;
+      }
+      // Adapt to field.module's default behavior.
+      $field_form = &$field_form[0];
+    }
+    if ($plugin) {
+      foreach ($columns as $column) {
+        _fel_fields_add_attributes($field_form[$column], $instance);
+      }
+    }
+    else {
+      // Last resort. Do a recursive search for #description and add complementary
+      // #description_display if found.
+      fel_fields_assign_layout_deep($field_form, $instance);
+    }
+  }
+}
+
+/**
+ * Populate a form element with our FAPI attributes.
+ */
+function _fel_fields_add_attributes(&$element, $instance) {
+  if (!empty($element['#description'])) {
+    if (!empty($instance['settings']['description_display'])) {
+      $element['#description_display'] = $instance['settings']['description_display'];
+    }
+    $element['#description_classes'][] = 'fel-field-help-text';
+  }
+  $element['#title_classes'][] = 'fel-field-label';
+}
+
+
+/**
+ * Assign layout for a field recursively.
+ */
+function fel_fields_assign_layout_deep(&$element, $instance) {
+  foreach (element_children($element) as $key) {
+    if (!empty($element[$key]['#type'])) {
+      _fel_fields_add_attributes($element[$key], $instance);
+    }
+    fel_fields_assign_layout_deep($element[$key], $instance);
+  }
+}
+
+/**
+ * Default description_display value based on field and instance.
+ *
+ * @param $field
+ *   Field settings.
+ * @param $instance
+ *   Field instance.
+ */
+function _fel_fields_default_position($field, $instance) {
+  if (!empty($instance['settings']['description_display'])) {
+    return $instance['settings']['description_display'];
+  }
+  // Field types that renders its content in a fieldset and thereby requires a
+  // default setting of 'before'
+  $before = drupal_map_assoc(array('addressfield', 'date'));
+  if (!empty($before[$field['module']])) {
+    return 'before';
+  }
+  return 'after';
+}
+
+
+/**
+ * Implements hook_form_FORM_ID_alter() for field_ui_field_edit_form().
+ */
+function fel_fields_form_field_ui_field_edit_form_alter(&$form, &$form_state, $form_id) {
+  // Minor justification of help text description to reflect that the position
+  // of the description arent set in stone.
+  $form['instance']['description']['#description'] = t('Instructions to present to the user for this field on the editing form.<br />Allowed HTML tags: @tags', array('@tags' => _field_filter_xss_display_allowed_tags()));
+  $form['instance']['settings']['description_display'] = array(
+    '#type' => 'radios',
+    '#title' => t("Help text position"),
+    '#description' => t("Descriptions for form elements are usually rendered after the input element. Use this to override the default behavior."),
+    // Let's eat our own dogfood, and give a user a preview of what this does.
+    // It also serves as a sanity check for whether this property works or not.
+    '#description_display' => 'before',
+    '#options' => array('before' => t("Before"), 'after' => t("After")),
+    '#default_value' => _fel_fields_default_position($form['#field'], $form['#instance']),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="instance[description]"]' => array('empty' => FALSE),
+      ),
+    ),
+  );
+  // A bit intrusive, but stick label and description together with the
+  // description_display setting.
+  $form['instance']['element_layout'] = array(
+    '#type' => 'fieldset',
+    '#title' => t("Label and help text"),
+    '#tree' => FALSE,
+    '#weight' => -9,
+  );
+  $form['instance']['#pre_render'][] = 'fel_fields_widget_settings_pre_render';
+}
+
+/**
+ * Group label, description and description position items together.
+ *
+ * Form #pre_render callback for field widget settings form.
+ */
+function fel_fields_widget_settings_pre_render($form) {
+  $form['element_layout']['label'] = $form['label'];
+  $form['element_layout']['description'] = $form['description'];
+  $form['element_layout']['description_display'] = $form['instance_description_display'];
+  unset($form['label'], $form['description'], $form['instance_description_display']);
+  uasort($form['element_layout'], 'element_sort');
+  return $form;
+}
+
+/**
+ * Theme override for 'field_multiple_value_form'.
+ *
+ * @see theme_field_multiple_value_form()
+ */
+function theme_fel_fields_multiple_form($variables) {
+  $element = $variables['element'];
+  $output = '';
+
+  if ($element['#cardinality'] > 1 || $element['#cardinality'] == FIELD_CARDINALITY_UNLIMITED) {
+    $table_id = drupal_html_id($element['#field_name'] . '_values');
+    $order_class = $element['#field_name'] . '-delta-order';
+    $required = !empty($element['#required']) ? theme('form_required_marker', $variables) : '';
+    $label_classes = !empty($element['#title_classes']) ? (' class="' . implode(' ', $element['#title_classes']) . '"') : '';
+    $header = array(
+      array(
+        'data' => '<label' . $label_classes . '>' . t('!title !required', array('!title' => $element['#title'], '!required' => $required)) . "</label>",
+        'colspan' => 2,
+        'class' => array('field-label'),
+      ),
+      t('Order'),
+    );
+    $rows = array();
+
+    // Sort items according to '_weight' (needed when the form comes back after
+    // preview or failed validation).
+    $items = array();
+    foreach (element_children($element) as $key) {
+      if ($key === 'add_more') {
+        $add_more_button = &$element[$key];
+      }
+      else {
+        $items[] = &$element[$key];
+      }
+    }
+    usort($items, '_field_sort_items_value_helper');
+
+    // Add the items as table rows.
+    foreach ($items as $key => $item) {
+      $item['_weight']['#attributes']['class'] = array($order_class);
+      $delta_element = drupal_render($item['_weight']);
+      $cells = array(
+        array('data' => '', 'class' => array('field-multiple-drag')),
+        drupal_render($item),
+        array('data' => $delta_element, 'class' => array('delta-order')),
+      );
+      $rows[] = array(
+        'data' => $cells,
+        'class' => array('draggable'),
+      );
+    }
+    $table_args = array(
+      'header' => $header,
+      'rows' => $rows,
+      'attributes' => array(
+        'id' => $table_id,
+        'class' => array('field-multiple-table'),
+      ),
+    );
+    $parts['children'] = theme('table', $table_args);
+    if ($element['#description']) {
+      $parts['description'] = theme('fel_form_element_description', $variables);
+    }
+    $output = '<div class="form-item">';
+    $output .= fel_order_output($element, $parts);
+    $output .= '<div class="clearfix">' . drupal_render($add_more_button) . '</div>';
+    $output .= '</div>';
+
+    drupal_add_tabledrag($table_id, 'order', 'sibling', $order_class);
+  }
+  else {
+    foreach (element_children($element) as $key) {
+      $output .= drupal_render($element[$key]);
+    }
+  }
+
+  return $output;
+}
+
+/**
+ * Common plugin callback for all 'file' types.
+ */
+function fel_fields_file_process_description_display($field, $instance, &$form) {
+  if ($field['cardinality'] > 1 or $field['cardinality'] == FIELD_CARDINALITY_UNLIMITED) {
+    fel_wrapper_replace('fieldset', 'fel_fieldset', $form);
+    return array();
+  }
+  // File fields annoyingly concatenates the configured description with its
+  // own suffix and file size restriction text, causing FEL to trigger valid
+  // description even when the user haven't added one.
+  if (!empty($instance['description'])) {
+    return element_children($form);
+  }
+  return array();
+}
+
+
+/**
+ * Provide our own theme for field_collection_table widgets.
+ *
+ * This is an #after_build callback for the field_collection_table plugin. Due
+ * to the nature of CTools includes, this isn't included in ajax callbacks, so
+ * it have to live here.
+ */
+function fel_fields_field_collection_table_after_build($element) {
+  $element['#theme'] = 'fel_fields_collection_table';
+  return $element;
+}

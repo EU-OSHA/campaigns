@@ -1,0 +1,137 @@
+<p>
+Form element layout fields module (fel_fields.module) will allow end users to
+configure the description position of field help texts to be either before or
+after (default) the input element in the field settings UI. This works for all
+field types Drupal core provides in addition to a few popular contrib field
+modules.
+</p>
+
+<h3>Implement support for fel_fields.module</h3>
+
+<p>
+Working with field forms in Drupal is complex and field widget implementors is
+free to structure the field widget form however they like, independent of the
+field storage model. This makes adding support for all imaginable field types
+hard and difficult to maintain.
+</p>
+
+<p>
+fel_fields.module uses CTools plugin to provide individual field widget support,
+and this is the recommended way for other field widget modules to add support
+for FEL. The plugin is called <strong>description_display</strong> and the its
+purpose is to let fel_fields.module know what columns or rather child elements
+the field <strong>#description</strong> resides in and thereby inject the
+necessary attributes to move the description according to the field instance
+settings.
+</p>
+
+<p>
+In your field widget module, you first have to tell CTools plugin that you have
+a plugin implementation:
+</p>
+
+<pre>
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function example_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'fel_fields') {
+    return 'plugins/' . $plugin_type;
+  }
+}
+</pre>
+
+<p>
+This is the recommended directory structure for CTools plugin and you will then
+have to add your plugin in the 'plugins/description_display' folder. So if your
+field widget module is called 'example.module', your full plugin path within the
+example module folder will be:
+</p>
+
+<code>
+plugins/description_display/example.inc
+</code>
+
+<p>
+In its simplest form all you need to do here is specify what child element
+within the field form the field's help text or <strong>#description</strong>
+resides in, using the 'columns' keyword:
+</p>
+
+<pre>
+&lt;?php
+
+$plugin = array(
+  'columns' => array(
+    'value',
+  ),
+);
+</pre>
+
+<p>
+It's also possible to have an empty plugin as a place-holder just to say that
+"I've added support for this and there is nothing to do" to avoid having the
+potentially expensive fall back behavior run.
+</p>
+
+<pre>
+&lt;?php
+
+$plugin = array(
+  'columns' => array(),
+);
+</pre>
+
+<p>
+Or you can specify a callback which returns the child elements:
+</p>
+
+<pre>
+&lt;?php
+$plugin = array(
+  'callback' => 'example_description_display_columns',
+);
+
+/**
+ * Plugin callback.
+ */
+function example_description_display_columns($field, $instance, $field_form) {
+  if ($instance['widget']['type'] == 'widget1') {
+    return array('foo');
+  }
+  if ($instance['widget']['type'] == 'widget2') {
+    return array('bar', 'baz');
+  }
+}
+</pre>
+
+<p>
+You don't even need to return anything in the callback, and this can be used to
+add advanced processing or additional FAPI callbacks (#after_build, #pre_render,
+etc), but then you will have to declare your callback function with a reference
+to the $field_form:
+</p>
+
+<code>
+function example_description_display_columns($field, $instance, &$field_form) {
+</code>
+
+<p>
+The $field_form parameter includes the form for all values in a field, so if a
+field uses the default field behavior and is a single value field you still have
+to dive into $field_form[0] to access the actual field widget form, or iterate
+over all deltas for multi value fields.
+</p>
+
+<p>
+If the plugin callback doesn't return anything and chooses to process
+the <strong>#description_display</strong> attribute itself, please honor the
+field configuration for it
+in <strong>$instance['settings']['description_display']</strong>.
+</p>
+
+<p>
+<strong>Note!</strong> If you choose to add additional FAPI callbacks from this
+plugin callback you have to specify a function that is always loaded. This
+plugin isn't always loaded during the life cycle of entity field forms.
+</p>

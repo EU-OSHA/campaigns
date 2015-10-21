@@ -566,7 +566,7 @@ function osha_events_field_default_field_instances() {
     'bundle' => 'events',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Write the general description of your event. This will appear in the body of your Event\'s page.',
     'display' => array(
       'body' => array(
         'label' => 'above',
@@ -2480,6 +2480,7 @@ function osha_events_field_default_field_instances() {
   t('Title');
   t('Venue');
   t('Website of event');
+  t('Write the general description of your event. This will appear in the body of your Event\'s page.');
 
   return $field_instances;
 }

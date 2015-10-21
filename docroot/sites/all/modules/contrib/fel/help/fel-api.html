@@ -1,0 +1,26 @@
+<p>
+Form element layout module (fel.module) provides the basic support
+for altering the primitives of a single form element: Title, description and the
+input element. It introduces a new attribute <strong>#description_display</strong>
+that in tandem with the existing <strong>#title_display</strong> allows for some
+interesting configurations.
+</p>
+
+<p>
+By default it doesn't do anything, so enabling this module won't do anything
+until you tell it to:
+</p>
+
+<pre>
+    $form['example'] = array(
+      '#type' => 'textfield',
+      '#title' => t("Example input"),
+      '#description' => t("Example description of what this element does."),
+      '#description_display' => 'before', // Default is 'after'.
+    );
+</pre> 
+
+<p>
+This will render the description before the input element and this works for all
+element types core provides.
+</p>

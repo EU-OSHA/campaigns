@@ -413,7 +413,7 @@ function hwc_field_attach_submit($entity_type, $entity, $form, &$form_state) {
 }
 
 function _form_add_website_placeholder_after_build($form) {
-  $placeholder = t('Website of event');
+  $placeholder = t('Web address with more info about the event');
   $form['field_website_of_event'][LANGUAGE_NONE][0]['url']['#attributes']['placeholder'] = $placeholder;
   return $form;
 }
@@ -433,8 +433,15 @@ function hwc_field_widget_form_alter(&$element, &$form_state, $context) {
 
   if ($is_events_form) {
     switch ($element['#field_name']) {
+      case 'body':
+        $element['#description_display'] = 'before';
+        $element['summary']['#description_display'] = 'before';
+        $element['summary']['#description'] = t('Write a short summary. This will appear on the homepage of the campaign site. Max 420 characters.');
+        $element['summary']['#maxlength'] = 420;
+        break;
+
       case 'title_field':
-        $placeholder = t('Event title');
+        $placeholder = t('Title of the event. Max 60 characters.');
         $element['value']['#attributes']['placeholder'] = $placeholder;
         break;
 
@@ -444,32 +451,32 @@ function hwc_field_widget_form_alter(&$element, &$form_state, $context) {
         break;
 
       case 'field_contact_name':
-        $placeholder = t('Contact person name');
+        $placeholder = t('Name of a person to contact about this event');
         $element['value']['#attributes']['placeholder'] = $placeholder;
         break;
 
       case 'field_contact_phone':
-        $placeholder = t('Contact person phone number');
+        $placeholder = t('Phone number to contact about this event');
         $element['value']['#attributes']['placeholder'] = $placeholder;
         break;
 
       case 'field_organizer':
-        $placeholder = t('Event organizer');
+        $placeholder = t('First name of contact person');
         $element['value']['#attributes']['placeholder'] = $placeholder;
         break;
 
       case 'field_location':
-        $placeholder = t('Event location');
+        $placeholder = t('Location of the event');
         $element['value']['#attributes']['placeholder'] = $placeholder;
         break;
 
       case 'field_website_of_event':
-        $placeholder = t('Website of event');
+        $placeholder = t('Web address with more info about the event');
         $element['#attributes']['placeholder'] = $placeholder;
         break;
 
       case 'field_contact_email':
-        $placeholder = t('Contact person e-mail');
+        $placeholder = t('Email address of contact about this event');
         $element['email']['#attributes']['placeholder'] = $placeholder;
         break;
 

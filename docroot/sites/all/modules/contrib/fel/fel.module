@@ -1,0 +1,357 @@
+<?php
+
+/**
+ * @file
+ * Reorder #title, #description and #children in forms.
+ *
+ * Introduces a new Form API attribute: #description_display. Its value can be
+ * either 'before' or 'after', relative to #children, or the actual input
+ * element. It behaves much like the D8 issue with the same purpose.
+ * @see https://www.drupal.org/node/314385
+ *
+ * The combination of #description_display and #title_display together makes the
+ * ordering of element attributes more complex, and in cases where both #title
+ * and #description are on the same side of #children, #title always comes
+ * first.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function fel_theme($existing, $type, $theme, $path) {
+  return array(
+    'fel_form_element' => array(
+      'render element' => 'element',
+    ),
+    'fel_form_element_label' => array(
+      'render element' => 'element',
+    ),
+    'fel_form_element_description' => array(
+      'render element' => 'element',
+    ),
+    'fel_text_format_wrapper' => array(
+      'render element' => 'element',
+    ),
+    'fel_fieldset' => array(
+      'render element' => 'element',
+    ),
+  );
+}
+
+/**
+ * Implements hook_element_info_alter().
+ */
+function fel_element_info_alter(&$elements) {
+  // Replace all #theme_wrapper[] = 'form_element' with our custom form_element
+  // theme.
+  $form_element_wrappers = array(
+    // Core.
+    'textfield',
+    'machine_name',
+    'password',
+    'password_confirm',
+    'textarea',
+    'radio',
+    'checkbox',
+    'select',
+    'date',
+    'file',
+    'item',
+    'managed_file',
+    // Contrib.
+    'link_field',
+    'media',
+    'mfw_managed_file',
+  );
+  foreach ($form_element_wrappers as $type) {
+    if (!empty($elements[$type])) {
+      fel_wrapper_replace('form_element', 'fel_form_element', $elements[$type]);
+    }
+  }
+  // 'radios' and 'checkboxes' are special.
+  $elements['checkboxes']['#pre_render'][] = 'fel_options_pre_render';
+  $elements['radios']['#pre_render'][] = 'fel_options_pre_render';
+
+  // Fieldsets.
+  fel_wrapper_replace('fieldset', 'fel_fieldset', $elements['fieldset']);
+
+  // 'text_format': Replace #theme_wrapper with our own and reshuffle the title,
+  // description and element trio.
+  if (!empty($elements['text_format']) and module_exists('filter')) {
+    fel_wrapper_replace('text_format_wrapper', 'fel_text_format_wrapper', $elements['text_format']);
+    $elements['text_format']['#process'][] = 'fel_filter_process_format';
+  }
+}
+
+/**
+ * Replace #theme_wrapper => 'form_element' with our own.
+ */
+function fel_options_pre_render($element) {
+  fel_wrapper_replace('form_element', 'fel_form_element', $element);
+  return $element;
+}
+
+/**
+ * Extra processing for 'text_format' elements.
+ *
+ * Filter module groups the title and the form element (#title, #children) into
+ * the 'value' child of '#type' == 'text_format' element and renders the
+ * '#description' item outside this, so there is no way to jam #description
+ * between #title and #children.
+ *
+ * This processing is necessary in order to move the description from this
+ * element to the child element 'value' when '#description_display' == 'before.
+ */
+function fel_filter_process_format($element) {
+  if (!empty($element['#description']) and !empty($element['#description_display']) and $element['#description_display'] == 'before') {
+    $element['value']['#description'] = $element['#description'];
+    unset($element['#description']);
+  }
+  return $element;
+}
+
+/**
+ * Renders the #description of a form element.
+ */
+function theme_fel_form_element_description($variables) {
+  $element = $variables['element'];
+
+  if (empty($element['#description'])) {
+    return '';
+  }
+  $description_classes = array('description');
+  if (!empty($element['#description_classes'])) {
+    $description_classes = array_merge($description_classes, $element['#description_classes']);
+  }
+
+  return '<div class="' . implode(' ', $description_classes) . '">' . $element['#description'] . "</div>\n";
+}
+
+/**
+ * Replacement theme for 'form_element'.
+ *
+ * @see theme_form_element()
+ */
+function theme_fel_form_element($variables) {
+  $element = &$variables['element'];
+
+  // This function is invoked as theme wrapper, but the rendered form element
+  // may not necessarily have been processed by form_builder().
+  $element += array(
+    '#title_display' => 'before',
+  );
+
+  // Add element #id for #type 'item'.
+  if (isset($element['#markup']) && !empty($element['#id'])) {
+    $attributes['id'] = $element['#id'];
+  }
+  // Add element's #type and #name as class to aid with JS/CSS selectors.
+  $attributes['class'] = array('form-item');
+  if (!empty($element['#type'])) {
+    $attributes['class'][] = 'form-type-' . strtr($element['#type'], '_', '-');
+  }
+  if (!empty($element['#name'])) {
+    $replacements = array(' ' => '-', '_' => '-', '[' => '-', ']' => '');
+    $attributes['class'][] = 'form-item-' . strtr($element['#name'], $replacements);
+  }
+  // Add a class for disabled elements to facilitate cross-browser styling.
+  if (!empty($element['#attributes']['disabled'])) {
+    $attributes['class'][] = 'form-disabled';
+  }
+  $output = '<div' . drupal_attributes($attributes) . '>' . "\n";
+
+  // If #title is not set, we don't display any label or required marker.
+  if (!isset($element['#title'])) {
+    $element['#title_display'] = 'none';
+  }
+  $prefix = isset($element['#field_prefix']) ? '<span class="field-prefix">' . $element['#field_prefix'] . '</span> ' : '';
+  $suffix = isset($element['#field_suffix']) ? ' <span class="field-suffix">' . $element['#field_suffix'] . '</span>' : '';
+
+  $element_parts = array('children' => $prefix . $element['#children'] . $suffix);
+  if ($element['#title_display'] != 'none' and $element['#title_display'] != 'attribute') {
+    $element_parts['title'] = theme('fel_form_element_label', $variables);
+  }
+  if (!empty($element['#description'])) {
+    $element_parts['description'] = theme('fel_form_element_description', $variables) . "\n";
+  }
+  fel_order_output($element, $element_parts);
+  $output .= implode(' ', $element_parts);
+  $output .= "\n</div>\n";
+
+  return $output;
+}
+
+/**
+ * Replacement theme for 'form_element_label'.
+ *
+ * @see theme_form_element_label().
+ */
+function theme_fel_form_element_label($variables) {
+  $element = $variables['element'];
+  // This is also used in the installer, pre-database setup.
+  $t = get_t();
+
+  // If title and required marker are both empty, output no label.
+  if ((!isset($element['#title']) || $element['#title'] === '') && empty($element['#required'])) {
+    return '';
+  }
+
+  // If the element is required, a required marker is appended to the label.
+  $required = !empty($element['#required']) ? theme('form_required_marker', array('element' => $element)) : '';
+
+  $title = filter_xss_admin($element['#title']);
+
+  $attributes = array();
+  if ($element['#title_display'] != 'invisible' and !empty($element['#title_classes'])) {
+    $attributes['class'] = $element['#title_classes'];
+  }
+  // Style the label as class option to display inline with the element.
+  if ($element['#title_display'] == 'after') {
+    $attributes['class'][] = 'option';
+  }
+  // Show label only to screen readers to avoid disruption in visual flows.
+  elseif ($element['#title_display'] == 'invisible') {
+    $attributes['class'][] = 'element-invisible';
+  }
+
+  if (!empty($element['#id'])) {
+    $attributes['for'] = $element['#id'];
+  }
+
+  // The leading whitespace helps visually separate fields from inline labels.
+  return ' <label' . drupal_attributes($attributes) . '>' . $t('!title !required', array('!title' => $title, '!required' => $required)) . "</label>\n";
+}
+
+/**
+ * Replacement theme for 'text_format'.
+ *
+ * @see theme_text_format_wrapper()
+ */
+function theme_fel_text_format_wrapper($variables) {
+  $element = $variables['element'];
+
+  $parts['children'] = $element['#children'];
+  if (!empty($element['#description'])) {
+    $parts['description'] = theme('fel_form_element_description', $variables);
+  }
+  $output = '<div class="text-format-wrapper">';
+  $output .= fel_order_output($element, $parts);
+  $output .= "</div>\n";
+
+  return $output;
+}
+
+/**
+ * Replacement theme for 'fieldset'.
+ *
+ * @see theme_fieldset()
+ */
+function theme_fel_fieldset($variables) {
+  $element = $variables['element'];
+  element_set_attributes($element, array('id'));
+  _form_set_class($element, array('form-wrapper'));
+
+  $output = '<fieldset' . drupal_attributes($element['#attributes']) . '>';
+  if (!empty($element['#title'])) {
+    $title_classes = array('fieldset-legend');
+    if (!empty($element['#title_classes'])) {
+      $title_classes = array_merge($title_classes, $element['#title_classes']);
+    }
+    // Always wrap fieldset legends in a SPAN for CSS positioning.
+    $output .= '<legend><span class="' . implode(' ', $title_classes) . '">' . $element['#title'] . '</span></legend>';
+  }
+  $output .= '<div class="fieldset-wrapper">';
+  $parts['children'] = $element['#children'];
+  if (isset($element['#value'])) {
+    $parts['children'] .= $element['#value'];
+  }
+  if (!empty($element['#description'])) {
+    $element['#description_classes'][] = 'fieldset-description';
+    $parts['description'] = theme('fel_form_element_description', $variables);
+    if (empty($element['#description_display'])) {
+      $element['#description_display'] = 'before';
+    }
+  }
+  $output .= fel_order_output($element, $parts);
+  $output .= '</div>';
+  $output .= "</fieldset>\n";
+  return $output;
+}
+
+/**
+ * Replace $search in $element['#theme_wrapper'] with $replace.
+ *
+ * @param string $search
+ *   The theme name to search for.
+ * @param string $replace
+ *   Replacement theme name.
+ * @param array $element
+ *   The element to search in.
+ */
+function fel_wrapper_replace($search, $replace, array &$element) {
+  if (is_array($element['#theme_wrappers'])) {
+    $key = array_search($search, $element['#theme_wrappers']);
+    if ($key !== FALSE) {
+      unset($element['#theme_wrappers'][$key]);
+      $element['#theme_wrappers'][] = $replace;
+    }
+  }
+}
+
+/**
+ * Determine the render order of a form element.
+ *
+ * Returns what order #title, #children and #description should be rendered in,
+ * based on #title_display and #description_display.
+ *
+ * @param array $element
+ *   Form element.
+ *
+ * @return array
+ *   An array with the three values 'title', 'children' and 'description' in
+ *   various orders.
+ */
+function fel_get_order(array $element) {
+  if (!empty($element['#element_order'])) {
+    return $element['#element_order'];
+  }
+
+  $title_before = (empty($element['#title_display']) or $element['#title_display'] == 'before' or $element['#title_display'] == 'invisible');
+  $description_before = (empty($element['#description_display']) ? FALSE : ($element['#description_display'] == 'before'));
+
+  if ($title_before) {
+    $order = $description_before ? array('title', 'description', 'children') : array('title', 'children', 'description');
+  }
+  else {
+    $order = $description_before ? array('description', 'children', 'title') : array('children', 'title', 'description');
+  }
+  return $order;
+}
+
+/**
+ * Return the output of $parts in configured order.
+ *
+ * @param array $element
+ *   A form element.
+ * @param array $parts
+ *   An associative array with the following optional keys:
+ *     - 'title'.
+ *     - 'description'.
+ *     - 'children'.
+ *
+ * @return string
+ *   The items in order according to configuration in $element.
+ */
+function fel_order_output(array $element, array &$parts) {
+  $element_order = fel_get_order($element);
+  $parts_ordered = array();
+  $out = '';
+  foreach ($element_order as $element_item) {
+    if (!empty($parts[$element_item])) {
+      $out .= $parts[$element_item];
+      $parts_ordered[$element_item] = $parts[$element_item];
+    }
+  }
+  $parts = $parts_ordered;
+  return $out;
+}
