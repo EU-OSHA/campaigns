@@ -1,5 +1,5 @@
 <?php
-$label = t('Summary');
+$label = t('Description');
 ?>
 <div class="field field-name-body field-type-text-long field-label-inline clearfix">
   <div class="field-label"><?php print $label; ?>:&nbsp;</div>
