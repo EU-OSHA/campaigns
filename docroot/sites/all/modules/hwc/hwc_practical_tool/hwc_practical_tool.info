@@ -1,7 +1,7 @@
 name = HWC Practical tool
 core = 7.x
 package = HWC
-version = 7.x-0.7
+version = 7.x-0.8
 project = hwc_practical_tool
 dependencies[] = ctools
 dependencies[] = entityreference
