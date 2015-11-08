@@ -19,3 +19,68 @@ function hwc_partner_update_7002() {
     user_role_grant_permissions($role->rid, array('use text format filtered_html'));
   }
 }
+
+/**
+ * Replace text fields for organisation type and bussines sector with taxonomies (HCW-799)
+ */
+function hwc_partner_update_7003() {
+  // get organisation type code and tid
+  $voc_org = taxonomy_vocabulary_machine_name_load('organisation_type');
+  $terms_org = taxonomy_term_load_multiple(array(), array('vid' => $voc_org->vid));
+  $organisation_code_tid = array();
+
+  foreach ($terms_org as $term) {
+    $organisation_code_tid[$term->field_organisation_code[LANGUAGE_NONE][0]['safe_value']] = $term->tid;
+  }
+  $organisation_codes = array_keys($organisation_code_tid);
+
+  // get bussines sector code and tid
+  $voc_buss_sector = taxonomy_vocabulary_machine_name_load('bussines_sector');
+  $terms_buss_sector = taxonomy_term_load_multiple(array(), array('vid' => $voc_buss_sector->vid));
+  $bussines_sector_code_tid = array();
+
+  foreach ($terms_buss_sector as $term) {
+    $bussines_sector_code_tid[$term->field_buss_sector_code[LANGUAGE_NONE][0]['safe_value']] = $term->tid;
+  }
+  $bussines_sector_codes = array_keys($bussines_sector_code_tid);
+
+  // get all partner nodes
+  $query = new EntityFieldQuery();
+
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'partner');
+
+  $result = $query->execute();
+
+  if (isset($result['node'])) {
+    $nids = array_keys($result['node']);
+    $nodes = node_load_multiple($nids);
+
+    foreach ($nodes as $partner) {
+      if (array_key_exists($partner->language, $partner->field_orgtype) && is_array($partner->field_orgtype[$partner->language])) {
+        if (in_array($partner->field_orgtype[$partner->language][0]['safe_value'],$organisation_codes)) {
+          $partner->field_organisation_type[LANGUAGE_NONE][0]['tid'] = $organisation_code_tid[$partner->field_orgtype[$partner->language][0]['safe_value']];
+        }
+      }
+
+      if (array_key_exists($partner->language, $partner->field_bussines_sector) && is_array($partner->field_bussines_sector[$partner->language])) {
+        if (in_array($partner->field_bussines_sector[$partner->language][0]['safe_value'],$bussines_sector_codes)) {
+          $partner->field_bussines_sect[LANGUAGE_NONE][0]['tid'] = $bussines_sector_code_tid[$partner->field_bussines_sector[$partner->language][0]['safe_value']];
+        }
+      }
+
+      node_save($partner);
+    }
+  }
+
+  // Delete field_orgtype field.
+  if (field_info_field('field_orgtype')) {
+    field_delete_field('field_orgtype');
+  }
+
+  // Delete field_bussines_sector field
+  if (field_info_field('field_bussines_sector')) {
+    field_delete_field('field_bussines_sector');
+  }
+  field_purge_batch(10);
+}
