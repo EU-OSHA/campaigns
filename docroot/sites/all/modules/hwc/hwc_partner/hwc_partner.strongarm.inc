@@ -132,7 +132,7 @@ function hwc_partner_strongarm() {
       'display' => array(
         'profile_update_link' => array(
           'default' => array(
-            'weight' => '0',
+            'weight' => '1',
             'visible' => TRUE,
           ),
           'teaser' => array(
