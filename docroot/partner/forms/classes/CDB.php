@@ -191,6 +191,8 @@ final class CDB
                 $countries = json_decode($countries, true);
             }
         }
+        //Reseteamos la variable del main contact change check
+        unset($_SESSION['mainContactChangeCheck']);
 
         $params = Parameters::getInstance();
         if ($params->getUrlParamValue('maintenance_mode')) {
@@ -217,11 +219,6 @@ final class CDB
         $sent        = intval($params->get('cdb')['sent']);
 
         $response['returnPaises'] = $countries;
-//        if($response['osh_mainemail'] != ""){
-//            error_log("PASAAA y valorrr: " . $response['osh_mainemail']);
-//            $response['contact_osh_mainemailAux'] = $response['osh_mainemail'];
-//        }
-//$response['osh_primarycontactsection'] = "true";
 
         //(CRG - #154 - Antes si era un category MP, new y invitation sent, se mostraba el resultado de los campos, sino no... ahora se pide que �stos filtros tambien se hagan para los OCP y FOP)
 //        if (! (($partnerType === 'mp' || $partnerType === 'ocp' || $partnerType === 'pcp') && $formType === 'new' && $statusCode === $sent))
@@ -239,6 +236,9 @@ final class CDB
         //        if (!$partnerType === 'mp' && $formType === 'new' && $statusCode === $sent)) {
         //(/CRG - #154)
         
+            //Insertamos una variable para mostrar el check del main contact change.
+            $_SESSION['mainContactChangeCheck'] = true;
+            
             foreach ($this->cdbMap as $htmlName => $cdbName) {
                 if (isset ($response[$cdbName])) {
                     if (is_array($response[$cdbName]) && isset($response[$cdbName]['Name'])) {
@@ -766,8 +766,10 @@ final class CDB
 //        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($parameters['fields'],JSON_UNESCAPED_SLASHES));
 //        curl_setopt($ch, CURLOPT_POSTFIELDS, 'eyJvc2hfb3JnbmFtZSI6IkFB0J/QtdGA0YHQvtC90LDQttC4QUEiLCJvc2hfcHVibGljYXRpb25vbmxpbmUiOiJ0cnVlIiwib3NoX3B1YmxpY2F0aW9ucHJpbnQiOiJmYWxzZSIsIm9zaF9wdWJsaWNhdGlvbm5ld3NsZXR0ZXIiOiJ0cnVlIiwib3NoX3B1YmxpY2F0aW9ucmFkaW8iOiJmYWxzZSIsIm9zaF9wdWJsaWNhdGlvbnR2IjoidHJ1ZSIsIm9zaF9wdWJsaWNhdGlvbm90aG');
         $fieldsJson = json_encode($parameters['fields'],JSON_UNESCAPED_SLASHES);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, base64_encode($fieldsJson));
-        error_log("Fields:   " .print_r(base64_encode($fieldsJson),1));
+//        curl_setopt($ch, CURLOPT_POSTFIELDS, base64_encode($fieldsJson));
+//        error_log("Fields:   " .print_r(base64_encode($fieldsJson),1));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fieldsJson);
+        error_log("Fields:   " .print_r($fieldsJson,1));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
         if($server_output === false)
