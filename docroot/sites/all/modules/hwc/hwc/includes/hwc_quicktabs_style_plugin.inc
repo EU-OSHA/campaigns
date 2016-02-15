@@ -91,10 +91,11 @@ class hwc_quicktabs_style_plugin extends quicktabs_style_plugin {
     foreach (array_keys($all_rows) as $row_index) {
       $contents .= '<div class="quicktabs-views-group ' . $this->options['row_class'] . '">' . $all_rows_rendered[$row_index] . '</div>';
     }
-    $tabs[] = array(
+    $all_tab = array(
       'title' => t('All'),
       'contents' => array('#markup' => $contents),
     );
+    array_unshift($tabs, $all_tab);
 
     $overrides = array('style' => $view->style_plugin->options['tab_style'], 'sorted' => TRUE);
     $quicktabs = quicktabs_build_quicktabs($qt_name, $overrides, $tabs);

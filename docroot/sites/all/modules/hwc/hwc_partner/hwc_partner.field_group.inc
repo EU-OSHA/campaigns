@@ -21,7 +21,7 @@ function hwc_partner_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Category',
-    'weight' => '6',
+    'weight' => '8',
     'children' => array(
       0 => 'field_partner_type',
       1 => 'field_quote',
@@ -51,7 +51,7 @@ function hwc_partner_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'CEO',
-    'weight' => '5',
+    'weight' => '7',
     'children' => array(
       0 => 'field_ceo',
       1 => 'field_ceo_photo',
@@ -79,7 +79,7 @@ function hwc_partner_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Main Contact',
-    'weight' => '4',
+    'weight' => '6',
     'children' => array(
       0 => 'field_guid_main_contact',
       1 => 'field_main_contact',
@@ -145,7 +145,7 @@ function hwc_partner_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Ph Address',
-    'weight' => '3',
+    'weight' => '4',
     'children' => array(
       0 => 'field_ph_address',
       1 => 'field_ph_cp',

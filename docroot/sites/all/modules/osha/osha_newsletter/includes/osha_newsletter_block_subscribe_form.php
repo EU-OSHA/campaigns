@@ -11,7 +11,7 @@ function osha_newsletter_block_subscribe_form($form, &$form_state) {
   $form['email_osh'] = array(
     '#type' => 'textfield',
     '#size' => 30,
-    '#title' => t('You cand sign up below:'),
+    '#title' => t('You can sign up below:'),
     '#attributes' => array('placeholder' => t('E-mail address'), 'title' => t('E-mail address')),
   );
   if (user_is_anonymous()) {

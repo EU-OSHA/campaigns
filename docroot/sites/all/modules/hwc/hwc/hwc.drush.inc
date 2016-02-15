@@ -569,7 +569,7 @@ function drush_hwc_refresh_strings() {
     'You can only switch to a partner',
     'You can stay up to date with new developments to our website by visiting our ',
     'You can upload multiple images to this gallery.',
-    'You cand sign up below:',
+    'You can sign up below:',
     'You have succesfully unsubscribed',
     'Your message has been sent.',
     'Your name is too short',

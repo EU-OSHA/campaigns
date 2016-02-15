@@ -18,6 +18,11 @@
       "type": "text",
       "validator": "not_null"
     },
+    "contact_osh_maincontactpersonfirstname_clone": {
+      "name": "contact_osh_maincontactpersonfirstname_clone",
+      "section": "PRIMARY_CONTACT",
+      "type": "text"
+    },
     "contact_osh_maincontactpersonlastname": {
       "name": "contact_osh_maincontactpersonlastname",
       "label": "Surname",
@@ -26,12 +31,22 @@
       "type": "text",
       "validator": "not_null"
     },
+    "contact_osh_maincontactpersonlastname_clone": {
+      "name": "contact_osh_maincontactpersonlastname_clone",
+      "section": "PRIMARY_CONTACT",
+      "type": "text"
+    },
     "contact_osh_positionmaincontactperson": {
       "name": "contact_osh_positionmaincontactperson",
       "label": "Position",
       "section": "PRIMARY_CONTACT",
       "type": "text",
       "validator": "not_null"
+    },
+    "contact_osh_positionmaincontactperson_clone": {
+      "name": "contact_osh_positionmaincontactperson_clone",
+      "section": "PRIMARY_CONTACT",
+      "type": "text"
     },
     "contact_osh_mainemail": {
       "name": "contact_osh_mainemail",
@@ -43,6 +58,11 @@
         "email",
         "not_null"
       ]
+    },
+    "contact_osh_mainemail_clone": {
+      "name": "contact_osh_mainemail_clone",
+      "section": "PRIMARY_CONTACT",
+      "type": "text"
     },
     "helpMessage": {
       "name": "helpMessage",
@@ -71,9 +91,20 @@
          "not_null"
       ]
      },
+    "contact_osh_confirm_mainemail_clone": {
+      "name": "contact_osh_confirm_mainemail_clone",
+      "section": "PRIMARY_CONTACT",
+      "type": "text"
+    },
     "contact_osh_mainphone": {
       "name": "contact_osh_mainphone",
       "label": "Telephone number",
+      "placeholder": "(000) 0000 0000",
+      "section": "PRIMARY_CONTACT",
+      "type": "text"
+    },
+    "contact_osh_mainphone_clone": {
+      "name": "contact_osh_mainphone_clone",
       "section": "PRIMARY_CONTACT",
       "type": "text"
     },
@@ -102,6 +133,7 @@
     "contact_osh_otheruserphone1": {
       "name": "contact_osh_otheruserphone1",
       "label": "Telephone of additional user",
+      "placeholder": "(000) 0000 0000",
       "section": "OTHER_USERS",
       "type": "text"
     },
@@ -120,6 +152,7 @@
     },
     "contact_osh_otheruserphone2": {
       "name": "contact_osh_otheruserphone2",
+      "placeholder": "(000) 0000 0000",
       "label": "Telephone of additional user",
       "section": "OTHER_USERS",
       "type": "text"
@@ -139,6 +172,7 @@
     },
     "contact_osh_otheruserphone3": {
       "name": "contact_osh_otheruserphone3",
+      "placeholder": "(000) 0000 0000",
       "label": "Telephone of additional user",
       "section": "OTHER_USERS",
       "type": "text"

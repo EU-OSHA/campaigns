@@ -127,7 +127,8 @@ class MaintenanceForm extends Controller implements IController, IForm {
                     'HelpMessage' => $this->helpMessage(),
                     'session_id' => $params->getUrlParamValue('session_id'),
                     'locked' => $params->getUrlParamValue('locked'),
-                    'mf' => true,
+//                    'mf' => true,
+                    'mf' => $params->getUrlParamValue('maintenance_mode'),
                     'disabled' => '',
                 );
                 if(isset($_SESSION['returnCode'])){
@@ -147,13 +148,15 @@ class MaintenanceForm extends Controller implements IController, IForm {
                 'sidebar' => $sidebarContent,
                 'content' => $content,
                 'session_id' => $params->getUrlParamValue('session_id'),
-                'mf' => true,
+                //                    'mf' => true,
+                'mf' => $params->getUrlParamValue('maintenance_mode'),
                 'printable' => $this->isPrintable(),
                 'show_print_version' => $params->get('print'),
                 'show_pdf_version' => $params->get('pdf'),
                 'submit_text' => 'Submit',
                 'actionType' => $params->get('actionType'),
                 'disabled' => '',
+                'fieldsValidatingDialog' => $this->fieldsValidation(),
             );
             // PDF version
             if ($params->get('action') == 'pdf') {
@@ -186,7 +189,6 @@ class MaintenanceForm extends Controller implements IController, IForm {
      * @return bool
      */
     protected function validateAttribute() {
-//        error_log("PASA POR EL VALIDATE DE MAINTENANCE");
         $params = Parameters::getInstance();
         if ($bundleData = File::read(APP_ROOT . $params->get('bundlesPath') . $params->get('defaultBundle'))) {
             if ($bundle = json_decode($bundleData, true)) {

@@ -18,7 +18,7 @@
     {if !isset($fullwidth)}<div id="form" class="main-form sidebar-border">{/if}
         {if !$locked}
         <form class="form-horizontal {if !empty($partner_type)}{$partner_type}{/if} {if $mf}mf{/if}" method="post" autocomplete="off" action="{$appurl}&action=send{if $actionType}&action_type={$actionType}{/if}" onload="checkAllfields()">
-        {if $HelpMessage != "print"}
+        {if $HelpMessage != "print" && !$mf}
             <div id="container-message" class="container-message">   
                 <div id="MESSAGE">
                     Please check whether all your information is still valid, make neccesary changes when applicable
@@ -50,13 +50,19 @@
         <a class="closeDialog">[X]</a>
         <img src="mvc/view/img/alertIcon.png"/><br>
         <p>The fields Company/Organisation name and E-mail of the Primary Contact are required for save the information</p>
+        <p class="saveExplanation">When saving as a draft, you will receive an automatic email with a link from which you will be able to come back to continue your application. In order to do so, the completion the organisation's name and your primary contact's email is mandatory</p>
     </div>
     <div id="maxSocialNetDialog" class="dialog errorDialog hidden">
         <a class="closeDialog">[X]</a>
         <img src="mvc/view/img/alertIcon.png"/><br>
         <p>You cannot add more than one profile per social network</p>
     </div>
-        
+        {if $fieldsValidatingDialog}
+        <div id="fieldsValidatingDialog" class="dialog errorDialog">
+            <a class="closeDialog" style="color: black; font-size: inherit;">[X]</a>
+            <p style="color: black; font-weight: inherit;">Your changes are being reviewed by the campaign team. <br> You will receive feedback shortly. Thanks for participating in the Healthy Workplaces Campaign.</p>
+        </div>
+        {/if}
         
         {/if}
 {/if}

@@ -39,6 +39,7 @@
                     <a class="closeDialog">[X]</a>
                     <img src="mvc/view/img/green-tick.png"/><br>
                     <p>The information has been saved correctly</p>
+                    <p class="saveExplanationSave">When saving as a draft, you will receive an automatic email with a link from which you will be able to come back to continue your application. In order to do so, the completion the organisation's name and your primary contact's email is mandatory</p>
                 </div>
             {/if}
             
@@ -50,7 +51,13 @@
             {if $mf != "mf"}
                 <li class="export-pdf"><a href="mvc/view/pdf/campaign-partnership-offer.pdf" target="_blank">> See Campaign partnership offer</a></li>
             {/if}
-            <li class="export-pdf"><a href="mvc/view/pdf/HWC_Public_Profile.pdf" target="_blank">> See how your data will appear on the Campaign website</a></li>
+            {if $category == 'ocp'}
+                <li class="export-pdf"><a href="mvc/view/pdf/EU-OSHA_HWC_FIN_OCP_20160126_01.png" target="_blank">> See how your data will appear on the Campaign website</a></li>
+            {elseif $category == 'mp'}
+                <li class="export-pdf"><a href="mvc/view/pdf/EU-OSHA_HWC_FIN_MP_20160119_02.png" target="_blank">> See how your data will appear on the Campaign website</a></li>
+            {elseif $category == 'fop'}
+                <li class="export-pdf"><a href="mvc/view/pdf/EU-OSHA_HWC_FIN_FP_20160119_02.png" target="_blank">> See how your data will appear on the Campaign website</a></li>
+            {/if}
             
             
             <li class="separator">&nbsp;</li>
@@ -61,9 +68,9 @@
 
         </ul>
     </div>
-    <div class="upArrow">
+   <!-- <div class="upArrow">
         <a href="#top">
              <img src="mvc/view/img/upArrow.png" title="Go to top" height="30" width="31">
         </a>
-    </div>
+    </div> -->
 </div>

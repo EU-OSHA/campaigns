@@ -35,7 +35,7 @@ function fillSN(args)
 	"<div id='"+containerTitle+"' >" +
 	"<div class='typeSN'>"+typeSN+" Profile:</div>"+
 	"	<button id='delSN' class='delSN' data-hidden='" + nameHiddenToChange + "' type='button' data-selector='company_osh_selectsocialnetworks' data-target='" + containerTitle + "' >" +
-	"		<img src='mvc/view/img/minus-4-xxl.png' />" +
+	"		<img src='mvc/view/img/paper-bin.png' />" +
 	"	</button>" +
 	"	<div class='titleSN' id='" + idTitle + "'>" + url + "</div>" +
 //	"	<button id='delSN' class='delSN' data-hidden='" + nameHiddenToChange + "' type='button' data-selector='company_osh_selectsocialnetworks' data-target='" + containerTitle + "' >" +
@@ -127,7 +127,6 @@ function delSN(args)
 //        }
 //    }
 //};
-
 
 /*Método para deshabilitar las redes sociales. Nos apoyamos en un 
  * campo similar, ya que los deshabilitados van por attributes de PHP y ente caso no es válido. */
@@ -278,6 +277,16 @@ function validaImagenes(section) {
                // console.log(elemId + ".length: " +$("#" + elemId).length);
                 $("." + elemId).addClass("sidebar-error");
                 //hace validaciones
+                
+                //Workaround MainContactChange
+//                if(elemId == "PRIMARY_CONTACT" && $('#contact_osh_maincontactchange').prop('checked')){
+//                    $(".main-contact-change input").each(function (id, item) {
+//                        $(item).removeClass("error");
+//                        $(item).attr("data-error", "");
+//                        $("#" + $(item).attr("id") + "_errormsg").remove();
+//                        $("#confirmemail_errormsg").remove();
+//                    });
+//                }
                 if(validaImagenes(elemId) && checkSingleSection(elemId))
                 {
                  ////Va bien
@@ -378,6 +387,7 @@ $(document).ready(function () {
            }
            
         }else if($(field).attr("id") == 'helpMessage'){
+        }else if($(field).attr("id") == 'contact_osh_confirm_mainemail'){
         }else if($(field).attr("id") == 'company_osh_logoimage_file' || $(field).attr("id") == 'company_osh_ceoimage_file'){
             $(field).removeClass("error");
             $(field).attr("data-error", "");
@@ -402,7 +412,7 @@ $(document).ready(function () {
 //            url += "?" + urlParams;
 
     //        Evitamos que valide los campos de contact si el check maincontactchange está pulsado.
-            if(!isMainContact($(field))){
+//            if(!isMainContact($(field))){
 //                $.get(url, function (data, status) {
 //                    var response = jQuery.parseJSON(data);
                     var response = true;
@@ -425,26 +435,26 @@ $(document).ready(function () {
 //                        }
                     }
 //                });
-            }
+//            }
         }
     }
     
-    function isMainContact(field){
-        if($("#contact_osh_maincontactchange").prop('checked')){
-            if(($(field).attr("id") == "contact_osh_maincontactpersonfirstname") ||
-                  ($(field).attr("id") == "contact_osh_maincontactpersonlastname") ||
-                  ($(field).attr("id") == "contact_osh_positionmaincontactperson") ||
-                  ($(field).attr("id") == "contact_osh_mainemail") ||
-                  ($(field).attr("id") == "contact_osh_confirm_mainemail")){
-              
-              return true;
-            }else{
-                return false;
-            }
-        }else{
-            return false;
-        }
-    }
+//    function isMainContact(field){
+//        if($("#contact_osh_maincontactchange").prop('checked')){
+//            if(($(field).attr("id") == "contact_osh_maincontactpersonfirstname") ||
+//                  ($(field).attr("id") == "contact_osh_maincontactpersonlastname") ||
+//                  ($(field).attr("id") == "contact_osh_positionmaincontactperson") ||
+//                  ($(field).attr("id") == "contact_osh_mainemail") ||
+//                  ($(field).attr("id") == "contact_osh_confirm_mainemail")){
+//              
+//              return true;
+//            }else{
+//                return false;
+//            }
+//        }else{
+//            return false;
+//        }
+//    }
     function validateRequiredField(field){
         if($(field).val() == null || $(field).val() == ""){
             return false;
@@ -556,11 +566,11 @@ $(document).ready(function () {
         }
     });
 
-    $("#contact_osh_confirm_mainemail").on({
-        change: function () {
-            validateConfirmEmail(this);
-        }
-    });
+//    $("#contact_osh_confirm_mainemail").on({
+//        change: function () {
+//            validateConfirmEmail(this);
+//        }
+//    });
     
      $("#company_osh_generalemail").on({
         change: function () {
@@ -669,14 +679,8 @@ $(document).ready(function () {
                     e.preventDefault();
                     return false;
                 } else if ($('#form form').hasClass("current")
-                    && ($('.validation').length > $('.validation.validation-pressed').length)
-//                    ($('#form form input[type=text]:enabled').length
-//                        || $('#form form input[type=checkbox]:enabled').length
-//                        || $('#form form input[type=radio]:enabled').length
-//                        || $('#form form textarea:enabled').length
-//                        || $('#form form select:enabled').length)
-//                        && !isInvolvementSection()
-                        ) {
+                    && ($('.validation').length > $('.validation.validation-pressed').length))
+                    {
                     if (!confirm("There are fields unconfirmed. Do you want to continue?")) {
                         e.preventDefault();
 //                        $(".validation").removeClass("validation-pressed");
@@ -687,32 +691,12 @@ $(document).ready(function () {
 //                         $(".validation").removeClass("validation-pressed");
                     }
                 }
-//                if(enableFields){
-//               /*Habilitamos los campos para que sean mandados a CRM */
-//                $('#form form input:disabled,#form form select:disabled,#form form textarea:disabled').prop("disabled",false);
-//                $("#company_osh_selectsocialnetworks").prop("disabled", false);
-//                $("#socialNetworkTextBox").prop("disabled", false);
-//                $(".delSN").prop("disabled", false);
-//                $("#plusSN").prop("disabled", false);
-//                }   
+
                 
             }
         }
     });
-    
-//    function isInvolvementSection(){
-//        var ret = false;
-//        $("#form form input[type=text]:enabled").each(function (id, item) {
-//            if($(item).attr("data-section")=="INVOLVEMENT"){
-//                ret = true;
-//                return false;
-//            }else{
-//                ret = false;
-//                return false;
-//            }
-//        });
-//        return ret;
-//    }
+
     /**
      * Check that all the required fields are filled
      * @returns {boolean}
@@ -721,6 +705,10 @@ $(document).ready(function () {
         var ret = true;
         var field;
         $("#form form .required .controls").each(function (id, item) {
+            //WorkAround main contact change
+            if($(item).find("input[type=text]").attr("data-section") == "PRIMARY_CONTACT" && $('#contact_osh_maincontactchange').prop('checked')){
+                return true;
+            }
             if (field = $(item).find("input[type=text]")) {
                 if ($(field).attr("data-section") && !$(field).val()) {
                     ret = false;
@@ -847,13 +835,19 @@ $(document).ready(function () {
             }
             if(dataSection=="PRIMARY_CONTACT"){
              $("#contact_osh_maincontactchange").css({
-                        'pointer-events': 'none',
-                        'background-color': '#E3E3E4'
+                        'pointer-events': 'inherit'
                     });
              }
         } else {
             //Nueva Petición: Section check cannot be checked until the mandatory fields are filled
-            if(checkSectionsforValidation(dataSection)){
+            var validateSection = true;
+            if(dataSection=="PRIMARY_CONTACT"){
+                validateConfirmEmail();
+             }
+//            if(dataSection== "PRIMARY_CONTACT" && $('#contact_osh_maincontactchange').prop('checked')){
+//                validateSection = false;
+//            }
+            if(checkSectionsforValidation(dataSection) || !validateSection){
                 setCheckSectionAttributte(dataSection,true);
 //                $('#form form :input[data-section="' + dataSection + '"]').prop("disabled", "disabled");
                 $('#form form :input[data-section="' + dataSection + '"]').prop("onlyread", "onlyread");
@@ -880,8 +874,7 @@ $(document).ready(function () {
                 }
                 if(dataSection=="PRIMARY_CONTACT"){
                     $("#contact_osh_maincontactchange").css({
-                        'pointer-events': 'none',
-                        'background-color': '#E3E3E4'
+                        'pointer-events': 'none'
                     });
                     $("#company_osh_orgname").prop("disabled", "disabled");
                  }
@@ -1065,21 +1058,27 @@ $(document).ready(function () {
      */
     $(".main-contact-change-checkbox").click(function () {
         if ($(this).prop('checked')) {
-            var contactBackup = $(".main-contact-change").clone();
-            $(contactBackup).addClass("main-contact-change-backup");
+//            var contactBackup = $(".main-contact-change").clone();
+//            $(contactBackup).addClass("main-contact-change-backup");
             $(".main-contact-change input").each(function (id, item) {
-                $(contactBackup).find("#" + $(item).attr("id")).val($(item).val());
+//                $(contactBackup).find("#" + $(item).attr("id")).val($(item).val());
+                
+                $('#'+$(item).attr("id")+'_clone').val($(item).val());
+                $('#'+$(item).attr("id")+'_clone').addClass("main-contact-change-backup");
                 $(item).val("");
                 $(item).removeClass("error");
                 $(item).attr("data-error", "");
-                $("#" + $(item).attr("id") + "_errormsg").remove();
+                $("#"+$(item).attr("id")+"_errormsg").remove();
+                
             });
-            $(contactBackup).appendTo(".main-contact-change");
+            $("#confirmemail_errormsg").remove();
+//            $(contactBackup).appendTo(".main-contact-change");
         } else {
-            $(".main-contact-change-backup input").each(function (id, item) {
-                $(".main-contact-change").find("#" + $(item).attr("id")).val($(item).val());
+            $(".main-contact-change-backup").each(function (id, item) {
+                $("#"+$(item).attr("id").substr(0,$(item).attr("id").indexOf("_clone"))).val($(item).val());
+//                $(".main-contact-change").find("#" + $(item).attr("id")).val($(item).val());
             });
-            $(".main-contact-change").remove(".main-contact-change-backup");
+//            $(".main-contact-change").remove(".main-contact-change-backup");
         }
     });
 
@@ -1092,6 +1091,9 @@ $(document).ready(function () {
         if ($(target).is(":hidden")) {
             $(target).val("");
         }else{
+            if($(target).val() == ""){
+                $(target).val("Yes.");
+            }
             $(target).css({
             'margin-top': '1%'
             });
@@ -1382,7 +1384,7 @@ $(document).ready(function () {
      
      //Redirect to the private zone from congrats.
      $(".privateZoneredirect").click(function (e) {
-        window.top.location.href = "http://eu-osha.github.io/hwc-splashpage/"; 
+        window.top.location.href = "https://www.healthy-workplaces.eu/all-ages-splash-page/"; 
      });
      $(".privateZoneredirectMF").click(function (e) {
         var partner_nid = $('#partner_nid').val();
@@ -1392,7 +1394,7 @@ $(document).ready(function () {
             var url = homeurl + language + "/node/" + partner_nid;
             window.top.location.href = url;
         }else{
-            window.top.location.href = "http://eu-osha.github.io/hwc-splashpage/"; 
+            window.top.location.href = "https://www.healthy-workplaces.eu/all-ages-splash-page/"; 
         }
      });
 
@@ -1401,6 +1403,7 @@ $(document).ready(function () {
      if($(".thank-you").length){
          $(".row").css("float","left");
          $(".row").css("margin-left","-30px");
+         $(document).scrollTop(0);
      }
      
     function validateEmail(email) {
@@ -1503,14 +1506,16 @@ $(document).ready(function () {
             var aux = web.value.toLowerCase();
             var http = aux.indexOf("http://");
             var https = aux.indexOf("https://");
+            var httpIncluded = false;
             if(http != -1 || https!= -1){
                 aux = web.value.substr(web.value.indexOf("//")+2);
+                httpIncluded = true;
             }
             var www = aux.indexOf("www.");
              if(www!= -1){
                 aux = web.value.substr(web.value.indexOf("www.")+4);
             }
-            if(!re.test(aux) || web.value.indexOf(" ")!= -1){        
+            if(!re.test(aux) || web.value.indexOf(" ")!= -1 || !httpIncluded){        
                 $('#'+web.id).addClass("error");
                 $('#'+web.id).attr("data-error", "true");
                 if (!$('#'+web.id+'_webformat_errormsg').length) {
@@ -1527,5 +1532,19 @@ $(document).ready(function () {
                 $('#'+web.id+'_webformat_errormsg').remove();
         }
     }
-    
+    $("#nextInLocked").click(function (e) {
+        if($("#nextInLocked").val().indexOf("involvement") != -1){
+//            $("#progressbar-2").click();
+            document.location.href = "?route=involvement";
+        }else if($("#nextInLocked").val().indexOf("primary") != -1){
+//            $("#progressbar-3").click();
+            document.location.href = "?route=contact";
+        }
+    });
+//     $(".upArrow").click(function (e) {
+//        window.top.location.href = "#top";
+//    });
+if($("#contact_osh_mainemail").prop("disabled")){
+    $('#contact_osh_mainemail').parent().append('<p class="help-block">This field cannot be directly changed in the form. If you want to modify it, please, contact EU-OSHA in partners@healthy-workplaces.eu</p>');
+}
 });

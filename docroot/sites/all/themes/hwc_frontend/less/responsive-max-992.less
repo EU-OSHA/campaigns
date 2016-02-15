@@ -30,10 +30,10 @@ header.navbar-default .navbar-collapse nav ul.menu li .dropdown-menu li{
 	}
 	.checkbox{
 		label:before {
-			padding: 9px 7px 10px 7px;
+			padding: 0 7px;
 		}
 		input[type=checkbox]:checked + label:before {
-			padding: 0px 2px 0px 2px;
+			padding: 0 2px;
 		}
 	}
 }
@@ -72,7 +72,7 @@ header{
 				}
 				.header_top_bar{
 					.region-above-header{
-						display: none;
+						display: block;
 					}
 				}
 				.region-header{
@@ -91,7 +91,7 @@ header{
 						float: right;
 					    margin-left: 0px;
 					    padding-top: 5px;
-					    padding-right: 116px;
+					    padding-right: 0px;
 					    ul{
 					    	li{
 					    		a{
@@ -103,8 +103,9 @@ header{
 					#block-lang-dropdown-language, #block-menu-menu-header-login ~ #block-lang-dropdown-language{
 						float: none;
 					    right: 0;
-					    padding-right: 46px;
+					    padding-right: 0px;
 					    position: relative;
+					    bottom:0px;
 					}
 
 					/*back to private zone*/
@@ -311,12 +312,23 @@ header{
 		margin-top: 0;
 	}
 }
+
+.pane-hwc-practical-tool-hwc-practical-tool-listing .h4-title, .pane-hwc-practical-tool-hwc-practical-tool-listing h4{
+	margin-left:1em;
+}
+
+
+.pane-hwc-practical-tool-hwc-practical-tool-listing #edit-content{
+	margin-top:1em;
+}
+
 .form-item-relevant-for, .form-item-languages, .form-item-publication-type{
 	border-top: none;
 	border-bottom: none;
 	clear: both;
 	padding-bottom: 0;
-	/* margin-bottom: 2em; */
+	height:1%;
+	overflow:hidden;
 	> label{
 		width: 100%;
 		padding: 0.2em @margin-tablet;
@@ -613,20 +625,6 @@ header{
 		/* display: none; */
 	}
 }
-/* .page-case-studies{
-	.form-type-checkbox{
-		width: 25%;
-		float: left;
-		label{
-		    white-space: nowrap;
-			font-size: 12px;
-		}
-	}
-	#edit-left-column{
-		padding-right: 0px;
-		padding-left: 0px;
-	}
-} */
 /*fin case studies*/
 
 /*pag Become a media partner*/
@@ -660,10 +658,9 @@ header{
 		padding-right: 0;
 		padding-left: 0;
 		padding-bottom: 1em;
-		margin-right: -@margin-movil;
-		margin-left: -@margin-movil;
 		margin-bottom: 1em;
-		border-bottom: 1px solid @border-default-color;
+		border-left: 1px dotted @border-default-color;
+    	border-right: 1px dotted @border-default-color;
 		border-left: none;
 		border-right: none;
 		&:last-child{
@@ -695,6 +692,11 @@ header{
 /*fin become a media partner*/
 
 /*pag publications*/
+
+#edit-languages .form-item, #edit-publication-type .form-item, #edit-relevant-for .form-item{
+		width:100%!important;
+}
+
 #publications_slideshow{
 	display: none;
 }
@@ -758,6 +760,15 @@ header{
 		}
 	}
 }
+
+.pane-osha-publication-osha-publication-listing .h4-title{
+	margin-left: 30px;
+}
+
+.pane-osha-publication .publication-download-label{
+	float:none;
+}
+
 /*Fin pag publications*/
 
 /* pag Search */

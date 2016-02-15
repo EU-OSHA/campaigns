@@ -119,7 +119,8 @@
     "company_osh_logoimage": {
       "name": "company_osh_logoimage",
       "label": "Upload your organisation’s logo",
-      "helpText" : "Please upload your company logo in .png or .jpg file format. The file size must not exceed than 1MB",
+      "helpText" : "Please upload your company logo in .png or .jpg file format. The file size must not exceed 1MB",
+      "helpTextImageLoaded" : "Please, if you want to change this logo, please upload a new one in png. or jpg. file format. The file must not exceed 1MB",
       "publicProfile": "publicProfile",
       "section": "ORGANISATION",
       "type": "image",
@@ -178,6 +179,7 @@
     "company_osh_generalphone": {
       "name": "company_osh_generalphone",
       "label": "General telephone number",
+      "placeholder": "(000) 0000 0000",
       "publicProfile": "publicProfile",
       "section": "GENERAL_INFORMATION",
       "type": "text",
@@ -187,6 +189,7 @@
       "name": "company_osh_homepage",
       "label": "Homepage",
       "publicProfile": "publicProfile",
+      "placeholder": "http(s)://www.example.com",
       "section": "GENERAL_INFORMATION",
       "type": "text",
       "validator": "not_null"

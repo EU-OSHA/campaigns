@@ -13,7 +13,7 @@ function hwc_practical_tool_default_fe_block_settings() {
   $export['version'] = '2.0';
 
   $export['hwc_practical_tool-hwc_practical_tool_language_list'] = array(
-    'cache' => 8,
+    'cache' => -1,
     'css_class' => '',
     'custom' => 0,
     'delta' => 'hwc_practical_tool_language_list',
@@ -42,7 +42,7 @@ function hwc_practical_tool_default_fe_block_settings() {
   );
 
   $export['hwc_practical_tool-hwc_practical_tool_listing'] = array(
-    'cache' => 8,
+    'cache' => -1,
     'css_class' => '',
     'custom' => 0,
     'delta' => 'hwc_practical_tool_listing',

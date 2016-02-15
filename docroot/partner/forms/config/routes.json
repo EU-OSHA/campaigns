@@ -22,7 +22,7 @@
       "index": "3",
       "internal": "contact",
       "label": "Contact Information",
-      "next": "Congrats",
+      "next": "Congrats#top",
       "submitText": "Submit your Application",
       "route":"route=contact",
       "subsection":"PRIMARY_CONTACT"

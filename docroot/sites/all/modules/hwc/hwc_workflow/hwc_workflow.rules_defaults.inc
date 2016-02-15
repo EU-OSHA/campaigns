@@ -22,7 +22,7 @@ function hwc_workflow_default_rules_configuration() {
             "DO" : [
               { "mail" : {
                   "to" : [ "list-item:mail" ],
-                  "subject" : "HWC Workflow - Content needs CPM approval: [node:title]",
+                  "subject" : "HWC Workflow: Content needs CPM approval: [node:title]",
                   "message" : "\\u003Cp\\u003EDear [list_item:name],\\u003C\\/p\\u003E\\r\\n\\u003Cp\\u003E[user:name] should approve this content \\u003Ca href=\\u0022[node:url]\\u0022\\u003E[node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E",
                   "language" : [ "" ]
                 }
@@ -32,7 +32,7 @@ function hwc_workflow_default_rules_configuration() {
         },
         { "mail" : {
             "to" : [ "user:mail" ],
-            "subject" : "HWC Workflow - Content needs your approval: [node:title]",
+            "subject" : "HWC Workflow: Content needs your approval: [node:title]",
             "message" : "\\u003Cp\\u003EDear [user:name],\\u003C\\/p\\u003E\\r\\n\\u003Cp\\u003EA content item should be approved by you: \\u003Ca href=\\u0022[node:url]\\u0022\\u003E[node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E",
             "language" : [ "" ]
           }
@@ -57,7 +57,7 @@ function hwc_workflow_default_rules_configuration() {
       "DO" : [
         { "hwc_mail_to_users_of_partner" : {
             "node" : [ "node" ],
-            "subject" : "HWC Workflow - New content added for your company",
+            "subject" : "HWC Workflow: New content added for your company",
             "message" : "\\u003Cp\\u003EDear partner,\\u003C\\/p\\u003E\\r\\n\\u003Cp\\u003ENew content has been added on behalf of your company: \\u003Ca href=\\u0022[node:url]\\u0022\\u003E[node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E"
           }
         }
@@ -88,9 +88,16 @@ function hwc_workflow_default_rules_configuration() {
           }
         },
         { "mail_to_users_of_role" : {
-            "roles" : { "value" : { "13" : "13", "14" : "14" } },
+            "roles" : { "value" : { "14" : "14" } },
             "subject" : "New content has been published",
             "message" : "This content has been published: \\u003Ca href=\\u0022[node:url]\\u0022\\u003E[node:title]\\u003C\\/a\\u003E"
+          }
+        },
+        { "mail" : {
+            "to" : [ "site:hwc-mostra-mailbox" ],
+            "subject" : "New content has been published",
+            "message" : "This content has been published: \\u003Ca href=\\u0022[node:url]\\u0022\\u003E[node:title]\\u003C\\/a\\u003E",
+            "language" : [ "" ]
           }
         }
       ]
@@ -109,7 +116,7 @@ function hwc_workflow_default_rules_configuration() {
             "DO" : [
               { "mail" : {
                   "to" : [ "list-item:mail" ],
-                  "subject" : "HWC Workflow - Content needs CPM approval: [node:title]",
+                  "subject" : "HWC Workflow: Content needs CPM approval: [node:title]",
                   "message" : "\\u003Cp\\u003EDear [list_item:name],\\u003C\\/p\\u003E\\r\\n\\u003Cp\\u003E[user:name] should approve this content \\u003Ca href=\\u0022[node:url]\\u0022\\u003E[node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E",
                   "language" : [ "" ]
                 }
@@ -119,7 +126,7 @@ function hwc_workflow_default_rules_configuration() {
         },
         { "mail" : {
             "to" : [ "user:mail" ],
-            "subject" : "HWC Workflow - Content needs your approval: [node:title]",
+            "subject" : "HWC Workflow: Content needs your approval: [node:title]",
             "message" : "\\u003Cp\\u003EDear [user:name],\\u003C\\/p\\u003E\\r\\n\\u003Cp\\u003EA content item should be approved by you: \\u003Ca href=\\u0022[node:url]\\u0022\\u003E[node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E",
             "language" : [ "" ]
           }
@@ -136,9 +143,16 @@ function hwc_workflow_default_rules_configuration() {
       "IF" : [ { "data_is" : { "data" : [ "new-state" ], "value" : "needs_review" } } ],
       "DO" : [
         { "mail_to_users_of_role" : {
-            "roles" : { "value" : { "13" : "13", "14" : "14" } },
+            "roles" : { "value" : { "14" : "14" } },
             "subject" : "HWC Workflow: New content needs your review",
             "message" : "The content \\u003Ca href=\\u0022[node:url]\\u0022\\u003E[node:title]\\u003C\\/a\\u003E needs your review"
+          }
+        },
+        { "mail" : {
+            "to" : [ "site:hwc-mostra-mailbox" ],
+            "subject" : "HWC Workflow: New content needs your review",
+            "message" : "The content \\u003Ca href=\\u0022[node:url]\\u0022\\u003E[node:title]\\u003C\\/a\\u003E needs your review",
+            "language" : [ "" ]
           }
         }
       ]

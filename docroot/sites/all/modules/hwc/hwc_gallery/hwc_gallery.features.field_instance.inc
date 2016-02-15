@@ -150,7 +150,7 @@ function hwc_gallery_field_default_field_instances() {
       ),
       'osha_slideshow' => array(
         'label' => 'hidden',
-        'module' => 'galleryformatter',
+        'module' => 'osha_gallery',
         'settings' => array(
           'field_formatter_class' => '',
           'link_to_full' => 1,

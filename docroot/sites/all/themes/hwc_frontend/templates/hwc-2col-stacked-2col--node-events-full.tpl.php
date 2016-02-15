@@ -1,5 +1,11 @@
 <<?php print $layout_wrapper; print $layout_attributes; ?> class="hwc-2col-stacked-2col <?php print $classes;?> clearfix">
 
+<?php if (!empty($content['submit_content_form'])): ?>
+  <div class="node-submit-validation-form">
+    <?php print drupal_render($content['submit_content_form']); ?>
+  </div>
+<?php endif; ?>
+
 <?php if (isset($title_suffix['contextual_links'])): ?>
   <?php print render($title_suffix['contextual_links']); ?>
 <?php endif; ?>
@@ -29,9 +35,12 @@
 <?php print $right2; ?>
 </<?php print $right2_wrapper ?>>
 
-<<?php print $footer_wrapper ?> class="group-footer<?php print $footer_classes; ?>">
-<?php print $footer; ?>
-</<?php print $footer_wrapper ?>>
+  <?php if (!empty($footer)): ?>
+    <div class="field-label further-info-label"><?php print t('Further information'); ?></div>
+    <<?php print $footer_wrapper ?> class="group-footer<?php print $footer_classes; ?>">
+    <?php print $footer; ?>
+    </<?php print $footer_wrapper ?>>
+  <?php endif; ?>
 <?php } ?>
 
 </<?php print $layout_wrapper ?>>

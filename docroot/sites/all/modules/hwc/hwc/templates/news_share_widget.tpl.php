@@ -43,7 +43,8 @@ $twitter_url = str_replace('https://', '', $twitter_url);
 <div class="hwc-share-widget">
   <ul>
     <li id="facebook-share-button-<?php print $node->nid; ?>"  class="hwc-share-widget-button hwc-share-widget-facebook" data-href="">
-      <a href="<?php print $url ?>">Facebook</a>
+      <a onclick="window.open(this.href, 'hwc-share', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"
+         href="https://www.facebook.com/sharer/sharer.php?u=<?php print $url ?>">Facebook</a>
     </li>
     <li class="label">
       <?php print t('Share'); ?>
@@ -74,32 +75,6 @@ $twitter_url = str_replace('https://', '', $twitter_url);
   (function($) {
 
     $(window).ready(function(){
-      window.fbAsyncInit = function() {
-        FB.init({
-          appId      : Drupal.settings.hwc.fb_app_key,
-          xfbml      : true,
-          version    : 'v2.3'
-        });
-      };
-
-
-      (function(d, s, id){
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
-
-      $('#facebook-share-button-<?php print $node->nid; ?> a').click(function(e) {
-        e.preventDefault();
-        FB.ui({
-          method: 'share',
-          href: this.href
-        }, function (response) {
-        });
-      });
-
       $('#twitter-share-button-<?php print $node->nid; ?> a').click(function(event) {
         var width  = 575,
           height = 400,

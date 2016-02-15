@@ -46,13 +46,6 @@ function hwc_partner_context_page_condition() {
 
 function hwc_partner_menu() {
   $items = array();
-  $items['hwc_partner/autocomplete'] = array(
-    'title' => '',
-    'page callback' => 'hwc_partner_autocomplete_users_partners',
-    'access callback' => 'masquerade_menu_access',
-    'access arguments' => array('autocomplete'),
-    'type' => MENU_CALLBACK,
-  );
 
   $items['hwc_partner/preview_private_area/%'] = array(
     'title' => 'Preview Private Area',
@@ -314,7 +307,11 @@ function hwc_partner_theme() {
 function hwc_partner_form_masquerade_block_1_alter(&$form, &$form_state) {
   // Add our own autocomplete to show only partners users.
   if (!empty($form['masquerade_user_field']['#autocomplete_path'])) {
-    $form['masquerade_user_field']['#autocomplete_path'] = 'hwc_partner/autocomplete';
+    $form['masquerade_user_field']['#type'] = 'select';
+    $form['masquerade_user_field']['#options'] = hwc_partner_get_partners_user_options();
+    $form['masquerade_user_field']['#chosen'] = TRUE;
+    unset($form['masquerade_user_field']['#autocomplete_path']);
+    unset($form['masquerade_user_field']['#size']);
     $form['#validate'] = array_merge(array('hwc_partner_form_masquerade_validate'), $form['#validate']);
   }
   if (!empty($form['masquerade_desc'])) {
@@ -406,33 +403,24 @@ function hwc_partner_user_profile_form_redirect($form, &$form_state) {
 }
 
 /**
- * Auto complete ajax user callback.
+ * Get options array with [user_name] => partner_name.
  */
-function hwc_partner_autocomplete_users_partners($string) {
+function hwc_partner_get_partners_user_options() {
   $matches = array();
-  if (strlen($string) > 1) {
-    $partner_rid = 12;
-    // Get users with only PARTNER role and with a section attached.
-    $subquery = db_query('SELECT uid from users_roles GROUP BY uid HAVING COUNT(rid) = 1')->fetchCol();
-    if (!empty($subquery)) {
-      $query = db_select('users', 'u')->fields('u', array('uid', 'name'));
-      $query->addField('t', 'name', 'partner_name');
-      $query->innerJoin('users_roles', 'ur', 'u.uid = ur.uid');
-      $query->innerJoin('workbench_access_user', 'wu', 'wu.uid = u.uid');
-      $query->innerJoin('taxonomy_term_data', 't', 'wu.access_id = t.tid');
-      $query->condition('ur.rid', $partner_rid);
-      $or = db_or()
-        ->condition('u.name', '%' . db_like(strtolower($string)) . '%', 'LIKE')
-        ->condition('t.name', '%' . db_like(strtolower($string)) . '%', 'LIKE');
-      $query->condition($or);
-      $query->condition('u.uid', $subquery, 'IN');
-      $result = $query->execute();
-      while ($row = $result->fetchAssoc()) {
-        $matches[$row['name']] = strtr('@user (@partner)', array('@user' => $row['name'], '@partner' => $row['partner_name']));
-      }
-    }
+  $partner_rid = 12;
+  // Get users with only PARTNER role and with a section attached.
+  $query = db_select('taxonomy_term_data', 't')->fields('t', array('name'));
+  $query->innerJoin('workbench_access_user', 'wu', 'wu.access_id = t.tid');
+  $query->innerJoin('users', 'u', 'u.uid = wu.uid');
+  $query->innerJoin('users_roles', 'ur', 'wu.uid = ur.uid');
+  $query->addField('u', 'name', 'user_name');
+  $query->condition('ur.rid', $partner_rid);
+  $query->groupBy('t.name');
+  $result = $query->execute();
+  while ($row = $result->fetchAssoc()) {
+    $matches[$row['user_name']] = $row['name'];
   }
-  drupal_json_output($matches);
+  return $matches;
 }
 
 /**

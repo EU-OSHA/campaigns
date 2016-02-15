@@ -59,7 +59,7 @@ label {
 }
 
 .print {
-    background      : url(../img/print.png) no-repeat 0 0.2vw;
+    background      : url(../img/print.png) no-repeat;
     padding-left    : 2vw !important;
     padding-bottom  : 0.4vw !important;
     background-size : 2em;
@@ -184,18 +184,20 @@ select[disabled] {
 
 .validation {
     float           : right;
-    width           : 1.2vw;
-    height          : 1.2vw;
+/*    width           : 1.2vw;
+    height          : 1.2vw;*/
+    width           : 18px;
+    height          : 18px;
     cursor          : pointer;
     margin-left     : 1vw;
     margin-top      : 0.5vw;
     background      : url(../img/validation-NoCheck.png);
-    background-size : 1.2vw;
+    /*background-size : 1.2vw;*/
 }
 
 .validation-pressed {
     background      : url(../img/validation-check.png);
-    background-position-x: -0.3vw;
+/*    background-position-x: -0.3vw;*/
 }
 
 .div-checkbox {
@@ -333,6 +335,11 @@ select[disabled] {
 }
 
 #next {
+    margin-left : 0.8vw;
+    background: url(../img/nextButton.png) no-repeat;
+    background-size: 100%;
+}
+#nextInLocked {
     margin-left : 0.8vw;
     background: url(../img/nextButton.png) no-repeat;
     background-size: 100%;
@@ -553,6 +560,14 @@ textarea.error {
 .main-contact-change-backup {
     display : none;
 }
+.mainContactCheck label{
+    display: inline;
+    margin-left: 1%;
+    font-size: larger;
+}
+#contact_osh_maincontactchange{
+    margin-top: 2%;
+}
 
 .mfp-content {
     background : #ffffff none repeat scroll 0 0;
@@ -576,7 +591,8 @@ textarea.error {
 .combined-textbox {
     width: 80% !important;
     margin-left: 2vw;
-    height: 33px;
+    /*height: 33px;*/
+    height: 1%;
 }
 label[for="company_osh_facebookprofile"],
 #company_osh_facebookprofile,
@@ -596,6 +612,7 @@ label[for="company_osh_slideshareprofile"],
 }
 button#plusSN{
 	background-color: white;
+        margin-left: 3.2em;
 }
 button#plusSN span{
 	 color: #003399;
@@ -622,6 +639,7 @@ button.delSN img{
 select.company_osh_selectsocialnetworks{
 	width: auto;
 	float:left;
+        margin-top: 0.3em;
         
         /*height: 24px;*/
 }
@@ -703,9 +721,9 @@ input[type="submit"]{
 }
 /*(/CRG - #173 - 02.11.2015)*/
 a.button {
-    -webkit-appearance: button;
+    /*-webkit-appearance: button;*/
     color: white;
-    background-color: #010188;
+    background-color: #003399;
     font-weight: bold;
     font-size: x-large;
     padding-top: 6px;
@@ -724,15 +742,15 @@ p.congrats {
     margin-right: 70px;
 }
 .promoteText label{
-    font-size: 15px;
+    /*font-size: 15px;*/
     font-weight: bold;
 }
 #promoteText{
-    margin-top: -4vw;
+    margin-top: -5vw;
     }
 .promoteText2 {
     /*margin-top: 156px;*/
-    font-size: 15px;
+    /*font-size: 15px;*/
     font-weight: bold;
     display: -moz-box;
 }
@@ -770,9 +788,12 @@ margin-top: -10px;
     margin-right: 1%;
 }
 .saveDialog{
-    position: fixed;
+    /*position: fixed;*/
+    //Fixed not works into the iframe
+    position: absolute;
     left: 40%;
-    top: 40%;
+    /*top: 40%;*/
+    top: 5%;
     background-color: #F2F2F2;
     border: 1px solid red;
     height: auto;
@@ -809,4 +830,10 @@ margin-top: -10px;
 }
 .marginRightForm{
     margin-right: 4%;
+}
+.saveExplanation{
+    font-size: smaller;
+}
+.saveExplanationSave{
+    font-size: xx-small;
 }

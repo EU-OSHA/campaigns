@@ -140,3 +140,38 @@ function hwc_update_7005() {
     }
   }
 }
+
+/**
+ * Sets section to default section for existing nodes.
+ */
+function hwc_update_7006() {
+  // Get node types that do not use workbench_access for access control.
+  $node_types = array();
+  foreach (node_type_get_names() as $type => $name) {
+    if (variable_get('workbench_access_node_type_' . $type, FALSE)) {
+      $node_types[$type] = $type;
+    }
+  }
+  $subquery = db_select('workbench_access_node', 'wa')
+    ->fields('wa', array('nid'));
+  $query = db_select('node', 'n')
+    ->fields('n')
+    ->condition('type', $node_types, 'IN')
+    ->condition('nid', $subquery, 'NOT IN')
+    ->execute();
+  while ($row = $query->fetchAssoc()) {
+    $wa_row = array(
+      'nid' => $row['nid'],
+      'access_id' => 'section',
+      'access_scheme' => 'taxonomy',
+    );
+    drupal_write_record('workbench_access_node', $wa_row);
+  }
+}
+
+/**
+ * Set site's 404 page
+ */
+function hwc_update_7007() {
+  variable_set('site_404', 'page-not-found');
+}

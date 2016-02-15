@@ -27,6 +27,13 @@ define('APP_CONFIG', APP_ROOT . 'config/');
 
 
 
+//if (isset($_COOKIE['PHPSESSID']) && !empty($_COOKIE['PHPSESSID'])) {
+//     unset($_COOKIE['PHPSESSID']);
+//    setcookie('PHPSESSID', '', time()-3600, '/');
+//}
+
+
+
 
 
 

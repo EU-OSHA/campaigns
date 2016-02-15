@@ -18,7 +18,8 @@
     
     <div class="separatorFieldSet">&nbsp;</div>
     
-    {if !mf && $partner_type == "current"}<div>{$attributes.contact_osh_maincontactchange}</div>{/if}
+      <!--  {if !mf && $partner_type == "current"}<div>{$attributes.contact_osh_maincontactchange}</div>{/if}-->
+ {if !$mf && $mainContactChangeCheck == true }<div>{$attributes.contact_osh_maincontactchange}</div>{/if} 
     <div class="main-contact-change">
         <div class="float-left">
             {$attributes.contact_osh_maincontactpersonfirstname}
@@ -35,7 +36,7 @@
             {if $mf}
                 </div>
             {/if}
-            {if !$mf}
+            {if !$mf && $partner_type != "current" && !$locked}
                 {$attributes.contact_osh_confirm_mainemail}
             {/if}
         </div>
@@ -45,6 +46,14 @@
         {$attributes.contact_osh_mainemailAux}
         {$attributes.company_osh_orgnameAux}
         {$attributes.osh_primarycontactsection}
+        {$attributes.contact_osh_maincontactpersonfirstname_clone}
+        {$attributes.contact_osh_maincontactpersonlastname_clone}
+        {$attributes.contact_osh_positionmaincontactperson_clone}
+        {$attributes.contact_osh_mainphone_clone}
+        {$attributes.contact_osh_mainemail_clone}
+        {if !$mf && $partner_type != "current" && !$locked}
+            {$attributes.contact_osh_confirm_mainemail_clone}
+        {/if}
     </div>
 </fieldset>
 {if $mf}

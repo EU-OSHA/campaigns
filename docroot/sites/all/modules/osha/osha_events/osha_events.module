@@ -311,8 +311,15 @@ function osha_events_views_pre_view( view &$view, &$display_id, &$args) {
 function osha_events_views_pre_render(&$view) {
   if ($view->name == 'events' && in_array($view->current_display, array('block_1', 'block_2'))) {
     $month = '';
-    $current_year = date('Y', time());
 
+    $selected = FALSE;
+    $url_params = drupal_get_query_parameters($_GET, array('search_api_views_fulltext', 'q'));
+    if(isset($url_params['f'][0]) && strpos($url_params['f'][0], 'field_start_date') !== FALSE){
+      $filter_value = urldecode($url_params['f'][0]);
+      $filter_value = str_replace('field_start_date:value:', '', $filter_value);
+      $selected = TRUE;
+      list($selected_year, $selected_month) = explode('-', $filter_value);
+    }
     foreach ($view->result as $key => $result) {
       $row_month = format_date(strtotime($result->field_field_start_date[0]['raw']['value']), 'custom', 'M');
       $row_month_raw = date('m', strtotime($result->field_field_start_date[0]['raw']['value']));
@@ -328,11 +335,11 @@ function osha_events_views_pre_render(&$view) {
 
       // Add a css class to selected month
       $class = $class_year = '';
-      $url_params = drupal_get_query_parameters($_GET, array('search_api_views_fulltext', 'q'));
-      if(isset($url_params['f'][0]) && strpos($url_params['f'][0], 'field_start_date') !== FALSE){
-        if(substr($url_params['f'][0],  -7) == $row_year . '-' . $row_month_raw){
+      if ($selected) {
+        if ($selected_month == $row_month_raw){
           $class = 'current_month';
-        }elseif(substr($url_params['f'][0],  -4) == $row_year){
+        }
+        if($selected_year == $row_year){
           $class_year = 'current_year';
         }
       }

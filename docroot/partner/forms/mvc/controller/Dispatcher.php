@@ -10,11 +10,27 @@ class Dispatcher {
      */
     public function dispatch() {
         // Set the route
+        $sessionID = null;
+        if(count($_REQUEST) == 0){
+            $params = Parameters::getInstance();
+            $sessionID = null;
+            $params->set('session_id', null, true);
+            $params->setUrlParamValue('maintenance_mode', false);
+//            $this->resetSession();
+        }else if(isset ($_REQUEST['session_id'])){
+            $sessionID = $_REQUEST['session_id'];
+//            $this->resetSession();
+        }else{
+            
+// Check the session ID
+        $sessionID = $this->checkSessionID();
+        }
+
         $route = $this->setRoute();
         if (class_exists($route) || class_exists(ucfirst(($route)))) {
             try {
                 // Set the application context
-                $this->setContext();
+                $this->setContext($sessionID);
                 // Execute the controller
                 $controller = new $route();
                 if (method_exists($controller, 'executeAction')) {
@@ -31,10 +47,10 @@ class Dispatcher {
         }
     }
 
-    private function setContext() {
+    private function setContext($sessionID) {
         $params = Parameters::getInstance();
         // Check the session ID
-        $sessionID = $this->checkSessionID();
+        $this->checkSessionID();
         // SessionID provided: set the context via CDB
         if ($sessionID && !$params->getUrlParamValue('no_session_id')) {
             CDB::getInstance(null, $sessionID);
@@ -88,8 +104,12 @@ class Dispatcher {
         $params          = Parameters::getInstance();
         $key             = $params->getUrlParam('session_id');
         $cachedSessionID = isset($_SESSION[$key]) ? $_SESSION[$key] : false;
-//        error_log("CACHEDSESSION:" . $cachedSessionID);
         $sessionID = $params->get($key);
+        $newAccess = $params->get('newAccess');
+        if(strtolower($newAccess) == "true"){
+            $_SESSION['resetSession'] = true;
+            $params->set("newAccess", "false");
+        }
         if(isset($_SESSION['resetSession']) && $_SESSION['resetSession']){
             if($params->get('action')=="printable"){
                 $_SESSION['printable']=true;
@@ -115,13 +135,15 @@ class Dispatcher {
                 if (isset($_SESSION['potential'])) {
                     unset($_SESSION['potential']);
                 }
+                if (isset($_SESSION['ValidatingDialogHidden'])) {
+                    unset($_SESSION['ValidatingDialogHidden']);
+                }
             setcookie("PHPSESSID", '', time()-3600);
             unset($_SESSION['resetSession']);
             $params->set('mf', $mf, true);
             $params->set($key, $sessionID, true);
         }elseif ($cachedSessionID) {
             $mf=$params->get('mf');
-            
             if ($cachedSessionID != $sessionID) {
                 $session = Session::getInstance();
                 $session->destroy($cachedSessionID);
@@ -143,6 +165,9 @@ class Dispatcher {
                 }
                 if (isset($_SESSION['potential'])) {
                     unset($_SESSION['potential']);
+                }
+                if (isset($_SESSION['ValidatingDialogHidden'])) {
+                    unset($_SESSION['ValidatingDialogHidden']);
                 }
 //                if(!strpos($cachedSessionID, "_")){
 //                    setcookie("PHPSESSID", '', time()-3600);

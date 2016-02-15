@@ -1,2 +1,0 @@
-Partner integration / registration forms
-========================================

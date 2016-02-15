@@ -76,8 +76,11 @@
             },
             imgMouseDown = function (e) {
                 e.stopImmediatePropagation();
-
-                obj.state.dragable = true;
+                 if (!obj.state.dragable) {
+                    obj.state.dragable = true;
+                 }else{
+                     obj.state.dragable = false;
+                 }
                 obj.state.mouseX = e.clientX;
                 obj.state.mouseY = e.clientY;
             },

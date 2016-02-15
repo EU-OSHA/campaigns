@@ -309,3 +309,9 @@ div#newsletter-subscription-form-wrapper_2 form > div {
     margin: 0;
     padding: 0;
 }
+
+div.loader {
+    margin-top: 300px;
+    text-align: center;
+    height: 600px;
+}

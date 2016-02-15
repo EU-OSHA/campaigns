@@ -666,16 +666,23 @@ final class CDB
     private function getData($url)
     {
         $resource = $this->host . $this->port . $this->resource . $url;
+//        error_log($resource);
         $response = null;
+//        $time_pre = microtime(true);
         if ($content = @file_get_contents($resource)) {
+//            $time_post = microtime(true);
+//            error_log("Fase1: " .($time_post - $time_pre) . " seconds");
             $response = json_decode($content, true);
             if (! $this->debug && intval($response['returnCode']) !== 1) {
-                throw new CDBException($response['returnMessage'], $response['returnCode']);
+                if(intval($response['returnCode']) === -69){
+                    $_SESSION['fieldsValidatingDialog'] = true;
+                }else{
+                    throw new CDBException($response['returnMessage'], $response['returnCode']);
+                }
             }
         } else {
             throw new CDBException('resource_not_found', 404);
         }
-        
         return $response;
     }
 
@@ -686,7 +693,6 @@ final class CDB
      */
     public function updateData($data)
     {
-        //TODO: Cambiar a setDataPost en cuanto CRM tenga los desarrollos hechos.
         $this->setDataPost($data);
     }
 
@@ -763,12 +769,10 @@ final class CDB
         curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0); 
 
-//        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($parameters['fields'],JSON_UNESCAPED_SLASHES));
-//        curl_setopt($ch, CURLOPT_POSTFIELDS, 'eyJvc2hfb3JnbmFtZSI6IkFB0J/QtdGA0YHQvtC90LDQttC4QUEiLCJvc2hfcHVibGljYXRpb25vbmxpbmUiOiJ0cnVlIiwib3NoX3B1YmxpY2F0aW9ucHJpbnQiOiJmYWxzZSIsIm9zaF9wdWJsaWNhdGlvbm5ld3NsZXR0ZXIiOiJ0cnVlIiwib3NoX3B1YmxpY2F0aW9ucmFkaW8iOiJmYWxzZSIsIm9zaF9wdWJsaWNhdGlvbnR2IjoidHJ1ZSIsIm9zaF9wdWJsaWNhdGlvbm90aG');
-        $fieldsJson = json_encode($parameters['fields'],JSON_UNESCAPED_SLASHES);
-//        curl_setopt($ch, CURLOPT_POSTFIELDS, base64_encode($fieldsJson));
+        $fieldsJson = json_encode($parameters['fields'],JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, base64_encode($fieldsJson));
 //        error_log("Fields:   " .print_r(base64_encode($fieldsJson),1));
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $fieldsJson);
+//        curl_setopt($ch, CURLOPT_POSTFIELDS, $fieldsJson);
         error_log("Fields:   " .print_r($fieldsJson,1));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
@@ -785,6 +789,10 @@ final class CDB
         curl_close($ch);
         
         error_log("Respuesta: " .  print_r($server_output,1));
+        //After doing submit you can display the pending validation dialog
+        if (isset($_SESSION['ValidatingDialogHidden'])) {
+            unset($_SESSION['ValidatingDialogHidden']);
+        }
         $this->processResponse($server_output);
 
         

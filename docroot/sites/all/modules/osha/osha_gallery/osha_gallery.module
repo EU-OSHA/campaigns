@@ -52,6 +52,7 @@ function osha_gallery_permission() {
 function osha_gallery_field_formatter_info_alter(&$info) {
   // Define extra fields for settings form to save them.
   $info['colorbox']['settings']['use_image_caption_field'] = FALSE;
+  $info['galleryformatter_default']['module'] = 'osha_gallery';
 }
 
 /**
@@ -92,6 +93,243 @@ function osha_gallery_config_form($form, &$form_state) {
   );
 
   return system_settings_form($form);
+}
+
+/**
+ * @see galleryformatter_field_formatter_view().
+ */
+function osha_gallery_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+
+  // if there are no images, dont do anything else
+  if(empty($items)){
+    return $element;
+  }
+  $modulepath = drupal_get_path('module', 'galleryformatter');
+  $settings = $display['settings'];
+  $settings['style'] = strtolower($settings['style']);
+
+  // Media field support (only images)
+  if ($field['type'] == 'media') {
+    foreach ($items as $delta => $item) {
+      if ($item['file']->type == 'image') {
+        $items[$delta] = (array) $item; // Compatibility with 7.x-1.0-beta4 and previous media versions
+        $items[$delta]['uri'] = $item['file']->uri;
+        $items[$delta]['filename'] = $item['file']->filename;
+      }
+    }
+    /**
+     * If it's not an image remove it from our items.
+     * We need to do it on another foreach in order not to mess up the $delta on the next run above.
+     */
+    $changed = FALSE;
+    foreach($items as $delta => $item) {
+      if ($item['file']->type !== 'image') {
+        unset($items[$delta]);
+        $changed = TRUE;
+      }
+    }
+    // if we removed from $items, reset the array keys
+    if ($changed) {
+      $items = array_values($items);
+    }
+  }
+
+  // Get the dimensions, and remove unfound files,
+  // to avoid errors when the image is no longer on the server but still in the image field.
+  $changed = FALSE;
+  foreach ($items as $delta => $item) {
+    $dimensions['slides'] = galleryformatter_getimage_dimensions($settings['slide_style'], $items[$delta]['uri']);
+    if (!$dimensions['slides']) {
+      unset($items[$delta]);
+      $changed = TRUE;
+    }
+  };
+  // if we removed from $items, reset the array keys
+  if ($changed) {
+    $items = array_values($items);
+  }
+
+  // if there are no images, dont do anything else
+  if(empty($items)) {
+    return $element;
+  }
+
+  $dimensions['slides'] = galleryformatter_getimage_dimensions($settings['slide_style'], $items[0]['uri']);
+  $dimensions['thumbs'] = galleryformatter_getimage_dimensions($settings['thumb_style'], $items[0]['uri']);
+  $num_of_images = count($items);
+
+  // prepare the renderable array
+  $renderitems = array();
+  $renderitems['thumbs'] = array();
+
+  // get the unique entity id for later
+  $ids = entity_extract_ids($entity_type, $entity);
+  $entity_id =  $ids[0];
+
+  foreach ($items as $delta => $item){
+    /*
+     *  prepare slides
+     */
+    // Grab and sanitize image information
+    // $renderitems['slides'][$delta]['description'] = $item['description']; // so far no description in d7 image fields
+    if (!empty($item['image_field_caption']['value'])) {
+      $item['title'] = check_markup($item['image_field_caption']['value'], $item['image_field_caption']['format']);
+    }
+    elseif (!empty($item['title'])) {
+      // Sanitize the title
+      if(strpos($item['title'], '<') !== FALSE) {
+        $item['title'] = strip_tags($item['title']);
+      }
+    }
+    else {
+      $item['title'] = ''; // prevents php notices
+    }
+    $renderitems['slides'][$delta]['title'] = $item['title'];
+    $item['filename'] = $item['filename'] = '';
+
+    // Check if alt attribute is already set and sanitize it, if not use the filename as alt attribute
+    if (isset($item['alt']) && !empty($item['alt'])) {
+      if(strpos($item['alt'], '<') !== FALSE) {
+        $item['alt'] = strip_tags($item['alt']);
+      }
+    }
+    else {
+      $item['alt'] = $item['filename'];
+    }
+    $renderitems['slides'][$delta]['alt'] = $item['alt'];
+
+    // If the title is empty use alt or the node title in that order.
+    if (empty($item['title'])) {
+      if (!empty($item['alt'])) {
+        $item['title'] = $item['alt'];
+      }
+      else {
+        if(!empty($entity->title)){
+          if(strpos($entity->title, '<') !== FALSE) {
+            $item['title'] = strip_tags($entity->title);
+          }
+          else {
+            $item['title'] = $entity->title;
+          }
+        }
+        // if we have more than one image, add the image count to the title so they are not all the same.
+        $item['title'] = ($num_of_images > 1) ? $item['title'] . t(' image ') . ($delta + 1) : $item['title'];
+      }
+    }
+
+    // prepare the unique hash id per image
+    $slideset_id = $field['field_name'] . '-' . $entity_id;
+    $renderitems['slides'][$delta]['hash_id'] = 'slide-' . $delta . '-' . $slideset_id;
+
+    $renderitems['slides'][$delta]['image'] = theme('image_formatter', array(
+        'item' => $item,
+        'image_style' => $settings['slide_style'],
+      )
+    );
+    if ($settings['link_to_full'] == TRUE) {
+      $settings['linking_method'] = isset($settings['linking_method']) ? $settings['linking_method'] : '';
+      /* @TODO
+       * doesnt work yet
+      $vars['gallery_style'] = 'galleryformatter-view-full '; // give the gallery a class for themers to play with
+       * */
+      $link_attributes = array(
+        'title' => $item['title'],
+        'class' => '',
+      );
+
+      if ($settings['linking_method'] !== 'onclick_full') {
+        $link_attributes['class'] = 'shownext';
+      }
+
+      // integration with other modules for jQuery modal windows
+      switch($settings['modal']) {
+        case 'none':
+          break;
+        case 'colorbox':
+          $link_attributes['class'] .= ($settings['linking_method'] == 'onclick_full') ? 'colorbox' : ' colorbox';
+          $link_attributes['rel'] = 'gallery-['. $slideset_id .']';
+          break;
+        case 'shadowbox':
+          $link_attributes['rel'] = 'shadowbox['.$slideset_id .']';
+          $element['#attached']['library'][] = array('shadowbox', 'shadowbox');
+          break;
+        case 'lightbox2':
+          $link_attributes['rel'] = 'lightbox['. $slideset_id .']';
+          break;
+        case 'fancybox':
+          $link_attributes['class'] = 'fancybox';
+          $link_attributes['rel'] = 'fancybox['. $slideset_id .']';
+          break;
+      }
+      $link_url = $settings['link_to_full_style'] ? image_style_url($settings['link_to_full_style'], $item['uri']) : file_create_url($item['uri']);
+
+      // link the slide image and include the span for the icon
+      $link_content = ($settings['linking_method'] == 'show_full_link') ? '<span class="view-full" title="'. t('View the full image') .'">'. t('View the full image') .'</span>' : '';
+      $image_rendered = $renderitems['slides'][$delta]['image'];
+      $link_content .= ($settings['linking_method'] == 'onclick_full') ? $image_rendered : '';
+
+      $renderitems['slides'][$delta]['image'] = l($link_content, $link_url, array('attributes' => $link_attributes, 'html' => TRUE,));
+      $renderitems['slides'][$delta]['image'] .= ($settings['linking_method'] == 'onclick_full') ? '' : $image_rendered;
+
+      // If colorbox add the share widget.
+      if ($settings['modal'] == 'colorbox') {
+        $renderitems['slides'][$delta]['image'] = l($link_content, $link_url,
+          array(
+            'attributes' => $link_attributes,
+            'attributes' => array(
+              'class' => array('colorbox-inline'),
+              'rel' => 'gallery-['. $slideset_id .']',
+            ),
+            'fragment' => 'colorbox-inline-' . md5($item['uri']),
+            'html' => TRUE,
+            'query' => array(
+              'title' => $item['title'] . hwc_news_share_widget($entity, array('type' => 'article', 'label' => t('Share this gallery'))),
+              'inline' => 'true',
+              'width' => 'auto',
+              'height' => 'auto',
+            ),
+          )
+        );
+        $image_vars = array(
+          'style_name' => $settings['link_to_full_style'],
+          'path' => $item['uri']
+        );
+        $popup = theme('image_style', $image_vars);
+        $renderitems['slides'][$delta]['image'] .= '<div style="display: none;"><div id="colorbox-inline-' . md5($item['uri']) . '">' . $popup . '</div></div>';
+      }
+
+      $renderitems['slides'][$delta]['full_image_url'] = $link_url;
+    } // END linking to original
+
+    /*
+     *  prepare thumbs
+     */
+    if($num_of_images > 1){
+      $renderitems['thumbs'][$delta]['image'] = theme('image_formatter', array(
+          'item' => $item,
+          'image_style' => $settings['thumb_style'],
+        )
+      );
+      $renderitems['thumbs'][$delta]['hash_id'] = 'slide-' . $delta . '-' . $slideset_id;
+    }
+  }
+
+  if($num_of_images > 1){
+    drupal_add_js($modulepath . '/theme/infiniteCarousel.js');
+    drupal_add_js($modulepath . '/theme/galleryformatter.js');
+  }
+  galleryformatter_add_css($settings['style']);
+  drupal_add_css($modulepath . '/theme/galleryformatter.css');
+
+  // prepare the variables for our theme function
+  $element['#theme'] ='galleryformatter';
+  $element['#slides'] = $renderitems['slides'];
+  $element['#thumbs'] = $renderitems['thumbs'];
+  $element['#settings'] = $settings;
+  $element['#dimensions'] = $dimensions;
+
+  return array($element);
 }
 
 function osha_gallery_get_usable_bundle_fields() {

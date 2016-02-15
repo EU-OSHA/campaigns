@@ -52,7 +52,8 @@ class Attribute
     protected $validation;
     
     protected $maxLength;
-
+    
+    protected $helpTextImageLoaded;
     /**
      * Class constructor
      *
@@ -71,6 +72,7 @@ class Attribute
         $this->helpText      = $this->assignProperty($attribute, 'helpText');
         $this->validation    = $this->assignProperty($attribute, 'validator');
         $this->maxLength    = $this->assignProperty($attribute, 'maxLength');
+        $this->helpTextImageLoaded   = $this->assignProperty($attribute, 'helpTextImageLoaded');
     }
 
     /**
@@ -381,5 +383,20 @@ class Attribute
     public function setMaxLength($maxLength)
     {
         $this->maxLength = $maxLength;
+    }
+            /**
+     * @return string
+     */
+    public function getHelpTextImageLoaded()
+    {
+        return $this->helpTextImageLoaded;
+    }
+
+    /**
+     * @param string $helpTextImageLoaded
+     */
+    public function setHelpTextImageLoaded($helpTextImageLoaded)
+    {
+        $this->helpTextImageLoaded = $helpTextImageLoaded;
     }
 }

@@ -499,10 +499,52 @@ function osha_newsletter_add_to_newsletter_action($node, $context) {
     /* @var EntityCollectionRow */
     $collection = entity_collection_load($collection_name);
     if ($collection) {
-      $item = new EntityCollectionTreeNode('node', $node->nid, $node);
-      $contexts = _entity_collection_get_contexts($collection);
-      // TODO: smart selection of $item->position based on $node->type
-      entity_collection_append_item($collection, $item, $contexts);
+      $tree = $collection->getTree();
+      if ($tree->getChild('node:' . $node->nid)) {
+        drupal_set_message(t('This item is already in the newsletter.'), 'warning');
+        return FALSE;
+      } else {
+        $children = $tree->getChildren();
+
+        // Mapping of term newsletter sections and content types.
+        $term_mapping = variable_get('osha_newsletter_term_ct_map');
+        $category_uuid = NULL;
+        $category_view_mode = NULL;
+        $node_section = FALSE;
+        $last_position = NULL;
+
+        if (!empty($term_mapping[$node->type])) {
+          $category_uuid = $term_mapping[$node->type];
+          $category_view_mode = $term_mapping["view_mode_" . $node->type];
+        }
+
+        foreach ($children as $child) {
+          if ($child->type == 'taxonomy_term'){
+            if ($child->content->uuid == $category_uuid) {
+              $node_section = TRUE;
+              $last_position = $child->position;
+            } else {
+              $node_section = FALSE;
+            }
+          }
+          if ($child->type == 'node' && $node_section){
+            $last_position = $child->position;
+          }
+        }
+        $item = new EntityCollectionTreeNode('node', $node->nid, $node);
+        $contexts = _entity_collection_get_contexts($collection);
+
+        if (!empty($category_view_mode)) {
+          $item->style = $category_view_mode;
+        }
+        if (!empty($last_position)) {
+          $item->position = $last_position + 2;
+        } else {
+          $item->position = 1;
+        }
+
+        entity_collection_append_item($collection, $item, $contexts);
+      }
     }
   }
 }
@@ -511,6 +553,8 @@ function osha_newsletter_add_to_newsletter_action($node, $context) {
  * Implements hook_form_alter().
  */
 function osha_newsletter_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+
   switch ($form_id) {
     case 'entity_collection_edit_form':
       if (isset($form['#bundle']) && $form['#bundle'] == 'newsletter_content_collection') {
@@ -591,16 +635,32 @@ function osha_newsletter_form_alter(&$form, &$form_state, $form_id) {
             }
           }
 
-          $form['actions']['send_test_newsletter'] = array(
-            '#type' => 'submit',
-            '#value' => t('Send test newsletter'),
-            '#submit' => array('osha_newsletter_send_test_email')
-          );
           $form['actions']['send_newsletter'] = array(
             '#type' => 'submit',
             '#value' => t('Send newsletter to subscribers'),
             '#submit' => array('osha_newsletter_send_email_to_subscribers')
           );
+
+          $form['test_newsletter_content'] = array(
+            '#type' => 'fieldset',
+            '#title' => t('Send one test newsletter to the test address'),
+          );
+
+          $form['test_newsletter_content']['test_address'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Test email addresses'),
+            '#description' => t('A single email address or a comma-separated list of email addresses cam be used as test addresses.'),
+            '#default_value' => $user->mail,
+            '#size' => 60,
+            '#maxlength' => 128,
+          );
+
+          $form['test_newsletter_content']['send_test_newsletter'] = array(
+            '#type' => 'submit',
+            '#value' => t('Send test newsletter'),
+            '#submit' => array('osha_newsletter_send_test_email')
+          );
+
         }
 
         // Attach js to add css class for taxonomy rows.
@@ -949,6 +1009,13 @@ function osha_newsletter_send_test_email(&$form_state) {
   global $user;
 
   $to = $user->mail;
+  if (isset($form_state['test_newsletter_content']['test_address']['#value'])) {
+    $emails = $form_state['test_newsletter_content']['test_address']['#value'];
+    if (!empty($emails)) {
+      $to = $emails;
+    }
+  }
+
   $from = variable_get('osha_newsletter_listserv_from', $user->mail);
 
   osha_newsletter_send_email('test_newsletter', $to, $from ,$form_state,

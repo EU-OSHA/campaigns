@@ -132,6 +132,11 @@ function hwc_admin_reports_views_default_views() {
   $handler->display->display_options['fields']['nid']['table'] = 'node';
   $handler->display->display_options['fields']['nid']['field'] = 'nid';
   $handler->display->display_options['fields']['nid']['label'] = 'nid';
+  /* Sort criterion: Content: Starting date and time -  start date (field_start_date) */
+  $handler->display->display_options['sorts']['field_start_date_value']['id'] = 'field_start_date_value';
+  $handler->display->display_options['sorts']['field_start_date_value']['table'] = 'field_data_field_start_date';
+  $handler->display->display_options['sorts']['field_start_date_value']['field'] = 'field_start_date_value';
+  $handler->display->display_options['sorts']['field_start_date_value']['order'] = 'DESC';
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -271,6 +276,12 @@ function hwc_admin_reports_views_default_views() {
   $handler->display->display_options['fields']['nid']['field'] = 'nid';
   $handler->display->display_options['fields']['nid']['label'] = 'nid';
   $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Field: Publication date (field_publication_date) */
+  $handler->display->display_options['sorts']['field_publication_date_value']['id'] = 'field_publication_date_value';
+  $handler->display->display_options['sorts']['field_publication_date_value']['table'] = 'field_data_field_publication_date';
+  $handler->display->display_options['sorts']['field_publication_date_value']['field'] = 'field_publication_date_value';
+  $handler->display->display_options['sorts']['field_publication_date_value']['order'] = 'DESC';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
@@ -746,6 +757,12 @@ function hwc_admin_reports_views_default_views() {
   $handler->display->display_options['fields']['status']['label'] = 'Status';
   $handler->display->display_options['fields']['status']['type'] = 'published-notpublished';
   $handler->display->display_options['fields']['status']['not'] = 0;
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Field: Publication date (field_publication_date) */
+  $handler->display->display_options['sorts']['field_publication_date_value']['id'] = 'field_publication_date_value';
+  $handler->display->display_options['sorts']['field_publication_date_value']['table'] = 'field_data_field_publication_date';
+  $handler->display->display_options['sorts']['field_publication_date_value']['field'] = 'field_publication_date_value';
+  $handler->display->display_options['sorts']['field_publication_date_value']['order'] = 'DESC';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
@@ -1045,6 +1062,7 @@ function hwc_admin_reports_views_default_views() {
   $handler->display->display_options['fields']['field_speaker_1']['table'] = 'field_data_field_speaker';
   $handler->display->display_options['fields']['field_speaker_1']['field'] = 'field_speaker';
   $handler->display->display_options['fields']['field_speaker_1']['label'] = 'Speaker Image';
+  $handler->display->display_options['fields']['field_speaker_1']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_speaker_1']['type'] = 'token_formatters_entity_reference';
   $handler->display->display_options['fields']['field_speaker_1']['settings'] = array(
     'text' => '[node:field_image]',
@@ -1072,9 +1090,11 @@ function hwc_admin_reports_views_default_views() {
   $handler->display->display_options['fields']['field_schedule_1']['table'] = 'field_data_field_schedule';
   $handler->display->display_options['fields']['field_schedule_1']['field'] = 'field_schedule';
   $handler->display->display_options['fields']['field_schedule_1']['label'] = 'Schedule - Date';
+  $handler->display->display_options['fields']['field_schedule_1']['alter']['text'] = '[field_collection_item:field-talking-date:value:custom:d/m/Y H:i] to [field_collection_item:field-talking-date:value2:custom:d/m/Y H:i]';
+  $handler->display->display_options['fields']['field_schedule_1']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_schedule_1']['type'] = 'token_formatters_field_collection';
   $handler->display->display_options['fields']['field_schedule_1']['settings'] = array(
-    'text' => '[field_collection_item:field-talking-date:value:us_dt] to [field_collection_item:field-talking-date:value2:us_dt]',
+    'text' => '[field_collection_item:field-talking-date:value:custom:d/m/Y H:i] to [field_collection_item:field-talking-date:value2:custom:d/m/Y H:i]',
     'link' => '',
     'check_access' => 0,
     'field_formatter_class' => '',
@@ -1086,6 +1106,7 @@ function hwc_admin_reports_views_default_views() {
   $handler->display->display_options['fields']['field_schedule']['table'] = 'field_data_field_schedule';
   $handler->display->display_options['fields']['field_schedule']['field'] = 'field_schedule';
   $handler->display->display_options['fields']['field_schedule']['label'] = 'Schedule - Speaker';
+  $handler->display->display_options['fields']['field_schedule']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_schedule']['type'] = 'token_formatters_field_collection';
   $handler->display->display_options['fields']['field_schedule']['settings'] = array(
     'text' => '[field_collection_item:field-talking-speaker:title]',
@@ -1369,6 +1390,7 @@ function hwc_admin_reports_views_default_views() {
     t('Speaker Image'),
     t('Schedule - Title'),
     t('Schedule - Date'),
+    t('[field_collection_item:field-talking-date:value:custom:d/m/Y H:i] to [field_collection_item:field-talking-date:value2:custom:d/m/Y H:i]'),
     t('Schedule - Speaker'),
     t('Related documents (URLs)'),
     t('Related documents (titles)'),

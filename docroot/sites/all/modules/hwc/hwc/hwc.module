@@ -55,6 +55,12 @@ function hwc_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
+  $items['page-not-found'] = array(
+    'title' => 'Page not found',
+    'page callback' => 'hwc_page_not_found',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
   return $items;
 }
 
@@ -274,6 +280,13 @@ function hwc_theme() {
   );
 }
 
+function hwc_page_not_found() {
+  drupal_set_title('Page not found');
+  $message = t('The requested page "@path" could not be found.', array('@path' => request_uri()));
+  return $message;
+}
+
+
 /**
  * Implements hook_entity_info_alter().
  */
@@ -436,7 +449,29 @@ function hwc_form_alter(&$form, &$form_state, $form_id) {
     $form['lang_dropdown_select']['#attributes']['title'] = t('Language switcher dropdown');
   }
 
+
+  if ($form_id == 'system_site_information_settings') {
+    $form['site_information']['site_hwc_mostra_mailbox'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Mostra mailbox'),
+      '#default_value' => variable_get('site_hwc_mostra_mailbox'),
+    );
+  }
 }
+
+/**
+ * Implements hook_entity_property_info_alter().
+ */
+function hwc_entity_property_info_alter(&$info) {
+  $properties =& $info['site']['properties'];
+  // Add mostra mailbox property to use it in rules.
+  $properties['hwc_mostra_mailbox'] = array(
+    'label' => 'Mostra mailbox',
+    'description' => 'Mostra mailbox',
+    'getter callback' => 'entity_metadata_system_get_properties',
+  );
+}
+
 
 /**
  * Implements hook_node_submit().
@@ -653,10 +688,6 @@ function hwc_news_share_widget($node, $options = array()) {
     $type = $node->type;
   }
   // Add services javascript.
-  drupal_add_js(drupal_get_path('module', 'hwc') . '/js/share_widget.js');
-  // Add facebook app key.
-  $fb_app_key = variable_get('fb_app_key', '');
-  drupal_add_js(array('hwc' => array('fb_app_key' => $fb_app_key)), 'setting');
   $site_name = variable_get('site_name', '');
   // Construct the tweet.
   $twitter_text = $title . ' | ' . $site_name;

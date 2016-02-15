@@ -40,6 +40,13 @@ function hwc_admin_config_form() {
     '#default_value' => variable_get('hwc_partner_registration_deadline_message', ''),
   );
 
+  $form['site_hwc_mostra_mailbox'] = array(
+    '#title' => 'Mostra mailbox',
+    '#description' => '',
+    '#type' => 'textfield',
+    '#default_value' => variable_get('site_hwc_mostra_mailbox', ''),
+  );
+
   // NCW migration
   if (module_exists('migrate')) {
     $form['migration'] = array(

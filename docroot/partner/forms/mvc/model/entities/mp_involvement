@@ -12,7 +12,7 @@
   "attributes": {
     "involvement_osh_campaignpledge": {
       "name": "involvement_osh_campaignpledge",
-      "label": " ",
+      "label": "Your Campaign Pledge",
       "publicProfile": "publicProfile",
       "section": "PLEDGE",
       "type": "textarea",

@@ -52,6 +52,9 @@ abstract class Controller {
         // CRG - 29.10.2015
         $attributes = $this->model->getAttributes();
         foreach ($attributes as $kAttr => $attr) {
+            if($kAttr == 'company_osh_orgnameAux' && $attr->getValue()!=""){
+                $this->model->set($attr->getName(), $attr->getValue());
+            }
             $type = $attr->getType();
             $name = $attr->getName();
             if ($type == Attribute::TYPE_DROPDOWN || $type == Attribute::TYPE_DROPDOWN_MULTIPLE) {
@@ -71,6 +74,7 @@ abstract class Controller {
             'session_id' => $params->getUrlParamValue('session_id'),
             'mf' => $params->get('maintenance_mode'),
             'partner_type' => $params->getUrlParamValue('partner_type'),
+            'mainContactChangeCheck' => $this->maincontactChange(),
             'submit_text' => $submitText,
             'printable' => $isPrintable,
             'HelpMessage' => $this->helpMessage(),
@@ -79,16 +83,17 @@ abstract class Controller {
             'locked' => $params->getUrlParamValue('locked'),
             'actionType' => $params->get('actionType'),
             'disabled' => '',
+            'fieldsValidatingDialog' => $this->fieldsValidation(),
         );
         // PDF version
         if ($isPrintable) {
-//            $route = $params->get('route');
-//            $params->set('route', 'MaintenanceForm');
-//            $maintenanceForm = new MaintenanceForm(false);
-//            $content = $maintenanceForm->execute();
-//            $params->set('route', $route);
+            $route = $params->get('route');
+            $params->set('route', 'MaintenanceForm');
+            $maintenanceForm = new MaintenanceForm(false);
+            $content = $maintenanceForm->execute();
+            $params->set('route', $route);
         
-            $content = $renderer->render($contentArray);
+//            $content = $renderer->render($contentArray);
         } else {
             // Content rendering
             $content = $renderer->render($contentArray);
@@ -106,6 +111,15 @@ abstract class Controller {
             return "print";
         }else{
             return "";
+        }
+    }
+    public function fieldsValidation(){
+        if(isset($_SESSION['fieldsValidatingDialog']) && $_SESSION['fieldsValidatingDialog'] && !isset($_SESSION['ValidatingDialogHidden'])){
+            unset($_SESSION['fieldsValidatingDialog']);
+            $_SESSION['ValidatingDialogHidden']=true;
+            return true;
+        }else{
+            return false;
         }
     }
     
@@ -153,6 +167,9 @@ abstract class Controller {
         $attributes = $this->model->getAttributes();
         $nonce = $params->get('nonce');
         foreach ($attributes as $id => $attribute) {
+            if($params->get('action') == 'printable' && $attribute->getName() == 'contact_osh_captcha'){
+                continue;
+            }
             if ($attribute->getName()) {
                 // Render the attribute widget
                 //$disabled = $params->getUrlParamValue('partner_type') == 'current' ? 'disabled' : '';
@@ -199,6 +216,7 @@ abstract class Controller {
                     'fieldPlaceholder' => $attribute->getPlaceholder(),
                     'fieldPublicProfile' => $attribute->getPublicProfile(),
                     'fieldHelpText' => $attribute->getHelpText(),
+                    'fieldHelpTextImage' => $attribute->getHelpTextImageLoaded(),
                     'fieldSection' => $attribute->getSection(),
                     'fieldValue' => $attribute->getValue(),
                     'selectedValue' => $attribute->getSelectedValues(),
@@ -208,7 +226,10 @@ abstract class Controller {
                 );
 
                 if ($attribute->getType() == Attribute::TYPE_IMAGE) {
-                    $valueImage = $attribute->getValue()[0];
+                    $valueImage = null;
+                    if(null !== $attribute->getValue() && isset($attribute->getValue()[0])){
+                        $valueImage = $attribute->getValue()[0];
+                    }
                     if (isset($valueImage)) {
                         $imageContent = $valueImage;
                         $imageContent = str_replace(array("\\"), "/", $imageContent);
@@ -219,8 +240,14 @@ abstract class Controller {
                 $transformedAttributes[$attribute->getName()] = $attributeRendered;
             }
         }
-
         return $transformedAttributes;
+    }
+    protected function maincontactChange() {
+        if(isset($_SESSION['mainContactChangeCheck']) && $_SESSION['mainContactChangeCheck']){
+            return true;
+        }else{
+            return "";
+        }
     }
 
     /**
@@ -329,14 +356,12 @@ abstract class Controller {
 //                                        $session->setAttribute($atributo->getName(), $atributo->getValue());
 //                                }
 //                            }
-                            
+
                             foreach ($this->model->getAttributes() as $atributo) {
                                 if(strpos($atributo->getName(), 'otherus') !== false){
                                         $session->setAttribute($atributo->getName(), $params->get($atributo->getName()));
                                 }
-//                                error_log("Atributos: " . $atributo->getName() . " value: " .print_r($params->get($atributo->getName()),1));
                             }
-                            
                             
                             $this->saveToSession();
                             $attributes = $this->model->getAttributes();
@@ -501,6 +526,8 @@ abstract class Controller {
                         $normalValues[$keyCeoImageType]  = $valueCeoImageType;
 //                        $updatedValues .= '(' . $keyCeoImageType . '|' . $valueCeoImageType . '),';
                     }
+                    
+                    $value = str_replace("\"", "''", $value);
                     $normalValues[$key]  = $value ;
 //                    $updatedValues .= '(' . $key . '|' . $value . '),';
                 }

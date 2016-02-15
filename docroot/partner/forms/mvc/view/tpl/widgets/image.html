@@ -3,8 +3,11 @@
         <label class="control-label" style="margin-top: 2vw; display: inline-block;" for="{$fieldName}">{$fieldLabel}</label>
         {if !empty($fieldPublicProfile)}<img src="{$appurl}mvc/view/img/screen.png" title="Fields displayed on campaign site" style="margin-top: 0%;" class="screen-right"/>{/if}
     </div>
-    {if !empty($fieldHelpText)}
+    {if !empty($fieldHelpText) && empty($fieldValue.content)}
     <p class="help-block">{$fieldHelpText}</p>
+    {/if}
+    {if !empty($fieldValue.content) && !empty($fieldHelpTextImage)}
+    <p class="help-block">{$fieldHelpTextImage}</p>
     {/if}
     {if !empty($fieldValue.content)}
     <div class="{$fieldName}_image_container"><img src="data:image/png;base64,{$fieldValue.content}"></div>
@@ -12,7 +15,7 @@
     <div class="{$fieldName}_image_container" id="{$fieldName}_image_container"></div>
     {/if}
     {if !$locked}
-    <button class="{$fieldName}_popup-modal" href="#{$fieldName}_test-modal">Upload your logo</button>
+    <button class="{$fieldName}_popup-modal" href="#{$fieldName}_test-modal">{if $fieldName == 'company_osh_logoimage'}Upload your logo{else}Upload your image{/if}</button>
     {/if}
     <div id="{$fieldName}_test-modal" class="white-popup-block mfp-hide">
         <div class="imageBox" id="{$fieldName}_imageBox">

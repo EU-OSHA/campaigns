@@ -47,6 +47,7 @@ class Sidebar extends Controller implements IController
             'mf'                 => $params->getUrlParamValue('maintenance_mode'),
             'graceperiod'        => $params->getUrlParamValue('graceperiod'),
             'sections_validated' => $validatedSections,
+            'category'           => $params->getUrlParamValue('entity'),
         );
         if(isset($_SESSION['returnCode'])){
             $contentArray['returnCode'] = $_SESSION['returnCode'];
@@ -93,7 +94,40 @@ class Sidebar extends Controller implements IController
             }
             $model->load($sessionID);
             $attributes = $model->getAttributes();
+            $aboutyourorgsection = false;
+            $gencontactinfsection = false;
+            $aboutyourceosection = false;
+            $aboutyourrepsection = false;
+            $supportforcampaignsection = false;
+            $yourcampaignpledgesection = false;
+            $tobecomeapartnersection = false;
+            $primarycontactsection = false;
+
             foreach ($attributes as $name => &$attribute) {
+                if($params->getUrlParamValue('partner_type') == 'current'){
+                    if($name == "osh_primarycontactsection" && $attribute->getValue()){
+                        $primarycontactsection = true;
+                    }elseif($name == "osh_tobecomeapartnersection" && $attribute->getValue()){
+                        $tobecomeapartnersection = true;
+                    }elseif($name == "osh_supportforcampaignsection" && $attribute->getValue()){
+                        $supportforcampaignsection = true;
+                    }elseif($name == "osh_aboutyourceosection" && $attribute->getValue()){
+                        $aboutyourceosection = true;
+                    }elseif($name == "osh_yourcampaignpledgesection" && $attribute->getValue()){
+                        $yourcampaignpledgesection = true;
+                    }elseif($name == "osh_aboutyourorgsection" && $attribute->getValue()){
+                        $aboutyourorgsection = true;
+                    }elseif($name == "osh_gencontactinfsection" && $attribute->getValue()){
+                        $gencontactinfsection = true;
+                    }elseif($name == "osh_aboutyourrepsection" && $attribute->getValue()){
+                        $aboutyourrepsection = true;
+                    }
+                }
+            }
+            foreach ($attributes as $name => &$attribute) {
+                if($params->getUrlParamValue('partner_type') == 'current' && $name == 'contact_osh_confirm_mainemail'){
+                    continue;
+                }
                 $section = $attribute->getSection();
                 if (! empty($section) && isset($sections[$section])) {
                     $validation = $attribute->getValidator();
@@ -101,6 +135,25 @@ class Sidebar extends Controller implements IController
                         if ((is_array($validation) && array_search('not_null', $validation))
                             || ((! is_array($validation)) && (strval($validation) === strval('not_null')))) {
                             $sections[$section] &= $model->validate($attribute->getName());
+                            if($sections[$section] && $params->getUrlParamValue('partner_type') == 'current'){
+                                if($section == "ORGANISATION" && !$aboutyourorgsection){
+                                    $sections[$section] = 0;
+                                }elseif($section == "GENERAL_INFORMATION" && !$gencontactinfsection){
+                                    $sections[$section] = 0;
+                                }elseif($section == "CEO" && !$aboutyourceosection){
+                                    $sections[$section] = 0;
+                                }elseif($section == "BECOME" && !$tobecomeapartnersection){
+                                    $sections[$section] = 0;
+                                }elseif($section == "INVOLVEMENT" && !$supportforcampaignsection){
+                                    $sections[$section] = 0;
+                                }elseif($section == "PLEDGE" && !$yourcampaignpledgesection){
+                                    $sections[$section] = 0;
+                                }elseif($section == "PRIMARY_CONTACT" && !$primarycontactsection){
+                                    $sections[$section] = 0;
+                                }elseif($section == "OSH" && !$aboutyourrepsection){
+                                    $sections[$section] = 0;
+                                }
+                            }
                         }
                     }
                 }

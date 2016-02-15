@@ -77,7 +77,7 @@ function hwc_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = 'Get your certificate of participation in the Healthy Workplaces campaign';
+  $display->title = 'Get your certificate of participation in the Healthy Workplace Campaign';
   $display->uuid = '7094f568-dc86-496f-9cdf-6998ee08d501';
   $display->content = array();
   $display->panels = array();

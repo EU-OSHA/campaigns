@@ -3,7 +3,11 @@
             <div class="control-group">
                 <label class="control-label" for="next"></label>
                 <div class="controls">
+                    {if !$locked}
                     <input id="next" name="next" value="{$submit_text}" type="submit" />
+                    {else}
+                    <input id="nextInLocked" class="nextInLocked" name="next" value="{$submit_text}" type="submit" />
+                    {/if}
                 </div>
             </div>
             {/if}

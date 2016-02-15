@@ -62,9 +62,9 @@ final class Session {
                 $sessionToken = $this->getSessionToken();
             }
             foreach ($_SESSION as $key => $value) {
-                if (strpos($key, $sessionToken) !== false) {
+//                if (strpos($key, $sessionToken) !== false) {
                     unset($_SESSION[$key]);
-                }
+//                }
             }
             $ret = !$this->status;
         } else {
