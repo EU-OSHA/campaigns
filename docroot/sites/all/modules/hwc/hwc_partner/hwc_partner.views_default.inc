@@ -657,7 +657,8 @@ function hwc_partner_views_default_views() {
   $handler->display->display_options['fields']['field_flag']['field'] = 'field_flag';
   $handler->display->display_options['fields']['field_flag']['relationship'] = 'field_country_tid';
   $handler->display->display_options['fields']['field_flag']['label'] = '';
-  $handler->display->display_options['fields']['field_flag']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_flag']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['field_flag']['alter']['path'] = 'node/[nid]';
   $handler->display->display_options['fields']['field_flag']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_flag']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_flag']['settings'] = array(
@@ -665,13 +666,6 @@ function hwc_partner_views_default_views() {
     'image_link' => '',
     'field_formatter_class' => '',
   );
-  /* Field: Global: Custom text */
-  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['table'] = 'views';
-  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['label'] = '';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<a href ="node/[nid]">[field_flag]</a>';
-  $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   /* Field: Taxonomy term: Name */
   $handler->display->display_options['fields']['name_field']['id'] = 'name_field';
   $handler->display->display_options['fields']['name_field']['table'] = 'field_data_name_field';
@@ -800,7 +794,6 @@ function hwc_partner_views_default_views() {
     t('Block'),
     t('term from field_orgtype'),
     t('FOP list'),
-    t('<a href ="node/[nid]">[field_flag]</a>'),
     t('MOP list'),
   );
   $export['partners_list'] = $view;

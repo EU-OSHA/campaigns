@@ -21,9 +21,13 @@
         {if $HelpMessage != "print" && !$mf}
             <div id="container-message" class="container-message">   
                 <div id="MESSAGE">
-                    Please check whether all your information is still valid, make neccesary changes when applicable
-                    <br> and tick the button next to the appropiate fields to confirm validation
-                               <a class="close">[X]</a>
+                    <a class="close">[X]</a>
+                    <div style="width: 95%;">
+                    Please check whether all your information is still valid, make changes when necessary and tick the green buttons next to each section header when you consider that the information in that section is correct <img style="width: 18px;height: 18px;" src="mvc/view/img/validation-NoCheckv2.png"/>
+                    <br>If you are not able to complete/review all information in one session, you can press the "Save a Draft" button <img src="mvc/view/img/saveButtonImg.png"/> (on the left of your screen) and you will receive an email with a link to access again the form for completion.
+                    In order to finish and submit the final form it is compulsory to complete <b>all</b> the sections and click on <b>all</b> green buttons next to each section header.
+                    </div>
+                               
                 </div>            
             </div>
         {else}

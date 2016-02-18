@@ -45,10 +45,19 @@ class MaintenanceForm extends Controller implements IController, IForm {
     public function execute() {
         // Load the bundle
         if($this->toCongrats()){
+            error_log("PASA POR EL MAINTENANCE TO CONGRATS");
             $params = Parameters::getInstance();
             $renderer = new Renderer('Congrats');
             $renderer->setViewPath($params->get('viewEntitiesPath'));
             $progressbar = new Progressbar(false);
+            $partner_nid = null;
+            if(isset($_SESSION['partner_nid'])){
+                $partner_nid = $_SESSION['partner_nid'];
+            }
+            $language = null;
+            if(isset($_SESSION['language'])){
+                $language = $_SESSION['language'];
+            }
             $progressbarContent = $progressbar->execute();
             $contentArray = array(
                 'appurl' => APP_URL . '?route=' . $params->get('route'),
@@ -56,8 +65,8 @@ class MaintenanceForm extends Controller implements IController, IForm {
                 'title' => $params->get('title'),
                 'hideButtons' => true,
                 'fullwidth' => true,
-                'partner_nid' => $_SESSION['partner_nid'],
-                'language' => $_SESSION['language'],
+                'partner_nid' => $partner_nid,
+                'language' => $language,
                 'mf' => true,
                 'printable' => false,
                 'category' => $params->getUrlParamValue('entity')

@@ -6,9 +6,11 @@ function hwc_practical_tool_menu_tools_form($form, $form_state) {
   $text = hwc_req_param($form_state, 'text');
   $languages = hwc_req_param($form_state, 'languages', array($language->language));
   $sort = hwc_req_param($form_state, 'sort', 'date');
+  $relevant_for = hwc_req_param($form_state, 'relevant_for', array(0));
   $form = array(
     '#action' => 'practical-tools',
-    '#method' => 'post',
+    '#method' => 'GET',
+    '#token' => FALSE,
     'top' => array(
       '#type' => 'container',
       '#attributes' => array('class' => array('col col-md-12')),
@@ -50,7 +52,7 @@ function hwc_practical_tool_menu_tools_form($form, $form_state) {
   $form['left-column']['relevant_for'] = array(
     '#type' => 'checkboxes',
     '#options' => _hwc_segment_options_list(),
-    '#default_value' => array('0'),
+    '#default_value' => $relevant_for,
     '#title' => t('Relevant for'),
   );
   $form['left-column']['languages'] = array(
@@ -71,12 +73,20 @@ function hwc_practical_tool_menu_tools_form($form, $form_state) {
     $form['content']['results-native'] = $form_state['#results-native'];
     $form['content']['results-related'] = $form_state['#results-related'];
   }
-  if (empty($form['content']['results-native'])) {
+  if (empty($form['content']['results-native']['#nids'])) {
     $form['content']['results-native']['#markup'] = '<p class="no-results">' . t('No results found to match your search.') . '</p>';
   }
   return $form;
 }
 
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function osha_publication_form_hwc_practical_tool_menu_tools_form_alter(&$form, $form_state) {
+  // Unset the form_id and build_id in order not to have nasty urls.
+  unset($form['form_id']);
+  unset($form['form_build_id']);
+}
 
 function hwc_practical_tool_menu_tools_form_submit($form, &$form_state) {
   $form_state['rebuild'] = TRUE;

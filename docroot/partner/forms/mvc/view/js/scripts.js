@@ -164,6 +164,15 @@ window.onload = function () {
             checkSectionsByCDB("PRIMARY_CONTACT");
         }
     }
+    if(window.parent.document.getElementsByClassName("loader").length > 0){
+        window.parent.document.getElementsByClassName("loader")[0].className += " hidden";
+    }
+    if(window.parent.document.getElementsByClassName("iframe-partnership").length > 0){
+        window.parent.document.getElementsByClassName("iframe-partnership")[0].className = "iframe-partnership";
+    }
+    if(window.parent.document.getElementsByClassName("iframe-update").length > 0){
+        window.parent.document.getElementsByClassName("iframe-update")[0].className = "iframe-update";
+    }
 }
 function checkSectionsByCDB(dataSection){
 //    setCheckSectionAttributte(dataSection,true);
@@ -881,6 +890,10 @@ $(document).ready(function () {
                  if(dataSection=="ORGANISATION"){
                      $("#contact_osh_mainemail").prop("disabled", "disabled");
                  }
+                 //Hidden the dialog
+                 if(!$("#checkFieldsDialog").hasClass('hidden')){
+                     $("#checkFieldsDialog").addClass('hidden');
+                 }
              }else{
 //                alert("Section check cannot be checked until the mandatory fields are filled");
                 $("#checkFieldsDialog").removeClass('hidden');
@@ -970,6 +983,10 @@ $(document).ready(function () {
         $.magnificPopup.close();
         delete $.magnificPopup.instance.popupsCache[$(this).attr("data-cropperkey")];
         $.magnificPopup.instance.popupsCache = {};
+        if(targetElement.indexOf("logoimage")!= -1){
+          $('.company_osh_logoimage_helpText').text("Please, if you want to change this logo, please upload a new one in png. or jpg. file format. The file must not exceed 1MB");
+        }
+        
     });
 
     /**
@@ -1279,7 +1296,8 @@ $(document).ready(function () {
         if( logoImage.attr("src") && (logoImage.attr("src") != null ||logoImage.attr("src") != "") )
         {
             var valueLogoImage = logoImage.attr("src");
-            valueLogoImage = valueLogoImage.replace("\s", "+");
+//            valueLogoImage = valueLogoImage.replace("\s", "+");
+            valueLogoImage = valueLogoImage.replace("data:image/png;base64,", "");
             serializedForm += "&company_osh_logoimage="+valueLogoImage;
 
         }

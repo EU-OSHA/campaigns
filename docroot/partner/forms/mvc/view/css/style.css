@@ -662,6 +662,7 @@ div.titleSN{
  	font-size: 9pt; 
 	color: #003399;
 	/*font-size: 7pt;*/
+        margin-bottom: 2%;
 }
 
 div.required > div label::after{
@@ -684,7 +685,7 @@ div.required > div label::after{
     width: 66%;
 }
 div.container-message{
-    height: 75px;
+    height: 110px;
 }
 /*No mostrar el mensaje de ayuda para New Forms ni mf´s*/
 form.new div.container-message, form.mf div.container-message {
@@ -694,7 +695,7 @@ form.new div.container-message, form.mf div.container-message {
     float: right;
     margin-right: 1%;
     color: darkblue;
-    margin-top: -3%;
+    margin-top: -1%;
 }
 
 .postRequired input:not(.select2-search__field),.postRequired textarea, .postRequired select, .postRequired .select2-selection--multiple{
@@ -833,7 +834,11 @@ margin-top: -10px;
 }
 .saveExplanation{
     font-size: smaller;
+    color: black !important;
 }
 .saveExplanationSave{
     font-size: xx-small;
+}
+#containerSocialNetworks{
+    margin-top: 4%;
 }

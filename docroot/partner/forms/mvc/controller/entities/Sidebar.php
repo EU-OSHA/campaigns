@@ -140,7 +140,7 @@ class Sidebar extends Controller implements IController
                                     $sections[$section] = 0;
                                 }elseif($section == "GENERAL_INFORMATION" && !$gencontactinfsection){
                                     $sections[$section] = 0;
-                                }elseif($section == "CEO" && !$aboutyourceosection){
+                                }elseif(($section == "CEO" || $section == "CHIEF") && !$aboutyourceosection){
                                     $sections[$section] = 0;
                                 }elseif($section == "BECOME" && !$tobecomeapartnersection){
                                     $sections[$section] = 0;

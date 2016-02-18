@@ -5,9 +5,11 @@ function osha_publication_menu_publications_form($form, $form_state) {
   global $language;
   $text = hwc_req_param($form_state, 'text');
   $languages = hwc_req_param($form_state, 'languages', array($language->language));
+  $publication_type = hwc_req_param($form_state, 'publication_type', array(0));
+  $relevant_for = hwc_req_param($form_state, 'relevant_for', array(0));
   $form = array(
     '#action' => 'publications',
-    '#method' => 'post',
+    '#method' => 'GET',
     'left-column' => array(
       '#type' => 'container',
       '#attributes' => array('class' => array('col col-md-3'))
@@ -17,6 +19,7 @@ function osha_publication_menu_publications_form($form, $form_state) {
       '#attributes' => array('class' => array('col col-md-9')),
     )
   );
+  $form['#token'] = FALSE;
   $form['content']['slideshow'] = array(
     '#type' => 'markup',
     '#markup' => views_embed_view('publications_slideshow', 'slidehow'),
@@ -39,13 +42,13 @@ function osha_publication_menu_publications_form($form, $form_state) {
   $form['left-column']['relevant_for'] = array(
     '#type' => 'checkboxes',
     '#options' => _hwc_segment_options_list(),
-    '#default_value' => array('0'),
+    '#default_value' => $relevant_for,
     '#title' => t('Relevant for'),
   );
   $form['left-column']['publication_type'] = array(
     '#type' => 'checkboxes',
     '#options' => _publication_type_options_list(),
-    '#default_value' => array('0'),
+    '#default_value' => $publication_type,
     '#title' => t('Publications type'),
   );
   $form['left-column']['languages'] = array(
@@ -72,6 +75,15 @@ function osha_publication_menu_publications_form($form, $form_state) {
   return $form;
 }
 
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function osha_publication_form_osha_publication_menu_publications_form_alter(&$form, $form_state) {
+  // Unset the form_id and build_id in order not to have nasty urls.
+  unset($form['form_id']);
+  unset($form['form_build_id']);
+}
+
 
 function osha_publication_menu_publications_form_submit($form, &$form_state) {
   $form_state['rebuild'] = TRUE;
@@ -87,8 +99,6 @@ function osha_publication_menu_publications_form_submit($form, &$form_state) {
 function osha_publication_menu_publications_search_native($form_state) {
   global $language;
   $languages = hwc_req_param($form_state, 'languages', array($language->language));
-  if(!$languages)
-    $languages = array($language->language);
   $text = hwc_req_param($form_state, 'text');
   $relevant_for = hwc_req_param($form_state, 'relevant_for', array());
   $publication_type = hwc_req_param($form_state, 'publication_type', array());
@@ -257,9 +267,11 @@ function osha_publication_menu_publications_search_related($form_state, $native_
 function osha_publication_menu_case_studies_form($form, $form_state) {
   drupal_set_title(t('Publications'));
   $text = hwc_req_param($form_state, 'text');
+  $relevant_for = hwc_req_param($form_state, 'relevant_for', array(0));
   $form = array(
     '#action' => 'case-studies',
-    '#method' => 'post',
+    '#method' => 'GET',
+    '#token' => FALSE,
     'left-column' => array(
       '#type' => 'container',
       '#attributes' => array('class' => array('col col-md-3'))
@@ -287,7 +299,7 @@ function osha_publication_menu_case_studies_form($form, $form_state) {
   $form['left-column']['relevant_for'] = array(
     '#type' => 'checkboxes',
     '#options' => _hwc_segment_options_list(),
-    '#default_value' => array('0'),
+    '#default_value' => $relevant_for,
     '#title' => t('Relevant for'),
   );
   $form['#attached']['js'] = array(
@@ -305,6 +317,16 @@ function osha_publication_menu_case_studies_form($form, $form_state) {
   return $form;
 }
 
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function osha_publication_form_osha_publication_menu_case_studies_form_alter(&$form, $form_state) {
+  // Unset the form_id and build_id in order not to have nasty urls.
+  unset($form['form_id']);
+  unset($form['form_build_id']);
+}
+
+
 
 function osha_publication_menu_case_studies_form_submit($form, &$form_state) {
   $form_state['rebuild'] = TRUE;
@@ -319,41 +341,45 @@ function osha_publication_menu_case_studies_search_native($form_state) {
   $relevant_for = hwc_req_param($form_state, 'relevant_for', array());
   $is_search = !empty($text);
   $restrict = array();
-  list($server, $query) = osha_publication_menu_publications_get_query();
-  $query->condition('status', 1);
-  $query->condition('type', 'publication');
-  $query->condition('field_file:file', 0, '>');
-  $query->condition('field_publication_type', 92);
-  $query->keys($text);
-  $query->fields(array('title_field', 'body:value'));
-  $query->sort('field_publication_date', 'DESC');
-  $results = $server->search($query);
-  if (!empty($results['results'])) {
-    foreach ($results['results'] as $result) {
-      list($lng, $nid) = explode('_', $result['id'], 2);
-      $restrict[] = $nid;
+  if ($is_search) {
+    list($server, $query) = osha_publication_menu_publications_get_query();
+    $query->condition('status', 1);
+    $query->condition('type', 'publication');
+    $query->condition('field_file:file', 0, '>');
+    $query->condition('field_publication_type', 92);
+    $query->keys($text);
+    $query->fields(array('title_field', 'body:value'));
+    $query->sort('field_publication_date', 'DESC');
+    $results = $server->search($query);
+    if (!empty($results['results'])) {
+      foreach ($results['results'] as $result) {
+        list($lng, $nid) = explode('_', $result['id'], 2);
+        $restrict[] = $nid;
+      }
+    }
+    if (empty($restrict)) {
+      return array(
+        '#nids' => '',
+      );
     }
   }
-  if (empty($restrict)) {
-    return array(
-      '#nids' => '',
-    );
+
+  $q = db_select('node', 'a');
+  $q->innerJoin('field_data_field_publication_type', 'b', 'a.nid = b.entity_id');
+  $q->fields('a', array('nid', 'vid'));
+  $q->condition('a.type', 'publication');
+  $q->condition('a.status', 1);
+  $q->orderBy('a.changed', 'DESC');
+  $q->condition('b.field_publication_type_tid', 92);
+  if (!empty($restrict)) {
+    $q->condition('a.nid', $restrict, 'IN');
   }
-  $nids = array_unique($restrict);
   if (!empty($relevant_for)) {
-    // Check if the node is relevant for all selected 'relevant for' checkboxes.
-    $q2 = db_select('field_data_field_segment', 'b');
-    $q2->fields('b', array('entity_id'));
-    $q2->innerJoin('node', 'a', 'a.nid = b.entity_id');
-    $q2->condition('b.entity_id', $nids, 'IN');
-    $q2->condition('b.entity_type', 'node');
-    $q2->condition('b.field_segment_tid', $relevant_for, 'IN');
-    $nids = $q2->execute()->fetchCol();
-    $nids = array_unique($nids);
+    $q->innerJoin('field_data_field_segment', 'fs', 'fs.entity_id = a.nid AND fs.revision_id = a.vid');
+    $q->condition('fs.field_segment_tid', $relevant_for, 'IN');
   }
-  if (empty($nids)) {
-    return array();
-  }
+  $nids = $q->execute()->fetchCol();
+  $nids = array_unique($nids);
   $per_page = 5;
   $current_page = pager_default_initialize(count($nids), $per_page);
   $page = array_chunk($nids, $per_page, TRUE);

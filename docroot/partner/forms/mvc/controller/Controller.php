@@ -660,6 +660,11 @@ abstract class Controller {
     }
 
     public function savesessionajax() {
+        $params = Parameters::getInstance();
+        if($params->getUrlParamValue('locked')){
+            return false;
+        }
+        
         $session = Session::getInstance();
         $this->load();
         $attributes = $this->model->getAttributes();
