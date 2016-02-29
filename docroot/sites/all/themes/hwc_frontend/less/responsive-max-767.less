@@ -431,7 +431,7 @@ header.navbar-default{
 					border: none;
 					li{
 						margin-right: @margin-movil;
-						width: 90%
+						width: 100%
 					}
 				}
 			//}
@@ -633,38 +633,28 @@ header.navbar-default{
 	/*fin home*/
 
 	/* Article */
+
+	.node-article .field-name-field-image+.field-name-title-field{
+		background:#FFF;
+	}
+
 	.node-article{
 		.field-name-field-image + .field-name-title-field{
 			z-index: -1;
-			height: 345px;
-			position: absolute;
+			height: auto;
+			position: relative;
 			.field-items{
-				height: 345px;
 				.field-item{
-					height: 345px;
 					h1{
-						position: absolute;
-						bottom: 20px;
 						width: 100%;
+						padding-top:0px;
+						color:@color3;
 					}
 				}
 			}
 		}
 		.field.field-name-field-image{
-			width: 100%;
-			padding: 0px;
-			position: absolute;
-			/* top: 220px; */
-			left: 0px;
-			z-index: -2;
-			height: 345px;
-			overflow: hidden;
-			div{
-				height:100%;
-			}
-			img{
-				display:none
-			}
+			display:none
 		}
 
 		.field-name-field-recommended-articles .field.field-name-field-image img{
@@ -672,7 +662,7 @@ header.navbar-default{
 		}
 
 		.field-name-field-image + .field-name-title-field + .container, .field-name-field-image + .field-name-title-field + .field-name-body{
-			margin-top: 370px;
+			margin-top:0em;
 			&.active{
 				margin-top: 150px;
 			}
@@ -1195,6 +1185,17 @@ header.navbar-default{
 	}
 
 	//Gallery
+
+	#cboxTitle{
+	    p span {
+			display: none!important;
+		}
+	}
+
+	#cboxWrapper #cboxCurrent{
+		left: 62%;
+	}
+
 	.node-events .group-header > div.field-name-field-gallery{
 		margin-left: 0;
 		margin-right: 0;
@@ -1712,7 +1713,7 @@ header.navbar-default{
 	}
 	[class*="field-type-link"]{
 		text-align: center;
-		&[class*="facebook"], &[class*="twitter"], &[class*="slideshare"], &[class*="youtube"], &[class*="linkedin"]{
+		&[class*="facebook"], &[class*="twitter"], &[class*="slideshare"], &[class*="youtube"], &[class*="linkedin"], &[class*="google-plus"] , &[class*="pinterest"] {
 			background-position: center top;
 			padding-top: 2em;
 			margin-bottom: 0.5em;
@@ -1771,6 +1772,7 @@ header.navbar-default{
 		}
 		div{
 			text-align: center;
+			float:none;
 			img{
 				margin-left: auto !important;
 				margin-right: auto;
@@ -1862,7 +1864,6 @@ header.navbar-default{
 
 /*Plantilla employers*/
 .employers-section{
-	margin-top: 370px;
 	h3{
 		margin-top: 30px;
 	}
@@ -2091,6 +2092,7 @@ header.navbar-default{
 				&:before {
 					margin-right: 5px;
 					float: left;
+					padding: 7px;
 				}
 			}
 			> div {
@@ -2177,6 +2179,26 @@ header.navbar-default{
 
 header.navbar-default .campaigns-header .navbar-header .region-header #block-lang-dropdown-language, header.navbar-default .campaigns-header .navbar-header .region-header #block-menu-menu-header-login ~ #block-lang-dropdown-language{
 	bottom: -9px;
+}
+
+
+/*news*/
+.view-news{
+	.views-row{
+		padding-left: @margin-movil;
+    	padding-right: @margin-movil;
+
+	}
+}
+
+.view-frontpage-events .views-row {
+	padding-left: @margin-movil;
+   	padding-right: @margin-movil;
+
+}
+
+.form-type-checkbox label{
+	white-space: initial;
 }
 
 }

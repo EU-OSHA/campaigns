@@ -405,5 +405,8 @@ a:after{
 	display:none;
 }
 
+.top_anchor{
+	display:none!important;
+}
 
 }
