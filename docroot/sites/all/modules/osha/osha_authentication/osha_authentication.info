@@ -18,7 +18,6 @@ features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:2
 features[ldap_authorization][] = drupal_role
 features[variable][] = ldap_authentication_conf
-features[variable][] = ldap_servers_encryption
 features[variable][] = ldap_servers_require_ssl_for_credentails
 features[variable][] = ldap_user_conf
 files[] = osha_authentication.admin.inc
