@@ -58,7 +58,7 @@ function site_map_update_7001() {
  */
 function site_map_update_7002() {
   $vids = array_filter(variable_get('site_map_show_vocabularies', array()));
- 
+
   if (module_exists('taxonomy') && !empty($vids)) {
     $vocab_options = array();
     foreach ($vids as $vid) {

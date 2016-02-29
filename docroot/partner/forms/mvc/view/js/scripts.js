@@ -74,7 +74,8 @@ function addSN(args)
 		
 //		alert("You can not select more than  " + maxEachSN + " type of social network");
                 $("#maxSocialNetDialog").removeClass('hidden');
-                document.location.href = "#top";
+//                document.location.href = "#top";
+                document.body.scrollTop = document.documentElement.scrollTop = 0;
 	}
 }
 function delSN(args)
@@ -131,6 +132,31 @@ function delSN(args)
 /*Método para deshabilitar las redes sociales. Nos apoyamos en un 
  * campo similar, ya que los deshabilitados van por attributes de PHP y ente caso no es válido. */
 window.onload = function () {
+    if(window.parent.document.getElementsByClassName("loader").length > 0){
+        window.parent.document.getElementsByClassName("loader")[0].className += " hidden";
+    }
+    if(window.parent.document.getElementsByClassName("iframe-partnership").length > 0){
+        window.parent.document.getElementsByClassName("iframe-partnership")[0].className = "iframe-partnership";
+    }
+    if(window.parent.document.getElementsByClassName("iframe-update").length > 0){
+        window.parent.document.getElementsByClassName("iframe-update")[0].className = "iframe-update";
+    }
+    if(document.activeElement.id == "company_osh_orgname" || document.activeElement.id == "involvement_osh_tobeanocponhwc" || document.activeElement.id == "contact_osh_maincontactpersonfirstname"){
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
+    }
+    if($("#container-message").length > 0){
+        var height = $("#MESSAGE").height()+30;
+        if($("#ORGANISATION").length > 0){
+            $("#ORGANISATION").css("padding-top", height);
+        }else if($("#BECOME").length > 0){
+            $("#BECOME").css("padding-top", height);
+        }else if($("#PRIMARY_CONTACT").length > 0){
+            $("#PRIMARY_CONTACT").css("padding-top", height);
+        }else if($("#INVOLVEMENT").length > 0){
+            $("#INVOLVEMENT").css("padding-top", height);
+        }
+        
+    }
     if($("#company_osh_homepage").prop("disabled")){
          $("#company_osh_selectsocialnetworks").prop("disabled", "disabled");
          $("#socialNetworkTextBox").prop("disabled", "disabled");
@@ -138,7 +164,7 @@ window.onload = function () {
          $("#plusSN").prop("disabled", "disabled");
     }
     $("body").css("cursor", "default");
-    if($('.validation:visible').length > 0){
+    if($('.validation').length > 0 && $('.validation').css('display') != 'none'){
         if($('#osh_aboutyourorgsection').val() == true || $('#osh_aboutyourorgsection').val() == "true"){
             checkSectionsByCDB("ORGANISATION");
         }
@@ -164,14 +190,14 @@ window.onload = function () {
             checkSectionsByCDB("PRIMARY_CONTACT");
         }
     }
-    if(window.parent.document.getElementsByClassName("loader").length > 0){
-        window.parent.document.getElementsByClassName("loader")[0].className += " hidden";
-    }
-    if(window.parent.document.getElementsByClassName("iframe-partnership").length > 0){
-        window.parent.document.getElementsByClassName("iframe-partnership")[0].className = "iframe-partnership";
-    }
-    if(window.parent.document.getElementsByClassName("iframe-update").length > 0){
-        window.parent.document.getElementsByClassName("iframe-update")[0].className = "iframe-update";
+    if($(".combined-textbox").length > 0){
+        $(".combined-textbox").each(function (id, item) {
+        if($(item).val() == "Yes."){
+            $('#'+$(item).attr("id")).css({
+                    'color': 'white'
+                });
+            }
+        });
     }
 }
 function checkSectionsByCDB(dataSection){
@@ -676,14 +702,16 @@ $(document).ready(function () {
                     $(".main-form select[data-error='true']").length) {
 //                    alert("Error: Some fields contain errors");
                     $("#dataErrorDialog").removeClass('hidden');
-                    document.location.href = "#top";
+//                    document.location.href = "#top";
+                    document.body.scrollTop = document.documentElement.scrollTop = 0;
                     styleChange(true);
                     e.preventDefault();
                     return false;
                 } else if (!checkRequiredFields()) {
 //                    alert("Error: You must fill all the required fields");
                     $("#fillRequiredDialog").removeClass('hidden');
-                    document.location.href = "#top";
+//                    document.location.href = "#top";
+                    document.body.scrollTop = document.documentElement.scrollTop = 0;
                     styleChange(true);
                     e.preventDefault();
                     return false;
@@ -897,7 +925,8 @@ $(document).ready(function () {
              }else{
 //                alert("Section check cannot be checked until the mandatory fields are filled");
                 $("#checkFieldsDialog").removeClass('hidden');
-                document.location.href = "#top";
+//                document.location.href = "#top";
+                document.body.scrollTop = document.documentElement.scrollTop = 0;
                 }
         }
         
@@ -965,7 +994,8 @@ $(document).ready(function () {
                 $("#contact_osh_mainemailAux").val() == ''){
 //            alert("The fields Company/Organisation name and E-mail of the Primary Contact are required for save the information");
             $("#nameandemailrequiredDialog").removeClass('hidden');
-            document.location.href = "#top";
+//            document.location.href = "#top";
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
         }else{   
         $("#form form").attr("action", newAction);
         $("#form form").submit();
@@ -1110,19 +1140,32 @@ $(document).ready(function () {
         }else{
             if($(target).val() == ""){
                 $(target).val("Yes.");
+                $(target).css({
+                    'color': 'white'
+                    });
             }
             $(target).css({
             'margin-top': '1%'
             });
         }
     });
+    $(".combined-textbox").click(function () {
+        var target = "#" + $(this).attr("id");
+        $(target).css({
+                    'color': '#003399'
+                    });
+    });
     
     
      $(".close").click(function (e) {
-         $("#container-message").addClass('hidden');
-         //Insert a class in a static object.
+        $("#container-message").addClass('hidden');
+        //Insert a class in a static object.
+        $("#helpMessage").val("false");
+        $("#ORGANISATION").css("padding-top", 0);
+        $("#BECOME").css("padding-top", 0);
+        $("#PRIMARY_CONTACT").css("padding-top", 0);
+        $("#INVOLVEMENT").css("padding-top", 0);
          
-         $("#helpMessage").val("false");
      });
      if($("#helpMessage").val()== "false"){
          $("#container-message").addClass('hidden');
@@ -1397,7 +1440,8 @@ $(document).ready(function () {
         window.print();
      });
     $(".company_osh_ceoimage_popup-modal").click(function (e) {
-        document.location.href = "#top";
+//        document.location.href = "#top";
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
      });
      
      //Redirect to the private zone from congrats.
@@ -1421,7 +1465,7 @@ $(document).ready(function () {
      if($(".thank-you").length){
          $(".row").css("float","left");
          $(".row").css("margin-left","-30px");
-         $(document).scrollTop(0);
+         document.body.scrollTop = document.documentElement.scrollTop = 0;
      }
      
     function validateEmail(email) {
@@ -1559,9 +1603,7 @@ $(document).ready(function () {
             document.location.href = "?route=contact";
         }
     });
-//     $(".upArrow").click(function (e) {
-//        window.top.location.href = "#top";
-//    });
+
 if($("#contact_osh_mainemail").prop("disabled")){
     $('#contact_osh_mainemail').parent().append('<p class="help-block">This field cannot be directly changed in the form. If you want to modify it, please, contact EU-OSHA in partners@healthy-workplaces.eu</p>');
 }

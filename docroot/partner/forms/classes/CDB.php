@@ -57,7 +57,12 @@ final class CDB
         }
         // Load the data of the dropDowns
         if ($inst->cdbMap) {
-            $inst->loadDropdownsData();
+            $params = Parameters::getInstance();
+            error_log("ROUTE: " . $params->get('route'));
+            if(!$inst->dropdowns['company_osh_orgtype']['values'] && !$inst->dropdowns['company_osh_bussinessector']['values']
+                    && !$inst->dropdowns['company_osh_osh_appform_osh_country']['values'] && !$inst->dropdowns['company_osh_country']['values']){
+                $inst->loadDropdownsData();
+            }
         }
 
         return $inst;
@@ -238,7 +243,12 @@ final class CDB
         
             //Insertamos una variable para mostrar el check del main contact change.
             $_SESSION['mainContactChangeCheck'] = true;
-            
+            if(isset($response['osh_mainemail']) && $response['osh_mainemail'] != ""){
+                $response['contact_osh_mainemailAux'] = $response['osh_mainemail'];
+            }
+            if(isset($response['osh_orgname']) && $response['osh_orgname'] != ""){
+                $response['company_osh_orgnameAux'] = $response['osh_orgname'];
+            }
             foreach ($this->cdbMap as $htmlName => $cdbName) {
                 if (isset ($response[$cdbName])) {
                     if (is_array($response[$cdbName]) && isset($response[$cdbName]['Name'])) {

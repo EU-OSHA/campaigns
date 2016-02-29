@@ -33,3 +33,11 @@ function hwc_partner_update_7004() {
   locale('Partner´s News');
   locale('Partner´s Events');
 }
+
+function hwc_partner_update_7005() {
+  _osha_tmgmt_add_translations_to_identical_strings('Campaign partners');
+  _osha_tmgmt_add_translations_to_identical_strings('Media partners');
+  _osha_tmgmt_add_translations_to_identical_strings('National focal points');
+  _osha_tmgmt_add_translations_to_identical_strings('Healthy Workplaces for All Ages');
+  _osha_tmgmt_add_translations_from_strings_to_terms('organisation_type');
+}

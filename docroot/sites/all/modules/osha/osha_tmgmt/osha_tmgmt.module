@@ -2700,3 +2700,95 @@ function osha_tmgmt_literal_get_translation($string) {
     return t($string); // Applies only to english untranslated strings
   }
 }
+
+/**
+ * Add translations to identicals strings that are missing translations.
+ */
+function _osha_tmgmt_add_translations_to_identical_strings($source) {
+  $trans_query = db_select('locales_target', 'lt');
+  $trans_query->innerJoin('locales_source', 'ls', 'ls.lid=lt.lid');
+  $trans_query->fields('lt', array('lid', 'translation', 'language'));
+  $trans_query->fields('ls', array('source', 'context'));
+  $trans_query->condition('ls.source', $source);
+  $trans_result = $trans_query->execute();
+
+  while ($row = $trans_result->fetchAssoc()) {
+    $identical = db_query(
+      'SELECT lid FROM {locales_source} WHERE source = :source AND lid <> :lid',
+      array('source' => $row['source'], 'lid' => $row['lid'])
+    )->fetchCol();
+    foreach ($identical as $ilid) {
+      $exists = db_query("SELECT COUNT(lid) FROM {locales_target} WHERE lid = :lid AND language = :language", array(':lid' => $ilid, ':language' => $row['language']))
+        ->fetchField();
+      // @todo Only singular strings are managed here, we should take care of
+      //   plural information of processed string.
+      if (!$exists) {
+        $fields = array(
+          'lid' => $ilid,
+          'language' => $row['language'],
+          'translation' => $row['translation'],
+        );
+        db_insert('locales_target')
+          ->fields($fields)
+          ->execute();
+      }
+//      else {
+//        $fields = array(
+//          'translation' => $row['translation'],
+//        );
+//        db_update('locales_target')
+//          ->fields($fields)
+//          ->condition('lid', $ilid)
+//          ->condition('language', $row['language'])
+//          ->execute();
+//      }
+    }
+  }
+}
+
+
+/**
+ * Add translations to identicals strings that are missing translations.
+ */
+function _osha_tmgmt_add_translations_from_terms_to_strings($voc_name) {
+  $voc = taxonomy_vocabulary_machine_name_load($voc_name);
+  $terms = taxonomy_term_load_multiple(array(), array('vid' => $voc->vid));
+
+  foreach ($terms as $term) {
+    _osha_tmgmt_add_translations_to_identical_strings($term->name);
+  }
+}
+
+/**
+ * Add translations to identicals strings that are missing translations.
+ */
+function _osha_tmgmt_add_translations_from_strings_to_terms($voc_name) {
+  $voc = taxonomy_vocabulary_machine_name_load($voc_name);
+  $terms = taxonomy_term_load_multiple(array(), array('vid' => $voc->vid));
+
+  foreach ($terms as $term) {
+    $trans_query = db_select('locales_target', 'lt');
+    $trans_query->innerJoin('locales_source', 'ls', 'ls.lid=lt.lid');
+    $trans_query->fields('lt', array('lid', 'translation', 'language'));
+    $trans_query->fields('ls', array('source', 'context'));
+    $trans_query->condition('ls.source', $term->name);
+    $trans_result = $trans_query->execute();
+    $handler = entity_translation_get_handler('taxonomy_term', $term);
+    while ($row = $trans_result->fetchAssoc()) {
+        $term->name_field[$row['language']][0]['value'] = $row['translation'];
+      foreach($term->name_field as $lang => $data) {
+        if (empty($term->translations->data[$lang])) {
+          $handler->setTranslation(array(
+            'language' => $row['language'],
+            'source' => 'en',
+            'status' => 1,
+            'translate' => 0,
+            'uid' => 1,
+          ));
+        }
+      }
+    }
+    $handler->saveTranslations();
+    taxonomy_term_save($term);
+  }
+}

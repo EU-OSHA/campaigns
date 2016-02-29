@@ -201,9 +201,9 @@ function hwc_partner_block_view($delta = '') {
           $url_options = array('query' => array('workbench_access' => $id_section));
         }
         $block['content'] = theme('hwc_partner_private_link_' . $it, array(
-            'hwc_partner_private_link_title' => l(t(variable_get('hwc_partner_private_link_' . $it . '_title')), $url, $url_options),
-            'hwc_partner_private_link_description' => t(variable_get('hwc_partner_private_link_' . $it . '_description')),
-            'hwc_partner_private_link_link_text' => l(t(variable_get('hwc_partner_private_link_' . $it . '_link_text')), $url),
+            'hwc_partner_private_link_title' => l(variable_get('hwc_partner_private_link_' . $it . '_title'), $url, $url_options),
+            'hwc_partner_private_link_description' => variable_get('hwc_partner_private_link_' . $it . '_description'),
+            'hwc_partner_private_link_link_text' => l(variable_get('hwc_partner_private_link_' . $it . '_link_text'), $url),
             'node' => $node,
             'delta' => $delta,
           )
@@ -273,6 +273,22 @@ function hwc_partner_views_pre_render(&$view) {
       $view->display_handler->set_option('link_display', 'custom_url');
       $view->display_handler->set_option('link_url', 'events');
     }
+  }
+  if ($view->name == 'partners_list' && $view->current_display == 'fop') {
+    global $language;
+    $results = &$view->result;
+    // Sort the results by country name (using UTF-8).
+    uasort($results, function($a, $b) use ($language) {
+      if(class_exists('Collator')) { // requires php-intl extension
+        $collator = new \Collator($language->language);
+        return $collator->compare($a->field_name_field[0]['rendered']['#markup'], $b->field_name_field[0]['rendered']['#markup']);
+      }
+      else { // sorting in some languages (greek) are wrong
+        $str1 = htmlspecialchars($a->field_name_field[0]['rendered']['#markup']);
+        $str2 = htmlspecialchars($b->field_name_field[0]['rendered']['#markup']);
+        return strcmp($str1, $str2);
+      }
+    });
   }
 }
 
@@ -525,9 +541,9 @@ function hwc_partner_node_view($node, $view_mode, $langcode) {
     }
     if (!empty($loginshell)) {
       $link_parameters['query']['session_id'] = $loginshell;
-      $update_title = '<div class="hwc-partner-private-link-block-title">' . l(t('Update profile'), 'private/profile/update', $link_parameters) . '</div>';
+      $update_title = '<div class="hwc-partner-private-link-block-title">' . l('Update profile', 'private/profile/update', $link_parameters) . '</div>';
       $update_content = '<div class="hwc-partner-private-link-block-description">'
-        . t('Any modifications in your public profile? <a href="!link">Click here to update it.</a>', array('!link' => url('private/profile/update', $link_parameters)))
+        . strtr('Any modifications in your public profile? <a href="!link">Click here to update it.</a>', array('!link' => url('private/profile/update', $link_parameters)))
         . '</div>';
       $node->content['profile_update_link'] = array(
         '#type' => 'markup',

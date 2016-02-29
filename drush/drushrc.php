@@ -576,6 +576,9 @@ $command_specific['devify'] = array(
     , (array) $cfg->variables),
 );
 
+// Set the password for devify.
+$command_specific['devify']['sanitize-password'] = !empty($cfg->sanitize_password) ? $cfg->sanitize_password : 'password';
+
 $command_specific['devify_solr'] = array(
   'solr_server' => (array) $cfg->solr_server,
 );

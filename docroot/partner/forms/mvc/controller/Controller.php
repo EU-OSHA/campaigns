@@ -436,7 +436,12 @@ abstract class Controller {
             }
             $route = $params->get('route');
             $nextRoute = isset($params->get('routes')[$route]['next']) ? $params->get('routes')[$route]['next'] : '';
-            header('Location: ' . APP_URL . '?route=' . $nextRoute);
+            if(isset($_SESSION['mf']) && $_SESSION['mf']== true){
+                 header('Location: ' . APP_URL . '?route=' . $nextRoute . "&mf=true");
+            }else{
+                 header('Location: ' . APP_URL . '?route=' . $nextRoute);
+            }
+           
             exit;
         } else {
             $url = "$_SERVER[REQUEST_URI]";
@@ -502,7 +507,7 @@ abstract class Controller {
                 }
 
                 
-            if (strpos($key, 'category') !== false || strpos($key, 'leads') !== false) {
+            if (strpos($key, 'category') !== false || strpos($key, 'leads') !== false || $key == "contact_osh_mainemailAux" || $key == "company_osh_orgnameAux") {
                 // Don't send neither category and osh_leads field.
                 continue;
                 

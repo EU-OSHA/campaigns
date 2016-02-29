@@ -641,7 +641,7 @@ function hwc_node_view($node, $view_mode, $langcode) {
     if ($show_registration) {
       $body = str_replace(
         '<!-- PLACEHOLDER-REGISTER-DO-NOT-REMOVE -->',
-        '<a class="btn-become-a-campaign-partner" href="/partner/register">Become a campaign partner</a>',
+        '<a class="btn-become-a-campaign-partner" href="/partner/register">' . t('Become a campaign partner') . '</a>',
         $body
       );
     }
@@ -805,7 +805,7 @@ function _hwc_segment_options_list() {
   $return = array('0' => t('All audience'));
   $vocabulary = taxonomy_vocabulary_machine_name_load('segment');
   if (!empty($vocabulary)) {
-    $terms = taxonomy_get_tree($vocabulary->vid);
+    $terms = taxonomy_term_load_multiple(array(), array('vid' => $vocabulary->vid));
     foreach($terms as $key => $term) {
       $return[$term->tid] = $term->name;
     }
@@ -956,6 +956,18 @@ function hwc_partner_registration_allowed() {
   }
   return $ret;
 }
+
+/**
+ * Implements hook_webform_component_render_alter().
+ */
+function hwc_webform_component_render_alter(&$element, &$component) {
+  if ($component['cid'] == 9) {
+    // Add description link.
+    $link = l(t('Privacy notice'), 'privacy-policy-certificate-participation', array('attributes'=> array('target' => '_blank')));
+    $element['#description'] = str_replace('[PRIVACY_NOTICE]', $link, $element['#description']);
+  }
+}
+
 
 /**
  * Implements hook_term_presave().

@@ -1178,7 +1178,8 @@ function osha_newsletter_format_body($text) {
     foreach ($dom->getElementsByTagName('a') as $href) {
       $style = $href->getAttribute('style');
       if(empty($style)) {
-        $href->setAttribute('style', 'color:#003399;text-decoration:none;font-family:Arial,sans-serif;font-size:12px;font-weight:bold; display:none;');
+//        $href->setAttribute('style', 'color:#003399;text-decoration:none;font-family:Arial,sans-serif;font-size:12px;font-weight:bold; display:none;');
+        $href->setAttribute('style', 'color:#003399;text-decoration:none;font-family:Arial,sans-serif;font-size:12px;font-weight:bold;');
       }
     }
     $html = OshaTMGMTRetranslate::getDOMNodeList($dom->saveHTML());

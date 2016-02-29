@@ -4,6 +4,14 @@ include_once 'hwc_menu.features.inc';
 define('HWC_MENU_RENDER_IMG_VAR_NAME', 'render_menu_image');
 
 /**
+ * Implements hook_menu_alter().
+ */
+function hwc_menu_menu_alter(&$items) {
+  // Make Contact title translatable.
+  $items['contact']['title callback'] = FALSE;
+}
+
+/**
  * Implements hook_block_configure_alter().
  */
 function hwc_menu_menu_block_configure_form_alter(&$form, &$form_state) {

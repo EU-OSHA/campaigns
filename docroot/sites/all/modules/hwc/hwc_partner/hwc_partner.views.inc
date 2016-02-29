@@ -27,6 +27,7 @@ function hwc_partner_views_data_alter(&$data) {
       'handler' => 'hwc_partner_handler_filter_node_is_cpm_assigned',
     ),
   );
+  $data['workbench_moderation_node_history']['state']['field']['handler'] = 'hwc_partner_workbench_moderation_handler_field_state';
 }
 
 

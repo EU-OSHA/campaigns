@@ -175,3 +175,163 @@ function hwc_update_7006() {
 function hwc_update_7007() {
   variable_set('site_404', 'page-not-found');
 }
+
+/**
+ * Finish job #3
+ */
+function hwc_update_7008() {
+  db_update('tmgmt_job_item')
+    ->fields(array('state' => TMGMT_JOB_ITEM_STATE_ACCEPTED))
+    ->condition('tjid', 3)
+    ->condition('state', TMGMT_JOB_ITEM_STATE_ACTIVE)
+    ->execute();
+
+  db_update('tmgmt_job')
+    ->fields(array('state' => TMGMT_JOB_STATE_FINISHED))
+    ->condition('tjid', 3)
+    ->execute();
+}
+
+/**
+ * Add translations from strings to voc: segment.
+ */
+function hwc_update_7009() {
+  _osha_tmgmt_add_translations_from_strings_to_terms('segment');
+}
+
+/**
+ * Fix "Other" literal string and translations (empty spaces).
+ */
+function hwc_update_7010() {
+  db_update('locales_source')
+    ->fields(array('source' => 'Other'))
+    ->condition('lid', 16570)
+    ->execute();
+
+  db_query("
+    UPDATE locales_target
+    SET translation = REPLACE(TRIM(translation), CHAR(9), '')
+    WHERE lid=16570")->execute();
+}
+
+
+/**
+ * Add translations to some new lid strings.
+ */
+function hwc_update_7011() {
+  $strings = array(
+    'Become a campaign partner',
+    'Privacy notice',
+    'Other',
+  );
+
+  foreach ($strings as $string) {
+    locale($string, '', 'bg');
+    _osha_tmgmt_add_translations_to_identical_strings($string);
+  }
+
+  $data = array(
+    'textgroup' => 'menu',
+    'location' => 'menu:item:2495:title',
+    'context' => 'item:2495:title',
+    'type' => 'item',
+    'string' => 'Campaign materials',
+    'objectid' => 2495,
+    'objectkey' => 2495,
+    'property' => 'title',
+  );
+  $i18nstring = new i18n_string_object($data);
+  $i18nstring->update();
+
+  $data = array(
+    'textgroup' => 'menu',
+    'location' => 'menu:item:2495:title',
+    'context' => 'item:2495:title',
+    'type' => 'item',
+    'string' => 'Campaign materials',
+    'objectid' => 2495,
+    'objectkey' => 2495,
+    'property' => 'title',
+  );
+  $i18nstring = new i18n_string_object($data);
+  $i18nstring->update();
+
+  $data = array(
+    'textgroup' => 'menu',
+    'location' => 'menu:item:2742:title',
+    'context' => 'item:2742:title',
+    'type' => 'item',
+    'string' => 'Site map',
+    'objectid' => 2742,
+    'objectkey' => 2742,
+    'property' => 'title',
+  );
+  $i18nstring = new i18n_string_object($data);
+  $i18nstring->update();
+
+  $data = array(
+    'textgroup' => 'menu',
+    'location' => 'menu:item:2743:title',
+    'context' => 'item:2743:title',
+    'type' => 'item',
+    'string' => 'Contact',
+    'objectid' => 2743,
+    'objectkey' => 2743,
+    'property' => 'title',
+  );
+  $i18nstring = new i18n_string_object($data);
+  $i18nstring->update();
+
+  $data = array(
+    'textgroup' => 'menu',
+    'location' => 'menu:item:11667:title',
+    'context' => 'item:11667:title',
+    'type' => 'item',
+    'string' => 'Campaign materials',
+    'objectid' => 11667,
+    'objectkey' => 11667,
+    'property' => 'title',
+  );
+  $i18nstring = new i18n_string_object($data);
+  $i18nstring->update();
+
+  $strings = array(
+    'Campaign materials',
+    'Site map',
+    'Contact',
+  );
+  foreach ($strings as $string) {
+    _osha_tmgmt_add_translations_to_identical_strings($string);
+  }
+
+  // Clear locale caches.
+  _locale_invalidate_js();
+}
+
+/**
+ * Certificate page breadcrumb literals.
+ */
+function hwc_update_7012() {
+  $strings = array(
+    'Get involved',
+    'Get your certificate of participation in the Healthy Workplace Campaign',
+  );
+
+  foreach ($strings as $string) {
+    locale($string, '', 'bg');
+    _osha_tmgmt_add_translations_to_identical_strings($string);
+  }
+}
+
+/**
+ * Add translation to Log in literal.
+ */
+function hwc_update_7013() {
+  $strings = array(
+    'Log in',
+  );
+
+  foreach ($strings as $string) {
+    _osha_tmgmt_add_translations_to_identical_strings($string);
+  }
+}

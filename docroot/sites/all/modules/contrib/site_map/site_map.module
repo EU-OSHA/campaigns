@@ -49,7 +49,7 @@ function site_map_theme() {
       'file' => 'site_map.theme.inc',
     ),
     'site_map_feed_icon' => array(
-      'variables' => array('url' => NULL, 'type' => 'node'),
+      'variables' => array('url' => NULL, 'name' => NULL, 'type' => 'node'),
       'file' => 'site_map.theme.inc',
     ),
     'site_map_menu_link' => array(
@@ -73,16 +73,16 @@ function site_map_theme() {
  */
 function site_map_menu() {
   $items['admin/config/search/sitemap'] = array(
-    'title' => 'Site map',
-    'description' => 'Control what should be displayed on the site map.',
+    'title' => t('Site map'),
+    'description' => t('Control what should be displayed on the site map.'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('site_map_admin_settings_form'),
     'access arguments' => array('administer site configuration'),
     'file' => 'site_map.admin.inc',
   );
   $items['sitemap'] = array(
-    'title' => 'Site map',
-    'description' => 'Display a site map with RSS feeds.',
+    'title callback' => '_site_map_title',
+    'description' => t('Display a site map with RSS feeds.'),
     'page callback' => 'site_map_page',
     'access arguments' => array('access site map'),
     'type' => MENU_SUGGESTED_ITEM,
@@ -91,6 +91,20 @@ function site_map_menu() {
   return $items;
 }
 
+/**
+ * Title callback for the sitemap page
+ *
+ * @param string $default
+ *   The default title that hook_menu provides.
+ * @return string
+ *   The actual title of the page (customized or not).
+ */
+function _site_map_title($default = NULL) {
+  // If there's a variable set, overriding the translatable title, use it.
+  // Otherwise, use the built-in one or one of its translations.
+  $var = variable_get('site_map_page_title', '');
+  return (strlen($var)) ? $var : t('Site map');
+}
 
 /**
  * Implements hook_variable_info().
@@ -99,14 +113,20 @@ function site_map_variable_info($options) {
   $variable['site_map_page_title'] = array(
     'type' => 'string',
     'title' => t('Site map title', array(), $options),
-    'description' => t('Page title that will be used on the <a href="@link">site map page</a>.', array('@link' => url('sitemap'))),
-    'default' => 'Site map',
+    'description' => t('Page title that will be used on the <a href="@link">site map page</a>. It should only be set to override the translatable built-in "Site map" title. Note: If you set something here, the title will no longer be translatable.', array('@link' => url('sitemap'))),
+    'default' => '',
   );
   $variable['site_map_message'] = array(
     'type' => 'text_format',
     'title' => t('Site map message'),
     'description' => t('Message that will be used on the <a href="@link">site map page</a>.', array('@link' => url('sitemap'))),
-    'default' => 'The site map provides an overview of all website content.',
+    'default' => t('The site map provides an overview of all website content.'),
+  );
+  $variable['site_map_show_menus'] = array(
+    'type' => 'string',
+    'title' => t('Menus to include in the site map', array(), $options),
+    'description' => t('Menus to include that will be used on the <a href="@link">site map page</a>.', array('@link' => url('sitemap'))),
+    'default' => array(),
   );
   $variable['site_map_rss_front'] = array(
     'type' => 'string',
@@ -166,7 +186,7 @@ function site_map_block_view($delta = '') {
  * Menu callback for the site map.
  */
 function site_map_page() {
-  drupal_set_title(variable_get('site_map_page_title', t('Site map')));
+  drupal_set_title(_site_map_title());
 
   if (variable_get('site_map_css', 0) != 1) {
     drupal_add_css(drupal_get_path('module', 'site_map') . '/site_map.theme.css');
@@ -190,9 +210,16 @@ function _site_map_front_page() {
   $output = l(t('Front page of %sn', array('%sn' => variable_get('site_name', 'Drupal'))), '<front>', array('html' => TRUE));
 
   if (variable_get('site_map_show_rss_links', 1) != 0) {
-    $rss_link = theme('site_map_feed_icon', array('url' => variable_get('site_map_rss_front', 'rss.xml')));
+    $rss_link = theme('site_map_feed_icon', array(
+        'url' => variable_get('site_map_rss_front', 'rss.xml'),
+        'name' => 'front page',
+      ));
     if (module_exists('commentrss') && variable_get('commentrss_site', COMMENTRSS_SITE_FRONT_PAGE)) {
-      $rss_link .= ' ' . theme('site_map_feed_icon', array('url' => 'crss', 'type' => 'comment'));
+      $rss_link .= ' ' . theme('site_map_feed_icon', array(
+          'url' => 'crss',
+          'name' => 'front page comments',
+          'type' => 'comment',
+        ));
     }
     if (variable_get('site_map_show_rss_links', 1) == 1) {
       $output .= ' ' . $rss_link;
@@ -232,7 +259,7 @@ function _site_map_blogs() {
 
     $blog_link = l(t('All blogs'), 'blog');
     if (variable_get('site_map_show_rss_links', 1) != 0) {
-      $rss_link = theme('site_map_feed_icon', array('url' => 'blog/feed'));
+      $rss_link = theme('site_map_feed_icon', array('url' => 'blog/feed', 'name' => 'all blogs'));
       if (variable_get('site_map_show_rss_links', 1) == 1) {
         $blog_link .= ' ' . $rss_link;
       }
@@ -268,7 +295,7 @@ function _site_map_blogs() {
         '@num_items' => $blog->numitems,
       ));
       if (variable_get('site_map_show_rss_links', 1) != 0) {
-        $rss_link = theme('site_map_feed_icon', array('url' => "blog/$blog->uid/feed"));
+        $rss_link = theme('site_map_feed_icon', array('url' => "blog/$blog->uid/feed", 'name' => $blog->name . '\'s blog'));
         if (variable_get('site_map_show_rss_links', 1) == 1) {
           $blog_item .= ' ' . $rss_link;
         }
@@ -308,7 +335,7 @@ function _site_map_audio() {
     $title = t('Audio');
     $output = l(t('Audio content'), 'audio');
     if (variable_get('site_map_show_rss_links', 1) != 0) {
-      $rss_link = theme('site_map_feed_icon', array('url' => 'audio/feed'));
+      $rss_link = theme('site_map_feed_icon', array('url' => 'audio/feed', 'name' => 'audio content'));
       if (variable_get('site_map_show_rss_links', 1) == 1) {
         $output .= ' ' . $rss_link;
       }
@@ -348,7 +375,7 @@ function _site_map_video() {
     $title = t('Video');
     $output = l(t('Video content'), 'video');
     if (variable_get('site_map_show_rss_links', 1) != 0) {
-      $rss_link = theme('site_map_feed_icon', array('url' => 'video/feed'));
+      $rss_link = theme('site_map_feed_icon', array('url' => 'video/feed', 'name' => 'video content'));
       if (variable_get('site_map_show_rss_links', 1) == 1) {
         $output .= ' ' . $rss_link;
       }
@@ -439,8 +466,14 @@ function _site_map_books() {
 function _site_map_menus() {
   $output = '';
   $options = array();
+
+  // Get the list of menus we'll be displaying.
   $mids = array_filter(variable_get('site_map_show_menus', array()));
 
+  // Allow other modules to alter it.
+  drupal_alter('site_map_menu_list', $mids);
+
+  // Iterate through each menu to render it.
   if (!empty($mids)) {
     foreach ($mids as $mid) {
       $class = array();
@@ -451,7 +484,8 @@ function _site_map_menus() {
         $tree = i18n_menu_localize_tree($tree, $GLOBALS['language']->language);
       }
 
-      // Add an alter hook so other modules can manipulate the menu tree prior to rendering
+      // Add an alter hook so that other modules can manipulate the
+      // menu tree prior to rendering.
       $alter_mid = preg_replace('/[^a-z0-9_]+/', '_', $mid);
       drupal_alter(array('site_map_menu_tree', 'site_map_menu_tree_' . $alter_mid), $tree, $menu);
 
@@ -563,18 +597,34 @@ function _site_map_taxonomy_tree($vid, $name = NULL, $description = NULL) {
     $threshold = variable_get('site_map_term_threshold', 0);
     $forum_link = FALSE;
   }
-  $title .= (module_exists('commentrss') && variable_get('commentrss_term', FALSE) ? ' ' . theme('site_map_feed_icon', array('url' => "crss/vocab/$vid", 'type' => 'comment')) : '');
+  $title .= (module_exists('commentrss') && variable_get('commentrss_term', FALSE) ? ' ' . theme('site_map_feed_icon', array('url' => "crss/vocab/$vid", 'name' => check_plain($name), 'type' => 'comment')) : '');
 
   $last_depth = -1;
 
   $output .= !empty($description) && variable_get('site_map_show_description', 1) ? '<div class="description">' . filter_xss_admin($description) . "</div>\n" : '';
 
+  // Get the depth.
   $site_map_categories_depth = variable_get('site_map_categories_depth') ? variable_get('site_map_categories_depth') : NULL;
   if ($site_map_categories_depth == 'all') {
     $site_map_categories_depth = NULL;
   }
-  // taxonomy_get_tree() honors access controls.
-  $tree = taxonomy_get_tree($vid, 0, $site_map_categories_depth);
+
+  // Get the tree in a form that respects access control and translations.
+  if (module_exists('i18n_taxonomy')) {
+    // Taxonomy Translation.
+    $tree = i18n_taxonomy_get_tree($vid, $GLOBALS['language']->language, 0, $site_map_categories_depth);
+  }
+  else if (module_exists('entity_translation')) {
+    // Entity Translation.
+    // Setting the last parameter has performance implications, but adds
+    // proper translation support: https://www.drupal.org/node/2418629.
+    $tree = taxonomy_get_tree($vid, 0, $site_map_categories_depth, TRUE);
+  }
+  else {
+    // If we don't care about translation, there's no need to lose performance.
+    $tree = taxonomy_get_tree($vid, 0, $site_map_categories_depth);
+  }
+
   foreach ($tree as $term) {
     $term->count = site_map_taxonomy_term_count_nodes($term->tid);
     if ($term->count <= $threshold) {
@@ -613,13 +663,17 @@ function _site_map_taxonomy_tree($vid, $name = NULL, $description = NULL) {
       $term_item .= check_plain($term->name);
     }
     if (variable_get('site_map_show_count', 1)) {
-      $term_item .= " ($term->count)";
+      $term_item .= " <span title=\"" . format_plural($term->count, '1 item has this tag', '@count items have this tag') . "\">(" . $term->count . ")</span>";
     }
 
     if (variable_get('site_map_show_rss_links', 1) != 0) {
-      $rss_link = theme('site_map_feed_icon', array('url' => 'taxonomy/term/' . $term->tid . '/feed'));
+      $rss_link = theme('site_map_feed_icon', array('url' => 'taxonomy/term/' . $term->tid . '/feed', 'name' => $term->name));
       if (module_exists('commentrss') && variable_get('commentrss_term', FALSE)) {
-        $rss_link .= ' ' . theme('site_map_feed_icon', array('url' => "crss/term/$term->tid", 'type' => 'comment'));
+        $rss_link .= ' ' . theme('site_map_feed_icon', array(
+            'url' => "crss/term/$term->tid",
+            'type' => 'comment',
+            'name' => $term->name . ' comments',
+          ));
       }
       if (variable_get('site_map_show_rss_links', 1) == 1) {
         $term_item .= ' ' . $rss_link;
@@ -630,7 +684,7 @@ function _site_map_taxonomy_tree($vid, $name = NULL, $description = NULL) {
       }
     }
 
-    // Add an alter hook so other modules can manipulate the taxonomy term output
+    // Add an alter hook for modules to manipulate the taxonomy term output.
     drupal_alter(array('site_map_taxonomy_term', 'site_map_taxonomy_term_' . $term->tid), $term_item, $term);
 
     $output .= $term_item;

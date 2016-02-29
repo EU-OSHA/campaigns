@@ -14,8 +14,14 @@ function site_map_admin_settings_form() {
   $form['site_map_page_title'] = array(
     '#type' => 'textfield',
     '#title' => t('Page title'),
-    '#default_value' => variable_get('site_map_page_title', t('Site map')),
-    '#description' => t('Page title that will be used on the <a href="@link">site map page</a>.', array('@link' => url('sitemap'))),
+    '#default_value' => variable_get('site_map_page_title', FALSE),
+    '#description' => t(
+      'Page title that will be used on the <a href="@link">site map page</a>. Leave blank for the default "Site map" in English. It will be available for translation in the <a href="@translation">translation interface</a> (after loading the site map page in another language) unless you override it here. After changing it, it will be necessary to wait for all caches to clear, or they will have to be cleared manually.',
+      array(
+        '@link' => url('sitemap'),
+        '@translation' => url('admin/config/regional/translate/translate'),
+      )
+    ),
   );
   // Field to set site map message.
   $site_map_message = variable_get('site_map_message', array('value' => '', 'format' => NULL));

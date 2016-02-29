@@ -214,7 +214,8 @@
     "contact_osh_otherusername3": "fullname3",
     "contact_osh_otherusermail3": "osh_otheruseremail3",
     "contact_osh_otheruserphone3": "osh_otheruserphone3",
-    "osh_primarycontactsection": "osh_primarycontactsection"
+    "osh_primarycontactsection": "osh_primarycontactsection",
+    "company_osh_orgnameAux": "company_osh_orgnameAux"
   },
   "map_mf": {
     "contact_osh_maincontactpersonfirstname": "firstname",

@@ -19,7 +19,7 @@
     <div class="separatorFieldSet">&nbsp;</div>
     
       <!--  {if !mf && $partner_type == "current"}<div>{$attributes.contact_osh_maincontactchange}</div>{/if}-->
- {if !$mf && $mainContactChangeCheck == true }<div>{$attributes.contact_osh_maincontactchange}</div>{/if} 
+ {if !$mf && $mainContactChangeCheck == true && $partner_type != "current"}<div>{$attributes.contact_osh_maincontactchange}</div>{/if} 
     <div class="main-contact-change">
         <div class="float-left">
             {$attributes.contact_osh_maincontactpersonfirstname}
@@ -29,7 +29,7 @@
         <div class="float-right">
             <!--{$attributes.contact_osh_mainphone} -->
             {$attributes.contact_osh_positionmaincontactperson}
-            {if $mf}
+            {if $mf || $partner_type == "current"}
                 <div class="disabledEmailForMF">
             {/if}
             {$attributes.contact_osh_mainemail}

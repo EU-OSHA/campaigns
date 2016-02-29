@@ -1,13 +1,3 @@
 <?php foreach ($items as $item): ?>
-  <a target="_blank" href="<?php print $item['url']; ?>" class="external-link">
-    <?php
-    if (strpos($item['url'],substr($item['title'], 0, -3)) === false) {
-      print $item['title'];
-    } else {
-      $name = ($language && isset($entity->title_field[$language->language][0]))
-        ? $entity->title_field[$language->language][0]['value']
-        : $entity->title_field['en'][0]['value'];
-      print $name;
-    }?>
-  </a>
+  <?php print l($entity->title, $item['url'], array('attributes' => array('class' => array('external_url'), 'target' => '_blank'))); ?>
 <?php endforeach; ?>

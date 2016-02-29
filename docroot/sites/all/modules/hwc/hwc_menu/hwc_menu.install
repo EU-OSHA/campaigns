@@ -1,0 +1,11 @@
+<?php
+
+/**
+ * Make segmentation menu translatable.
+ */
+function hwc_menu_update_7001() {
+  db_update('menu_custom')
+    ->fields(array('i18n_mode' => 5))
+    ->condition('menu_name', 'menu-information-tailored')
+    ->execute();
+}

@@ -74,13 +74,24 @@ function osha_events_form_events_node_form_alter(&$form, &$form_state) {
 
     $form['field_activity'][LANGUAGE_NONE] = $field;
   }
-  $form['body'][LANGUAGE_NONE][0]['summary']['#prefix'] = '<div class="text-summary-wrapper">';
-  $form['body'][LANGUAGE_NONE][0]['summary']['#suffix'] = '<span class="">' . t('Write a short summary. This will appear on the homepage of the campaign site. <strong>Max 420 characters</strong>.') . '</span></div>';
-  if (isset($form['field_related_documents'][LANGUAGE_NONE]['#file_upload_title'])) {
-    $form['field_related_documents'][LANGUAGE_NONE]['#file_upload_title'] = t('Upload extra files');
+  if (isset($form['body']['#language'])) {
+    $lang = $form['body']['#language'];
+    $form['body'][$lang][0]['summary']['#prefix'] = '<div class="text-summary-wrapper">';
+    $form['body'][$lang][0]['summary']['#suffix'] = '<span>' . t('Write a short summary. This will appear on the homepage of the campaign site. <strong>Max 420 characters</strong>.') . '</span></div>';
   }
-  $form['title_field'][LANGUAGE_NONE][0]['value']['#maxlength'] = 60;
-  $form['title_field'][LANGUAGE_NONE][0]['value']['#attributes']['maxlength_js_label'][0] = '@remaining' . ' ' . t('left', array(), array('context' => 'characters left'));
+
+  if (isset($form['field_related_documents']['#language'])) {
+    $lang = $form['field_related_documents']['#language'];
+    if (isset($form['field_related_documents'][$lang]['#file_upload_title'])) {
+      $form['field_related_documents'][$lang]['#file_upload_title'] = t('Upload extra files');
+    }
+  }
+
+  if (isset($form['title_field']['#language'])) {
+    $lang = $form['title_field']['#language'];
+    $form['title_field'][$lang][0]['value']['#maxlength'] = 60;
+    $form['title_field'][$lang][0]['value']['#attributes']['maxlength_js_label'][0] = '@remaining' . ' ' . t('left', array(), array('context' => 'characters left'));
+  }
 }
 
 /**

@@ -57,6 +57,28 @@ function hwc_homepage_block_configure($delta = '') {
   return $form;
 }
 
+/**
+ * Implements hook_form_alter().
+ */
+function hwc_homepage_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'block_admin_configure'
+    && !empty($form['delta']['#value'])
+    && $form['delta']['#value'] == 'menu-information-tailored') {
+    $form['intro_text'] = array(
+      '#type' => 'textarea',
+      '#title' => 'Introductive text',
+      '#default_value' => variable_get('menu_information_tailored_intro_text', 'We provide information specifically for the following groups, to enable everyone to get involved in the campaign in a way that makes sense for them'),
+      '#weight' => -1,
+    );
+    $form['#submit'][] = 'hwc_homepage_info_tailored_intro_text';
+  }
+}
+
+function hwc_homepage_info_tailored_intro_text($form, &$form_state) {
+  $intro_text = $form_state['values']['intro_text'];
+  variable_set('menu_information_tailored_intro_text', $intro_text);
+}
+
 
 /**
  * Implements hook_block_save().
@@ -88,7 +110,7 @@ function hwc_homepage_block_view($delta = '') {
 
 function hwc_homepage_panels_pane_content_alter($content, $pane, $args, $contexts) {
   if (!empty($pane->subtype) && $pane->subtype == 'menu-menu-information-tailored') {
-    $intro_text = t('We provide information specifically for the following groups, to enable everyone to get involved in the campaign in a way that makes sense for them');
+    $intro_text = t(variable_get('menu_information_tailored_intro_text', 'We provide information specifically for the following groups, to enable everyone to get involved in the campaign in a way that makes sense for them'));
     $content->content['#prefix'] = '<p>' . $intro_text . '</p>';
   }
 }

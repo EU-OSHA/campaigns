@@ -53,7 +53,7 @@ function osha_publication_menu_publications_form($form, $form_state) {
   );
   $form['left-column']['languages'] = array(
     '#type' => 'checkboxes',
-    '#options' => osha_language_list_options(),
+    '#options' => osha_language_list_options(TRUE),
     '#default_value' => $languages,
     '#title' => t('Publications are available in several languages'),
   );
@@ -239,7 +239,7 @@ function osha_publication_menu_publications_search_related($form_state, $native_
   if (empty($nids)) {
     return array();
   }
-  $per_page = 2;
+  $per_page = 3;
   $current_page = pager_default_initialize(count($nids), $per_page, 1);
   $page = array_chunk($nids, $per_page, TRUE);
   $nodes = node_load_multiple($page[$current_page]);
@@ -419,7 +419,7 @@ function _publication_type_options_list() {
   $return = array('0' => t('All types'));
   $vocabulary = taxonomy_vocabulary_machine_name_load('publication_types');
   if (!empty($vocabulary)) {
-    $terms = taxonomy_get_tree($vocabulary->vid);
+    $terms = taxonomy_term_load_multiple(array(), array('vid' => $vocabulary->vid));
     foreach ($terms as $key => $term) {
       $return[$term->tid] = $term->name;
     }

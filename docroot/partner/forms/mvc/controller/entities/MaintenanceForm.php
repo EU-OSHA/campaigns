@@ -62,6 +62,7 @@ class MaintenanceForm extends Controller implements IController, IForm {
             $contentArray = array(
                 'appurl' => APP_URL . '?route=' . $params->get('route'),
                 'homeurl' => APP_URL,
+                'httpHost' => HTTP_HOST,
                 'title' => $params->get('title'),
                 'hideButtons' => true,
                 'fullwidth' => true,

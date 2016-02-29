@@ -406,6 +406,21 @@ function osha_publication_theme() {
   );
 }
 
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function osha_publication_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'ctools' && $plugin_type == 'content_types') {
+    return 'plugins/' . $plugin_type;
+  }
+}
+
+function osha_publication_panels_pre_render($panels_display, $renderer) {
+  if (strpos($panels_display->cache_key, 'panel_context:node_view::node_view__publication_detail') == 0) {
+  }
+}
+
 /**
  * Implements hook_field_formatter_view().
  */

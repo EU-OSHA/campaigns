@@ -178,3 +178,4 @@ features[variable][] = pathauto_node_partner_pattern
 features[views_view][] = partner_content
 features[views_view][] = partner_draft_content
 features[views_view][] = partners_list
+files[] = includes/workbench_moderation_handler_field_state.inc

@@ -66,6 +66,11 @@ function hwc_default_page_manager_pages() {
       ),
     ),
     'relationships' => array(),
+    'panels_breadcrumbs_state' => 1,
+    'panels_breadcrumbs_titles' => 'Get involved
+Get your certificate of participation in the Healthy Workplace Campaign',
+    'panels_breadcrumbs_paths' => '',
+    'panels_breadcrumbs_home' => 1,
   );
   $display = new panels_display();
   $display->layout = 'practical_tool_details';

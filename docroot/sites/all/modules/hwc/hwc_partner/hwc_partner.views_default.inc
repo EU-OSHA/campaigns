@@ -96,7 +96,7 @@ function hwc_partner_views_default_views() {
   /* Display: Latest partner news */
   $handler = $view->new_display('block', 'Latest partner news', 'latest_partner_news');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Partner\'s News';
+  $handler->display->display_options['title'] = 'Partner News';
   $handler->display->display_options['defaults']['use_more'] = FALSE;
   $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['defaults']['use_more_always'] = FALSE;
@@ -190,7 +190,7 @@ function hwc_partner_views_default_views() {
   /* Display: Latest partner events */
   $handler = $view->new_display('block', 'Latest partner events', 'latest_partner_events');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Partner\'s Events';
+  $handler->display->display_options['title'] = 'Partner Events';
   $handler->display->display_options['defaults']['use_more'] = FALSE;
   $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['defaults']['use_more_always'] = FALSE;
@@ -310,11 +310,11 @@ function hwc_partner_views_default_views() {
     t('Get the actual content from a content revision.'),
     t('All'),
     t('Latest partner news'),
-    t('Partner\'s News'),
+    t('Partner News'),
     t('See all news'),
     t('News'),
     t('Latest partner events'),
-    t('Partner\'s Events'),
+    t('Partner Events'),
     t('See all events'),
     t('Events'),
   );

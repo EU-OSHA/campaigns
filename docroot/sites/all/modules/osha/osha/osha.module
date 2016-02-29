@@ -362,11 +362,16 @@ function osha_language_list($osha_sorted = FALSE) {
   return $languages;
 }
 
-function osha_language_list_options() {
+function osha_language_list_options($native = FALSE) {
   $languages = osha_language_list();
   $return = array();
   foreach ($languages as $lang => $language) {
-    $return[$lang] = $language->name;
+    if ($native) {
+      $return[$lang] = $language->native;
+    }
+    else {
+      $return[$lang] = $language->name;
+    }
   }
   return $return;
 }
