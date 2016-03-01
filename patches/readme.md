@@ -7,6 +7,10 @@ When patching a contrib module, the following steps should be followed:
 
 List of patches (most recent first)
 
+* tmgmt
+  * Compare cart against the database and refresh the session.
+  * patches/tmgmt/tmgmt-cart-init-session-vs-db.patch
+
 * workbench_moderation
   * menu_get_object to load the current version when used in /draft page
   * patches/workbench_moderation/2021903-workbench_moderation-menu_get_object-fix.patch
