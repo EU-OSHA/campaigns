@@ -58,14 +58,20 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
     $this->state = TMGMT_JOB_ITEM_STATE_REVIEW;
     global $user;
     $this->save();
-    $this->addMessage('@name approved the Layout. Job item is now "@state". Message: @message',
-    array(
-      '@name' => $user->name,
-      '@state' => osha_tmgmt_get_job_item_state_label(TMGMT_JOB_ITEM_STATE_REVIEW),
-      '@message' => $message,
-    ));
+    $this->addMessage('@name approved the layout'.
+        ' for job item @tjiid, item @item_id (@bundle), language @lang. '.
+        'Status is now "@state". Message: @message',
+      array(
+        '@name' => $user->name,
+        '@state' => osha_tmgmt_get_job_item_state_label(TMGMT_JOB_ITEM_STATE_REVIEW),
+        '@message' => $message,
+        '@tjiid' => $this->tjiid,
+        '@item_id' => $this->item_id,
+        '@bundle' => $this->item_type,
+        '@lang' => strtoupper($this->target_language),
+      ));
     OshaWorkflowNotifications::notifyTranslationLayoutApproved($this);
-    drupal_set_message(t('You have Approved the Layout'));
+    drupal_set_message(t('You have approved the layout'));
   }
 
   /**
@@ -93,11 +99,17 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
     // Save job.
     global $user;
     $this->save();
-    $this->addMessage('@name re-enabled the translation. Job item is now "@state". Message: @message',
+    $this->addMessage('@name re-enabled the translation'.
+        ' for job item @tjiid, item @item_id (@bundle), language @lang. '.
+        'Status is now "@state". Message: @message',
       array(
         '@name' => $user->name,
         '@state' => osha_tmgmt_get_job_item_state_label(TMGMT_JOB_ITEM_STATE_ACTIVE),
         '@message' => $message,
+        '@tjiid' => $this->tjiid,
+        '@item_id' => $this->item_id,
+        '@bundle' => $this->item_type,
+        '@lang' => strtoupper($this->target_language),
       ));
     OshaWorkflowNotifications::notifyTranslationLayoutApprovers($this);
     drupal_set_message(t('You have Enabled the Translation'));
@@ -110,14 +122,20 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
     $this->state = OSHA_TMGMT_JOB_ITEM_STATE_TranslationValidated;
     global $user;
     $this->save();
-    $this->addMessage('@name validated translation content. Job item is now "@state". Message: @message',
+    $this->addMessage('@name validated translation content'.
+        ' for job item @tjiid, item @item_id (@bundle), language @lang. '.
+        'Status is now "@state". Message: @message',
       array(
         '@name' => $user->name,
         '@state' => osha_tmgmt_get_job_item_state_label(OSHA_TMGMT_JOB_ITEM_STATE_TranslationValidated),
         '@message' => $message,
+        '@tjiid' => $this->tjiid,
+        '@item_id' => $this->item_id,
+        '@bundle' => $this->item_type,
+        '@lang' => strtoupper($this->target_language),
       ));
     OshaWorkflowNotifications::notifyTranslationValidated($this);
-    drupal_set_message(t('You have validated the translation!'));
+    drupal_set_message(t('You have Validated the translation!'));
   }
 
   /**
@@ -127,11 +145,17 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
     $this->state = OSHA_TMGMT_JOB_ITEM_STATE_TranslationValidationRequired;
     global $user;
     $this->save();
-    $this->addMessage('@name: Translation requires Content Validation. Job item is now "@state". Message: @message',
+    $this->addMessage('@name: Content validation required'.
+        ' for job item @tjiid, item @item_id (@bundle), language @lang. '.
+        'Status is now "@state". Message: @message',
       array(
         '@name' => $user->name,
         '@state' => osha_tmgmt_get_job_item_state_label(OSHA_TMGMT_JOB_ITEM_STATE_TranslationValidationRequired),
         '@message' => $message,
+        '@tjiid' => $this->tjiid,
+        '@item_id' => $this->item_id,
+        '@bundle' => $this->item_type,
+        '@lang' => strtoupper($this->target_language),
       ));
     OshaWorkflowNotifications::notifyTranslationValidators($this);
     drupal_set_message(t('You have Required Translation Validation for this translation'));
@@ -144,11 +168,17 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
     $this->state = TMGMT_JOB_ITEM_STATE_ABORTED;
     global $user;
     $this->save();
-    $this->addMessage('@name: Translation Rejected. Job item is now "@state". Message: @message',
+    $this->addMessage('@name: Translation rejected'.
+        ' for job item @tjiid, item @item_id (@bundle), language @lang. '.
+        'Status is now "@state". Message: @message',
       array(
         '@name' => $user->name,
         '@state' => osha_tmgmt_get_job_item_state_label(TMGMT_JOB_ITEM_STATE_ABORTED),
         '@message' => $message,
+        '@tjiid' => $this->tjiid,
+        '@item_id' => $this->item_id,
+        '@bundle' => $this->item_type,
+        '@lang' => strtoupper($this->target_language),
       ));
     OshaWorkflowNotifications::notifyTranslationRejected($this);
     drupal_set_message(t('You have Rejected this translation'));
@@ -161,11 +191,17 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
     $this->state = OSHA_TMGMT_JOB_ITEM_STATE_TranslatedReadyToPublish;
     global $user;
     $this->save();
-    $this->addMessage('@name: Translation is ready to be published. Job item is now "@state". Message: @message',
+    $this->addMessage('@name: Translation is ready to be published'.
+        ' for job item @tjiid, item @item_id (@bundle), language @lang. '.
+        'Status is now "@state". Message: @message',
       array(
         '@name' => $user->name,
         '@state' => osha_tmgmt_get_job_item_state_label(OSHA_TMGMT_JOB_ITEM_STATE_TranslatedReadyToPublish),
         '@message' => $message,
+        '@tjiid' => $this->tjiid,
+        '@item_id' => $this->item_id,
+        '@bundle' => $this->item_type,
+        '@lang' => strtoupper($this->target_language),
       ));
     OshaWorkflowNotifications::notifyTranslationProjectManager($this);
     drupal_set_message(
@@ -185,13 +221,23 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
       global $user;
       $state = osha_tmgmt_get_job_item_state_label(TMGMT_JOB_ITEM_STATE_ACCEPTED);
       if ($message) {
-        $this->addMessage('@name accepted the translation, translation state is <strong>@state</strong>. Additional info: @message',
-          array('@name' => $user->name, '@state' => $state, '@message' => $message)
+        $this->addMessage('@name accepted the translation'.
+            ' for job item @tjiid, item @item_id (@bundle), language @lang. '.
+            'Status is now <strong>@state</strong>. Message: @message',
+          array('@name' => $user->name, '@state' => $state, '@message' => $message,
+                '@tjiid' => $this->tjiid, '@item_id' => $this->item_id,
+                '@bundle' => $this->item_type, '@lang' => strtoupper($this->target_language)
+          )
         );
       }
       else {
-        $this->addMessage('@name accepted the translation, translation state is <strong>@state</strong>.',
-          array('@name' => $user->name, '@state' => $state)
+        $this->addMessage('@name accepted the translation'.
+            ' for job item @tjiid, item @item_id (@bundle), language @lang. '.
+            'Status is now <strong>@state</strong>.',
+          array('@name' => $user->name, '@state' => $state,
+                '@tjiid' => $this->tjiid, '@item_id' => $this->item_id,
+                '@bundle' => $this->item_type, '@lang' => strtoupper($this->target_language)
+          )
         );
       }
       $item_id = $this->target_language . '_' . $this->item_id;
