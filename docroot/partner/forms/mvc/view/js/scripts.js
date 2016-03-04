@@ -153,8 +153,10 @@ function delSN(args)
 /*Método para deshabilitar las redes sociales. Nos apoyamos en un 
  * campo similar, ya que los deshabilitados van por attributes de PHP y ente caso no es válido. */
 window.onload = function () {
-    if(window.parent.document.getElementsByClassName("loader").length > 0){
-        window.parent.document.getElementsByClassName("loader")[0].className += " hidden";
+    if(window.parent.document.getElementsByClassName("main-container").length > 0){
+        if(window.parent.document.getElementsByClassName("loader").length > 0){
+            window.parent.document.getElementsByClassName("loader")[0].className += " hidden";
+        }
     }
     if(window.parent.document.getElementsByClassName("iframe-partnership").length > 0){
         window.parent.document.getElementsByClassName("iframe-partnership")[0].className = "iframe-partnership";

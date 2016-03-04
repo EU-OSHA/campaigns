@@ -356,11 +356,22 @@ abstract class Controller {
 //                                        $session->setAttribute($atributo->getName(), $atributo->getValue());
 //                                }
 //                            }
-
                             foreach ($this->model->getAttributes() as $atributo) {
                                 if(strpos($atributo->getName(), 'otherus') !== false || strpos($atributo->getName(), 'publication') !== false ||
                                         strpos($atributo->getName(), 'readership') !== false){
                                         $session->setAttribute($atributo->getName(), $params->get($atributo->getName()));
+                                }
+                                if(isset($_SESSION['mf']) && $_SESSION['mf']){
+                                    if(strpos($atributo->getName(), 'profile') !== false){
+                                        $name = $atributo->getName();
+                                        if (isset($_POST[$name])){
+                                            $value = $_POST[$name];
+                                        }
+                                        if(isset($value)){
+                                            $session->setAttribute($name, $value);
+                                            $params->set($name, $value, true);
+                                        }
+                                    }
                                 }
                             }
                             
