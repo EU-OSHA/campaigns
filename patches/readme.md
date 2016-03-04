@@ -7,6 +7,10 @@ When patching a contrib module, the following steps should be followed:
 
 List of patches (most recent first)
 
+* workbench_moderation
+  * menu_get_object to load the current version when used in /draft page
+  * patches/workbench_moderation/2021903-workbench_moderation-menu_get_object-fix.patch
+
 * entityreference
   * Show translated content whne showing entityreference items
   * patches/entityreference/entityreference-rendered-entity-is-not-language-aware-1674792-58.patch

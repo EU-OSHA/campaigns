@@ -58,7 +58,6 @@ final class CDB
         // Load the data of the dropDowns
         if ($inst->cdbMap) {
             $params = Parameters::getInstance();
-            error_log("ROUTE: " . $params->get('route'));
             if(!$inst->dropdowns['company_osh_orgtype']['values'] && !$inst->dropdowns['company_osh_bussinessector']['values']
                     && !$inst->dropdowns['company_osh_osh_appform_osh_country']['values'] && !$inst->dropdowns['company_osh_country']['values']){
                 $inst->loadDropdownsData();

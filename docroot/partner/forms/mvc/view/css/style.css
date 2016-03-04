@@ -101,6 +101,13 @@ input[type=submit], button {
     padding          : 0.2vw 0.5vw 0.2vw 0.5vw;
     font-size        : 1vw;
 }
+input[type=next], button {
+    border           : none;
+    background-color : #003399;
+    color            : #ffffff;
+    padding          : 0.2vw 0.5vw 0.2vw 0.5vw;
+    font-size        : 1vw;
+}
 
 .save_image {
     float : right;
@@ -460,6 +467,9 @@ visualización que en un dispositivo móvil*/
     input[type=submit], button {
         font-size : 3vw;
     }
+    input[type=next], button {
+        font-size : 3vw;
+    }
 
     legend {
         font-size : 5vw;
@@ -682,7 +692,7 @@ div.required > div label::after{
     font-weight: bold;
     margin-bottom: 38px;
     margin-right: 14px;
-    position: fixed;
+    position: absolute;
     width: 66%;
 }
 div.container-message{
@@ -709,6 +719,11 @@ form.new div.container-message, form.mf div.container-message {
     /*background-color:#FEF5F1;*/
 }
 
+.imagePostRequired{
+    border: 1px red solid;
+    padding: 0 10px 10px 10px;
+}
+
 
 /*(CRG - #173 - 02.11.2015)*/
 form div.controls:last-of-type{
@@ -719,6 +734,14 @@ input[type="submit"]{
     padding: 14px 0px;
     font-weight: bold;
     font-size: initial;
+    
+}
+input[type="next"]{
+    width: 98%;
+    padding: 14px 0px;
+    font-weight: bold;
+    font-size: initial;
+    text-align: center;
     
 }
 /*(/CRG - #173 - 02.11.2015)*/

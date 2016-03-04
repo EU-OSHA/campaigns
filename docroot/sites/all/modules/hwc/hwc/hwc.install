@@ -335,3 +335,62 @@ function hwc_update_7013() {
     _osha_tmgmt_add_translations_to_identical_strings($string);
   }
 }
+
+/**
+ * Fix "See more" literal string and translations.
+ */
+function hwc_update_7014() {
+  db_update('locales_source')
+    ->fields(array('source' => 'See more'))
+    ->condition('lid', array(9426), 'IN')
+    ->execute();
+
+  db_query("
+    UPDATE locales_target
+    SET translation = REPLACE(TRIM(translation), '> ', '')
+    WHERE lid in (9426)")->execute();
+
+  _osha_tmgmt_add_translations_to_identical_strings('See more');
+}
+
+/**
+ * Translate front page banner.
+ */
+function hwc_update_7015() {
+//"Safety and health at work is everyone's concern. It's good for you. It's good for business."; // 14409
+//"Healthy Workplaces for All Ages"; //17456
+  $node = node_load(107);
+  $translation_handler = entity_translation_get_handler('node', $node);
+  // Init Translation to set original value.
+  if (empty($node->translations->original)) {
+    $translation_handler->initTranslations();
+    $translation_handler->saveTranslations();
+  }
+  $title_trans = db_select('locales_target')
+    ->fields('locales_target', array('language', 'translation'))
+    ->condition('lid', 17456)
+    ->execute()
+    ->fetchAllKeyed();
+
+  $body_trans = db_select('locales_target')
+    ->fields('locales_target', array('language', 'translation'))
+    ->condition('lid', 14409)
+    ->execute()
+    ->fetchAllKeyed();
+
+  foreach ($title_trans as $lang => $title) {
+    $node->title_field[$lang][0]['value'] = $title;
+    if (!empty($body_trans[$lang])) {
+      $node->body[$lang][0]['value'] = "<p id='tmgmt-1'>" . $body_trans[$lang] . "</p>";
+      $node->body[$lang][0]['format'] = "full_html";
+    }
+    $translation_handler->setTranslation(array(
+      'translate' => 0,
+      'status' => 1,
+      'uid' => 1,
+      'language' => $lang,
+      'source' => 'en',
+    ));
+  }
+  node_save($node);
+}

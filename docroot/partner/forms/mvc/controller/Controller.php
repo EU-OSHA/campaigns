@@ -358,7 +358,8 @@ abstract class Controller {
 //                            }
 
                             foreach ($this->model->getAttributes() as $atributo) {
-                                if(strpos($atributo->getName(), 'otherus') !== false){
+                                if(strpos($atributo->getName(), 'otherus') !== false || strpos($atributo->getName(), 'publication') !== false ||
+                                        strpos($atributo->getName(), 'readership') !== false){
                                         $session->setAttribute($atributo->getName(), $params->get($atributo->getName()));
                                 }
                             }
@@ -674,8 +675,21 @@ abstract class Controller {
         $this->load();
         $attributes = $this->model->getAttributes();
         foreach ($attributes as $kAttr => $attr) {
-
             $name = $attr->getName();
+            if(strpos($name, 'publication') !== false || strpos($name, 'readership') !== false){
+                $session->setAttribute($name, $params->get($name));
+                $params->set($name, $params->get($name), true);
+//                $_POST[$name] = $params->get($name);
+                if(!isset($_POST[$name])){
+                    $_POST[$name] = "";
+                    $session->setAttribute($name, "");
+                    $params->set($name, "", true);
+                }else{
+                    $_POST[$name] = $params->get($name);
+                }
+            }else if($name == 'company_osh_osh_appform_osh_country' && !isset($_POST[$name])){
+                $_POST[$name] = "";
+            }
             $valueSession = $session->getAttribute($name);
             if (isset($_POST[$name])){
                 $value = $_POST[$name];

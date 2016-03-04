@@ -13,10 +13,13 @@ $plugin = array(
 );
 
 function osha_publication_summary_label_render($subtype, $conf, $args, $contexts) {
-  $block = new stdClass();
-  // initial content is blank
-  $block->title = NULL; // This will be overridden by the user within the panel options.
-  $variables = array('element' => array('#tag' => 'h3', '#value' => t('Summary & resources'), '#attributes' => array('class' => 'summary_and_resources_field_label')));
-  $block->content = theme('html_tag', $variables);
-  return $block;
+  $node = menu_get_object();
+  if (!empty($node) && (!empty($node->field_related_publications) || !empty($node->field_publication_related_res))) {
+    $block = new stdClass();
+    // initial content is blank
+    $block->title = NULL; // This will be overridden by the user within the panel options.
+    $variables = array('element' => array('#tag' => 'h3', '#value' => t('Summary & resources'), '#attributes' => array('class' => 'summary_and_resources_field_label')));
+    $block->content = theme('html_tag', $variables);
+    return $block;
+  }
 }

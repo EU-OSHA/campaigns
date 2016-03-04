@@ -173,12 +173,21 @@ class Sidebar extends Controller implements IController
         $params       = Parameters::getInstance();
         $entity       = $params->getUrlParamValue('entity');
         $routes       = $params->get('routes');
+        $partnertype = $params->getUrlParamValue('entity');
+        if($partnertype == 'fop'){
+            unset($routes['involvement']);
+        }
         $entitiesPath = $params->get('entitiesPath');
         foreach ($routes as $route => $routeData) {
             $entityFile = APP_ROOT . $entitiesPath . $entity . '_' . $route;
             if ($content = File::read($entityFile)) {
                 $content = json_decode($content, true);
                 $content = isset($content['sections']) ? $content['sections'] : '';
+                if($partnertype == 'fop' && isset($content['title'])){
+                    if($content['title'] == "3. Contact information"){
+                        $content['title'] = "2. Contact information";
+                    }
+                }
                 if ($content && isset($content['title']) && isset($content['sections'])) {
                     $sections[] = array(
                         'title'    => $content['title'],

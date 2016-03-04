@@ -360,6 +360,7 @@ $options['init-modules'] = array(
   'multiple_selects',
 
   'imce_wysiwyg',
+  'imce_mkdir',
 
   'nodequeue',
   'fe_block',
