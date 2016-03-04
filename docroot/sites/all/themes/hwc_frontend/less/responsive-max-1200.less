@@ -114,5 +114,77 @@
 	width:94%!important;
 }
 
+/*pag National focal points*/
+.page-national-focal-points, .page-official-campaign-partners, .page-campaign-media-partners{
+	.main-container .section-introduction .node.node-article, .section-introduction{
+		.field-type-text-with-summary{
+			padding-right: 0;
+			padding-left: 0;
+		}
+	}
+	#block-views-partners-list-block {
+		border-top: 1px dotted @border-default-color;
+		margin-top: 20px;
+		padding-top: 20px;
+	}
+	#quicktabs-view__partners_list__block {
+		position: relative;
+		display: inline-block;
+		width: 95%;
+		&:after {
+			width: 30px;
+			height: 30px;
+			display: block;
+			content: '';
+			position: absolute;
+			top: 0px;
+			right: 0;
+			pointer-events: none;
+			background: @bg-color-2 url("../images/content/arrow-down.png") no-repeat  top;
+			-moz-box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+			box-sizing: border-box;
+		}
+		select {
+			font-style: normal;
+			font-weight: normal;
+			line-height: 100%;
+			appearance: none;
+			-moz-appearance: none;
+			-webkit-appearance: none;
+			-moz-box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+			box-sizing: border-box;
+			width: 100%;
+			height: 30px;
+			margin-bottom: 1em;
+		}
+	}
+	.container{
+		padding-left: @margin-movil;
+		padding-right: @margin-movil;
+	}
+}
+
+header.navbar-default .campaigns-header .navbar-header #block-search-form{
+    margin-bottom: 5px;
+}
+
+header.navbar-default .campaigns-header #block-menu-menu-header-login{
+	padding-right: 0px;
+	padding-top: 0px;
+	clear: both;
+}
+
+header.navbar-default .campaigns-header .navbar-header #block-menu-menu-header-login~#block-lang-dropdown-language{
+	float: none;
+    right: 0;
+    padding-right: 0;
+    position: relative;
+    bottom: 0;
+    margin-left: 70px;
+}
+
+
 }
 

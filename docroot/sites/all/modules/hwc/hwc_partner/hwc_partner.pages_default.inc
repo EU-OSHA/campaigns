@@ -6149,6 +6149,64 @@ foreach( $contexts[\'argument_entity_id:node_1\']->data->field_users[\'und\'] as
     $display->content['new-0c01ea71-c9ec-4cc9-94a4-4f0e83db6534'] = $pane;
     $display->panels['center'][5] = 'new-0c01ea71-c9ec-4cc9-94a4-4f0e83db6534';
     $pane = new stdClass();
+    $pane->pid = 'new-31c17ce7-d216-4a2c-b2a1-ebbad01f8f76';
+    $pane->panel = 'center';
+    $pane->type = 'node';
+    $pane->subtype = 'node';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'nid' => '1011',
+      'links' => 0,
+      'leave_node_title' => 0,
+      'identifier' => '',
+      'build_mode' => 'body',
+      'link_node_title' => 0,
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 6;
+    $pane->locks = array();
+    $pane->uuid = '31c17ce7-d216-4a2c-b2a1-ebbad01f8f76';
+    $display->content['new-31c17ce7-d216-4a2c-b2a1-ebbad01f8f76'] = $pane;
+    $display->panels['center'][6] = 'new-31c17ce7-d216-4a2c-b2a1-ebbad01f8f76';
+    $pane = new stdClass();
+    $pane->pid = 'new-b2bf0384-b3ad-43d2-9d62-259e6af13efc';
+    $pane->panel = 'center';
+    $pane->type = 'node';
+    $pane->subtype = 'node';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'nid' => '1012',
+      'links' => 0,
+      'leave_node_title' => 0,
+      'identifier' => '',
+      'build_mode' => 'body',
+      'link_node_title' => 0,
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 7;
+    $pane->locks = array();
+    $pane->uuid = 'b2bf0384-b3ad-43d2-9d62-259e6af13efc';
+    $display->content['new-b2bf0384-b3ad-43d2-9d62-259e6af13efc'] = $pane;
+    $display->panels['center'][7] = 'new-b2bf0384-b3ad-43d2-9d62-259e6af13efc';
+    $pane = new stdClass();
     $pane->pid = 'new-15064475-1885-47e1-89dd-3cab3b7305a4';
     $pane->panel = 'center';
     $pane->type = 'node';
@@ -6175,11 +6233,11 @@ foreach( $contexts[\'argument_entity_id:node_1\']->data->field_users[\'und\'] as
       'css_class' => '',
     );
     $pane->extras = array();
-    $pane->position = 6;
+    $pane->position = 8;
     $pane->locks = array();
     $pane->uuid = '15064475-1885-47e1-89dd-3cab3b7305a4';
     $display->content['new-15064475-1885-47e1-89dd-3cab3b7305a4'] = $pane;
-    $display->panels['center'][6] = 'new-15064475-1885-47e1-89dd-3cab3b7305a4';
+    $display->panels['center'][8] = 'new-15064475-1885-47e1-89dd-3cab3b7305a4';
     $pane = new stdClass();
     $pane->pid = 'new-0138946a-50ca-4699-a497-d7559f36c514';
     $pane->panel = 'center';
@@ -6198,11 +6256,11 @@ foreach( $contexts[\'argument_entity_id:node_1\']->data->field_users[\'und\'] as
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 7;
+    $pane->position = 9;
     $pane->locks = array();
     $pane->uuid = '0138946a-50ca-4699-a497-d7559f36c514';
     $display->content['new-0138946a-50ca-4699-a497-d7559f36c514'] = $pane;
-    $display->panels['center'][7] = 'new-0138946a-50ca-4699-a497-d7559f36c514';
+    $display->panels['center'][9] = 'new-0138946a-50ca-4699-a497-d7559f36c514';
     $pane = new stdClass();
     $pane->pid = 'new-1c578ff7-cf11-4150-84da-56d52d94335f';
     $pane->panel = 'center_';

@@ -443,6 +443,7 @@ function hwc_workflow_node_form_after_build_hide_hints($form, &$form_state) {
   $key = array_pop($b);
   if ($key && !empty($form['body'][$key][0]['format'])) {
     $form['body'][$key][0]['format']['#attributes']['class'][] = 'hidden';
+    $form['body'][$key][0]['summary']['#access'] = FALSE;
   }
   if (!empty($form['field_summary'])) {
     $sum = element_children($form['field_summary']);

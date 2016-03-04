@@ -968,6 +968,17 @@ function hwc_webform_component_render_alter(&$element, &$component) {
   }
 }
 
+/**
+ * Get iso2 code of a Country name (from standard Drupal list)
+ */
+function _hwc_iso2_by_name($name) {
+  $countries = country_get_list();
+  foreach($countries as $iso2 => $country) {
+    if (strtoupper($country) == strtoupper($name)) {
+      return $iso2;
+    }
+  }
+}
 
 /**
  * Implements hook_term_presave().
@@ -975,6 +986,12 @@ function hwc_webform_component_render_alter(&$element, &$component) {
 function hwc_taxonomy_term_presave($term) {
   // When saving a country term, attach the flag on field_flag.
   $voc = taxonomy_vocabulary_machine_name_load('country');
+  if (empty($term->field_iso2[LANGUAGE_NONE][0]['value'])) {
+    $iso2_by_name = _hwc_iso2_by_name($term->name);
+    if (!empty($iso2_by_name)) {
+      $term->field_iso2[LANGUAGE_NONE][0]['value'] = $iso2_by_name;
+    }
+  }
   if ($term->vid == $voc->vid
     && !empty($term->field_iso2[LANGUAGE_NONE][0]['value'])
     && empty($term->field_flag[LANGUAGE_NONE][0])) {

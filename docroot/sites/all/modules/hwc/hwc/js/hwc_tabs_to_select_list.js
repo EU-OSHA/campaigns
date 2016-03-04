@@ -5,10 +5,10 @@
         var tab_container = $('div.quicktabs-wrapper div.quicktabs_main');
 
         var $ul_tabs = $('ul.quicktabs-tabs');
-        $ul_tabs.addClass('hidden-xs');
+        $ul_tabs.addClass('hidden-xs hidden-md hidden-sm');
         $('.hwc-alphabet-container').addClass('hidden-xs');
 
-        $ul_tabs.parent().prepend('<select class="select_from_tabs visible-xs"></select>');
+        $ul_tabs.parent().prepend('<select class="select_from_tabs visible-xs visible-sm visible-md"></select>');
         var $select_tabs = $('.select_from_tabs');
 
         $('ul.quicktabs-tabs li').each(function() {

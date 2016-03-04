@@ -534,13 +534,20 @@ ul.tabs--primary.nav.nav-tabs{
 			font-weight: bold;
 			text-align: right;
 			span{
-			    width: 240px !important;
+			    width: 396px !important;
 			    float: right;
 			    margin-right: @margin1;
 			    margin-top: 10px;
 			}
 		}
 	}
+
+	/*Fix to EN language 3 lines*/
+
+	html:lang(en) #homepage_slider .views-field-title span{
+		width: 240px !important;
+	}
+
 	@media screen and (-webkit-min-device-pixel-ratio:0) {
 		#homepage_slider .more-link{top: 2em;}
 	}
@@ -949,7 +956,6 @@ ul.tabs--primary.nav.nav-tabs{
 	.node-press-release {
 		h3{
 			a{
-				background: url("../images/content/continue-reading.png") no-repeat right center;
 				padding-right: 20px;
 				padding-top:0px;
 			}
@@ -959,7 +965,6 @@ ul.tabs--primary.nav.nav-tabs{
 			background-color: transparent;
 			font-weight: bold;
 			font-style: italic;
-			background: url("../images/content/continue-reading.png") no-repeat right center;
 			padding-right: 20px;
 			&:before{
 				content: "";
@@ -3491,7 +3496,7 @@ article{
 .become-partner{
 	.coments{
 		margin-top: 20px;
-		margin-bottom: 30px;
+		margin-bottom: 10px;
 		.col{
 			padding-right: 1.5em;
 			padding-left: 1.5em;
@@ -4075,8 +4080,8 @@ article{
 	.pane-hwc-partner-hwc-partner-private-link-2, .pane-node-profile-update-link{
 		.pane-content{
 			border: 1px dotted @color3;
-			min-height: 190px;
-			max-height: 190px;
+			min-height: 210px;
+			max-height: 210px;
 			text-align: center;
 			padding: 20px 10px !important;
 			margin:10px;
@@ -6541,6 +6546,10 @@ fieldset.captcha {
 
 /*general classes*/
 
+.padding-href-button{ /*css introduction button*/
+	padding: 15px;
+}
+
 .btn-default-hwc , .button.browse{
 	background-color: #039!important;
     outline: 0;
@@ -6720,3 +6729,7 @@ span.date-display-single{
 	padding-top: 1em;
 }
 
+.page-user-login .block-system form{
+	float: left;
+	padding-left: 3em;
+}

@@ -3,6 +3,15 @@
 @media only screen and (max-width : 767px) {
 /*Header*/
 
+html:lang(en) #homepage_slider .views-field-title span{
+	font-size:1em;
+}
+
+
+header.navbar-default .navbar-collapse nav ul.menu li{
+	font-size: 1em;
+}
+
 header.navbar-default .campaigns-header .navbar-header #block-hwc-partner-hwc-partner-mostra-masquerade {
 	display:none;
 }
@@ -187,10 +196,6 @@ header.navbar-default{
 	}
 }
 
-.btn-default-hwc{
-	display:block;
-}
-
 #edit-text{
 	max-width: 233px !important;
 }
@@ -295,7 +300,7 @@ header.navbar-default{
 		h1, .title-alt{
 			margin-top: @margin-movil;
 			margin-bottom: 0px;
-			padding-bottom: 0em;
+			padding-bottom: 0.5em;
 			border-bottom: none;
 			padding-left: @margin-movil;
 			padding-right: @margin-movil;
@@ -389,6 +394,7 @@ header.navbar-default{
     				float: left !important;
 					width: 60% !important;
 					min-width: 240px !important;
+					font-size: 0.7em;
     			}
 			}
 			.views-field-field-content-reference{
@@ -405,6 +411,7 @@ header.navbar-default{
 				}
 			}
 		}
+
 		//fin slider
 		.tools-and-resources-block, .panels-flexible-column-new-main, .panels-flexible-column-first{
 			width: 100%;
@@ -643,6 +650,7 @@ header.navbar-default{
 			z-index: -1;
 			height: auto;
 			position: relative;
+			margin-bottom: 1em;
 			.field-items{
 				.field-item{
 					h1{
@@ -1222,8 +1230,15 @@ header.navbar-default{
 	}
 
 .page-events .views-exposed-widget.views-reset-button{
-	float: right;
-    margin-right: 1em;
+	float: none;
+	clear: both;
+	button{
+		margin-left: 1em!important;
+	}
+}
+
+.view-events-search .views-submit-button #block-views-events-block-2{
+	margin-left: 3em;
 }
 
 .page-events #edit-search-api-views-fulltext{
@@ -1718,6 +1733,9 @@ header.navbar-default{
 			padding-top: 2em;
 			margin-bottom: 0.5em;
 			padding-left: 0;
+			.field-item{
+				width:auto;
+			}
 		}
 	}
 	.pane-custom{
@@ -2200,5 +2218,23 @@ header.navbar-default .campaigns-header .navbar-header .region-header #block-lan
 .form-type-checkbox label{
 	white-space: initial;
 }
+
+
+.page-user-login .block-system form{
+	.form-control.form-text.required{
+		max-width: 275px;
+	}
+
+}
+
+header.navbar-default .campaigns-header .navbar-header #block-menu-menu-header-login ~ #block-lang-dropdown-language{
+	margin-left: 0px;
+
+}
+
+
+
+
+
 
 }

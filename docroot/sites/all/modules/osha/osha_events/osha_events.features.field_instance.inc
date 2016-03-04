@@ -483,7 +483,7 @@ function osha_events_field_default_field_instances() {
       'settings' => array(
         'maxlength_js' => 0,
         'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
-        'size' => 60,
+        'size' => 150,
       ),
       'type' => 'text_textfield',
       'weight' => 0,
