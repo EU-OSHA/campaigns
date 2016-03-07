@@ -1832,10 +1832,6 @@ ul.tabs--primary.nav.nav-tabs{
 			margin-left: 210px;
 		}
 
-		.field-files{
-			margin-left: 154px;
-		}
-
 		.field-name-field-cover-image{
 			float: left;
 			margin-top: 0px;
@@ -2691,6 +2687,18 @@ article{
 		margin-bottom: 0em;
 	}
 }
+
+.page-practical-tools{ 
+	fieldset.panel-default{
+		padding: 1em!important;
+
+	}
+}
+
+p.no-results{
+		padding: 1em;
+}
+
 .page-press-room, .page-campaign-materials{
 	.section-introduction .field-type-text-with-summary{
 		padding-bottom: 1em;
@@ -4390,7 +4398,7 @@ article{
 	.panels-flexible-row-new-1 .field-name-field-mission-statement .field-item{
 		text-align: justify;
 		padding-bottom: 0.5em;
-    	padding-right: 2em;
+    	padding-right: 0.5em;
 	}
 
 	.panels-flexible-region.panels-flexible-region-new-right.panels-flexible-region-last.col-sm-9.profile-col-right-1{
@@ -5161,13 +5169,10 @@ article{
 			}
 		}
 
-		.pane-custom, .pane-node .pane-content p , p[id*="tmgmt"], ul{
+		.pane-custom, p[id*="tmgmt"]{
 			border-bottom: 1px dotted @color3;
 			padding-bottom: 10px;
 			margin-top: 10px;
-			br{
-				display:none;
-			}
 			a{
 				font-style: normal;
 				font-weight: bold;
@@ -5180,6 +5185,24 @@ article{
 				}
 			}
 		}
+
+
+		.pane-node .pane-content p, ul{
+			border-bottom: 1px dotted @color3;
+			padding-bottom: 10px;
+			margin-top: 10px;
+			a{
+				font-style: normal;
+				font-weight: bold;
+				font-size: 1em;
+				color: @color2;
+				display: inline-block!important;
+				&:before{
+					content: " ";
+				}
+			}
+		}
+
 		#tmgmt-5{
 			border: none;
 			padding-bottom: 0px;
@@ -6689,7 +6712,7 @@ span.date-display-single{
 
 .iframe-update{
 	width: 100%;
-    height: 4100px;
+    height: 5760px;
     border: 0;
 }
 
