@@ -5040,7 +5040,7 @@ function hwc_partner_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = 'Private area for Partners';
+  $display->title = 'Partners Resources';
   $display->uuid = '4b43886a-a2f0-48cd-be03-5def9eac6bc0';
   $display->content = array();
   $display->panels = array();
@@ -5792,7 +5792,7 @@ foreach( $contexts[\'argument_entity_id:node_1\']->data->field_users[\'und\'] as
   $page->api_version = 1;
   $page->name = 'private_area_for_partners';
   $page->task = 'page';
-  $page->admin_title = 'Private area for partners';
+  $page->admin_title = 'Partners Resources';
   $page->admin_description = 'Private area landing page for partners';
   $page->path = 'private';
   $page->access = array(
@@ -5847,7 +5847,7 @@ foreach( $contexts[\'argument_entity_id:node_1\']->data->field_users[\'und\'] as
   $handler->handler = 'panel_context';
   $handler->weight = 0;
   $handler->conf = array(
-    'title' => 'Private area for partners',
+    'title' => 'Partners Resources',
     'no_blocks' => 0,
     'pipeline' => 'standard',
     'body_classes_to_remove' => '',
@@ -5884,7 +5884,7 @@ foreach( $contexts[\'argument_entity_id:node_1\']->data->field_users[\'und\'] as
       'logic' => 'or',
     ),
     'panels_breadcrumbs_state' => 1,
-    'panels_breadcrumbs_titles' => 'Private area for partners',
+    'panels_breadcrumbs_titles' => 'Partners Resources',
     'panels_breadcrumbs_paths' => '<none>',
     'panels_breadcrumbs_home' => 1,
   );
@@ -5959,7 +5959,7 @@ foreach( $contexts[\'argument_entity_id:node_1\']->data->field_users[\'und\'] as
     ),
   );
   $display->cache = array();
-  $display->title = 'Private area for partners';
+  $display->title = 'Partners Resources';
   $display->uuid = 'cbebf880-65eb-4460-bd57-29469e70c90f';
   $display->content = array();
   $display->panels = array();
