@@ -211,7 +211,9 @@ abstract class AbstractNCWNodeMigration extends Migration {
 
         // Extra mappings depending on field type
         $fi = field_info_field($field_name);
-        if ($fi['translatable'] == 1 && $fi['type'] != 'taxonomy_term_reference' /* field_organised_by */) {
+        if ($fi['translatable'] == 1
+          && $fi['type'] != 'taxonomy_term_reference' /* field_organised_by */
+          && $this->allowMigrateTranslation()) {
           $this->addFieldMapping("$field_name:language", $field_name . '_language');
         }
         if ($fi['type'] == 'taxonomy_term_reference') {
@@ -331,12 +333,17 @@ abstract class AbstractNCWNodeMigration extends Migration {
     $entity->workbench_moderation_state_new = OSHA_WORKFLOW_STATE_PUBLISHED;
   }
 
+  // News should be imported only in EN - MH-19
+  public function allowMigrateTranslation() {
+    return !in_array($this->bundle, array('news'));
+  }
+
   /**
    * Implements Migration::complete() to configure translations
    */
   public function complete($entity, stdClass $row) {
     unset($row->translations['data']['en']);
-    if (!empty($row->translations['data'])) {
+    if (!empty($row->translations['data']) && $this->allowMigrateTranslation()) {
       $handler = entity_translation_get_handler('node', $entity);
       foreach($row->translations['data'] as $language => $data) {
         $handler->setTranslation(array(

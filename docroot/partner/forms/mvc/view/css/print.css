@@ -53,4 +53,7 @@ textarea {
     }
 #otherUserField1{
     margin-top: 0px !important;
-}   
+}
+.multipleLabelMP{
+    display: none !important;
+}

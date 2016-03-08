@@ -96,11 +96,9 @@
     "involvement_osh_conferenceactivity": "osh_conferenceactivity",
     "involvement_osh_trainingsessions": "osh_trainingsessions",
     "involvement_osh_partnershipswithotherorganisations": "osh_partnershipswithotherorganisations",
-    "involvement_osh_promoteandsupportcampaign": "osh_promoteandsupportcampaign",
     "involvement_osh_promotioninthemedia": "osh_promotioninthemedia",
     "involvement_osh_bestpractice": "osh_bestpractice",
     "involvement_osh_otheractivities": "osh_otheractivities",
-    "osh_supportforcampaignsection": "osh_supportforcampaignsection",
     "osh_yourcampaignpledgesection": "osh_yourcampaignpledgesection",
     "contact_osh_mainemailAux": "contact_osh_mainemailAux",
     "company_osh_orgnameAux": "company_osh_orgnameAux"
@@ -112,7 +110,6 @@
     "involvement_osh_conferenceactivity": "osh_conferenceactivity",
     "involvement_osh_trainingsessions": "osh_trainingsessions",
     "involvement_osh_partnershipswithotherorganisations": "osh_partnershipswithotherorganisations",
-    "involvement_osh_promoteandsupportcampaign": "osh_promoteandsupportcampaign",
     "involvement_osh_promotioninthemedia": "osh_promotioninmedia",
     "involvement_osh_bestpractice": "osh_bestpractice",
     "involvement_osh_otheractivities": "osh_otheractivities"

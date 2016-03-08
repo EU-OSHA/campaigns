@@ -1,14 +1,3 @@
-<!--{if $HelpMessage != "print"}
-<div id="container-message" class="container-message">   
-
-        <div id="MESSAGE">
-            Please make sure you thoroughly check, whether all your information is still valid
-                       and indicate <br>     this by checking the button next to the appropiate fields
-                       <a class="close">[X]</a>
-        </div>            
-    </div>
-{else}
-{/if}-->
 <fieldset>
     <legend id="PRIMARY_CONTACT">
         Primary Contact
@@ -24,7 +13,7 @@
             {$attributes.contact_osh_maincontactpersonfirstname}
             {$attributes.contact_osh_maincontactpersonlastname}
             {$attributes.contact_osh_positionmaincontactperson}
-            {if !$mf && $partner_type != "current" && !$locked}
+            {if !$mf && $partner_type != "current" && !$locked && $HelpMessage != "print"}
             {$attributes.contact_osh_captcha}
             {/if}
         </div>
@@ -104,77 +93,21 @@
     </button>
 </fieldset>
 {/if}
-<!--{if $partner_type == "new"}
-<div class="div_disclaimer">
-    <div id="div_disclaimer_text" class="hidden">
-        <p style="font-size: large; font-weight: bold"> Privacy Policy – Partner Application</p>
-        <p style="font-weight: bold"> Organizational part of the Agency entrusted with the processing of personal data</p>
-        <p>Andrew Smith, Head of Communication and Promotion Unit</p>
-        <p style="font-weight: bold"> Purpose of processing </p>
-        <p>The data requested on this form is collected for the purpose of selecting the most appropriate candidates
-            that will become Official Campaign Partners and for displaying the professional data of those
-            organisations on the Healthy Workplaces Campaign website, as well as to create a user profile to access
-            the “Private Area of the Official Campaign Partners”. 
-            Your personal data will also be stored in EU-OSHA’s contact’s database which EU-OSHA uses for the
-            purpose of managing partnerships and working relations with stakeholders at the Agency, sending
-            invitations to Agency events and dissemination of Agency publications and other relevant information.
-            It might also be used for surveys to obtain feedback on the Agency’s performance in relation to the Annual
-            Management Plan and the Multi-annual Strategic Programme. It will also be transferred to contractors who will 
-            manage different communications related to campaign activities on behalf of EU-OSHA in your country, like 
-            newsletters, news, invitations to events or surveys.</p>
-        <p style="font-weight: bold">Type of data processed</p>
-        <p>The personal data displayed on the website includes:<br>
-            •	Name and picture of the CEO<br>
-            •	Name and address of the enterprise<br>
-            •	Name and email of the contact person<br>
-            •	Name of the health and safety representative<br>
-            •	Telephone and fax numbers<br>
-            This profile will enable you to edit all the data entered about your enterprise, as well as to access specific data about the campaign activities.<br>
-            The data requested on the form includes:<br>
-            •	Company / Organisation name<br>
-            •	Address<br>
-            •	General email address<br>
-            •	General telephone number<br>
-            •	General fax number<br>
-            •	Name/Surname and position of the main contact person for the Campaign<br>
-            •	Email address and telephone number of main contact person<br>
-            •	Name, email address and telephone number of the health and safety representative<br>
-            •	Name and picture of the CEO<br>
-            By submitting this form you agree that EU-OSHA transfers your data to third party contractors/partners, 
-            and displays your data on the Healthy Workplaces Campaign website, and commit yourself to keep this information correct and 
-            up to date for the duration of the campaign.<br></p>
-        <p style="font-weight: bold">Legal basis</p>
-        <p>Council Regulation (EC) No. 2062/94 of 18/07/1994 establishing the European Agency for Safety and Health at Work and subsequent amendments.</p>
-        <p style="font-weight: bold">Lawfulness of processing</p>
-        <p>The processing is based on Article 5(a) of Regulation (EC) No. 45/2001 of the European Parliament and the Council
-            of 18 December 2000 on the protection of individuals with regard to the processing of personal data by the Community
-            institutions and bodies and on the free movement of such data (hereinafter, Regulation (EC) No. 45/2001).</p>
-        <p style="font-weight: bold">Data recipients</p>
-        <p>Access to the personal data is granted on the basis of the role and responsibilities of the subjects involved (“need to know” principle):<br>
-            •	Duly appointed EU-OSHA staff<br>
-            •	External provider hosting and maintaining EU-OSHA’s server<br>
-            •	Legal Service, Civil Service Tribunal, the European Data Protection Supervisor, the European Anti-Fraud Office (OLAF),
-            the European Ombudsman, the Court of Auditors, the Internal Audit Service, if applicable.<br>
-            All the recipients mentioned are bound by Regulation (EC) Nº 45/2001 of the European Parliament and of the Council on the protection
-            of individuals with regard to the processing of personal data by the Community institutions and bodies and on the free movement of such data.
-            EU-OSHA will not divulge personal data for direct marketing for commercial purposes.</p>
-        <p style="font-weight: bold">The data subject’s rights</p>
-        <p>Healthy Workplaces Campaign partners can access their personal information, verify its accuracy, delete it and correct it by logging into the system.
-            However, if you have any questions about the Healthy Workplaces Campaign, which are not addressed here or in the public section of the official
-            campaign website, please contact us at: information@osha.europa.eu, including in the subject the words “data protection”.</p>
-        <p style="font-weight: bold">Information on the conservation period of data</p>
-        <p>This data related to the partners is kept until the finalisation of the campaign.</p>
-        <p style="font-weight: bold">Security measures</p>
-        <p>We take appropriate security measures to protect against unauthorised access to or unauthorised alteration, 
-            disclosure or destruction of data. These include internal reviews of our data collection, storage and processing practices and security measures, 
-            including appropriate encryption of communication and physical security measures to guard against unauthorised access to systems where we store personal data.</p>
-        <p style="font-weight: bold">Request for information</p>
-        <p>For any further information regarding the handling of their personal data, data subjects can address their request to EU-OSHA Data Protection
-            Officer at: dpo@osha.europa.eu.</p>
-        <p style="font-weight: bold">Recourse to the EDPS</p>
-        <p>Should you have queries or complaints regarding the collecting, processing or use of your personal data, please contact the Data Protection Officer at DPO@osha.europa.eu.
-            In case of conflict, complaints can also be addressed to the European Data Protection Supervisor.</p>
-    </div>
-    <a id="a_disclaimer"><b>Show/Hide Disclaimer</b></a>
+{if $HelpMessage == "print"}
+<div id="footerPrintFriendly">
+    <table style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;" align="center" bgcolor="#2d6a00" border="0" cellpadding="0" cellspacing="0" width="100%">
+          <tbody><tr>
+             <td class="block_td percent_td" width="50%"><img src="http://hwc-crm.osha.europa.eu/footer.png" alt="" height="88" width="350"></td>    
+             <td class="block_td percent_td" align="center" valign="middle" width="50%">
+				 <p style="margin:20px 0 !important; color:#ffffff; font-weight:700; font-family: Arial, Helvetica, sans-serif; font-size:16px; line-height: 20px;mso-line-height-rule: exactly;">Follow us on: 
+					<a href="https://www.facebook.com/EuropeanAgencyforSafetyandHealthatWork" target="_blank"><img src="http://hwc-crm.osha.europa.eu/facebook.jpg" alt="facebook" align="absmiddle" height="20" border="0" width="20"></a> 
+					<a href="https://twitter.com/eu_osha" target="_blank"><img src="http://hwc-crm.osha.europa.eu/twitter.jpg" alt="twitter" align="absmiddle" height="20" border="0" width="20"></a> 
+					<a href="https://www.linkedin.com/company/european-agency-for-safety-and-health-at-work" target="_blank"><img src="http://hwc-crm.osha.europa.eu/linkedin.jpg" alt="linkedin" align="absmiddle" height="20" border="0" width="20"></a> 
+					<a href="https://www.youtube.com/user/EUOSHA" target="_blank"><img src="http://hwc-crm.osha.europa.eu/youtube.jpg" alt="youtube" align="absmiddle" height="20" border="0" width="20"></a> 
+					<a href="https://osha.europa.eu/en/tools-and-publications/blog" target="_blank"><img src="http://hwc-crm.osha.europa.eu/blogger.jpg" alt="blogger" align="absmiddle" height="20" border="0" width="20"></a>
+				</p>
+			</td>          
+          </tr>
+         </tbody></table>
 </div>
-{/if} -->
+{/if}

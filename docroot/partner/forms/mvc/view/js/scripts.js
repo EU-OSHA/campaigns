@@ -1080,13 +1080,15 @@ $(document).ready(function () {
 //            $('#form form :input[data-section="' + dataSection + '"]').prop("disabled", false);
                 $('#form form :input[data-section="' + dataSection + '"]').prop("onlyread", false);
                 $('#form form :input[data-section="' + dataSection + '"]').each(function (id, item) {
-                    $(item).css({
-                        'pointer-events': 'inherit'
-                    });
-                    if($(item).attr('type') != 'button'){
+                    if($(item).attr('id') != "contact_osh_mainemail" || $('.disabledEmailForMF').length == 0){
                         $(item).css({
-                            'background': 'white'
+                            'pointer-events': 'inherit'
                         });
+                        if($(item).attr('type') != 'button'){
+                            $(item).css({
+                                'background': 'white'
+                            });
+                        }
                     }
                 });
 //                $('#form form :input[data-section="' + dataSection + '"]').css({
@@ -1406,14 +1408,16 @@ $(document).ready(function () {
 //            if ($("#save").length) {
 //                $("#save").trigger("click");
 //            } else {
+            $("body").css("cursor", "progress");
             var dataAjax = $(this).data("ajax");
             saveSessionAjax(dataAjax);
-                window.open($(this).attr("data-href"), 'popup');
+//                window.open($(this).attr("data-href"), 'popup');
 //            }
         } else {
+            $("body").css("cursor", "progress");
             var dataAjax = $(this).data("ajax");
             saveSessionAjax(dataAjax);
-            window.open($(this).attr("data-href"), 'popup');
+//            window.open($(this).attr("data-href"), 'popup');
         }
     });
     $('.action-pdf').click(function () {
@@ -1517,7 +1521,10 @@ $(document).ready(function () {
      });
      
      if($('.disabledEmailForMF').length == 1){
-         $("#contact_osh_mainemail").prop("disabled", "disabled");
+         $("#contact_osh_mainemail").css({
+            'pointer-events': 'none',
+            'background-color': '#E3E3E4'
+        });
      }
 
     /**
@@ -1751,7 +1758,7 @@ $(document).ready(function () {
     function saveSessionAjax(dataAjax){
         var serializedForm = $("form").serialize();
 //        var dataAjax = $(this).data("ajax");
-        var href =  $(this).attr("href");
+//        var href =  $(this).attr("href");
         var logoImage =$(".company_osh_logoimage_image_container img");
 
         if( logoImage.attr("src") && (logoImage.attr("src") != null ||logoImage.attr("src") != "") )
@@ -1773,7 +1780,8 @@ $(document).ready(function () {
             data: serializedForm,
             type: "post",
             success: function( data, textStatus,jqXHR){
-                
+                $("body").css("cursor", "default");
+                window.open($('.action-print').attr("data-href"), 'popup');
             }
         });
     }
@@ -1980,7 +1988,7 @@ $(document).ready(function () {
         }
     });
 
-if($("#contact_osh_mainemail").prop("disabled")){
+if($(".disabledEmailForMF").length > 0){
     $('#contact_osh_mainemail').parent().append('<p class="help-block">This field cannot be directly changed in the form. If you want to modify it, please, contact EU-OSHA in partners@healthy-workplaces.eu</p>');
 }
 });

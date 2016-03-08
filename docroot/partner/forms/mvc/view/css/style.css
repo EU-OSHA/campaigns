@@ -340,6 +340,9 @@ select[disabled] {
 .action {
     width : 100%;
 }
+.action-print{
+    cursor: pointer;
+}
 
 #next {
     margin-left : 0.8vw;
@@ -866,4 +869,9 @@ p.congrats {
 }
 #containerSocialNetworks{
     margin-top: 4%;
+}
+
+#headerPrintFriendly{
+    margin-bottom: 1%;
+    margin-top: 2%;
 }
