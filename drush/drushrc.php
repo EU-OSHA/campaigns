@@ -482,7 +482,7 @@ $options['init-modules'] = array(
   'xmlsitemap_i18n',
   'xmlsitemap_menu',
   'xmlsitemap_node',
-  
+
   'osha_resources',
   'osha',
   'osha_news',
@@ -545,6 +545,7 @@ $options['init-modules'] = array(
   'hwc_social_sprites',
   'osha_gallery',
   'hwc_gallery',
+  'hwc_sitemap',
 
   'search_api_title2',
 
