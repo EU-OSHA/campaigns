@@ -477,6 +477,12 @@ $options['init-modules'] = array(
   // Captcha
  'recaptcha',
 
+  // xmlsitemap
+  'xmlsitemap',
+  'xmlsitemap_i18n',
+  'xmlsitemap_menu',
+  'xmlsitemap_node',
+  
   'osha_resources',
   'osha',
   'osha_news',
