@@ -2049,6 +2049,21 @@ ul.tabs--primary.nav.nav-tabs{
 			}
 		}
 	}
+
+
+	/*FIx NO language*/
+
+	html:lang(no) .pane-node-field-provider, .pane-node-body, .pane-node-field-implementation-steps, .pane-node-field-dissemination-used, .pane-node-field-access-tool-link,
+		.pane-hwc-practical-tool-hwc-practical-tool-language-list, .pane-node-field-external-urls, .pane-node-field-additional-information, .pane-node-field-access-tool-link-fc, .access-tool-languages{
+		.field-label{
+			width: 22%;
+		}
+		.field-items{
+			width: 77%;
+		}
+	}
+
+
 	.pane-node-field-file{
 		margin: @margin1;
 	}
@@ -3430,7 +3445,7 @@ p.no-results{
 	h2.block-title{
 		float: left;
 		font-style: italic;
-		font-size: @size3;
+		font-size: @size3!important;
 		color: @text-default-color;
 		margin-top: 1em;
 		
@@ -4057,10 +4072,6 @@ p.no-results{
 						display: -webkit-box;
 						height:60px;
 						margin: 0 auto;
-						-webkit-line-clamp: 2;
-						-webkit-box-orient: vertical;
-						overflow: hidden;
-						text-overflow: ellipsis;
 						padding-left: 10px;
 						padding-right: 10px;
 						&:before{
@@ -4070,6 +4081,13 @@ p.no-results{
 				}
 			}
 		}
+	}
+}
+
+
+html:lang(hu) , html:lang(nl), html:lang(mt) { 
+	.get-involved-section .information-tailored .images-section .image-block .link a{
+		font-size: 1.1em
 	}
 }
 /*End get involved template*/
@@ -4547,7 +4565,7 @@ p.no-results{
 		}
 
 		.panels-flexible-region-last{
-			padding-left: 10px;
+			padding-left: 0px;
 		}
 
 		.panels-flexible-column-new-8, .panels-flexible-column-first {
@@ -5611,13 +5629,12 @@ p.no-results{
 				padding: 30px 20px 15px;
 	   	 		border-bottom: 1px dotted @color3;
 	    		border-left: 1px dotted @color3;
-				min-height: 191px;
+				min-height: 196px;
 				.views-field-field-logo{
-					min-height: 108px;
-					padding-bottom: 15px;
-					img {
-						border: 1px solid #ccc;
-					}
+					    min-height: 146px;
+					    border: 1px solid #ccc;
+					    max-width: 150px;
+					    padding: 1em;
 				}
 				.views-field-title-field, .views-field-name-field{
 					display: none;
@@ -5633,7 +5650,6 @@ p.no-results{
 			}
 		//}
 		img{
-			max-width: 125px;
 			margin: auto;
 		}
 
@@ -5642,7 +5658,7 @@ p.no-results{
 
 	.view-display-id-fop img{
 			width:110px;
-			height:auto;
+			height:74px;
 			border:1px solid #CCC;
 		}
 
