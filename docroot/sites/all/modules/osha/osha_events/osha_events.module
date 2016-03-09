@@ -231,12 +231,12 @@ function osha_events_date_popup_process_alter(&$element, &$form_state, $context)
   }
 
   if($element['#name'] == 'field_start_date[und][0][value]'){
-    $element['date']['#title'] = t('Starting date and time').
+    $element['date']['#title'] = 'Starting date and time' .
       ' <span class="required-custom" title="'.t('This field is required.').'">*</span>';
   }
 
   if($element['#name'] == 'field_start_date[und][0][value2]'){
-    $element['date']['#title'] = t('Ending date and time').
+    $element['date']['#title'] = 'Ending date and time' .
       ' <span class="required-custom" title="'.t('This field is required.').'">*</span>';
   }
 }
