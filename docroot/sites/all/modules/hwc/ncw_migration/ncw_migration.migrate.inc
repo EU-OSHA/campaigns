@@ -384,6 +384,8 @@ abstract class AbstractNCWNodeMigration extends Migration {
     $node->type = $this->destination->getBundle();
     $node->uid = 0;
     $node->status = 1;
+    $node->path['pathauto'] = 0;
+    $node->path['alias'] = '';
     node_save($node);
     if (isset($node->nid)) {
       return array($node->nid);
