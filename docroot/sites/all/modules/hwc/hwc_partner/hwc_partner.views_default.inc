@@ -474,6 +474,8 @@ function hwc_partner_views_default_views() {
   $handler->display->display_options['filters']['state']['value'] = array(
     'draft' => 'draft',
     'final_draft' => 'final_draft',
+    'needs_review' => 'needs_review',
+    'to_be_approved' => 'to_be_approved',
   );
   $handler->display->display_options['filters']['state']['group'] = 1;
   $translatables['partner_draft_content'] = array(

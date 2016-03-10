@@ -4623,7 +4623,7 @@ function hwc_partner_default_page_manager_pages() {
     $display->content['new-82de0d01-543a-4f9f-aef5-7fc99c76fb68'] = $pane;
     $display->panels['center'][0] = 'new-82de0d01-543a-4f9f-aef5-7fc99c76fb68';
     $pane = new stdClass();
-    $pane->pid = 'new-a6d1c39c-19a5-47b6-9aa7-d7fd6d6872cd';
+    $pane->pid = 'new-ee11c62b-e8db-4c1d-a6a0-491156657f9e';
     $pane->panel = 'center';
     $pane->type = 'views';
     $pane->subtype = 'partner_draft_content';
@@ -4639,9 +4639,9 @@ function hwc_partner_default_page_manager_pages() {
       'feed_icons' => 0,
       'panel_args' => 0,
       'link_to_view' => 0,
-      'args' => '',
+      'args' => '%1',
       'url' => '',
-      'display' => 'block_1',
+      'display' => 'block_partner_draft_events',
       'context' => array(
         0 => '',
       ),
@@ -4657,9 +4657,9 @@ function hwc_partner_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $pane->uuid = 'a6d1c39c-19a5-47b6-9aa7-d7fd6d6872cd';
-    $display->content['new-a6d1c39c-19a5-47b6-9aa7-d7fd6d6872cd'] = $pane;
-    $display->panels['center'][1] = 'new-a6d1c39c-19a5-47b6-9aa7-d7fd6d6872cd';
+    $pane->uuid = 'ee11c62b-e8db-4c1d-a6a0-491156657f9e';
+    $display->content['new-ee11c62b-e8db-4c1d-a6a0-491156657f9e'] = $pane;
+    $display->panels['center'][1] = 'new-ee11c62b-e8db-4c1d-a6a0-491156657f9e';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-82de0d01-543a-4f9f-aef5-7fc99c76fb68';
   $handler->conf['display'] = $display;
