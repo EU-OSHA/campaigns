@@ -394,3 +394,10 @@ function hwc_update_7015() {
   }
   node_save($node);
 }
+
+/**
+ * Reset page title to use default one to use the t().
+ */
+function hwc_update_7016() {
+  variable_set('site_map_page_title', '');
+}

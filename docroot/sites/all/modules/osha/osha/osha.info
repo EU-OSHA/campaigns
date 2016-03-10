@@ -327,7 +327,6 @@ features[variable][] = pathauto_update_action
 features[variable][] = search_active_modules
 features[variable][] = search_default_module
 features[variable][] = site_map_message
-features[variable][] = site_map_page_title
 features[variable][] = site_map_show_description
 features[variable][] = site_map_show_front
 features[variable][] = site_map_show_menus
