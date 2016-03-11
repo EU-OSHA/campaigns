@@ -401,3 +401,15 @@ function hwc_update_7015() {
 function hwc_update_7016() {
   variable_set('site_map_page_title', '');
 }
+
+/**
+ * Update translations for tools and publ breadcrumb.
+ */
+function hwc_update_7017() {
+  $strings = array(
+    'Tools and publications',
+  );
+  foreach ($strings as $string) {
+    _osha_tmgmt_add_translations_to_identical_strings($string);
+  }
+}
