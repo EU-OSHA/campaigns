@@ -17,7 +17,7 @@
 }
 
 #block-search-form .input-group { width: 250px; }
-#block-search-form input { width: 200px; font-size: 1em; float:right; }
+#block-search-form input { width: 204px; font-size: 1em; float:right; }
 
 div.workbench-info-block {
   clear:both;
@@ -311,7 +311,11 @@ div#newsletter-subscription-form-wrapper_2 form > div {
 }
 
 div.loader {
-    margin-top: 300px;
+    margin-top: 150px;
     text-align: center;
     height: 600px;
+}
+
+div.loader p{
+   padding-top: 1em;
 }

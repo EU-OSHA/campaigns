@@ -51,6 +51,10 @@ function osha_publication_menu_publications_form($form, $form_state) {
     '#default_value' => $publication_type,
     '#title' => t('Publications type'),
   );
+  if (isset($form['left-column']['publication_type']['#options'][92])) {
+    unset($form['left-column']['publication_type']['#options'][92]);
+  }
+
   $form['left-column']['languages'] = array(
     '#type' => 'checkboxes',
     '#options' => osha_language_list_options(TRUE),
@@ -133,6 +137,7 @@ function osha_publication_menu_publications_search_native($form_state) {
   $q->fields('a', array('nid', 'vid'));
   $q->condition('a.type', 'publication');
   $q->condition('a.status', 1);
+  $q->condition('b.field_publication_type_tid', 92, '!=');
   $q->orderBy('a.changed', 'DESC');
   if (!empty($restrict)) {
     $q->condition('a.nid', $restrict, 'IN');
@@ -219,6 +224,7 @@ function osha_publication_menu_publications_search_related($form_state, $native_
   $q->fields('a', array('nid', 'vid'));
   $q->condition('a.type', 'publication');
   $q->condition('a.status', 1);
+  $q->condition('b.field_publication_type_tid', 92, '!=');
   $q->orderBy('a.changed', 'DESC');
   if (!empty($restrict)) {
     $q->condition('a.nid', $restrict, 'IN');
@@ -421,7 +427,7 @@ function _publication_type_options_list() {
   if (!empty($vocabulary)) {
     $terms = taxonomy_term_load_multiple(array(), array('vid' => $vocabulary->vid));
     foreach ($terms as $key => $term) {
-      $return[$term->tid] = $term->name;
+      $return[$term->tid] = $term->name_original;
     }
   }
   return $return;

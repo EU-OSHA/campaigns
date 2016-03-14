@@ -15,7 +15,7 @@
           global $base_url;
         ?>
         <div style="float: left; width: 30%; line-height: 20px;">
-          <h4 style="padding-top: 10px; text-align: left; font-size: 18px; font-weight: bold; color: #003399; font-family: Oswald, Arial,sans-serif;">
+          <h4 style="padding-top: 10px; text-align: left; font-size: 14px; font-weight: bold; color: #003399; font-family: Oswald, Arial,sans-serif;line-height: 14px;">
             <?php print t('Healthy Workplaces for All Ages'); ?>
           </h4>
         </div>

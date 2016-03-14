@@ -573,42 +573,42 @@ function hwc_field_widget_form_alter(&$element, &$form_state, $context) {
   if ($is_events_form) {
     switch ($element['#field_name']) {
       case 'title_field':
-        $placeholder = t('Event title. Max 60 characters.');
+        $placeholder = 'Event title. Max 60 characters.';
         $element['value']['#attributes']['placeholder'] = $placeholder;
         break;
 
       case 'field_city':
-        $placeholder = t('Event city');
+        $placeholder = 'Event city';
         $element['value']['#attributes']['placeholder'] = $placeholder;
         break;
 
       case 'field_contact_name':
-        $placeholder = t('Contact person name');
+        $placeholder = 'Contact person name';
         $element['value']['#attributes']['placeholder'] = $placeholder;
         break;
 
       case 'field_contact_phone':
-        $placeholder = t('Contact person phone number');
+        $placeholder = 'Contact person phone number';
         $element['value']['#attributes']['placeholder'] = $placeholder;
         break;
 
       case 'field_organizer':
-        $placeholder = t('First name of contact person');
+        $placeholder = 'The name of the organisation';
         $element['value']['#attributes']['placeholder'] = $placeholder;
         break;
 
       case 'field_location':
-        $placeholder = t('Location of the event');
+        $placeholder = 'Location of the event';
         $element['value']['#attributes']['placeholder'] = $placeholder;
         break;
 
       case 'field_website_of_event':
-        $placeholder = t('Website of event');
+        $placeholder = 'Website of event';
         $element['#attributes']['placeholder'] = $placeholder;
         break;
 
       case 'field_contact_email':
-        $placeholder = t('Contact person e-mail');
+        $placeholder = 'Contact person e-mail';
         $element['email']['#attributes']['placeholder'] = $placeholder;
         break;
 
@@ -617,12 +617,12 @@ function hwc_field_widget_form_alter(&$element, &$form_state, $context) {
   elseif ($is_news_form && !empty($element['#field_name'])) {
     switch ($element['#field_name']) {
       case 'title_field':
-        $placeholder = t('News title');
+        $placeholder = 'News title';
         $element['value']['#attributes']['placeholder'] = $placeholder;
         break;
 
       case 'field_image_caption':
-        $placeholder = t('Image caption');
+        $placeholder = 'Image caption';
         $element['value']['#attributes']['placeholder'] = $placeholder;
         break;
 
@@ -968,6 +968,17 @@ function hwc_webform_component_render_alter(&$element, &$component) {
   }
 }
 
+/**
+ * Get iso2 code of a Country name (from standard Drupal list)
+ */
+function _hwc_iso2_by_name($name) {
+  $countries = country_get_list();
+  foreach($countries as $iso2 => $country) {
+    if (strtoupper($country) == strtoupper($name)) {
+      return $iso2;
+    }
+  }
+}
 
 /**
  * Implements hook_term_presave().
@@ -975,6 +986,12 @@ function hwc_webform_component_render_alter(&$element, &$component) {
 function hwc_taxonomy_term_presave($term) {
   // When saving a country term, attach the flag on field_flag.
   $voc = taxonomy_vocabulary_machine_name_load('country');
+  if (empty($term->field_iso2[LANGUAGE_NONE][0]['value'])) {
+    $iso2_by_name = _hwc_iso2_by_name($term->name);
+    if (!empty($iso2_by_name)) {
+      $term->field_iso2[LANGUAGE_NONE][0]['value'] = $iso2_by_name;
+    }
+  }
   if ($term->vid == $voc->vid
     && !empty($term->field_iso2[LANGUAGE_NONE][0]['value'])
     && empty($term->field_flag[LANGUAGE_NONE][0])) {

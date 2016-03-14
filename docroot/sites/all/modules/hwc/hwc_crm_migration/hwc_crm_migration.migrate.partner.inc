@@ -119,6 +119,18 @@ class PartnerMigration extends HwcCrmMigration {
         );
       }
     }
+    if (!empty($row->field_country)) {
+      $term = taxonomy_get_term_by_name($row->field_country);
+      if (empty($term)) {
+        $voc = taxonomy_vocabulary_machine_name_load('country');
+        $term = new stdClass();
+        $term->vid = $voc->vid;
+        $term->name = ucwords(strtolower($row->field_country));
+        $term->language = 'en';
+        taxonomy_term_save($term);
+        $row->field_country = $term->name;
+      }
+    }
     return TRUE;
   }
 }

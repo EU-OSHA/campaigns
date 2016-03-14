@@ -31,7 +31,7 @@ if (module_exists('osha_newsletter') && isset($variables['element'])) {
       if ($item->type == 'taxonomy_term') {
         $term = taxonomy_term_view($item->content, 'token');
         $last_section = $item->content->name_original;
-        if ($last_section == 'Upcoming events') {
+        if ($last_section == 'Events') {
           $events[] = $term;
         } else {
           $elements[] = $term;
@@ -41,7 +41,7 @@ if (module_exists('osha_newsletter') && isset($variables['element'])) {
         $node = node_view($item->content,$style);
         $node['#campaign_id'] = $campaign_id;
 
-       if ($last_section == 'Upcoming events') {
+       if ($last_section == 'Events') {
           $events[] = $node;
         } else {
           $elements[] = $node;

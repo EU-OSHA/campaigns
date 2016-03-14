@@ -51,4 +51,5 @@ features[variable][] = menu_parent_campaign_materials
 features[variable][] = node_options_campaign_materials
 features[variable][] = node_preview_campaign_materials
 features[variable][] = node_submitted_campaign_materials
+features[variable][] = pathauto_node_campaign_materials_pattern
 features[views_view][] = view_campaign_materials

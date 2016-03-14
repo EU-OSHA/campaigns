@@ -534,13 +534,20 @@ ul.tabs--primary.nav.nav-tabs{
 			font-weight: bold;
 			text-align: right;
 			span{
-			    width: 240px !important;
+			    width: 396px !important;
 			    float: right;
 			    margin-right: @margin1;
 			    margin-top: 10px;
 			}
 		}
 	}
+
+	/*Fix to EN language 3 lines*/
+
+	html:lang(en) #homepage_slider .views-field-title span{
+		width: 240px !important;
+	}
+
 	@media screen and (-webkit-min-device-pixel-ratio:0) {
 		#homepage_slider .more-link{top: 2em;}
 	}
@@ -949,7 +956,6 @@ ul.tabs--primary.nav.nav-tabs{
 	.node-press-release {
 		h3{
 			a{
-				background: url("../images/content/continue-reading.png") no-repeat right center;
 				padding-right: 20px;
 				padding-top:0px;
 			}
@@ -959,7 +965,6 @@ ul.tabs--primary.nav.nav-tabs{
 			background-color: transparent;
 			font-weight: bold;
 			font-style: italic;
-			background: url("../images/content/continue-reading.png") no-repeat right center;
 			padding-right: 20px;
 			&:before{
 				content: "";
@@ -1133,6 +1138,12 @@ ul.tabs--primary.nav.nav-tabs{
 		}
 	}
 
+    #block-osha-newsletter-osha-newsletter-image{
+      a{
+        color: @color1;
+      }
+    }
+
 	#block-osha-newsletter-osha-newsletter-subscribe, #block-osha-newsletter-osha-newsletter-image{
 		clear: both;
 		background: url("../images/content/bg-newsletter.png") no-repeat left top;
@@ -1143,16 +1154,13 @@ ul.tabs--primary.nav.nav-tabs{
 		color: @color1;
 		background-size: cover;
 		padding-bottom: 1em;
-		margin-top: 0
-		em;
+		margin-top: 0em;
     	/* margin-bottom: 3em; */
     	padding-top: 1px;
 		#join_subscribers img{
 			left: 0;
 		}
-		a{
-			color: @color1;
-		}
+
 		h2{
 			margin-top: 15px;
 			padding-top: 100px;
@@ -1822,10 +1830,6 @@ ul.tabs--primary.nav.nav-tabs{
 		}
 		.field-type-text-with-summary{
 			margin-left: 210px;
-		}
-
-		.field-files{
-			margin-left: 154px;
 		}
 
 		.field-name-field-cover-image{
@@ -2683,6 +2687,18 @@ article{
 		margin-bottom: 0em;
 	}
 }
+
+.page-practical-tools{ 
+	fieldset.panel-default{
+		padding: 1em!important;
+
+	}
+}
+
+p.no-results{
+		padding: 1em;
+}
+
 .page-press-room, .page-campaign-materials{
 	.section-introduction .field-type-text-with-summary{
 		padding-bottom: 1em;
@@ -3491,7 +3507,7 @@ article{
 .become-partner{
 	.coments{
 		margin-top: 20px;
-		margin-bottom: 30px;
+		margin-bottom: 10px;
 		.col{
 			padding-right: 1.5em;
 			padding-left: 1.5em;
@@ -4075,8 +4091,8 @@ article{
 	.pane-hwc-partner-hwc-partner-private-link-2, .pane-node-profile-update-link{
 		.pane-content{
 			border: 1px dotted @color3;
-			min-height: 190px;
-			max-height: 190px;
+			min-height: 210px;
+			max-height: 210px;
 			text-align: center;
 			padding: 20px 10px !important;
 			margin:10px;
@@ -4382,7 +4398,7 @@ article{
 	.panels-flexible-row-new-1 .field-name-field-mission-statement .field-item{
 		text-align: justify;
 		padding-bottom: 0.5em;
-    	padding-right: 2em;
+    	padding-right: 0.5em;
 	}
 
 	.panels-flexible-region.panels-flexible-region-new-right.panels-flexible-region-last.col-sm-9.profile-col-right-1{
@@ -5153,13 +5169,10 @@ article{
 			}
 		}
 
-		.pane-custom, .pane-node .pane-content p , p[id*="tmgmt"], ul{
+		.pane-custom, p[id*="tmgmt"]{
 			border-bottom: 1px dotted @color3;
 			padding-bottom: 10px;
 			margin-top: 10px;
-			br{
-				display:none;
-			}
 			a{
 				font-style: normal;
 				font-weight: bold;
@@ -5172,6 +5185,24 @@ article{
 				}
 			}
 		}
+
+
+		.pane-node .pane-content p, ul{
+			border-bottom: 1px dotted @color3;
+			padding-bottom: 10px;
+			margin-top: 10px;
+			a{
+				font-style: normal;
+				font-weight: bold;
+				font-size: 1em;
+				color: @color2;
+				display: inline-block!important;
+				&:before{
+					content: " ";
+				}
+			}
+		}
+
 		#tmgmt-5{
 			border: none;
 			padding-bottom: 0px;
@@ -5733,7 +5764,7 @@ article{
 				font-size: 1em;
 			}
 			button#edit-submit--4{
-				margin-top: -3em;
+				margin-top: 1em;
 				min-width: 130px;
 				font-size: 1em;
 			}
@@ -6541,6 +6572,10 @@ fieldset.captcha {
 
 /*general classes*/
 
+.padding-href-button{ /*css introduction button*/
+	padding: 15px;
+}
+
 .btn-default-hwc , .button.browse{
 	background-color: #039!important;
     outline: 0;
@@ -6677,7 +6712,7 @@ span.date-display-single{
 
 .iframe-update{
 	width: 100%;
-    height: 4100px;
+    height: 5760px;
     border: 0;
 }
 
@@ -6720,3 +6755,7 @@ span.date-display-single{
 	padding-top: 1em;
 }
 
+.page-user-login .block-system form{
+	float: left;
+	padding-left: 3em;
+}

@@ -4623,7 +4623,7 @@ function hwc_partner_default_page_manager_pages() {
     $display->content['new-82de0d01-543a-4f9f-aef5-7fc99c76fb68'] = $pane;
     $display->panels['center'][0] = 'new-82de0d01-543a-4f9f-aef5-7fc99c76fb68';
     $pane = new stdClass();
-    $pane->pid = 'new-a6d1c39c-19a5-47b6-9aa7-d7fd6d6872cd';
+    $pane->pid = 'new-ee11c62b-e8db-4c1d-a6a0-491156657f9e';
     $pane->panel = 'center';
     $pane->type = 'views';
     $pane->subtype = 'partner_draft_content';
@@ -4639,9 +4639,9 @@ function hwc_partner_default_page_manager_pages() {
       'feed_icons' => 0,
       'panel_args' => 0,
       'link_to_view' => 0,
-      'args' => '',
+      'args' => '%1',
       'url' => '',
-      'display' => 'block_1',
+      'display' => 'block_partner_draft_events',
       'context' => array(
         0 => '',
       ),
@@ -4657,9 +4657,9 @@ function hwc_partner_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $pane->uuid = 'a6d1c39c-19a5-47b6-9aa7-d7fd6d6872cd';
-    $display->content['new-a6d1c39c-19a5-47b6-9aa7-d7fd6d6872cd'] = $pane;
-    $display->panels['center'][1] = 'new-a6d1c39c-19a5-47b6-9aa7-d7fd6d6872cd';
+    $pane->uuid = 'ee11c62b-e8db-4c1d-a6a0-491156657f9e';
+    $display->content['new-ee11c62b-e8db-4c1d-a6a0-491156657f9e'] = $pane;
+    $display->panels['center'][1] = 'new-ee11c62b-e8db-4c1d-a6a0-491156657f9e';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-82de0d01-543a-4f9f-aef5-7fc99c76fb68';
   $handler->conf['display'] = $display;
@@ -5040,7 +5040,7 @@ function hwc_partner_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = 'Private area for Partners';
+  $display->title = 'Partners Resources';
   $display->uuid = '4b43886a-a2f0-48cd-be03-5def9eac6bc0';
   $display->content = array();
   $display->panels = array();
@@ -5792,7 +5792,7 @@ foreach( $contexts[\'argument_entity_id:node_1\']->data->field_users[\'und\'] as
   $page->api_version = 1;
   $page->name = 'private_area_for_partners';
   $page->task = 'page';
-  $page->admin_title = 'Private area for partners';
+  $page->admin_title = 'Partners Resources';
   $page->admin_description = 'Private area landing page for partners';
   $page->path = 'private';
   $page->access = array(
@@ -5847,7 +5847,7 @@ foreach( $contexts[\'argument_entity_id:node_1\']->data->field_users[\'und\'] as
   $handler->handler = 'panel_context';
   $handler->weight = 0;
   $handler->conf = array(
-    'title' => 'Private area for partners (MP)',
+    'title' => 'Partners Resources',
     'no_blocks' => 0,
     'pipeline' => 'standard',
     'body_classes_to_remove' => '',
@@ -5867,25 +5867,14 @@ foreach( $contexts[\'argument_entity_id:node_1\']->data->field_users[\'und\'] as
     'relationships' => array(),
     'access' => array(
       'plugins' => array(
-        0 => array(
-          'name' => 'php',
-          'settings' => array(
-            'description' => 'User is MP',
-            'php' => 'if (hwc_partner_get_partner_type() == \'8b662e6e-054a-4148-8495-490ac5858964\') {
-  return TRUE;
-} else {
-  return FALSE;
-}',
-          ),
-          'not' => FALSE,
-        ),
         1 => array(
           'name' => 'role',
           'settings' => array(
             'rids' => array(
               0 => 3,
               1 => 11,
-              2 => 13,
+              2 => 12,
+              3 => 13,
             ),
           ),
           'context' => 'context_user_1',
@@ -5895,7 +5884,7 @@ foreach( $contexts[\'argument_entity_id:node_1\']->data->field_users[\'und\'] as
       'logic' => 'or',
     ),
     'panels_breadcrumbs_state' => 1,
-    'panels_breadcrumbs_titles' => 'Private area for partners',
+    'panels_breadcrumbs_titles' => 'Partners Resources',
     'panels_breadcrumbs_paths' => '<none>',
     'panels_breadcrumbs_home' => 1,
   );
@@ -5970,7 +5959,7 @@ foreach( $contexts[\'argument_entity_id:node_1\']->data->field_users[\'und\'] as
     ),
   );
   $display->cache = array();
-  $display->title = 'Private area for partners';
+  $display->title = 'Partners Resources';
   $display->uuid = 'cbebf880-65eb-4460-bd57-29469e70c90f';
   $display->content = array();
   $display->panels = array();
@@ -6149,6 +6138,64 @@ foreach( $contexts[\'argument_entity_id:node_1\']->data->field_users[\'und\'] as
     $display->content['new-0c01ea71-c9ec-4cc9-94a4-4f0e83db6534'] = $pane;
     $display->panels['center'][5] = 'new-0c01ea71-c9ec-4cc9-94a4-4f0e83db6534';
     $pane = new stdClass();
+    $pane->pid = 'new-31c17ce7-d216-4a2c-b2a1-ebbad01f8f76';
+    $pane->panel = 'center';
+    $pane->type = 'node';
+    $pane->subtype = 'node';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'nid' => '1011',
+      'links' => 0,
+      'leave_node_title' => 0,
+      'identifier' => '',
+      'build_mode' => 'body',
+      'link_node_title' => 0,
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 6;
+    $pane->locks = array();
+    $pane->uuid = '31c17ce7-d216-4a2c-b2a1-ebbad01f8f76';
+    $display->content['new-31c17ce7-d216-4a2c-b2a1-ebbad01f8f76'] = $pane;
+    $display->panels['center'][6] = 'new-31c17ce7-d216-4a2c-b2a1-ebbad01f8f76';
+    $pane = new stdClass();
+    $pane->pid = 'new-b2bf0384-b3ad-43d2-9d62-259e6af13efc';
+    $pane->panel = 'center';
+    $pane->type = 'node';
+    $pane->subtype = 'node';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'nid' => '1012',
+      'links' => 0,
+      'leave_node_title' => 0,
+      'identifier' => '',
+      'build_mode' => 'body',
+      'link_node_title' => 0,
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 7;
+    $pane->locks = array();
+    $pane->uuid = 'b2bf0384-b3ad-43d2-9d62-259e6af13efc';
+    $display->content['new-b2bf0384-b3ad-43d2-9d62-259e6af13efc'] = $pane;
+    $display->panels['center'][7] = 'new-b2bf0384-b3ad-43d2-9d62-259e6af13efc';
+    $pane = new stdClass();
     $pane->pid = 'new-15064475-1885-47e1-89dd-3cab3b7305a4';
     $pane->panel = 'center';
     $pane->type = 'node';
@@ -6175,11 +6222,11 @@ foreach( $contexts[\'argument_entity_id:node_1\']->data->field_users[\'und\'] as
       'css_class' => '',
     );
     $pane->extras = array();
-    $pane->position = 6;
+    $pane->position = 8;
     $pane->locks = array();
     $pane->uuid = '15064475-1885-47e1-89dd-3cab3b7305a4';
     $display->content['new-15064475-1885-47e1-89dd-3cab3b7305a4'] = $pane;
-    $display->panels['center'][6] = 'new-15064475-1885-47e1-89dd-3cab3b7305a4';
+    $display->panels['center'][8] = 'new-15064475-1885-47e1-89dd-3cab3b7305a4';
     $pane = new stdClass();
     $pane->pid = 'new-0138946a-50ca-4699-a497-d7559f36c514';
     $pane->panel = 'center';
@@ -6198,88 +6245,11 @@ foreach( $contexts[\'argument_entity_id:node_1\']->data->field_users[\'und\'] as
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 7;
+    $pane->position = 9;
     $pane->locks = array();
     $pane->uuid = '0138946a-50ca-4699-a497-d7559f36c514';
     $display->content['new-0138946a-50ca-4699-a497-d7559f36c514'] = $pane;
-    $display->panels['center'][7] = 'new-0138946a-50ca-4699-a497-d7559f36c514';
-    $pane = new stdClass();
-    $pane->pid = 'new-1c578ff7-cf11-4150-84da-56d52d94335f';
-    $pane->panel = 'center_';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
-    $pane->shown = TRUE;
-    $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'role',
-          'settings' => array(
-            'rids' => array(
-              0 => 3,
-              1 => 11,
-              2 => 13,
-            ),
-          ),
-          'context' => 'context_user_1',
-          'not' => FALSE,
-        ),
-      ),
-    );
-    $pane->configuration = array(
-      'admin_title' => 'Preview Private Area',
-      'title' => '',
-      'body' => '<div id="private-mp" class="row"><div class="col-md-12"><ul><li><a href="hwc_partner/preview_private_area/mp">Preview as MP</a></li><li><a href="hwc_partner/preview_private_area/ocp">Preview as OCP</a></li><li><a href="hwc_partner/preview_private_area/fp">Preview as FP</a></li></ul></div></div>',
-      'format' => 'full_html',
-      'substitute' => 1,
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = '1c578ff7-cf11-4150-84da-56d52d94335f';
-    $display->content['new-1c578ff7-cf11-4150-84da-56d52d94335f'] = $pane;
-    $display->panels['center_'][0] = 'new-1c578ff7-cf11-4150-84da-56d52d94335f';
-    $pane = new stdClass();
-    $pane->pid = 'new-27c05d7e-341e-4d90-8669-c4c5d7f922ed';
-    $pane->panel = 'center_';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
-    $pane->shown = TRUE;
-    $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'path_visibility',
-          'settings' => array(
-            'visibility_setting' => '1',
-            'paths' => 'hwc_partner/preview_private_area/mp',
-          ),
-          'context' => 'empty',
-          'not' => FALSE,
-        ),
-      ),
-    );
-    $pane->configuration = array(
-      'admin_title' => 'Back to private area',
-      'title' => '',
-      'body' => '<div class="row"><div class="col-md-12"><ul><li><a href="private">Back</a></li></ul></div></div>',
-      'format' => 'full_html',
-      'substitute' => 1,
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $pane->uuid = '27c05d7e-341e-4d90-8669-c4c5d7f922ed';
-    $display->content['new-27c05d7e-341e-4d90-8669-c4c5d7f922ed'] = $pane;
-    $display->panels['center_'][1] = 'new-27c05d7e-341e-4d90-8669-c4c5d7f922ed';
+    $display->panels['center'][9] = 'new-0138946a-50ca-4699-a497-d7559f36c514';
     $pane = new stdClass();
     $pane->pid = 'new-9bf21a4c-e961-4544-acb9-e6cfcac8fec6';
     $pane->panel = 'center_';
@@ -6307,969 +6277,11 @@ foreach( $contexts[\'argument_entity_id:node_1\']->data->field_users[\'und\'] as
       'css_class' => 'section-introduction',
     );
     $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 0;
     $pane->locks = array();
     $pane->uuid = '9bf21a4c-e961-4544-acb9-e6cfcac8fec6';
     $display->content['new-9bf21a4c-e961-4544-acb9-e6cfcac8fec6'] = $pane;
-    $display->panels['center_'][2] = 'new-9bf21a4c-e961-4544-acb9-e6cfcac8fec6';
-  $display->hide_title = PANELS_TITLE_PANE;
-  $display->title_pane = 'new-9bf21a4c-e961-4544-acb9-e6cfcac8fec6';
-  $handler->conf['display'] = $display;
-  $page->default_handlers[$handler->name] = $handler;
-  $handler = new stdClass();
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
-  $handler->name = 'page_private_area_for_partners__private-area-for-partners-ocp';
-  $handler->task = 'page';
-  $handler->subtask = 'private_area_for_partners';
-  $handler->handler = 'panel_context';
-  $handler->weight = 1;
-  $handler->conf = array(
-    'title' => 'Private area for partners (OCP)',
-    'no_blocks' => 0,
-    'pipeline' => 'standard',
-    'body_classes_to_remove' => '',
-    'body_classes_to_add' => 'private-area',
-    'css_id' => 'private',
-    'css' => '',
-    'contexts' => array(
-      0 => array(
-        'identifier' => 'User',
-        'keyword' => 'user',
-        'name' => 'user',
-        'type' => 'current',
-        'uid' => '',
-        'id' => 1,
-      ),
-    ),
-    'relationships' => array(),
-    'access' => array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'php',
-          'settings' => array(
-            'description' => 'User is OCP',
-            'php' => 'if (hwc_partner_get_partner_type() == \'825c3b00-0dd2-4026-b292-bc76d6e49a70\') {
-    return TRUE;
-} else {
-  return FALSE;
-}',
-          ),
-          'not' => FALSE,
-        ),
-        1 => array(
-          'name' => 'role',
-          'settings' => array(
-            'rids' => array(
-              0 => 3,
-              1 => 11,
-              2 => 13,
-            ),
-          ),
-          'context' => 'context_user_1',
-          'not' => FALSE,
-        ),
-      ),
-      'logic' => 'or',
-    ),
-    'panels_breadcrumbs_state' => 1,
-    'panels_breadcrumbs_titles' => 'Private area for partners',
-    'panels_breadcrumbs_paths' => '<none>',
-    'panels_breadcrumbs_home' => 1,
-    'name' => 'private-area-for-partners-ocp',
-  );
-  $display = new panels_display();
-  $display->layout = 'flexible';
-  $display->layout_settings = array(
-    'items' => array(
-      'canvas' => array(
-        'type' => 'row',
-        'contains' => 'column',
-        'children' => array(
-          0 => 'main',
-        ),
-        'parent' => NULL,
-      ),
-      'main' => array(
-        'type' => 'column',
-        'width' => 100,
-        'width_type' => '%',
-        'children' => array(
-          0 => 1,
-          1 => 'main-row',
-        ),
-        'parent' => 'canvas',
-      ),
-      'main-row' => array(
-        'type' => 'row',
-        'contains' => 'region',
-        'children' => array(
-          0 => 'center',
-        ),
-        'parent' => 'main',
-        'class' => '',
-        'hide_empty' => 0,
-      ),
-      'center' => array(
-        'type' => 'region',
-        'title' => 'Center',
-        'width' => 100,
-        'width_type' => '%',
-        'parent' => 'main-row',
-        'class' => 'container',
-        'hide_empty' => 0,
-      ),
-      1 => array(
-        'type' => 'row',
-        'contains' => 'region',
-        'children' => array(
-          0 => 'center_',
-        ),
-        'parent' => 'main',
-        'class' => '',
-        'hide_empty' => 0,
-      ),
-      'center_' => array(
-        'type' => 'region',
-        'title' => 'Center',
-        'width' => 100,
-        'width_type' => '%',
-        'parent' => '1',
-        'class' => '',
-        'hide_empty' => 0,
-      ),
-    ),
-  );
-  $display->panel_settings = array(
-    'style_settings' => array(
-      'default' => NULL,
-      'middle' => NULL,
-      'center' => NULL,
-      'center_' => NULL,
-    ),
-  );
-  $display->cache = array();
-  $display->title = 'Private area for partners';
-  $display->uuid = 'cbebf880-65eb-4460-bd57-29469e70c90f';
-  $display->content = array();
-  $display->panels = array();
-    $pane = new stdClass();
-    $pane->pid = 'new-00d868a2-2d02-40aa-9219-b7e9744551f7';
-    $pane->panel = 'center';
-    $pane->type = 'node';
-    $pane->subtype = 'node';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'nid' => '967',
-      'links' => 1,
-      'leave_node_title' => 0,
-      'identifier' => '',
-      'build_mode' => 'body',
-      'link_node_title' => 0,
-      'override_title' => 0,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = '00d868a2-2d02-40aa-9219-b7e9744551f7';
-    $display->content['new-00d868a2-2d02-40aa-9219-b7e9744551f7'] = $pane;
-    $display->panels['center'][0] = 'new-00d868a2-2d02-40aa-9219-b7e9744551f7';
-    $pane = new stdClass();
-    $pane->pid = 'new-015ba7f0-d01b-4ce2-875b-ebecb6266340';
-    $pane->panel = 'center';
-    $pane->type = 'node';
-    $pane->subtype = 'node';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'nid' => '970',
-      'links' => 1,
-      'leave_node_title' => 0,
-      'identifier' => '',
-      'build_mode' => 'body',
-      'link_node_title' => 0,
-      'override_title' => 0,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $pane->uuid = '015ba7f0-d01b-4ce2-875b-ebecb6266340';
-    $display->content['new-015ba7f0-d01b-4ce2-875b-ebecb6266340'] = $pane;
-    $display->panels['center'][1] = 'new-015ba7f0-d01b-4ce2-875b-ebecb6266340';
-    $pane = new stdClass();
-    $pane->pid = 'new-e4b18b6d-ef9e-4e22-b389-a667d2d6653e';
-    $pane->panel = 'center';
-    $pane->type = 'node';
-    $pane->subtype = 'node';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'nid' => '973',
-      'links' => 1,
-      'leave_node_title' => 0,
-      'identifier' => '',
-      'build_mode' => 'body',
-      'link_node_title' => 0,
-      'override_title' => 0,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 2;
-    $pane->locks = array();
-    $pane->uuid = 'e4b18b6d-ef9e-4e22-b389-a667d2d6653e';
-    $display->content['new-e4b18b6d-ef9e-4e22-b389-a667d2d6653e'] = $pane;
-    $display->panels['center'][2] = 'new-e4b18b6d-ef9e-4e22-b389-a667d2d6653e';
-    $pane = new stdClass();
-    $pane->pid = 'new-62559f54-3197-4daf-99a9-b6e3e0c4e3fa';
-    $pane->panel = 'center';
-    $pane->type = 'node';
-    $pane->subtype = 'node';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'nid' => '976',
-      'links' => 0,
-      'leave_node_title' => 0,
-      'identifier' => '',
-      'build_mode' => 'body',
-      'link_node_title' => 0,
-      'override_title' => 1,
-      'override_title_text' => '%title',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 3;
-    $pane->locks = array();
-    $pane->uuid = '62559f54-3197-4daf-99a9-b6e3e0c4e3fa';
-    $display->content['new-62559f54-3197-4daf-99a9-b6e3e0c4e3fa'] = $pane;
-    $display->panels['center'][3] = 'new-62559f54-3197-4daf-99a9-b6e3e0c4e3fa';
-    $pane = new stdClass();
-    $pane->pid = 'new-80345943-0413-4937-b106-1bac9dc116c4';
-    $pane->panel = 'center';
-    $pane->type = 'node';
-    $pane->subtype = 'node';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'nid' => '979',
-      'links' => 0,
-      'leave_node_title' => 0,
-      'identifier' => '',
-      'build_mode' => 'body',
-      'link_node_title' => 0,
-      'override_title' => 1,
-      'override_title_text' => '%title',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 4;
-    $pane->locks = array();
-    $pane->uuid = '80345943-0413-4937-b106-1bac9dc116c4';
-    $display->content['new-80345943-0413-4937-b106-1bac9dc116c4'] = $pane;
-    $display->panels['center'][4] = 'new-80345943-0413-4937-b106-1bac9dc116c4';
-    $pane = new stdClass();
-    $pane->pid = 'new-0c01ea71-c9ec-4cc9-94a4-4f0e83db6534';
-    $pane->panel = 'center';
-    $pane->type = 'node';
-    $pane->subtype = 'node';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'nid' => '982',
-      'links' => 0,
-      'leave_node_title' => 0,
-      'identifier' => '',
-      'build_mode' => 'body',
-      'link_node_title' => 0,
-      'override_title' => 1,
-      'override_title_text' => '%title',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 5;
-    $pane->locks = array();
-    $pane->uuid = '0c01ea71-c9ec-4cc9-94a4-4f0e83db6534';
-    $display->content['new-0c01ea71-c9ec-4cc9-94a4-4f0e83db6534'] = $pane;
-    $display->panels['center'][5] = 'new-0c01ea71-c9ec-4cc9-94a4-4f0e83db6534';
-    $pane = new stdClass();
-    $pane->pid = 'new-15064475-1885-47e1-89dd-3cab3b7305a4';
-    $pane->panel = 'center';
-    $pane->type = 'node';
-    $pane->subtype = 'node';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'nid' => '137',
-      'links' => 0,
-      'leave_node_title' => 0,
-      'identifier' => '',
-      'build_mode' => 'body',
-      'link_node_title' => 0,
-      'override_title' => 1,
-      'override_title_text' => '%title',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array(
-      'css_id' => 'contact-us',
-      'css_class' => '',
-    );
-    $pane->extras = array();
-    $pane->position = 6;
-    $pane->locks = array();
-    $pane->uuid = '15064475-1885-47e1-89dd-3cab3b7305a4';
-    $display->content['new-15064475-1885-47e1-89dd-3cab3b7305a4'] = $pane;
-    $display->panels['center'][6] = 'new-15064475-1885-47e1-89dd-3cab3b7305a4';
-    $pane = new stdClass();
-    $pane->pid = 'new-0138946a-50ca-4699-a497-d7559f36c514';
-    $pane->panel = 'center';
-    $pane->type = 'block';
-    $pane->subtype = 'hwc_partner-hwc_partner_user_account_edit';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => 'Your account',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 7;
-    $pane->locks = array();
-    $pane->uuid = '0138946a-50ca-4699-a497-d7559f36c514';
-    $display->content['new-0138946a-50ca-4699-a497-d7559f36c514'] = $pane;
-    $display->panels['center'][7] = 'new-0138946a-50ca-4699-a497-d7559f36c514';
-    $pane = new stdClass();
-    $pane->pid = 'new-38baaa40-9aaf-470a-b4d6-64eaa8278f8f';
-    $pane->panel = 'center_';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
-    $pane->shown = TRUE;
-    $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'role',
-          'settings' => array(
-            'rids' => array(
-              0 => 3,
-              1 => 11,
-              2 => 13,
-            ),
-          ),
-          'context' => 'context_user_1',
-          'not' => FALSE,
-        ),
-      ),
-    );
-    $pane->configuration = array(
-      'admin_title' => 'Preview Private Area',
-      'title' => '',
-      'body' => '<div id="private-ocp" class="row"><div class="col-md-12"><ul><li><a href="hwc_partner/preview_private_area/mp">Preview as MP</a></li><li><a href="hwc_partner/preview_private_area/ocp">Preview as OCP</a></li><li><a href="hwc_partner/preview_private_area/fp">Preview as FP</a></li></ul></div></div>',
-      'format' => 'full_html',
-      'substitute' => 1,
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = '38baaa40-9aaf-470a-b4d6-64eaa8278f8f';
-    $display->content['new-38baaa40-9aaf-470a-b4d6-64eaa8278f8f'] = $pane;
-    $display->panels['center_'][0] = 'new-38baaa40-9aaf-470a-b4d6-64eaa8278f8f';
-    $pane = new stdClass();
-    $pane->pid = 'new-d1bf2561-8007-47dd-ae93-44305bac8bdb';
-    $pane->panel = 'center_';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
-    $pane->shown = TRUE;
-    $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'path_visibility',
-          'settings' => array(
-            'visibility_setting' => '1',
-            'paths' => 'hwc_partner/preview_private_area/ocp',
-          ),
-          'context' => 'empty',
-          'not' => FALSE,
-        ),
-      ),
-    );
-    $pane->configuration = array(
-      'admin_title' => 'Back to private area',
-      'title' => '',
-      'body' => '<div class="row"><div class="col-md-12"><ul><li><a href="private">Back</a></li></ul></div></div>',
-      'format' => 'full_html',
-      'substitute' => 1,
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $pane->uuid = 'd1bf2561-8007-47dd-ae93-44305bac8bdb';
-    $display->content['new-d1bf2561-8007-47dd-ae93-44305bac8bdb'] = $pane;
-    $display->panels['center_'][1] = 'new-d1bf2561-8007-47dd-ae93-44305bac8bdb';
-    $pane = new stdClass();
-    $pane->pid = 'new-9bf21a4c-e961-4544-acb9-e6cfcac8fec6';
-    $pane->panel = 'center_';
-    $pane->type = 'node';
-    $pane->subtype = 'node';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'nid' => '964',
-      'links' => 1,
-      'leave_node_title' => 0,
-      'identifier' => '',
-      'build_mode' => 'body',
-      'link_node_title' => 0,
-      'override_title' => 1,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array(
-      'css_id' => '',
-      'css_class' => 'section-introduction',
-    );
-    $pane->extras = array();
-    $pane->position = 2;
-    $pane->locks = array();
-    $pane->uuid = '9bf21a4c-e961-4544-acb9-e6cfcac8fec6';
-    $display->content['new-9bf21a4c-e961-4544-acb9-e6cfcac8fec6'] = $pane;
-    $display->panels['center_'][2] = 'new-9bf21a4c-e961-4544-acb9-e6cfcac8fec6';
-  $display->hide_title = PANELS_TITLE_PANE;
-  $display->title_pane = 'new-9bf21a4c-e961-4544-acb9-e6cfcac8fec6';
-  $handler->conf['display'] = $display;
-  $page->default_handlers[$handler->name] = $handler;
-  $handler = new stdClass();
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
-  $handler->name = 'page_private_area_for_partners__private-area-for-partners-fp';
-  $handler->task = 'page';
-  $handler->subtask = 'private_area_for_partners';
-  $handler->handler = 'panel_context';
-  $handler->weight = 2;
-  $handler->conf = array(
-    'title' => 'Private area for partners (FP)',
-    'no_blocks' => 0,
-    'pipeline' => 'standard',
-    'body_classes_to_remove' => '',
-    'body_classes_to_add' => 'private-area',
-    'css_id' => 'private',
-    'css' => '',
-    'contexts' => array(
-      0 => array(
-        'identifier' => 'User',
-        'keyword' => 'user',
-        'name' => 'user',
-        'type' => 'current',
-        'uid' => '',
-        'id' => 1,
-      ),
-    ),
-    'relationships' => array(),
-    'access' => array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'php',
-          'settings' => array(
-            'description' => 'User is FP',
-            'php' => 'if (hwc_partner_get_partner_type() == \'1dca3546-7c11-49b5-b74f-a77f87f60d96\') {
-  return TRUE;
-} else {
-  return FALSE;
-}',
-          ),
-          'not' => FALSE,
-        ),
-        1 => array(
-          'name' => 'role',
-          'settings' => array(
-            'rids' => array(
-              0 => 3,
-              1 => 11,
-              2 => 13,
-            ),
-          ),
-          'context' => 'context_user_1',
-          'not' => FALSE,
-        ),
-      ),
-      'logic' => 'or',
-    ),
-    'panels_breadcrumbs_state' => 1,
-    'panels_breadcrumbs_titles' => 'Private area for partners',
-    'panels_breadcrumbs_paths' => '<none>',
-    'panels_breadcrumbs_home' => 1,
-    'name' => 'private-area-for-partners-fp',
-  );
-  $display = new panels_display();
-  $display->layout = 'flexible';
-  $display->layout_settings = array(
-    'items' => array(
-      'canvas' => array(
-        'type' => 'row',
-        'contains' => 'column',
-        'children' => array(
-          0 => 'main',
-        ),
-        'parent' => NULL,
-      ),
-      'main' => array(
-        'type' => 'column',
-        'width' => 100,
-        'width_type' => '%',
-        'children' => array(
-          0 => 1,
-          1 => 'main-row',
-        ),
-        'parent' => 'canvas',
-      ),
-      'main-row' => array(
-        'type' => 'row',
-        'contains' => 'region',
-        'children' => array(
-          0 => 'center',
-        ),
-        'parent' => 'main',
-        'class' => '',
-        'hide_empty' => 0,
-      ),
-      'center' => array(
-        'type' => 'region',
-        'title' => 'Center',
-        'width' => 100,
-        'width_type' => '%',
-        'parent' => 'main-row',
-        'class' => 'container',
-        'hide_empty' => 0,
-      ),
-      1 => array(
-        'type' => 'row',
-        'contains' => 'region',
-        'children' => array(
-          0 => 'center_',
-        ),
-        'parent' => 'main',
-        'class' => '',
-        'hide_empty' => 0,
-      ),
-      'center_' => array(
-        'type' => 'region',
-        'title' => 'Center',
-        'width' => 100,
-        'width_type' => '%',
-        'parent' => '1',
-        'class' => '',
-        'hide_empty' => 0,
-      ),
-    ),
-  );
-  $display->panel_settings = array(
-    'style_settings' => array(
-      'default' => NULL,
-      'middle' => NULL,
-      'center' => NULL,
-      'center_' => NULL,
-    ),
-  );
-  $display->cache = array();
-  $display->title = 'Private area for partners';
-  $display->uuid = 'cbebf880-65eb-4460-bd57-29469e70c90f';
-  $display->content = array();
-  $display->panels = array();
-    $pane = new stdClass();
-    $pane->pid = 'new-56a5173d-b12e-44fc-a580-daab7b5f659e';
-    $pane->panel = 'center';
-    $pane->type = 'node';
-    $pane->subtype = 'node';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'nid' => '968',
-      'links' => 1,
-      'leave_node_title' => 0,
-      'identifier' => '',
-      'build_mode' => 'body',
-      'link_node_title' => 0,
-      'override_title' => 0,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = '56a5173d-b12e-44fc-a580-daab7b5f659e';
-    $display->content['new-56a5173d-b12e-44fc-a580-daab7b5f659e'] = $pane;
-    $display->panels['center'][0] = 'new-56a5173d-b12e-44fc-a580-daab7b5f659e';
-    $pane = new stdClass();
-    $pane->pid = 'new-47669eca-b016-4284-b991-a97bb974f6c3';
-    $pane->panel = 'center';
-    $pane->type = 'node';
-    $pane->subtype = 'node';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'nid' => '971',
-      'links' => 1,
-      'leave_node_title' => 0,
-      'identifier' => '',
-      'build_mode' => 'body',
-      'link_node_title' => 0,
-      'override_title' => 0,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $pane->uuid = '47669eca-b016-4284-b991-a97bb974f6c3';
-    $display->content['new-47669eca-b016-4284-b991-a97bb974f6c3'] = $pane;
-    $display->panels['center'][1] = 'new-47669eca-b016-4284-b991-a97bb974f6c3';
-    $pane = new stdClass();
-    $pane->pid = 'new-0641fb98-ef52-4b23-b61f-9181bb3135e6';
-    $pane->panel = 'center';
-    $pane->type = 'node';
-    $pane->subtype = 'node';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'nid' => '974',
-      'links' => 1,
-      'leave_node_title' => 0,
-      'identifier' => '',
-      'build_mode' => 'body',
-      'link_node_title' => 0,
-      'override_title' => 0,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 2;
-    $pane->locks = array();
-    $pane->uuid = '0641fb98-ef52-4b23-b61f-9181bb3135e6';
-    $display->content['new-0641fb98-ef52-4b23-b61f-9181bb3135e6'] = $pane;
-    $display->panels['center'][2] = 'new-0641fb98-ef52-4b23-b61f-9181bb3135e6';
-    $pane = new stdClass();
-    $pane->pid = 'new-62559f54-3197-4daf-99a9-b6e3e0c4e3fa';
-    $pane->panel = 'center';
-    $pane->type = 'node';
-    $pane->subtype = 'node';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'nid' => '977',
-      'links' => 0,
-      'leave_node_title' => 0,
-      'identifier' => '',
-      'build_mode' => 'body',
-      'link_node_title' => 0,
-      'override_title' => 1,
-      'override_title_text' => '%title',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 3;
-    $pane->locks = array();
-    $pane->uuid = '62559f54-3197-4daf-99a9-b6e3e0c4e3fa';
-    $display->content['new-62559f54-3197-4daf-99a9-b6e3e0c4e3fa'] = $pane;
-    $display->panels['center'][3] = 'new-62559f54-3197-4daf-99a9-b6e3e0c4e3fa';
-    $pane = new stdClass();
-    $pane->pid = 'new-80345943-0413-4937-b106-1bac9dc116c4';
-    $pane->panel = 'center';
-    $pane->type = 'node';
-    $pane->subtype = 'node';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'nid' => '980',
-      'links' => 0,
-      'leave_node_title' => 0,
-      'identifier' => '',
-      'build_mode' => 'body',
-      'link_node_title' => 0,
-      'override_title' => 1,
-      'override_title_text' => '%title',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 4;
-    $pane->locks = array();
-    $pane->uuid = '80345943-0413-4937-b106-1bac9dc116c4';
-    $display->content['new-80345943-0413-4937-b106-1bac9dc116c4'] = $pane;
-    $display->panels['center'][4] = 'new-80345943-0413-4937-b106-1bac9dc116c4';
-    $pane = new stdClass();
-    $pane->pid = 'new-0c01ea71-c9ec-4cc9-94a4-4f0e83db6534';
-    $pane->panel = 'center';
-    $pane->type = 'node';
-    $pane->subtype = 'node';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'nid' => '983',
-      'links' => 0,
-      'leave_node_title' => 0,
-      'identifier' => '',
-      'build_mode' => 'body',
-      'link_node_title' => 0,
-      'override_title' => 1,
-      'override_title_text' => '%title',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 5;
-    $pane->locks = array();
-    $pane->uuid = '0c01ea71-c9ec-4cc9-94a4-4f0e83db6534';
-    $display->content['new-0c01ea71-c9ec-4cc9-94a4-4f0e83db6534'] = $pane;
-    $display->panels['center'][5] = 'new-0c01ea71-c9ec-4cc9-94a4-4f0e83db6534';
-    $pane = new stdClass();
-    $pane->pid = 'new-15064475-1885-47e1-89dd-3cab3b7305a4';
-    $pane->panel = 'center';
-    $pane->type = 'node';
-    $pane->subtype = 'node';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'nid' => '137',
-      'links' => 0,
-      'leave_node_title' => 0,
-      'identifier' => '',
-      'build_mode' => 'body',
-      'link_node_title' => 0,
-      'override_title' => 1,
-      'override_title_text' => '%title',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array(
-      'css_id' => 'contact-us',
-      'css_class' => '',
-    );
-    $pane->extras = array();
-    $pane->position = 6;
-    $pane->locks = array();
-    $pane->uuid = '15064475-1885-47e1-89dd-3cab3b7305a4';
-    $display->content['new-15064475-1885-47e1-89dd-3cab3b7305a4'] = $pane;
-    $display->panels['center'][6] = 'new-15064475-1885-47e1-89dd-3cab3b7305a4';
-    $pane = new stdClass();
-    $pane->pid = 'new-0138946a-50ca-4699-a497-d7559f36c514';
-    $pane->panel = 'center';
-    $pane->type = 'block';
-    $pane->subtype = 'hwc_partner-hwc_partner_user_account_edit';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => 'Your account',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 7;
-    $pane->locks = array();
-    $pane->uuid = '0138946a-50ca-4699-a497-d7559f36c514';
-    $display->content['new-0138946a-50ca-4699-a497-d7559f36c514'] = $pane;
-    $display->panels['center'][7] = 'new-0138946a-50ca-4699-a497-d7559f36c514';
-    $pane = new stdClass();
-    $pane->pid = 'new-b4bb9534-85dc-4712-9e7e-7a38857c7c26';
-    $pane->panel = 'center_';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
-    $pane->shown = TRUE;
-    $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'role',
-          'settings' => array(
-            'rids' => array(
-              0 => 3,
-              1 => 11,
-              2 => 13,
-            ),
-          ),
-          'context' => 'context_user_1',
-          'not' => FALSE,
-        ),
-      ),
-    );
-    $pane->configuration = array(
-      'admin_title' => 'Preview Private Area',
-      'title' => '',
-      'body' => '<div id="private-fp" class="row"><div class="col-md-12"><ul><li><a href="hwc_partner/preview_private_area/mp">Preview as MP</a></li><li><a href="hwc_partner/preview_private_area/ocp">Preview as OCP</a></li><li><a href="hwc_partner/preview_private_area/fp">Preview as FP</a></li></ul></div></div>',
-      'format' => 'full_html',
-      'substitute' => 1,
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = 'b4bb9534-85dc-4712-9e7e-7a38857c7c26';
-    $display->content['new-b4bb9534-85dc-4712-9e7e-7a38857c7c26'] = $pane;
-    $display->panels['center_'][0] = 'new-b4bb9534-85dc-4712-9e7e-7a38857c7c26';
-    $pane = new stdClass();
-    $pane->pid = 'new-f4c5e86b-03ab-4a5c-8447-171211597a95';
-    $pane->panel = 'center_';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
-    $pane->shown = TRUE;
-    $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'path_visibility',
-          'settings' => array(
-            'visibility_setting' => '1',
-            'paths' => 'hwc_partner/preview_private_area/fp',
-          ),
-          'context' => 'empty',
-          'not' => FALSE,
-        ),
-      ),
-    );
-    $pane->configuration = array(
-      'admin_title' => 'Back to private area',
-      'title' => '',
-      'body' => '<div class="row"><div class="col-md-12"><ul><li><a href="private">Back</a></li></ul></div></div>',
-      'format' => 'full_html',
-      'substitute' => 1,
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $pane->uuid = 'f4c5e86b-03ab-4a5c-8447-171211597a95';
-    $display->content['new-f4c5e86b-03ab-4a5c-8447-171211597a95'] = $pane;
-    $display->panels['center_'][1] = 'new-f4c5e86b-03ab-4a5c-8447-171211597a95';
-    $pane = new stdClass();
-    $pane->pid = 'new-9bf21a4c-e961-4544-acb9-e6cfcac8fec6';
-    $pane->panel = 'center_';
-    $pane->type = 'node';
-    $pane->subtype = 'node';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'nid' => '965',
-      'links' => 1,
-      'leave_node_title' => 0,
-      'identifier' => '',
-      'build_mode' => 'body',
-      'link_node_title' => 0,
-      'override_title' => 1,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array(
-      'css_id' => '',
-      'css_class' => 'section-introduction',
-    );
-    $pane->extras = array();
-    $pane->position = 2;
-    $pane->locks = array();
-    $pane->uuid = '9bf21a4c-e961-4544-acb9-e6cfcac8fec6';
-    $display->content['new-9bf21a4c-e961-4544-acb9-e6cfcac8fec6'] = $pane;
-    $display->panels['center_'][2] = 'new-9bf21a4c-e961-4544-acb9-e6cfcac8fec6';
+    $display->panels['center_'][0] = 'new-9bf21a4c-e961-4544-acb9-e6cfcac8fec6';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = 'new-9bf21a4c-e961-4544-acb9-e6cfcac8fec6';
   $handler->conf['display'] = $display;

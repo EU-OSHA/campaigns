@@ -238,16 +238,30 @@ function osha_newsletter_block_configure($delta = '') {
         ),
       );
       $form['osha_newsletter_image_block_intro_text'] = array(
-        '#type' => 'textfield',
+        '#type' => 'textarea',
         '#title' => 'Newsletter intro text',
         '#size' => 60,
         '#description' => 'This text will appear over the background image (begining of the paragraph).',
         '#default_value' => variable_get('osha_newsletter_image_block_intro_text','Would you like to stay informed about the latest developments regarding ageing workers?'),
       );
+      $form['osha_newsletter_image_block_details_link_label'] = array(
+        '#type' => 'textfield',
+        '#title' => 'Privacy notice label',
+        '#size' => 60,
+        '#description' => 'This text will appear as link label after the e-mail field.',
+        '#default_value' => variable_get('osha_newsletter_image_block_details_link_label', 'Privacy policy'),
+      );
+      $form['osha_newsletter_image_block_details_link_url'] = array(
+        '#type' => 'textfield',
+        '#title' => 'Privacy notice URL',
+        '#size' => 60,
+        '#description' => 'This text will appear as link url after the e-mail field.',
+        '#default_value' => variable_get('osha_newsletter_image_block_details_link_url', 'node/1015'),
+      );
       break;
     case 'osha_newsletter_subscribe_extra':
       $form['subscribe_extra_block_intro_text'] = array(
-        '#type' => 'textfield',
+        '#type' => 'textarea',
         '#title' => 'Block intro text',
         '#size' => 60,
         '#description' => 'This text will appear in the Subscription block before the e-mail field.',
@@ -322,6 +336,8 @@ function osha_newsletter_block_save($delta = '', $edit = array()) {
     case 'osha_newsletter_image':
       variable_set('osha_newsletter_image_block_background_img', $edit['osha_newsletter_image_block_background_img']);
       variable_set('osha_newsletter_image_block_intro_text', $edit['osha_newsletter_image_block_intro_text']);
+      variable_set('osha_newsletter_image_block_details_link_label', $edit['osha_newsletter_image_block_details_link_label']);
+      variable_set('osha_newsletter_image_block_details_link_url', $edit['osha_newsletter_image_block_details_link_url']);
       break;
     case 'osha_newsletter_subscribe_extra':
       variable_set('subscribe_extra_block_intro_text', $edit['subscribe_extra_block_intro_text']);
@@ -378,12 +394,21 @@ function osha_newsletter_block_view($delta = '') {
           $image_uri = $file->uri;
         }
 
+        $details_link = '';
+        $details_link_label = t(variable_get('osha_newsletter_image_block_details_link_label', 'Privacy policy'));
+        $details_link_url = variable_get('osha_newsletter_image_block_details_link_url', 'node/1015');
+
+        if (!empty($details_link_label) && !empty($details_link_url)) {
+          $details_link = '<a class="info-privacy-policy-campaigns" title="Privacy policy for newsletter" href=' . url($details_link_url) . '>' . $details_link_label . '</a><br/>';
+        }
+
         $subscribe_form = drupal_get_form('campaigns_newsletter_subscribe_form');
 
         $block['content'] = theme('osha_newsletter_image', array(
           'background_image_url' => $image_uri,
           'intro_text' => t(variable_get('osha_newsletter_image_block_intro_text', 'Would you like to stay informed about the latest developments regarding ageing workers?')),
           'subscribe_form' => drupal_render($subscribe_form),
+          'details_link' => $details_link,
         ));
         return $block;
       }

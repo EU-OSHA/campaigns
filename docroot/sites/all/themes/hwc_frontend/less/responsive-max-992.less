@@ -6,6 +6,7 @@
 
 header.navbar-default .navbar-collapse nav ul.menu li{
 	min-height: 62px;
+	font-size:0.85em;
 }
 
 header.navbar-default .navbar-collapse nav ul.menu li .dropdown-menu li{
@@ -121,7 +122,7 @@ header{
 					#block-hwc-partner-hwc-partner-mostra-masquerade {
 					    float: right;
 					    margin-top: 24px;
-					    margin-right: 46px;
+					    margin-right: -1px;
 					}
 				}
 			}
@@ -156,8 +157,14 @@ header{
 		max-width: 75%;
 		margin-right: 25%;
 	}
-	div.on-the-web span:last-child {
-		margin-right: 0px;
+	div.on-the-web{ 
+		display: inline-block;
+	    width: 97%;
+	    text-align: right;
+	    float: none;
+		span:last-child {
+			margin-right: 0px;
+		}
 	}
 }
 /*fin footer*/
@@ -384,7 +391,7 @@ header{
 	.field-name-field-image + .field-name-title-field{
 		height: 300px;
 		h1{
-			padding-top: 169px;
+			padding-top: 130px;
 		}
 	}
 	.field.field-name-field-image{
@@ -1160,7 +1167,7 @@ header{
 			clear: both;
 		}
 		#subscribe-extra button#edit-submit--4{
-			margin-top: 1em;
+			margin-top: 5em;
 		}
 	}
 	 #block-osha-newsletter-osha-newsletter-latest #latest-newsletters-block{
@@ -1178,6 +1185,11 @@ header{
 
 /*pag get-your-certificate*/
 .page-get-your-certificate{
+
+	.pane-node-field-image{
+		padding-right: 1em;
+	}
+
 	.container{
 		padding-left: @margin-tablet;
 		padding-right: @margin-tablet;
@@ -1282,6 +1294,18 @@ h1{
 .back-to-link {
 	padding-right: @margin-tablet;
 	padding-left: @margin-tablet;
+}
+
+.page-campaign-materials .view-id-view_campaign_materials .views-row .field-type-file a{
+	position: relative;
+}
+
+.page-campaign-materials .view-id-view_campaign_materials .views-row .field-type-file .file_size{
+	width: 100%;
+}
+
+#block-system-main .view-events-search div div.form-type-textfield input, .view-events-search div div.form-type-textfield input{
+	font-size: 11px;
 }
 
 }//end media

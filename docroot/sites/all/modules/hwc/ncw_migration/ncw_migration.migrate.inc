@@ -211,7 +211,8 @@ abstract class AbstractNCWNodeMigration extends Migration {
 
         // Extra mappings depending on field type
         $fi = field_info_field($field_name);
-        if ($fi['translatable'] == 1 && $fi['type'] != 'taxonomy_term_reference' /* field_organised_by */) {
+        if ($fi['translatable'] == 1
+          && $fi['type'] != 'taxonomy_term_reference' /* field_organised_by */) {
           $this->addFieldMapping("$field_name:language", $field_name . '_language');
         }
         if ($fi['type'] == 'taxonomy_term_reference') {
@@ -309,7 +310,11 @@ abstract class AbstractNCWNodeMigration extends Migration {
         }
         $normalizer = 'osha_migration_normalize_field_' . $fi['type'];
         if (function_exists($normalizer)) {
-          $normalizer($row, $field_name, $fi);
+          $filter_languages = array();
+          if (!$this->allowMigrateTranslation()) {
+            $filter_languages = array('en');
+          }
+          $normalizer($row, $field_name, $fi, $filter_languages);
         }
         else {
           $name = $this->currentMigration()->getMachineName();
@@ -331,12 +336,17 @@ abstract class AbstractNCWNodeMigration extends Migration {
     $entity->workbench_moderation_state_new = OSHA_WORKFLOW_STATE_PUBLISHED;
   }
 
+  // News should be imported only in EN - MH-19
+  public function allowMigrateTranslation() {
+    return !in_array($this->bundle, array('news'));
+  }
+
   /**
    * Implements Migration::complete() to configure translations
    */
   public function complete($entity, stdClass $row) {
     unset($row->translations['data']['en']);
-    if (!empty($row->translations['data'])) {
+    if (!empty($row->translations['data']) && $this->allowMigrateTranslation()) {
       $handler = entity_translation_get_handler('node', $entity);
       foreach($row->translations['data'] as $language => $data) {
         $handler->setTranslation(array(
@@ -377,6 +387,8 @@ abstract class AbstractNCWNodeMigration extends Migration {
     $node->type = $this->destination->getBundle();
     $node->uid = 0;
     $node->status = 1;
+    $node->path['pathauto'] = 0;
+    $node->path['alias'] = '';
     node_save($node);
     if (isset($node->nid)) {
       return array($node->nid);
@@ -641,7 +653,11 @@ abstract class AbstractNCWTaxonomyTermMigration extends AbstractNCWNodeMigration
       $fi = field_info_field($field_name);
       $normalizer = 'osha_migration_normalize_field_' . $fi['type'];
       if(function_exists($normalizer)) {
-        $normalizer($row, $field_name, $fi);
+        $filter_languages = array();
+        if (!$this->allowMigrateTranslation()) {
+          $filter_languages = array('en');
+        }
+        $normalizer($row, $field_name, $fi, $filter_languages);
       }
       else {
         $name = $this->currentMigration()->getMachineName();
@@ -762,10 +778,13 @@ function osha_migration_author_uid() {
 
 
 ////////////////////////////// Normalization functions /////////////////////////
-function osha_migration_normalize_field_list_text($row, $field_name) {
+function osha_migration_normalize_field_list_text($row, $field_name, $field_info, $filter_languages) {
   $field = array();
   if (!empty($row->{$field_name}) && is_array($row->{$field_name})) {
     foreach ($row->{$field_name} as $language => $values) {
+      if (!empty($filter_languages) && !in_array($language, $filter_languages)) {
+        continue;
+      }
       foreach($values as $v) {
         $field[] = !empty($v['safe_value']) ? $v['safe_value'] : $v['value'];
       }
@@ -774,24 +793,27 @@ function osha_migration_normalize_field_list_text($row, $field_name) {
   $row->{$field_name} = $field;
 }
 
-function osha_migration_normalize_field_number_integer($row, $field_name) {
-  osha_migration_normalize_field_list_text($row, $field_name);
+function osha_migration_normalize_field_number_integer($row, $field_name, $field_info, $filter_languages) {
+  osha_migration_normalize_field_list_text($row, $field_name, $field_info, $filter_languages);
 }
 
-function osha_migration_normalize_field_number_decimal($row, $field_name) {
-  osha_migration_normalize_field_number_integer($row, $field_name);
+function osha_migration_normalize_field_number_decimal($row, $field_name, $field_info, $filter_languages) {
+  osha_migration_normalize_field_number_integer($row, $field_name, $field_info, $filter_languages);
 }
 
-function osha_migration_normalize_field_list_boolean($row, $field_name) {
-  osha_migration_normalize_field_number_integer($row, $field_name);
+function osha_migration_normalize_field_list_boolean($row, $field_name, $field_info, $filter_languages) {
+  osha_migration_normalize_field_number_integer($row, $field_name, $field_info, $filter_languages);
 }
 
-function osha_migration_normalize_field_text_long($row, $field_name) {
+function osha_migration_normalize_field_text_long($row, $field_name, $field_info, $filter_languages) {
   $field = array();
   $languages = array();
   $format = array();
   if (!empty($row->{$field_name}) && is_array($row->{$field_name})) {
     foreach ($row->{$field_name} as $language => $values) {
+      if (!empty($filter_languages) && !in_array($language, $filter_languages)) {
+        continue;
+      }
       foreach($values as $v) {
         $field[] = !empty($v['safe_value']) ? $v['safe_value'] : $v['value'];
         $languages[] = $language;
@@ -804,11 +826,11 @@ function osha_migration_normalize_field_text_long($row, $field_name) {
   $row->{$field_name . '_format'} = $format;
 }
 
-function osha_migration_normalize_field_text_with_summary($row, $field_name, $field_info) {
-  osha_migration_normalize_field_text_long($row, $field_name, $field_info);
+function osha_migration_normalize_field_text_with_summary($row, $field_name, $field_info, $filter_languages) {
+  osha_migration_normalize_field_text_long($row, $field_name, $field_info, $filter_languages);
 }
 
-function osha_migration_normalize_field_link_field($row, $field_name, $field_info) {
+function osha_migration_normalize_field_link_field($row, $field_name, $field_info, $filter_languages) {
   $field = array(
     'url' => array(),
     'title' => array(),
@@ -828,11 +850,14 @@ function osha_migration_normalize_field_link_field($row, $field_name, $field_inf
   $row->{$field_name . '_attributes'} = $field['attributes'];//@todo not tested
 }
 
-function osha_migration_normalize_field_text($row, $field_name, $field_info) {
+function osha_migration_normalize_field_text($row, $field_name, $field_info, $filter_languages) {
   $field = array();
   $languages = array();
   if (!empty($row->{$field_name}) && is_array($row->{$field_name})) {
     foreach ($row->{$field_name} as $language => $values) {
+      if (!empty($filter_languages) && !in_array($language, $filter_languages)) {
+        continue;
+      }
       foreach($values as $v) {
         $field[] = !empty($v['safe_value']) ? $v['safe_value'] : $v['value'];
         $languages[] = $language;
@@ -843,11 +868,14 @@ function osha_migration_normalize_field_text($row, $field_name, $field_info) {
   $row->{$field_name . '_language'} = $languages;
 }
 
-function osha_migration_normalize_field_email($row, $field_name, $field_info) {
+function osha_migration_normalize_field_email($row, $field_name, $field_info, $filter_languages) {
   $field = array();
   $languages = array();
   if (!empty($row->{$field_name}) && is_array($row->{$field_name})) {
     foreach ($row->{$field_name} as $language => $values) {
+      if (!empty($filter_languages) && !in_array($language, $filter_languages)) {
+        continue;
+      }
       foreach($values as $v) {
         $field[] = $v['email'];
         $languages[] = $language;
@@ -858,7 +886,7 @@ function osha_migration_normalize_field_email($row, $field_name, $field_info) {
   $row->{$field_name . '_language'} = $languages;
 }
 
-function osha_migration_normalize_field_datetime($row, $field_name, $field_info) {
+function osha_migration_normalize_field_datetime($row, $field_name, $field_info, $filter_languages) {
   $field = array(
     'value' => NULL,
     'timezone' => NULL,
@@ -875,7 +903,7 @@ function osha_migration_normalize_field_datetime($row, $field_name, $field_info)
   $row->{$field_name . '_timezone'} = !empty($field['timezone']) ? $field['timezone'] : NULL;
 }
 
-function osha_migration_normalize_field_taxonomy_term_reference($row, $field_name, $field_info) {
+function osha_migration_normalize_field_taxonomy_term_reference($row, $field_name, $field_info, $filter_languages) {
   $field = array();
   if (isset($row->{$field_name}['name_original'])) { // cardinality 1
     $field[] = $row->{$field_name}['name_original'];
@@ -917,11 +945,14 @@ function osha_migration_normalize_field_entityreference($row, $field_name, $fiel
   $row->{$field_name} = $field;
 }
 
-function osha_migration_normalize_field_file($row, $field_name) {
+function osha_migration_normalize_field_file($row, $field_name, $field_info, $filter_languages) {
   $field = array();
   $languages = array();
   if (!empty($row->{$field_name}) && is_array($row->{$field_name})) {
     foreach ($row->{$field_name} as $language => $values) {
+      if (!empty($filter_languages) && !in_array($language, $filter_languages)) {
+        continue;
+      }
       foreach($values as $f) {
         $field[] = osha_migration_url_files(str_replace('public://', '', $f['uri']));
         $languages[] = $language;
@@ -932,8 +963,8 @@ function osha_migration_normalize_field_file($row, $field_name) {
   $row->{$field_name . '_language'} = $languages;
 }
 
-function osha_migration_normalize_field_image($row, $field_name) {
-  osha_migration_normalize_field_file($row, $field_name);
+function osha_migration_normalize_field_image($row, $field_name, $field_info, $filter_languages) {
+  osha_migration_normalize_field_file($row, $field_name, $field_info, $filter_languages);
 }
 
 /**

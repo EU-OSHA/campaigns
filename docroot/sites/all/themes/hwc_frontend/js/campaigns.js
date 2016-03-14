@@ -1,5 +1,14 @@
 jQuery(document).ready(function() {
 
+
+	/*Fix the target _blank when we import the content of CORPORATE*/
+
+	jQuery('.node-news a[href^="https://osha.europa.eu"]').attr('target','_blank');
+	jQuery('.node-press-release a[href^="https://osha.europa.eu"]').attr('target','_blank');
+	jQuery('.node-events a[href^="https://osha.europa.eu"]').attr('target','_blank');
+
+
+
 	var windowWidth= jQuery(window).width();//window size
 
 	jQuery(window).resize(function() {
