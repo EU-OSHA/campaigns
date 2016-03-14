@@ -1258,6 +1258,10 @@ $(document).ready(function () {
     $("#save").click(function (e) {
         checkSections();
         buttonPressed = "save";
+        var actionForm = $("#form form").attr("action");
+        if(actionForm.indexOf('print') != -1){
+            $("#form form").attr("action",actionForm.substr(0,actionForm.indexOf("&print")));
+        }
         //Workaround no perder los datos que se eliminan y no generar errores
         if($("#next").length > 0){
             if($("#next").val().indexOf("involvement") != -1){

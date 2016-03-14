@@ -743,21 +743,21 @@ final class CDB
         }
         $otherusers="otherusers=";
         if(isset($parameters['otherusers1']) && $parameters['otherusers1'] != "(||)"){
-            $otherusers.= $parameters['otherusers1'];
+            $otherusers.= str_replace(" ", "", $parameters['otherusers1']);
             unset($parameters['otherusers1']);
         }
         if($otherusers != "otherusers=" && isset($parameters['otherusers2'])&& $parameters['otherusers2'] != "(||)"){
            $otherusers.= ","; 
         }
         if(isset($parameters['otherusers2'])&& $parameters['otherusers2'] != "(||)"){
-            $otherusers.= $parameters['otherusers2'];
+            $otherusers.= str_replace(" ", "", $parameters['otherusers2']);
             unset($parameters['otherusers2']);
         }
         if($otherusers != "otherusers=" && isset($parameters['otherusers3'])&& $parameters['otherusers3'] != "(||)"){
            $otherusers.= ","; 
         }
         if(isset($parameters['otherusers3'])&& $parameters['otherusers3'] != "(||)"){
-            $otherusers.= $parameters['otherusers3'];
+            $otherusers.= str_replace(" ", "", $parameters['otherusers3']);
             unset($parameters['otherusers3']);
         }
         $updateMethod = $this->getMethod('update', 'update_mf');
