@@ -57,7 +57,7 @@ function osha_publication_menu_publications_form($form, $form_state) {
 
   $form['left-column']['languages'] = array(
     '#type' => 'checkboxes',
-    '#options' => osha_language_list_options(),
+    '#options' => osha_language_list_options(TRUE),
     '#default_value' => $languages,
     '#title' => t('Publications are available in several languages'),
   );
