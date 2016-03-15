@@ -34,7 +34,6 @@ class PartnerMigration extends HwcCrmMigration {
       'field_bussines_sector',
       'field_mission_statement',
       'field_logo',
-      'field_general_email',
       'field_campaign_website',
       'field_ph_address',
       'field_ph_cp',
