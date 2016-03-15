@@ -24,43 +24,43 @@ class PartnerMigration extends HwcCrmMigration {
 
   public function exposedFields() {
     return array(
-      'field_guid_organisation',
-      'title',
-      'title_field',
-      'field_general_email',
-      'field_general_phone',
-      'field_website',
-      'field_orgtype',
-      'field_bussines_sector',
-      'field_mission_statement',
-      'field_logo',
-      'field_general_email',
-      'field_campaign_website',
-      'field_ph_address',
-      'field_ph_cp',
-      'field_ph_town',
-      'field_country',
-      'field_guid_main_contact',
-      'field_main_contact',
-      'field_main_contact_email',
-      'field_ceo',
-      'field_ceo_photo',
-      'field_category',
-      'field_social_dialog_partner',
-      'field_pledge',
-      'field_quote',
-      'field_partner_type',
-      'field_organisation_rep',
-      'field_position_identifier',
-      'field_appform_status',
-      'field_facebook_profile',
-      'field_twitter_profile',
-      'field_youtube_profile',
-      'field_slideshare_profile',
-      'field_linkedin_profile',
-      'field_google_plus_profile',
-      'field_pinterest_profile',
-      'field_abbreviation_name',
+      'field_guid_organisation' => 'GUID Organisation',
+      'title' => 'Partner name',
+      'title_field' => 'Partner name',
+      'field_general_email' => 'Email address',
+      'field_general_phone' => 'Telephone number',
+      'field_website' => 'Website',
+      'field_orgtype' => 'Organisation type taxonomic term',
+      'field_bussines_sector' => 'Business sector',
+      'field_mission_statement' => 'Mission statement',
+      'field_logo' => 'Logo binary blob',
+      'field_logo_file' => 'Logo destination file',
+      'field_campaign_website' => 'Campaign website',
+      'field_ph_address' => 'Address',
+      'field_ph_cp' => 'Postal code',
+      'field_ph_town' => 'Town',
+      'field_country' => 'Country name',
+      'field_guid_main_contact' => 'Main contact GUID',
+      'field_main_contact' => 'Main contact mail',
+      'field_main_contact_email' => 'Main contact email',
+      'field_ceo' => 'CEO',
+      'field_ceo_photo' => 'CEO Photo blob',
+      'field_category' => 'Partner category',
+      'field_social_dialog_partner' => 'Social dialog partner',
+      'field_pledge' => 'Pledge',
+      'field_quote' => 'Quote',
+      'field_partner_type' => 'Partner type taxonomy',
+      'field_organisation_rep' => 'Rep?',
+      'field_position_identifier' => 'Identifier',
+      'field_appform_status' => 'Appform status',
+      'field_facebook_profile' => 'Facebook profile URL',
+      'field_twitter_profile' => 'Twitter profile URL',
+      'field_youtube_profile' => 'Youtube profile URL',
+      'field_slideshare_profile' => 'Slideshare profile URL',
+      'field_linkedin_profile' => 'LinkedInd profile URL',
+      'field_google_plus_profile' => 'G+ profile URL',
+      'field_pinterest_profile' => 'Pinterest profile',
+      'field_abbreviation_name' => 'Abbreviation name',
     );
   }
 
@@ -143,6 +143,19 @@ class PartnerMigrateListXml extends AbstractCrmMigrateListXml {
     parent::__construct($file);
   }
 
+  public function transliterateString($string) {
+    if (function_exists('transliterator_transliterate')) {
+      return transliterator_transliterate('Any-Latin; Latin-ASCII; [\u0080-\u7fff] remove', $string);
+    }
+    return iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $string);
+  }
+
+  public function prepareFileName($title, $suf) {
+    $filename = $this->transliterateString($title);
+    return trim(substr($filename, 0, 20)) . $suf;
+  }
+
+
   protected function parseSourceFile() {
     self::$data = array();
     if (!is_readable($this->file)) {
@@ -169,13 +182,12 @@ class PartnerMigrateListXml extends AbstractCrmMigrateListXml {
         $logo_ext = (string) $attributes['Textbox9'];
         if (!empty($logo_image) && !empty($logo_ext)) {
           $data->field_logo = $logo_image;
-          $data->field_logo_file = file_munge_filename($data->title . '.' . $logo_ext, '');
+          $filename = $this->prepareFileName($data->title, '_logo');
+          $data->field_logo_file = file_munge_filename($filename . '.' . $logo_ext, '');
+          $data->field_logo_mime = (string) $attributes['Textbox9'];
         }
 
-        $data->field_logo_mime = (string) $attributes['Textbox9'];
-        $data->field_logo_file = trim(substr($data->title, 0, 20)) . '.jpg';
         $data->field_campaign_website = (string) $attributes['Textbox10'];
-
         $data->field_facebook_profile = (string) $attributes['Textbox11'];
         $data->field_twitter_profile = (string) $attributes['Textbox12'];
         $data->field_youtube_profile = (string) $attributes['Textbox13'];
@@ -197,7 +209,8 @@ class PartnerMigrateListXml extends AbstractCrmMigrateListXml {
         $ceo_image_ext = (string) $attributes['Textbox27'];
         if (!empty($ceo_image) && !empty($ceo_image_ext)) {
           $data->field_ceo_photo = $ceo_image;
-          $data->field_ceo_photo_file = file_munge_filename($data->title . '_ceo.' . $ceo_image_ext, '');
+          $filename = $this->prepareFileName($data->title, '_ceo');
+          $data->field_ceo_photo_file = file_munge_filename($filename . '.' . $ceo_image_ext, '');
         }
 
         // Try to assign a valid partner type term
