@@ -421,3 +421,10 @@ function hwc_update_7018() {
   _osha_tmgmt_add_translations_from_strings_to_terms('segment');
   _osha_tmgmt_add_translations_from_terms_to_strings('segment');
 }
+
+/**
+ * Enable node_revision_delete.
+ */
+function hwc_update_7019() {
+  module_enable(array('node_revision_delete'));
+}
