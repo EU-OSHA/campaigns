@@ -18,3 +18,11 @@ function ncw_migration_update_7001() {
       ->execute();
   }
 }
+
+/**
+ * Set different channel for ncw migration cron.
+ */
+function ncw_migration_update_7002() {
+  cache_clear_all();
+  elysia_cron_set_job_channel('ncw_migration_cron', 'ncw_migration_cron');
+}
