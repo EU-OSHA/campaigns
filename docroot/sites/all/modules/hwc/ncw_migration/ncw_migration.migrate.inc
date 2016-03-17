@@ -786,7 +786,7 @@ function osha_migration_normalize_field_list_text($row, $field_name, $field_info
         continue;
       }
       foreach($values as $v) {
-        $field[] = !empty($v['safe_value']) ? $v['safe_value'] : $v['value'];
+        $field[] = $v['value'];
       }
     }
   }
@@ -815,7 +815,7 @@ function osha_migration_normalize_field_text_long($row, $field_name, $field_info
         continue;
       }
       foreach($values as $v) {
-        $field[] = !empty($v['safe_value']) ? $v['safe_value'] : $v['value'];
+        $field[] = $v['value'];
         $languages[] = $language;
         $format[] = $v['format'];
       }
@@ -859,7 +859,7 @@ function osha_migration_normalize_field_text($row, $field_name, $field_info, $fi
         continue;
       }
       foreach($values as $v) {
-        $field[] = !empty($v['safe_value']) ? $v['safe_value'] : $v['value'];
+        $field[] = $v['value'];
         $languages[] = $language;
       }
     }
