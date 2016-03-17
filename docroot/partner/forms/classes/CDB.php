@@ -43,7 +43,7 @@ final class CDB
      *
      * @return $thi
      */
-    public static function getInstance($cdbMap, $sessionId = '')
+    public static function getInstance($cdbMap, $sessionId = '', $loadFromCDB = false)
     {   
         static $inst = null;
         if ($inst === null) {
@@ -57,9 +57,8 @@ final class CDB
         }
         // Load the data of the dropDowns
         if ($inst->cdbMap) {
-            $params = Parameters::getInstance();
-            if(!$inst->dropdowns['company_osh_orgtype']['values'] && !$inst->dropdowns['company_osh_bussinessector']['values']
-                    && !$inst->dropdowns['company_osh_osh_appform_osh_country']['values'] && !$inst->dropdowns['company_osh_country']['values']){
+            if(($loadFromCDB)||((!isset($inst->dropdowns['company_osh_orgtype']) || !$inst->dropdowns['company_osh_orgtype']['values']) && (!isset($inst->dropdowns['company_osh_bussinessector']) || !$inst->dropdowns['company_osh_bussinessector']['values'])
+                    && (!isset($inst->dropdowns['company_osh_osh_appform_osh_country']) || !$inst->dropdowns['company_osh_osh_appform_osh_country']['values']) && (!isset($inst->dropdowns['company_osh_country']) || !$inst->dropdowns['company_osh_country']['values']))){
                 $inst->loadDropdownsData();
             }
         }

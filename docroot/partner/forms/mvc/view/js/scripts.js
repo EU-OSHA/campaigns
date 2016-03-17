@@ -272,6 +272,11 @@ function checkSectionsByCDB(dataSection){
         $("#company_osh_orgname").prop("disabled", "disabled");
     }
     if(dataSection=="ORGANISATION"){
+       if($('.select2-selection').length > 0){
+           $('.select2-selection').css({
+                            'background-color': '#E3E3E4'
+        });
+       } 
        $("#contact_osh_mainemail").prop("disabled", "disabled");
        //Disabled countries of activity
        $('.select2').css({
@@ -1108,6 +1113,11 @@ $(document).ready(function () {
                     $('.checkbox').css({
                         'pointer-events': 'inherit'
                     });
+                    if($('.select2-selection').length > 0){
+                        $('.select2-selection').css({
+                            'background-color': 'white'
+        });
+       } 
                 }
                 if(dataSection=="CEO"){
                     //Disabled the imageButtons
@@ -1185,6 +1195,11 @@ $(document).ready(function () {
                     $('.checkbox').css({
                         'pointer-events': 'none'
                     });
+                    if($('.select2-selection').length > 0){
+                         $('.select2-selection').css({
+                            'background-color': '#E3E3E4'
+        });
+       } 
                  }
                 if(dataSection=="CEO"){
                     //Disabled the imageButtons

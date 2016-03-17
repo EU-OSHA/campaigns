@@ -394,7 +394,7 @@
     "company_osh_phonerepresentative": "osh_representativetelephone1",
     "company_osh_yourmissionstatement": "osh_yourmissionstatement",
     "company_osh_zipcode": "osh_phcp",
-    "company_osh_generalphone":"telephone1",
+    "company_osh_generalphone":"osh_phone1",
     "company_osh_orgname": "osh_companyorganisationname",
     "company_osh_osh_appform_osh_country": "returnPaises",
     "company_osh_othercountries": "osh_othercountries",

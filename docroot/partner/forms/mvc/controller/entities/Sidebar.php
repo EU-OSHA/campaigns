@@ -156,6 +156,10 @@ class Sidebar extends Controller implements IController
                             }
                         }
                     }
+                    //Workaround OSH section -> Not have required fields
+                    if($sections[$section] && $params->getUrlParamValue('partner_type') == 'current' && $section == "OSH" && !$aboutyourrepsection){
+                                    $sections[$section] = 0;
+                                }
                 }
             }
         }
