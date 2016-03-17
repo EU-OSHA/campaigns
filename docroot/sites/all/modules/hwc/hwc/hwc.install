@@ -428,3 +428,11 @@ function hwc_update_7018() {
 function hwc_update_7019() {
   module_enable(array('node_revision_delete'));
 }
+
+/**
+ * Add translations from strings to voc: org type and bus sector.
+ */
+function hwc_update_7020() {
+  _osha_tmgmt_add_translations_from_strings_to_terms('organisation_type');
+  _osha_tmgmt_add_translations_from_strings_to_terms('bussines_sector');
+}
