@@ -409,9 +409,19 @@ abstract class AbstractNCWNodeMigration extends Migration {
         $to_be_removed[] =$to_remove->destid1;
         $this->getMap()->delete(array($to_remove->sourceid1));
       }
-      node_delete_multiple($to_be_removed);
-      watchdog('ncw_migration', 'Deleting records that are not in the source anymore: !nids.',
-        array('!nids' => implode('', $to_be_removed)), WATCHDOG_INFO);
+      if (strpos($this->arguments['machine_name'], 'tax_') === 0) {
+        foreach ($to_be_removed as $tid) {
+          taxonomy_term_delete($tid);
+          watchdog('ncw_migration', 'Deleting TERMS that are not in the source anymore: !tids.',
+            array('!tids' => implode(', ', $to_be_removed)), WATCHDOG_INFO);
+        }
+      }
+      else {
+        node_delete_multiple($to_be_removed);
+        watchdog('ncw_migration', 'Deleting NODES that are not in the source anymore: !nids.',
+          array('!nids' => implode(', ', $to_be_removed)), WATCHDOG_INFO);
+      }
+
     }
   }
 }
