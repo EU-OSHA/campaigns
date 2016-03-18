@@ -184,6 +184,12 @@ function osha_authentication_ldap_get_site_users($ldap_server) {
       else {
         $mail = $ldap_account[0]['mail'][0];
       }
+      if (empty($ldap_account[0])) {
+        watchdog('osha_authentication', 'Cannot find user with uid=<em>!uid</em>, but still present in memberUid property', array(
+          '!uid' => $uid
+        ), WATCHDOG_WARNING);
+        continue;
+      }
       $dn = $ldap_account[0]['dn'];
       $user = (object) array(
         'dn' => $dn,
