@@ -34,7 +34,6 @@ class PartnerMigration extends HwcCrmMigration {
       'field_bussines_sector',
       'field_mission_statement',
       'field_logo',
-      'field_general_email',
       'field_campaign_website',
       'field_ph_address',
       'field_ph_cp',
@@ -102,6 +101,7 @@ class PartnerMigration extends HwcCrmMigration {
           ),
           'warning'
         );
+        unset($row->field_orgtype);
       }
     }
     if (isset($row->field_bussines_sector)) {
@@ -143,6 +143,19 @@ class PartnerMigrateListXml extends AbstractCrmMigrateListXml {
     parent::__construct($file);
   }
 
+  public function transliterateString($string) {
+    if (function_exists('transliterator_transliterate')) {
+      return transliterator_transliterate('Any-Latin; Latin-ASCII; [\u0080-\u7fff] remove', $string);
+    }
+    return iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $string);
+  }
+
+  public function prepareFileName($title, $suf) {
+    $filename = $this->transliterateString($title);
+    return trim(substr($filename, 0, 20)) . $suf;
+  }
+
+
   protected function parseSourceFile() {
     self::$data = array();
     if (!is_readable($this->file)) {
@@ -169,13 +182,12 @@ class PartnerMigrateListXml extends AbstractCrmMigrateListXml {
         $logo_ext = (string) $attributes['Textbox9'];
         if (!empty($logo_image) && !empty($logo_ext)) {
           $data->field_logo = $logo_image;
-          $data->field_logo_file = file_munge_filename($data->title . '.' . $logo_ext, '');
+          $filename = $this->prepareFileName($data->title, '_logo');
+          $data->field_logo_file = file_munge_filename($filename . '.' . $logo_ext, '');
+          $data->field_logo_mime = (string) $attributes['Textbox9'];
         }
 
-        $data->field_logo_mime = (string) $attributes['Textbox9'];
-        $data->field_logo_file = trim(substr($data->title, 0, 20)) . '.jpg';
         $data->field_campaign_website = (string) $attributes['Textbox10'];
-
         $data->field_facebook_profile = (string) $attributes['Textbox11'];
         $data->field_twitter_profile = (string) $attributes['Textbox12'];
         $data->field_youtube_profile = (string) $attributes['Textbox13'];
@@ -197,7 +209,8 @@ class PartnerMigrateListXml extends AbstractCrmMigrateListXml {
         $ceo_image_ext = (string) $attributes['Textbox27'];
         if (!empty($ceo_image) && !empty($ceo_image_ext)) {
           $data->field_ceo_photo = $ceo_image;
-          $data->field_ceo_photo_file = file_munge_filename($data->title . '_ceo.' . $ceo_image_ext, '');
+          $filename = $this->prepareFileName($data->title, '_ceo');
+          $data->field_ceo_photo_file = file_munge_filename($filename . '.' . $ceo_image_ext, '');
         }
 
         // Try to assign a valid partner type term

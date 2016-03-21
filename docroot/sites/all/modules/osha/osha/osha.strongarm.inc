@@ -1697,13 +1697,6 @@ el.remove();
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'site_map_page_title';
-  $strongarm->value = 'Site map';
-  $export['site_map_page_title'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'site_map_show_description';
   $strongarm->value = 1;
   $export['site_map_show_description'] = $strongarm;

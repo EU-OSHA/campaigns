@@ -88,6 +88,16 @@ function hwc_frontend_menu_link(array $variables) {
   $output = l($element['#title'], $element['#href'], $element['#localized_options']);
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function hwc_frontend_preprocess_html(&$vars) {
+  if (!empty($vars['is_front'])) {
+    $vars['head_title'] = t('Healthy Workplaces for All Ages') . ' | ' . 'EU-OSHA';
+  }
+}
+
 function hwc_frontend_preprocess_page(&$vars) {
   // Change Events page title
   if(!empty($vars['theme_hook_suggestions']['0']) && in_array($vars['theme_hook_suggestions']['0'], array('page__events', 'page__past_events'))){

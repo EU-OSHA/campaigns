@@ -573,42 +573,42 @@ function hwc_field_widget_form_alter(&$element, &$form_state, $context) {
   if ($is_events_form) {
     switch ($element['#field_name']) {
       case 'title_field':
-        $placeholder = t('Event title. Max 60 characters.');
+        $placeholder = 'Event title. Max 60 characters.';
         $element['value']['#attributes']['placeholder'] = $placeholder;
         break;
 
       case 'field_city':
-        $placeholder = t('Event city');
+        $placeholder = 'Event city';
         $element['value']['#attributes']['placeholder'] = $placeholder;
         break;
 
       case 'field_contact_name':
-        $placeholder = t('Contact person name');
+        $placeholder = 'Contact person name';
         $element['value']['#attributes']['placeholder'] = $placeholder;
         break;
 
       case 'field_contact_phone':
-        $placeholder = t('Contact person phone number');
+        $placeholder = 'Contact person phone number';
         $element['value']['#attributes']['placeholder'] = $placeholder;
         break;
 
       case 'field_organizer':
-        $placeholder = t('First name of contact person');
+        $placeholder = 'The name of the organisation';
         $element['value']['#attributes']['placeholder'] = $placeholder;
         break;
 
       case 'field_location':
-        $placeholder = t('Location of the event');
+        $placeholder = 'Location of the event';
         $element['value']['#attributes']['placeholder'] = $placeholder;
         break;
 
       case 'field_website_of_event':
-        $placeholder = t('Website of event');
+        $placeholder = 'Website of event';
         $element['#attributes']['placeholder'] = $placeholder;
         break;
 
       case 'field_contact_email':
-        $placeholder = t('Contact person e-mail');
+        $placeholder = 'Contact person e-mail';
         $element['email']['#attributes']['placeholder'] = $placeholder;
         break;
 
@@ -617,12 +617,12 @@ function hwc_field_widget_form_alter(&$element, &$form_state, $context) {
   elseif ($is_news_form && !empty($element['#field_name'])) {
     switch ($element['#field_name']) {
       case 'title_field':
-        $placeholder = t('News title');
+        $placeholder = 'News title';
         $element['value']['#attributes']['placeholder'] = $placeholder;
         break;
 
       case 'field_image_caption':
-        $placeholder = t('Image caption');
+        $placeholder = 'Image caption';
         $element['value']['#attributes']['placeholder'] = $placeholder;
         break;
 

@@ -82,7 +82,7 @@ $theme_dir = drupal_get_path('theme', 'hwc_frontend');
       <div class="navbar-header">
         <div class="row">
           <div class="col-xs-12 col-sm-9">
-            <a class="pull-left" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">
+            <a class="pull-left" accesskey="0" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">
               <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
             </a>
             <a href="http://osha.europa.eu" title="EU-OSHA" target="_blank"><img class="pull-left" src="/<?php print $theme_dir . '/logo-osha.png'; ?>" alt="<?php print t('EU-OSHA logo'); ?>" /></a>
@@ -155,7 +155,7 @@ $theme_dir = drupal_get_path('theme', 'hwc_frontend');
 			<?php print render($page['sidebar_first']); ?>
 		  </aside>  <!-- /#sidebar-first -->
 	  <?php endif; ?>
-	
+      <div id="skip-to-content" style="visibility: hidden; height: 0px"><a href="#skip-to-content" rel="nofollow" accesskey="S" style="visibility: hidden;"><?php print t('Skip to content'); ?></a></div>
       <?php print render($page['content']); ?>
     </section>
 	

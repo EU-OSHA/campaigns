@@ -74,11 +74,11 @@ function osha_events_form_events_node_form_alter(&$form, &$form_state) {
 
     $form['field_activity'][LANGUAGE_NONE] = $field;
   }
-  if (isset($form['body']['#language'])) {
-    $lang = $form['body']['#language'];
-    $form['body'][$lang][0]['summary']['#prefix'] = '<div class="text-summary-wrapper">';
-    $form['body'][$lang][0]['summary']['#suffix'] = '<span>' . t('Write a short summary. This will appear on the homepage of the campaign site. <strong>Max 420 characters</strong>.') . '</span></div>';
-  }
+//  if (isset($form['body']['#language'])) {
+//    $lang = $form['body']['#language'];
+//    $form['body'][$lang][0]['summary']['#prefix'] = '<div class="text-summary-wrapper">';
+//    $form['body'][$lang][0]['summary']['#suffix'] = '<span>' . t('Write a short summary. This will appear on the homepage of the campaign site. <strong>Max 420 characters</strong>.') . '</span></div>';
+//  }
 
   if (isset($form['field_related_documents']['#language'])) {
     $lang = $form['field_related_documents']['#language'];
@@ -89,7 +89,7 @@ function osha_events_form_events_node_form_alter(&$form, &$form_state) {
 
   if (isset($form['title_field']['#language'])) {
     $lang = $form['title_field']['#language'];
-    $form['title_field'][$lang][0]['value']['#maxlength'] = 60;
+    $form['title_field'][$lang][0]['value']['#maxlength'] = 150;
     $form['title_field'][$lang][0]['value']['#attributes']['maxlength_js_label'][0] = '@remaining' . ' ' . t('left', array(), array('context' => 'characters left'));
   }
 }
@@ -231,12 +231,12 @@ function osha_events_date_popup_process_alter(&$element, &$form_state, $context)
   }
 
   if($element['#name'] == 'field_start_date[und][0][value]'){
-    $element['date']['#title'] = t('Starting date and time').
+    $element['date']['#title'] = 'Starting date and time' .
       ' <span class="required-custom" title="'.t('This field is required.').'">*</span>';
   }
 
   if($element['#name'] == 'field_start_date[und][0][value2]'){
-    $element['date']['#title'] = t('Ending date and time').
+    $element['date']['#title'] = 'Ending date and time' .
       ' <span class="required-custom" title="'.t('This field is required.').'">*</span>';
   }
 }

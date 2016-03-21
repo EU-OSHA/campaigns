@@ -155,7 +155,7 @@ function hwc_workflow_node_submit_form($form, &$form_state, $node) {
   $form['#node'] = $node;
   $form['actions']['send_for_approval'] = array(
     '#type' => 'submit',
-    '#value' => t('Submit !type item for validation', array('!type' => $form['type']['#value'])),
+    '#value' => strtr('Submit !type item for validation', array('!type' => $form['type']['#value'])),
     '#submit' => array('hwc_workflow_node_simple_submit'),
   );
   return $form;
@@ -443,6 +443,7 @@ function hwc_workflow_node_form_after_build_hide_hints($form, &$form_state) {
   $key = array_pop($b);
   if ($key && !empty($form['body'][$key][0]['format'])) {
     $form['body'][$key][0]['format']['#attributes']['class'][] = 'hidden';
+    $form['body'][$key][0]['summary']['#access'] = FALSE;
   }
   if (!empty($form['field_summary'])) {
     $sum = element_children($form['field_summary']);
@@ -478,7 +479,7 @@ function _hwc_workflow_partner_node_form_alter(&$form, &$form_state) {
     );
     $form['actions']['send_for_approval'] = array(
       '#type' => 'submit',
-      '#value' => t('Submit !type item for validation', array('!type' => $form['type']['#value'])),
+      '#value' => strtr('Submit !type item for validation', array('!type' => $form['type']['#value'])),
       '#submit' => array('hwc_workflow_node_form_submit_send'),
     );
   }

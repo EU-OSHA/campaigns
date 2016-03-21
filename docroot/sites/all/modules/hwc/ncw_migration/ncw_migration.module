@@ -1,5 +1,24 @@
 <?php
 
+
+/**
+ * Implements Elysia hook_cronapi().
+ */
+function ncw_migration_migration_cronapi() {
+  return array('ncw_migration_migration_cron' => array(
+    'description' => 'Migrate NCW content',
+    'rule' => '0 0 * * *', // Daily at midnight.
+  ));
+}
+
+/**
+ * Implements hook_cron().
+ */
+function ncw_migration_cron() {
+  module_load_include('inc', 'nwc_migration', 'ncw_migration.drush');
+  drush_ncw_migration_hwc_migrate_all();
+}
+
 /**
  * List of bundles periodically updated from the corporate website
  * @return array

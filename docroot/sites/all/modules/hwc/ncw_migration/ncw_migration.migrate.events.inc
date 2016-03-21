@@ -48,7 +48,14 @@ class NCWEventsMigration extends AbstractNCWNodeMigration {
 
   function prepareRow($row) {
     parent::prepareRow($row);
+    // Trim title.
     $row->field_tags = osha_migration_normalize_migrated_term_reference($row->field_tags, 'tax_tags');
+    $row->title = views_trim_text(array(
+      'max_length' => 150,
+      'word_boundary' => TRUE,
+      'ellipsis' => TRUE,
+      'html' => FALSE,
+    ), $row->title);
   }
 }
 

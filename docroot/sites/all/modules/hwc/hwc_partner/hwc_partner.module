@@ -44,19 +44,6 @@ function hwc_partner_context_page_condition() {
   }
 }
 
-function hwc_partner_menu() {
-  $items = array();
-
-  $items['hwc_partner/preview_private_area/%'] = array(
-    'title' => 'Preview Private Area',
-    'page callback' => 'hwc_partner_preview_private_area',
-    'page arguments' => array(2),
-    'access callback' => 'hwc_partner_preview_private_area_menu_access',
-    'type' => MENU_CALLBACK,
-  );
-  return $items;
-}
-
 /**
  * Implements hook_block_info().
  */
@@ -409,6 +396,50 @@ function hwc_partner_form_user_profile_form_alter(&$form, $form_state) {
 }
 
 /**
+ * Try to un translate some form labels.
+ */
+function _hwc_partner_untranslate_form_labels(&$element) {
+  if (is_object($element)) {
+    return;
+  }
+  if (is_array($element)) {
+    $child_keys = element_children($element);
+    foreach ($child_keys as $key) {
+      if (!empty($element['#title'])
+        && !empty($element[$key]['#title'])) {
+        $element[$key]['#title'] = $element['#title'];
+      }
+      _hwc_partner_untranslate_form_labels($element[$key]);
+    }
+  }
+  return;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function hwc_partner_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+  global $language;
+  // Un translate form labels if is a partner. (nasty solution)
+  if (in_array(ROLE_CAMPAIGN_PARTNER, $user->roles)
+    && $language->language != 'en') {
+    if (in_array($form_id, array('news_node_form', 'events_node_form'))) {
+      _hwc_partner_untranslate_form_labels($form);
+      if (!empty($form['field_country_code'][LANGUAGE_NONE]['#title'])) {
+        $form['field_country_code'][LANGUAGE_NONE]['#title'] = 'Country';
+      }
+      if (!empty($form['field_image'][LANGUAGE_NONE][0]['#title'])) {
+        $form['field_image'][LANGUAGE_NONE][0]['#title'] = 'Image';
+      }
+      if (!empty($form['field_website_of_event'][LANGUAGE_NONE]['#title'])) {
+        $form['field_website_of_event'][LANGUAGE_NONE]['#title'] = 'Website of event';
+      }
+    }
+  }
+}
+
+/**
  * HCW-1099.
  *
  * MP and OCP - When the user changes the password and saves changes, the system
@@ -439,69 +470,6 @@ function hwc_partner_get_partners_user_options() {
     $matches[$row['user_name']] = $row['name'];
   }
   return $matches;
-}
-
-/**
- * Access page Preview private area of MP, OCP, FP - menu access.
- */
-function hwc_partner_preview_private_area_menu_access(){
-  global $user;
-
-  if (in_array(ROLE_SUPERVISOR, $user->roles) || in_array(ROLE_ADMINISTRATOR, $user->roles) || in_array(ROLE_SUPERADMINISTRATOR, $user->roles)) {
-    return TRUE;
-  } else {
-    return FALSE;
-  }
-}
-
-/**
- * Preview private area of MP, OCP, FP - menu callback.
- */
-function hwc_partner_preview_private_area($profile_type) {
-  ctools_include('page', 'page_manager', 'plugins/tasks');
-  ctools_include('page_manager.admin', 'page_manager', '');
-  ctools_include('export');
-
-  $tasks = page_manager_get_tasks_by_type('page');
-  $page_types = array();
-
-  foreach ($tasks as $task) {
-    if ($subtasks = page_manager_get_task_subtasks($task)) {
-      foreach ($subtasks as $subtask) {
-        if ($subtask['name'] == 'private_area_for_partners') {
-          $task_pages = page_manager_load_task_handlers($subtask);
-          $page_types = array_merge($page_types, $task_pages);
-        }
-      }
-    }
-  }
-
-  // Not all display objects are loaded, make sure to load them
-  foreach ($page_types as &$pages) {
-    foreach ($pages as &$page) {
-      if (empty($page->conf['display']) && !empty($page->conf['did'])) {
-        $page->conf['display'] = panels_load_display($page->conf['did']);
-      }
-    }
-  }
-
-  if (empty($page_types)) {
-    return drupal_not_found();
-  }
-
-  switch ($profile_type) {
-    case "mp":
-      drupal_set_title(t("Preview Private Area as MP"));
-      return panels_render_display($page_types['page_private_area_for_partners__panel_context_b00e43ca-0583-41d3-8091-8c71bb42ee77']->conf['display']);
-    case "ocp":
-      drupal_set_title(t("Preview Private Area as OCP"));
-      return panels_render_display($page_types['page_private_area_for_partners__private-area-for-partners-ocp']->conf['display']);
-    case "fp":
-      drupal_set_title(t("Preview Private Area as FP"));
-      return panels_render_display($page_types['page_private_area_for_partners__private-area-for-partners-fp']->conf['display']);
-    default:
-      return drupal_not_found();
-  }
 }
 
 /**

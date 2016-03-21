@@ -146,7 +146,19 @@ function osha_authentication_user_login(&$edit, $user) {
     foreach($authorization as $role => $sections) {
       switch($role) {
         case ROLE_CAMPAIGN_PARTNER:
-          workbench_access_rebuild_user($user->uid, $sections);
+          try {
+            workbench_access_rebuild_user($user->uid, array_unique($sections));
+          } catch(Exception $e) {
+            watchdog(
+              'osha_authentication',
+              'Error while rebuilding user: !uid, !message',
+              array(
+                '!uid' => $user->uid,
+                '!message' => $e->getMessage()
+              ),
+              WATCHDOG_ERROR
+            );
+          }
           break;
       }
     }
