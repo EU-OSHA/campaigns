@@ -9,6 +9,20 @@ header.navbar-default .navbar-collapse nav ul.menu li{
 	font-size:0.85em;
 }
 
+html:lang(ro) , html:lang(nl) , html:lang(pl), html:lang(mt){
+	header.navbar-default .navbar-collapse nav ul.menu li{
+		font-size:0.80em;
+	}
+}	
+
+html:lang(pt) header.navbar-default .navbar-collapse nav ul.menu li{
+	font-size:0.79em;
+}
+
+html:lang(sv) header.navbar-default .navbar-collapse nav ul.menu li:nth-child(3) ul li:nth-child(2):before{
+	padding-bottom: 44px;
+}
+
 header.navbar-default .navbar-collapse nav ul.menu li .dropdown-menu li{
 	min-height: auto;
 }
@@ -16,6 +30,11 @@ header.navbar-default .navbar-collapse nav ul.menu li .dropdown-menu li{
 }
 
 @media only screen and (max-width : 992px) {
+
+.summary_and_resources_field_label{
+	padding-left: 15px;
+}
+
 
 /* contenedor principal */
 .main-container {
@@ -102,7 +121,6 @@ header{
 					    }
 					}
 					#block-lang-dropdown-language, #block-menu-menu-header-login ~ #block-lang-dropdown-language{
-						float: none;
 					    right: 0;
 					    padding-right: 0px;
 					    position: relative;
@@ -404,6 +422,7 @@ header{
 	.hwc-share-widget{
 		padding-left: 30px;
 		padding-right: 30px;
+		padding-top: 15px;
 	}
 	.field-name-field-recommended-articles, .field-name-field-recommended-resources{
 		.field.field-name-field-image img{
@@ -1020,6 +1039,7 @@ header{
 	}
 	.panels-flexible-column-first div{
 		padding-left: 0;
+		padding-right: 0;
 	}
 }
 .profile-2-cols-container-3, .container.profile-2-cols-container-3{

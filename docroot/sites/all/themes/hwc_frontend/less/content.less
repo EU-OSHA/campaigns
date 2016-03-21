@@ -2052,6 +2052,21 @@ ul.tabs--primary.nav.nav-tabs{
 			}
 		}
 	}
+
+
+	/*FIx NO language*/
+
+	html:lang(no) .pane-node-field-provider, .pane-node-body, .pane-node-field-implementation-steps, .pane-node-field-dissemination-used, .pane-node-field-access-tool-link,
+		.pane-hwc-practical-tool-hwc-practical-tool-language-list, .pane-node-field-external-urls, .pane-node-field-additional-information, .pane-node-field-access-tool-link-fc, .access-tool-languages{
+		.field-label{
+			width: 22%;
+		}
+		.field-items{
+			width: 77%;
+		}
+	}
+
+
 	.pane-node-field-file{
 		margin: @margin1;
 	}
@@ -2244,6 +2259,7 @@ article{
 		}
 	}
 }
+
 .hwc-share-widget{
 	border-top: 1px dotted @color3;
 	border-bottom: 1px dotted @color3;
@@ -2763,33 +2779,31 @@ p.no-results{
 		margin-bottom:0;
 	}
 	.region-content{
-	
 		#block-system-main{
-		
 			.views-row{
 				padding-top: 20px;
 				padding-bottom: 30px;
 				min-height: 230px;
 				border-bottom: 1px dotted @color3;
-
 				.views-field-field-start-date{
 					.field-content{
+						background-color: @color3;
+						color: @color1;
+					    float: left;
+					    width: 180px;
+					    height: 170px;
+					    margin-right: 50px;
+					    overflow: hidden;
+					    margin-top: 5px;
+					    font-weight: bold;
+					    text-align: center;
+					    margin-bottom: 30px;
+					    font-size: 36px;
+					    padding: 0px 50px;
+					    font-size: @size1;
+					    padding: 30px 3px 0;
 						.date-display-single{
-							background-color: @color3;
-							color: @color1;
-						    float: left;
-						    width: 180px;
-						    height: 170px;
-						    margin-right: 50px;
-						    overflow: hidden;
-						    margin-top: 5px;
-						    font-weight: bold;
-						    text-align: center;
-						    margin-bottom: 30px;
-						    font-size: 36px;
-						    padding: 0px 50px;
-						    font-size: @size1;
-						    padding: 30px 3px 0;
+						    display: block;
 						}
 					}
 				}
@@ -3097,6 +3111,7 @@ p.no-results{
 		color: @text-color-3;;
 		margin-bottom: 0em;
 		font-weight: bold;
+		padding-left: 1em;
 		&:after{
 			content:":"
 		}
@@ -3433,7 +3448,7 @@ p.no-results{
 	h2.block-title{
 		float: left;
 		font-style: italic;
-		font-size: @size3;
+		font-size: @size3!important;
 		color: @text-default-color;
 		margin-top: 1em;
 		
@@ -4060,10 +4075,6 @@ p.no-results{
 						display: -webkit-box;
 						height:60px;
 						margin: 0 auto;
-						-webkit-line-clamp: 2;
-						-webkit-box-orient: vertical;
-						overflow: hidden;
-						text-overflow: ellipsis;
 						padding-left: 10px;
 						padding-right: 10px;
 						&:before{
@@ -4073,6 +4084,13 @@ p.no-results{
 				}
 			}
 		}
+	}
+}
+
+
+html:lang(hu) , html:lang(nl), html:lang(mt) { 
+	.get-involved-section .information-tailored .images-section .image-block .link a{
+		font-size: 1.1em
 	}
 }
 /*End get involved template*/
@@ -4550,7 +4568,7 @@ p.no-results{
 		}
 
 		.panels-flexible-region-last{
-			padding-left: 10px;
+			padding-left: 0px;
 		}
 
 		.panels-flexible-column-new-8, .panels-flexible-column-first {
@@ -5614,13 +5632,12 @@ p.no-results{
 				padding: 30px 20px 15px;
 	   	 		border-bottom: 1px dotted @color3;
 	    		border-left: 1px dotted @color3;
-				min-height: 191px;
+				min-height: 196px;
 				.views-field-field-logo{
-					min-height: 108px;
-					padding-bottom: 15px;
-					img {
-						border: 1px solid #ccc;
-					}
+					    min-height: 146px;
+					    border: 1px solid #ccc;
+					    max-width: 150px;
+					    padding: 1em;
 				}
 				.views-field-title-field, .views-field-name-field{
 					display: none;
@@ -5636,7 +5653,6 @@ p.no-results{
 			}
 		//}
 		img{
-			max-width: 125px;
 			margin: auto;
 		}
 
@@ -5645,7 +5661,7 @@ p.no-results{
 
 	.view-display-id-fop img{
 			width:110px;
-			height:auto;
+			height:74px;
 			border:1px solid #CCC;
 		}
 
@@ -6669,8 +6685,9 @@ span.date-display-single{
 
 #block-hwc-partner-hwc-partner-mostra-masquerade a{
 	font-weight: bold;
-	font-size: 0.85em;
+	font-size: 0.95em;
 	display:block;
+	font-style: italic;
 }
 
 #block-hwc-partner-hwc-partner-mostra-masquerade a::before{
@@ -6700,22 +6717,6 @@ span.date-display-single{
 .node-163 .field-name-body.field-type-text-with-summary{
 	margin-bottom: 1em;
 }
-
-
-/*Partnership Application*/
-
-.iframe-partnership {
-	width: 100%; 
-	height: 2875px;
-	border: 0px;
-}
-
-.iframe-update{
-	width: 100%;
-    height: 5760px;
-    border: 0;
-}
-
 
 .field.field-name-field-aditional-resources .node-external-url .field.field-name-field-image, .panels-flexible-region-container-additional_resources .node-external-url .field.field-name-field-image{
 	margin-right: 3em;
@@ -6758,4 +6759,8 @@ span.date-display-single{
 .page-user-login .block-system form{
 	float: left;
 	padding-left: 3em;
+}
+
+.file-icon{
+	padding-right: 0.3em;
 }

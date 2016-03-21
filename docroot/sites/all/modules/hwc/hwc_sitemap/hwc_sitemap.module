@@ -1,0 +1,65 @@
+<?php
+
+function hwc_sitemap_menu_alter(&$items) {
+  $items['sitemap.xml']['page callback'] = 'hwc_sitemap_output_sitemap';
+}
+
+function hwc_sitemap_output_sitemap() {
+  if (request_uri() == '/sitemap.xml') {
+    hwc_sitemap_get_all_sitemaps();
+  }
+  else {
+    return xmlsitemap_output_chunk();
+  }
+}
+
+function hwc_sitemap_get_all_sitemaps() {
+  global $base_url;
+  $headers = array(
+    'Content-type' => 'text/xml; charset=utf-8',
+    'Cache-Control' => 'must-revalidate',
+    'X-Robots-Tag' => 'noindex, follow',
+  );
+  foreach ($headers as $name => $value) {
+    drupal_add_http_header($name, $value);
+  }
+  drupal_send_headers();
+  $query = db_select('xmlsitemap_sitemap', 'x')
+    ->fields('x')
+    ->execute();
+
+  $text = '<?xml version="1.0" encoding="UTF-8"?>';
+  $text .= '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+  while($site_map = $query->fetchAssoc()) {
+    $context = unserialize($site_map['context']);
+    $text .= '<sitemap>';
+    $text .= '<loc>' . $base_url . '/' . $context['language'] . '/sitemap.xml' . '</loc>';
+    $text .= '<lastmod>' . gmdate(DATE_ISO8601, $site_map['updated']) . '</lastmod>';
+    $text .= '</sitemap>';
+  }
+  $text .= '</sitemapindex>';
+  echo $text;
+  exit;
+}
+
+/**
+ * Implements hook_xmlsitemap_link_update().
+ */
+function hwc_sitemap_xmlsitemap_link_update(array $link, array $context) {
+  hwc_sitemap_exclude_menu_to_node($link);
+}
+
+/**
+ * Implements hook_xmlsitemap_link_insert().
+ */
+function hwc_sitemap_xmlsitemap_link_insert(array $link, array $context) {
+  hwc_sitemap_exclude_menu_to_node($link);
+}
+
+function hwc_sitemap_exclude_menu_to_node($link) {
+  if ($link['type'] == 'menu_link' && strpos($link['loc'], 'node/') === 0) {
+    // Disable this from getting into the sitemap.xml
+    $link['status'] = 0;
+    drupal_write_record('xmlsitemap', $link, array('type', 'id', 'language'));
+  }
+}

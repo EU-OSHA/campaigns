@@ -57,7 +57,7 @@ function hwc_practical_tool_menu_tools_form($form, $form_state) {
   );
   $form['left-column']['languages'] = array(
     '#type' => 'checkboxes',
-    '#options' => osha_language_list_options(),
+    '#options' => osha_language_list_options(TRUE),
     '#default_value' => $languages ,
     '#title' => t('Tools are available in several languages'),
   );
@@ -201,7 +201,7 @@ function hwc_practical_tool_menu_tools_search_native($form_state) {
   foreach($languages as $code) {
 //    $l = i18n_language_load($code);
 //    $language_names[] = $l->native;
-    $language_names[] = $languages_objects[$code]->name;
+    $language_names[] = $languages_objects[$code]->native;
   }
   $ret = array(
     '#nids' => $nids,

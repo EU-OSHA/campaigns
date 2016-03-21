@@ -7,6 +7,20 @@ jQuery(document).ready(function() {
 	jQuery('.node-press-release a[href^="https://osha.europa.eu"]').attr('target','_blank');
 	jQuery('.node-events a[href^="https://osha.europa.eu"]').attr('target','_blank');
 
+	/*Fix the target _blank OCP links*/
+
+	jQuery('.node-type-partner .pane-node-field-website a').attr('target','_blank');
+	jQuery('.node-type-partner .field-name-field-website a').attr('target','_blank');
+	jQuery('.node-type-partner .profile-col-right-2 .field-type-link-field a').attr('target','_blank');
+	jQuery('.node-type-partner .panels-flexible-column-last .field-type-link-field a').attr('target','_blank');
+
+
+	/*Fix the height of the Everis iframe*/
+
+	jQuery('#iframe-application').load(function() {
+		var alto = jQuery('#iframe-application').contents().height();
+		jQuery('#iframe-application').css("height",alto + 50);
+	});
 
 
 	var windowWidth= jQuery(window).width();//window size

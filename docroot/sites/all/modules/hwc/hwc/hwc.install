@@ -394,3 +394,45 @@ function hwc_update_7015() {
   }
   node_save($node);
 }
+
+/**
+ * Reset page title to use default one to use the t().
+ */
+function hwc_update_7016() {
+  variable_set('site_map_page_title', '');
+}
+
+/**
+ * Update translations for tools and publ breadcrumb.
+ */
+function hwc_update_7017() {
+  $strings = array(
+    'Tools and publications',
+  );
+  foreach ($strings as $string) {
+    _osha_tmgmt_add_translations_to_identical_strings($string);
+  }
+}
+
+/**
+ * Add translations from strings to voc and from voc to strings: segment.
+ */
+function hwc_update_7018() {
+  _osha_tmgmt_add_translations_from_strings_to_terms('segment');
+  _osha_tmgmt_add_translations_from_terms_to_strings('segment');
+}
+
+/**
+ * Enable node_revision_delete.
+ */
+function hwc_update_7019() {
+  module_enable(array('node_revision_delete'));
+}
+
+/**
+ * Add translations from strings to voc: org type and bus sector.
+ */
+function hwc_update_7020() {
+  _osha_tmgmt_add_translations_from_strings_to_terms('organisation_type');
+  _osha_tmgmt_add_translations_from_strings_to_terms('bussines_sector');
+}

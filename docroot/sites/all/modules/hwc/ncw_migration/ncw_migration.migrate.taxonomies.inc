@@ -82,6 +82,16 @@ class SegmentationNCWTaxonomyTermSource extends AbstractNCWTaxonomyTermSource {
 
 class PublicationTypeNCWTaxonomyTermSource extends AbstractNCWTaxonomyTermSource {
 
+  public function prepareRow($row) {
+    // Don't migrate some types
+    // Magazine, Annual reports and other corporate publications, Promotional Material
+    // Evaluation reports, Corporate strategies and annual management plans
+    $ignore_tids = array(4, 2, 3, 1, 3022);
+    if (in_array($row->tid, $ignore_tids)) {
+      return FALSE;
+    }
+    parent::prepareRow($row);
+  }
   public function contentFields() {
     return array(
       'field_publication_type_code' => 'field_publication_type_code',

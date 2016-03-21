@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * Set aliases for practical tools.
+ */
+function hwc_practical_tool_update_7001() {
+  variable_set('pathauto_node_practical_tool_pattern', 'tools-and-publications/practical-tools/[node:title]');
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'practical_tool');
+  $result = $query->execute();
+  if (isset($result['node'])) {
+    $nids = array_keys($result['node']);
+    $nodes = entity_load('node', $nids);
+    foreach ($nodes as $node) {
+      $node->path['pathauto'] = TRUE;
+      pathauto_node_update_alias($node, 'update', array('language' =>'en'));
+    }
+  }
+}
