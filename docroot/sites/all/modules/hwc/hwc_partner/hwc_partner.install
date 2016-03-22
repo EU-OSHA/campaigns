@@ -41,3 +41,10 @@ function hwc_partner_update_7005() {
   _osha_tmgmt_add_translations_to_identical_strings('Healthy Workplaces for All Ages');
   _osha_tmgmt_add_translations_from_strings_to_terms('organisation_type');
 }
+
+/**
+ * Revert partner module.
+ */
+function hwc_partner_update_7006() {
+  features_revert_module('hwc_partner');
+}
