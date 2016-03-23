@@ -1,12 +1,8 @@
-<?php
-  if (isset($campaign_id)) {
-    $url_query = array('pk_campaign' => $campaign_id);
-  } else {
-    $url_query = array();
-  }
-  ?>
-<link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
-<table border="0" cellpadding="20" cellspacing="0" width="800" style="margin-left: 25px;">
+<?php if (isset($campaign_id)) {
+  $url_query = array('pk_campaign' => $campaign_id);
+} else {
+  $url_query = array();
+}?><table border="0" cellpadding="20" cellspacing="0" width="800" style="margin-left: 25px;">
   <tbody>
 	<tr>
 	   <td width="550" style="padding-top: 0px; vertical-align: top; padding-right: 50px;" class="left-column">
@@ -67,7 +63,3 @@
 	</tr>
   </tbody>
 </table>
-
-
-
-

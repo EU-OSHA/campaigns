@@ -1,3 +1,8 @@
+<?php
+$newsletter_ready_date = date('F Y');
+if($newsletter_date) {
+  $newsletter_ready_date = date('F Y', strtotime($newsletter_date));
+}?>
 <table border="0" cellpadding="28" cellspacing="0" width="800" style="font-family: Oswald, Arial,sans-serif; margin-left: 25px; margin-bottom: 40px; background-repeat: no-repeat;" height="300" background="<?php print file_create_url('sites/all/modules/osha/osha_newsletter/images/header-newsletter.png'); ?>">
   <tbody>
     <tr>
@@ -78,20 +83,13 @@
           ?>
         </div>
       </td>
-      <td>
-        <?php
-        $newsletter_ready_date = date('F Y');
-        if($newsletter_date) {
-          $newsletter_ready_date = date('F Y', strtotime($newsletter_date));
-        }?>
-      </td>
     </tr>
 	<tr><td style="vertical-align: top; padding-top: 10px; padding-left: 50%;">
-		<h1 style="font-size: 2em; color: #FFF; border: none; padding: 0; margin: 0; text-align: left; line-height: 28px;"><?php print $newsletter_title ?></h1>
-		<h2 style="font-style: italic; font-weight: normal; font-size: 1.3em; color: #FFF; padding: 0; margin: 0; text-align: left;"><?php print $newsletter_ready_date ?></h2>
+		<h1 style="font-size: 28px; color: #FFF; border: none; padding: 0; margin: 0; text-align: left; line-height: 28px;"><?php print $newsletter_title ?></h1>
+		<h2 style="font-style: italic; font-weight: normal; font-size: 18px; color: #FFF; padding: 0; margin: 0; text-align: left;"><?php print $newsletter_ready_date ?></h2>
 		<br />
     <?php if(!empty($newsletter_intro)){ ?>
-		<p style="font-style: italic; color: #FFF;"><?php print($newsletter_intro);?></p>
+		<p style="font-style: italic; color: #FFF; font-size: 12px;"><?php print($newsletter_intro);?></p>
     <?php } ?>
 	</td></tr>
   </tbody>
