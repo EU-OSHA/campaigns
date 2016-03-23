@@ -1,13 +1,12 @@
 <?php
-global $base_url;
-
+  global $base_url;
+  $directory = drupal_get_path('module', 'osha_newsletter');
   if (isset($campaign_id)) {
     $url_query = array('pk_campaign' => $campaign_id);
   } else {
     $url_query = array();
   }
   ?>
-
 <table border="0" cellpadding="0" cellspacing="0" width="800" style="margin-left: 25px;">
   <tbody>
     <tr>

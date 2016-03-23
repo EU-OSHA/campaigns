@@ -6,26 +6,6 @@
   }
   ?>
 <link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
-<style>
-a{
-	text-decoration: none !important;
-	color: #003399 !important;
-}
-	a:before{
-		content: ">";
-		padding-left: 10px;
-	}
-
-table, tr, td{
-	border: 0px;
-	border-color: #FFFFFF;
-}
-</style>
-
-<?php if(!empty($newsletter_intro)){ ?>
- <div style="margin-left: 422px; margin-right: 20px; margin-top: -158px; margin-bottom: 115px; color: #FFFFFF; font-style: italic;"> <?php print($newsletter_intro);?></div>
-<?php } ?>
-
 <table border="0" cellpadding="20" cellspacing="0" width="800" style="margin-left: 25px;">
   <tbody>
 	<tr>
@@ -75,7 +55,6 @@ table, tr, td{
 		  }
 		?>
 	  </td>
-
 	  <td width="180" style="vertical-align: top; padding-top: 0px; padding-right: 0px;" class="right-column">
 		<?php
 		if (!empty($events) && sizeof($events) > 1) {

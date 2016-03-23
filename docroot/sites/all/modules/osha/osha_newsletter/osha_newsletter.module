@@ -1177,10 +1177,10 @@ function osha_newsletter_build_mail(&$message, EntityCollection $source) {
   $message['body']['header'] = theme('newsletter_header', array(
     'languages' => $languages, 'newsletter_title' => $newsletter_title,
     'newsletter_id' => $newsletter_id, 'newsletter_date' => $newsletter_date,
+    'newsletter_intro' => $newsletter_intro,
     'campaign_id' => $campaign_id
   ));
   $message['body']['body'] = theme('newsletter_body', array(
-    'newsletter_intro' => $newsletter_intro,
     'items' => $elements,
     'events' => $events,
     'campaign_id' => $campaign_id
@@ -1207,8 +1207,8 @@ function osha_newsletter_format_body($text) {
         $href->setAttribute('style', 'color:#003399;text-decoration:none;font-family:Arial,sans-serif;font-size:12px;font-weight:bold;');
       }
     }
-    $html = OshaTMGMTRetranslate::getDOMNodeList($dom->saveHTML());
-    $text = OshaTMGMTRetranslate::getHTML($html);
+    $body = $dom->getElementsByTagName('body')->item(0);
+    $text = OshaTMGMTRetranslate::getHTML($body->childNodes);
   }
 
   return $text;
@@ -1273,6 +1273,7 @@ function osha_newsletter_theme() {
       'newsletter_title' => NULL,
       'newsletter_id' => NULL,
       'newsletter_date' => NULL,
+      'newsletter_intro' => NULL,
       'campaign_id' => NULL
     ),
     'path' => $path . '/templates'
@@ -1280,7 +1281,6 @@ function osha_newsletter_theme() {
   $theme['newsletter_body'] = array(
     'template' => 'newsletter_body',
     'variables' => array(
-      'newsletter_intro' => NULL,
       'items' => NULL,
       'events' => NULL,
       'campaign_id' => NULL
