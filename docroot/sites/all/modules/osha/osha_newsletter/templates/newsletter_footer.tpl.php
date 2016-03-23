@@ -10,7 +10,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="800" style="margin-left: 25px;">
   <tbody>
     <tr>
-      <td style="background: url('<?php print file_create_url('/sites/all/modules/osha/osha_newsletter/images/footer-newsletter.png'); ?>') no-repeat; width:800px; height: 88px; padding-left: 10px;" class="social">
+      <td style="background: url('<?php print file_create_url($directory.'/images/footer-newsletter.png'); ?>') no-repeat; width:800px; height: 88px; padding-left: 10px;" class="social">
 			<?php
 				$urllegal = url($base_url.'/en/privacy-policy-campaign-newsletter', array('query' => $url_query));
 			?>
