@@ -436,3 +436,17 @@ function hwc_update_7020() {
   _osha_tmgmt_add_translations_from_strings_to_terms('organisation_type');
   _osha_tmgmt_add_translations_from_strings_to_terms('bussines_sector');
 }
+
+/**
+ * Update translations for tools and publ breadcrumb.
+ */
+function hwc_update_7021() {
+  $strings = array(
+    'Tools and publications',
+    'Practical tools',
+    'Campaign materials',
+  );
+  foreach ($strings as $string) {
+    _osha_tmgmt_add_translations_to_identical_strings($string);
+  }
+}
