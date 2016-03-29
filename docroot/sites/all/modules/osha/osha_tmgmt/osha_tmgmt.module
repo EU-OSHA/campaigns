@@ -2229,7 +2229,7 @@ function osha_tmgmt_tmgmt_ui_cart_content_submit($form, &$form_state) {
     }
     if ($job) {
       // Set the title to job #
-      $job->label = t('Translation job #!tjid', array('!tjid' => $job->tjid));
+      $job->label = t('Translation job HWC #!tjid', array('!tjid' => $job->tjid));
       $job->priority = $values['priority'];
       OshaTMGMTStatistics::computeJobStatistics($job);
       $job->save();

@@ -25,7 +25,7 @@ function ncw_migration_migrate_api() {
         'group_name' => 'ncw',
         'dependencies' => array(
           'tax_tags', 'tax_publication_types', 'publications_add_res',
-          'news_add_res', 'press_releases_add_res', 'press_releases_add_res',
+          'news_add_res', 'press_releases_add_res',
           'highlights_add_res', 'notes_to_editor', 'tax_segment',
         ),
         'class_name' => 'NCWPublicationsMigration',
@@ -39,7 +39,7 @@ function ncw_migration_migrate_api() {
         'group_name' => 'ncw',
         'dependencies' => array(
           'tax_tags', 'publications_add_res', 'news_add_res',
-          'press_releases_add_res', 'press_releases_add_res',
+          'press_releases_add_res',
           'highlights_add_res'
         ),
         'class_name' => 'NCWNewsMigration',
@@ -58,7 +58,7 @@ function ncw_migration_migrate_api() {
         'group_name' => 'ncw',
         'dependencies' => array(
           'tax_tags', 'publications_add_res', 'news_add_res',
-          'press_releases_add_res', 'press_releases_add_res',
+          'press_releases_add_res',
           'highlights_add_res', 'notes_to_editor'
         ),
         'class_name' => 'NCWPressMigration',
@@ -72,7 +72,7 @@ function ncw_migration_migrate_api() {
         'group_name' => 'ncw',
         'dependencies' => array(
           'tax_tags', 'publications_add_res', 'news_add_res',
-          'press_releases_add_res', 'press_releases_add_res',
+          'press_releases_add_res',
           'highlights_add_res'
         ),
         'class_name' => 'NCWHighlightMigration',
@@ -1008,7 +1008,7 @@ function osha_migration_normalize_migrated_term_reference(&$original, $source_mi
 
 function ncw_migration_find_additional_resource($source_nid) {
   $migrations = array(
-    'publications_add_res', 'news_add_res', 'press_releases_add_res',
+    'publications_add_res', 'news_add_res',
     'press_releases_add_res', 'highlights_add_res'
   );
   foreach($migrations as $machine_name) {

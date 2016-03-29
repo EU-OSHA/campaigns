@@ -1,17 +1,16 @@
 <?php
-global $base_url;
-
+  global $base_url;
+  $directory = drupal_get_path('module', 'osha_newsletter');
   if (isset($campaign_id)) {
     $url_query = array('pk_campaign' => $campaign_id);
   } else {
     $url_query = array();
   }
   ?>
-
-<table border="0" cellpadding="0" cellspacing="0" width="800" style="margin-left: 25px;">
+<table border="0" cellpadding="0" cellspacing="0" width="800" style="background: url('<?php print file_create_url($directory.'/images/footer-newsletter.png'); ?>') no-repeat; width:800px; height: 88px; margin-left: 25px; font-size: 14px;">
   <tbody>
     <tr>
-      <td style="background: url('<?php print file_create_url('/sites/all/modules/osha/osha_newsletter/images/footer-newsletter.png'); ?>') no-repeat; width:800px; height: 88px; padding-left: 10px;" class="social">
+      <td class="social" style="padding-left: 10px;">
 			<?php
 				$urllegal = url($base_url.'/en/privacy-policy-campaign-newsletter', array('query' => $url_query));
 			?>
@@ -21,7 +20,9 @@ global $base_url;
 			?>
 			<span style="color:#FFF"> | </span> 
 			<a href="<?php echo $url; ?>" style="@style; font-weight: bold; color: #FFF">Unsubscribe</a>
-			<h2 style="padding-left: 300px; color: #ffffff; display: inline; margin-right: 20px; vertical-align: top; font-weight: bold; font-size: 17px; font-style: normal;">Follow us on:</h2>
+      </td>
+      <td style="text-align: right; padding-right: 10px;">
+			<h2 style="color: #ffffff; display: inline; font-weight: bold; font-size: 14px; font-style: normal;">Follow us on:</h2>
 			<?php
 			  $social = array(
 				'face' => array(
@@ -51,11 +52,10 @@ global $base_url;
 				  'alt' => $options['alt'],
 				  'attributes' => array('style' => 'border: 0px;')
 				)), $options['path'], array(
-				  'attributes' => array('style' => 'color:#144989;text-decoration:none;'),
+				  'attributes' => array('style' => 'color:#144989; text-decoration:none; display: inline-block; vertical-align: middle; margin-left: 10px;'),
 				  'html' => TRUE,
 				  'external' => TRUE
 				));
-				print ('&nbsp;&nbsp;&nbsp;&nbsp;');
 			  }
 			?>  
       </td>

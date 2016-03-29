@@ -32,13 +32,17 @@ function drush_ncw_migration_hwc_migrate_all() {
     'tax_tags',
     'tax_segment',
 
+    'highlights_add_res',
+    'press_releases_add_res',
+    'news_add_res',
+    'publications_add_res',
     'infographics',
     'events',
+    'notes_to_editor',
+    'highlights',
     'publications',
     'news',
-    'notes_to_editor',
     'press_releases',
-    'highlights',
     'press_contacts',
   );
   foreach($migrations as $migration) {
