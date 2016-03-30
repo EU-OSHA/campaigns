@@ -5,6 +5,7 @@
  */
 
 include_once 'osha_newsletter.features.inc';
+require_once 'includes/osha_newsletter.utils.inc';
 include_once 'includes/campaigns_newsletter_subscribe_form.php';
 include_once 'includes/osha_newsletter_subscribe_extra_form.php';
 include_once 'includes/osha_newsletter_block_subscribe_form.php';
