@@ -1185,12 +1185,9 @@ function osha_newsletter_build_mail(&$message, EntityCollection $source) {
     'events' => $events,
     'campaign_id' => $campaign_id
   ));
-
   //add css styles to href in body
   $message['body']['body'] = osha_newsletter_format_body($message['body']['body']);
-
   $message['body']['footer'] = theme('newsletter_footer', array('campaign_id' => $campaign_id));
-
   // Optional params for HTML mails.
   $message['params']['plain'] = NULL;
 }

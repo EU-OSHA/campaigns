@@ -1,12 +1,13 @@
-<?php if (isset($campaign_id)) {
-  $url_query = array('pk_campaign' => $campaign_id);
-} else {
-  $url_query = array();
-}?><table border="0" cellpadding="20" cellspacing="0" width="800" style="margin-left: 25px;">
+<table border="0" cellpadding="20" cellspacing="0" width="800" style="margin-left: 25px;">
   <tbody>
 	<tr>
 	   <td width="550" style="padding-top: 0px; vertical-align: top; padding-right: 50px;" class="left-column">
 		<?php
+      if (isset($campaign_id)) {
+        $url_query = array('pk_campaign' => $campaign_id);
+      } else {
+        $url_query = array();
+      }
 		  $elements_no = sizeof($items);
 		  // Delete title 'News'.
 		  unset($items[0]);
