@@ -489,3 +489,18 @@ function hwc_update_7022() {
     }
   }
 }
+
+/**
+ * Enable some new modules.
+ */
+function hwc_update_7023() {
+  $modules = array(
+    'imce_mkdir',
+    'xmlsitemap',
+    'xmlsitemap_i18n',
+    'xmlsitemap_menu',
+    'xmlsitemap_node',
+    'hwc_sitemap',
+  );
+  module_enable($modules);
+}
