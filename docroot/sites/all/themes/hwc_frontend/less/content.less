@@ -1148,16 +1148,12 @@ ul.tabs--primary.nav.nav-tabs{
 		color: @color1;
 		background-size: cover;
 		padding-bottom: 1em;
-		margin-top: 0
-		em;
-    	/* margin-bottom: 3em; */
+		margin-top: 0em;
     	padding-top: 1px;
 		#join_subscribers img{
 			left: 0;
 		}
-		a{
-			color: @color1;
-		}
+		
 		h2{
 			margin-top: 15px;
 			padding-top: 100px;
@@ -1192,6 +1188,9 @@ ul.tabs--primary.nav.nav-tabs{
 			top: 150px;
 			.form-group{
 				display: inline-block;
+			}
+			a{
+				color:#FFF;
 			}
 		}
 		#campaigns-newsletter-subscribe-form{
@@ -5767,7 +5766,7 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 				}
 			}
 			button#edit-submit--3{
-				margin-top: -2em;
+				margin-top: 1em!important;
 				margin-top: 0em;
 				min-width: 130px;
 				font-size: 1em;
@@ -5777,9 +5776,9 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 				font-size: 1em;
 			}
 			button#edit-submit--4{
-				margin-top: -3em;
 				min-width: 130px;
 				font-size: 1em;
+				margin-top: 1em!important;
 			}
 		}
 	}
@@ -5823,7 +5822,6 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 				display:block;
 				padding-top: 0.5em;
 				margin-right: 10px;
-				margin-bottom: 10px;
 				min-width: 350px;
 				&.captcha{
 					clear: both;
@@ -5835,6 +5833,7 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 			button, button#edit-submit--4, button#edit-unsubscribe--2{
 				min-width: 130px;
 				font-size: 1em;
+				margin-top: 1em!important;
 			}
 		}
 		div#newsletter-subscription-form-wrapper{
@@ -6776,3 +6775,43 @@ span.date-display-single{
     border: 0;
 }
 
+#node-972 > div > div > div > div > ul{
+	list-style: none;
+	clear: both;
+	height: 1%;
+    overflow: hidden;
+    > li{
+		border:1px solid #CCC;
+		float: left;
+	    padding: 1em;
+	    margin-right: 10px;
+	    margin-bottom: 10px;
+	    > span{
+			display:block;
+		}
+		> span:nth-child(3){
+			color:#FFF;
+			font-size: 1px!important;
+		}
+	}
+	> li:nth-child(26){
+		border:0px solid #CCC;
+		float: none;
+	    padding: 0em;
+	    margin-right: 0px;
+	    margin-bottom: 0px;
+	    clear: both;
+	}
+}
+
+/*input type file*/
+input#edit-field-image-und-0-upload::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+input#edit-field-image-und-0-upload::before {
+    content: "Select file";
+    background-color: #003399;
+    color: white;
+    padding: 3px 35px;
+}
