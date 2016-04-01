@@ -1291,7 +1291,7 @@ ul.tabs--primary.nav.nav-tabs{
 				padding: 10px;
 				&:before{
 					content: ">";
-					padding-right: 0.35em;
+					padding-right: 0.30em;
 				}
 			}
 		}
@@ -2710,7 +2710,7 @@ p.no-results{
 	}
 	.region-content{
 		#block-system-main{
-			.views-row{
+			.view-events-search .view-content:nth-child(2) .views-row{
 				padding-top: 20px;
 				padding-bottom: 30px;
 				min-height: 230px;
@@ -5004,7 +5004,6 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 		margin-left: @margin1;
 		margin-right: @margin1;
 		.section-introduction{
-			border-bottom: 1px dotted @color3;
 			h2{
 				display: none;
 			}
@@ -5319,6 +5318,9 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 	.pane-node-field-cover-image{
 		margin-left: -15px;
 		margin-top: 1em;
+		img{
+			border:1px solid #CCC;
+		}
 	}
 	.panels-flexible-region-container-title{
 		.pane-node-title-field{
