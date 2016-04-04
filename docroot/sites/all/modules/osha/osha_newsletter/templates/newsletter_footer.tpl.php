@@ -10,59 +10,71 @@ $directory = drupal_get_path('module', 'osha_newsletter');
   <![endif]-->
   <tbody>
     <tr>
-      <td class="social" style="padding-left: 10px;">
-			<?php
-        if (isset($campaign_id)) {
-          $url_query = array('pk_campaign' => $campaign_id);
-        } else {
-          $url_query = array();
-        }
-				$urllegal = url($base_url.'/en/privacy-policy-campaign-newsletter', array('query' => $url_query));
-			?>
-			<a href="<?php echo $urllegal; ?>" style="@style; font-weight: bold; color: #FFF">Privacy notice</a>
-			<?php
-				$url = url($base_url.'/en/healthy-workplaces-newsletter', array('query' => $url_query));
-			?>
-			<span style="color:#FFF"> | </span> 
-			<a href="<?php echo $url; ?>" style="@style; font-weight: bold; color: #FFF">Unsubscribe</a>
+      <td class="social">
+        <table border="0" cellpadding="0" cellspacing="0"><tbody>
+          <tr><td style="padding-left: 10px;">
+            <?php
+            if (isset($campaign_id)) {
+              $url_query = array('pk_campaign' => $campaign_id);
+            } else {
+              $url_query = array();
+            }
+            $urllegal = url($base_url.'/en/privacy-policy-campaign-newsletter', array('query' => $url_query));
+            ?>
+            <a style="text-decoration: none;" href="<?php echo $urllegal; ?>"><span style="font-weight: bold; color: #ffffff; font-size: 14px;">Privacy notice</span></a>
+            <?php
+            $url = url($base_url.'/en/healthy-workplaces-newsletter', array('query' => $url_query));
+            ?>
+            <span style="color:#ffffff; font-size: 14px;"> | </span>
+            <a style="text-decoration: none;" href="<?php echo $url; ?>"><span style="font-weight: bold; color: #ffffff; font-size: 14px;">Unsubscribe</span></a>
+          </td></tr></tbody>
+        </table>
       </td>
-      <td style="text-align: right; padding-right: 10px;">
-			<h2 style="color: #ffffff; display: inline; font-weight: bold; font-size: 14px; font-style: normal;">Follow us on:</h2>
-			<?php
-			  $social = array(
-				'face' => array(
-				  'path' => 'https://www.facebook.com/EuropeanAgencyforSafetyandHealthatWork',
-				  'alt' => t('Facebook')
-				),
-				'twitter' => array(
-				  'path' => 'https://twitter.com/eu_osha',
-				  'alt' => t('Twitter')
-				),
-				'linkedin' => array(
-				  'path' => 'https://www.linkedin.com/company/european-agency-for-safety-and-health-at-work',
-				  'alt' => t('LinkedIn')
-				),
-				'youtube' => array(
-				  'path' => 'https://www.youtube.com/user/EUOSHA',
-				  'alt' => t('Youtube')
-				)
-			  );
+      <td align="right">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tbody>
+            <tr style="text-align: right;">
+              <td style="padding-right: 10px;">
+                <h2 style="color: #ffffff; display: inline; font-weight: bold; font-size: 14px; font-style: normal;">Follow us on:</h2>
+                <?php
+                $social = array(
+                  'face' => array(
+                    'path' => 'https://www.facebook.com/EuropeanAgencyforSafetyandHealthatWork',
+                    'alt' => t('Facebook')
+                  ),
+                  'twitter' => array(
+                    'path' => 'https://twitter.com/eu_osha',
+                    'alt' => t('Twitter')
+                  ),
+                  'linkedin' => array(
+                    'path' => 'https://www.linkedin.com/company/european-agency-for-safety-and-health-at-work',
+                    'alt' => t('LinkedIn')
+                  ),
+                  'youtube' => array(
+                    'path' => 'https://www.youtube.com/user/EUOSHA',
+                    'alt' => t('Youtube')
+                  )
+                );
 
-			  foreach ($social as $name => $options) {
-				$directory = drupal_get_path('module','osha_newsletter');
-				print l(theme('image', array(
-				  'path' => $directory . '/images/' . $name . '.png',
-				  'width' => 'auto',
+                foreach ($social as $name => $options) {
+                  $directory = drupal_get_path('module','osha_newsletter');
+                  print l(theme('image', array(
+                    'path' => $directory . '/images/' . $name . '.png',
+                    'width' => 'auto',
 
-				  'alt' => $options['alt'],
-				  'attributes' => array('style' => 'border: 0px;')
-				)), $options['path'], array(
-				  'attributes' => array('style' => 'color:#144989; text-decoration:none; display: inline-block; vertical-align: middle; margin-left: 10px;'),
-				  'html' => TRUE,
-				  'external' => TRUE
-				));
-			  }
-			?>  
+                    'alt' => $options['alt'],
+                    'attributes' => array('style' => 'border: 0px;')
+                  )), $options['path'], array(
+                    'attributes' => array('style' => 'color:#144989; text-decoration:none; display: inline-block; vertical-align: middle; margin-left: 10px;'),
+                    'html' => TRUE,
+                    'external' => TRUE
+                  ));
+                }
+                ?>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </td>
     </tr>
   </tbody>
