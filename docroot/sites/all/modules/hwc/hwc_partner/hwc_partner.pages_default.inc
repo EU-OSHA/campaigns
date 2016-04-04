@@ -4623,7 +4623,7 @@ function hwc_partner_default_page_manager_pages() {
     $display->content['new-82de0d01-543a-4f9f-aef5-7fc99c76fb68'] = $pane;
     $display->panels['center'][0] = 'new-82de0d01-543a-4f9f-aef5-7fc99c76fb68';
     $pane = new stdClass();
-    $pane->pid = 'new-a6d1c39c-19a5-47b6-9aa7-d7fd6d6872cd';
+    $pane->pid = 'new-ee11c62b-e8db-4c1d-a6a0-491156657f9e';
     $pane->panel = 'center';
     $pane->type = 'views';
     $pane->subtype = 'partner_draft_content';
@@ -4639,9 +4639,9 @@ function hwc_partner_default_page_manager_pages() {
       'feed_icons' => 0,
       'panel_args' => 0,
       'link_to_view' => 0,
-      'args' => '',
+      'args' => '%1',
       'url' => '',
-      'display' => 'block_1',
+      'display' => 'block_partner_draft_events',
       'context' => array(
         0 => '',
       ),
@@ -4657,9 +4657,9 @@ function hwc_partner_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $pane->uuid = 'a6d1c39c-19a5-47b6-9aa7-d7fd6d6872cd';
-    $display->content['new-a6d1c39c-19a5-47b6-9aa7-d7fd6d6872cd'] = $pane;
-    $display->panels['center'][1] = 'new-a6d1c39c-19a5-47b6-9aa7-d7fd6d6872cd';
+    $pane->uuid = 'ee11c62b-e8db-4c1d-a6a0-491156657f9e';
+    $display->content['new-ee11c62b-e8db-4c1d-a6a0-491156657f9e'] = $pane;
+    $display->panels['center'][1] = 'new-ee11c62b-e8db-4c1d-a6a0-491156657f9e';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-82de0d01-543a-4f9f-aef5-7fc99c76fb68';
   $handler->conf['display'] = $display;
@@ -5040,7 +5040,7 @@ function hwc_partner_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = 'Private area for Partners';
+  $display->title = 'Partner Resources';
   $display->uuid = '4b43886a-a2f0-48cd-be03-5def9eac6bc0';
   $display->content = array();
   $display->panels = array();
@@ -5792,7 +5792,7 @@ foreach( $contexts[\'argument_entity_id:node_1\']->data->field_users[\'und\'] as
   $page->api_version = 1;
   $page->name = 'private_area_for_partners';
   $page->task = 'page';
-  $page->admin_title = 'Private area for partners';
+  $page->admin_title = 'Partner Resources';
   $page->admin_description = 'Private area landing page for partners';
   $page->path = 'private';
   $page->access = array(
@@ -5847,7 +5847,7 @@ foreach( $contexts[\'argument_entity_id:node_1\']->data->field_users[\'und\'] as
   $handler->handler = 'panel_context';
   $handler->weight = 0;
   $handler->conf = array(
-    'title' => 'Private area for partners',
+    'title' => 'Partner Resources',
     'no_blocks' => 0,
     'pipeline' => 'standard',
     'body_classes_to_remove' => '',
@@ -5884,7 +5884,7 @@ foreach( $contexts[\'argument_entity_id:node_1\']->data->field_users[\'und\'] as
       'logic' => 'or',
     ),
     'panels_breadcrumbs_state' => 1,
-    'panels_breadcrumbs_titles' => 'Private area for partners',
+    'panels_breadcrumbs_titles' => 'Partner Resources',
     'panels_breadcrumbs_paths' => '<none>',
     'panels_breadcrumbs_home' => 1,
   );
@@ -5959,7 +5959,7 @@ foreach( $contexts[\'argument_entity_id:node_1\']->data->field_users[\'und\'] as
     ),
   );
   $display->cache = array();
-  $display->title = 'Private area for partners';
+  $display->title = 'Partner Resources';
   $display->uuid = 'cbebf880-65eb-4460-bd57-29469e70c90f';
   $display->content = array();
   $display->panels = array();

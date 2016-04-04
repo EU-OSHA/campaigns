@@ -5,6 +5,7 @@
  */
 
 include_once 'osha_newsletter.features.inc';
+require_once 'includes/osha_newsletter.utils.inc';
 include_once 'includes/campaigns_newsletter_subscribe_form.php';
 include_once 'includes/osha_newsletter_subscribe_extra_form.php';
 include_once 'includes/osha_newsletter_block_subscribe_form.php';
@@ -1152,7 +1153,7 @@ function osha_newsletter_build_mail(&$message, EntityCollection $source) {
     if ($item->type == 'taxonomy_term') {
       $term = taxonomy_term_view($item->content, 'token');
       $last_section = $item->content->name_original;
-      if ($last_section == 'Upcoming events') {
+      if ($last_section == 'Events') {
         $events[] = $term;
       } else {
         $elements[] = $term;
@@ -1162,7 +1163,7 @@ function osha_newsletter_build_mail(&$message, EntityCollection $source) {
       $node = node_view($item->content,$style);
       $node['#campaign_id'] = $campaign_id;
 
-     if ($last_section == 'Upcoming events') {
+     if ($last_section == 'Events') {
         $events[] = $node;
       } else {
         $elements[] = $node;
@@ -1177,20 +1178,17 @@ function osha_newsletter_build_mail(&$message, EntityCollection $source) {
   $message['body']['header'] = theme('newsletter_header', array(
     'languages' => $languages, 'newsletter_title' => $newsletter_title,
     'newsletter_id' => $newsletter_id, 'newsletter_date' => $newsletter_date,
+    'newsletter_intro' => $newsletter_intro,
     'campaign_id' => $campaign_id
   ));
   $message['body']['body'] = theme('newsletter_body', array(
-    'newsletter_intro' => $newsletter_intro,
     'items' => $elements,
     'events' => $events,
     'campaign_id' => $campaign_id
   ));
-
   //add css styles to href in body
   $message['body']['body'] = osha_newsletter_format_body($message['body']['body']);
-
   $message['body']['footer'] = theme('newsletter_footer', array('campaign_id' => $campaign_id));
-
   // Optional params for HTML mails.
   $message['params']['plain'] = NULL;
 }
@@ -1207,8 +1205,8 @@ function osha_newsletter_format_body($text) {
         $href->setAttribute('style', 'color:#003399;text-decoration:none;font-family:Arial,sans-serif;font-size:12px;font-weight:bold;');
       }
     }
-    $html = OshaTMGMTRetranslate::getDOMNodeList($dom->saveHTML());
-    $text = OshaTMGMTRetranslate::getHTML($html);
+    $body = $dom->getElementsByTagName('body')->item(0);
+    $text = OshaTMGMTRetranslate::getHTML($body->childNodes);
   }
 
   return $text;
@@ -1273,6 +1271,7 @@ function osha_newsletter_theme() {
       'newsletter_title' => NULL,
       'newsletter_id' => NULL,
       'newsletter_date' => NULL,
+      'newsletter_intro' => NULL,
       'campaign_id' => NULL
     ),
     'path' => $path . '/templates'
@@ -1280,7 +1279,6 @@ function osha_newsletter_theme() {
   $theme['newsletter_body'] = array(
     'template' => 'newsletter_body',
     'variables' => array(
-      'newsletter_intro' => NULL,
       'items' => NULL,
       'events' => NULL,
       'campaign_id' => NULL

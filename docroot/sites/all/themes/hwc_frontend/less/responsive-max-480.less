@@ -2,8 +2,26 @@
 
 @media only screen and (max-width : 480px) {
 
-/*Header*/
+.btn-default-hwc{
+	display: block;
+    margin: 0 auto;
+}
 
+.page-get-your-certificate .hwc-share-widget {
+	ul{
+		padding-bottom: 2.2em;
+	} 
+	
+	li{
+		display: flex;
+	}
+}
+
+.become-partner .partners .partner .partner-name h3{
+	font-size: 27px;
+}
+
+/*Header*/
 header{
 	&.navbar-default {
 		.campaigns-header {
@@ -74,6 +92,7 @@ header{
 	}
 }
 /*FIN header*/
+
 .front{
 	//slider
 	#block-views-frontpage-slider-block{
@@ -88,16 +107,30 @@ header{
 	}
 }
 
-/*container*/
-	
-	/*home*/
-	/*FIN home*/
+/*container*/	
+ /*home*/
 
-	/* Article */
-	.node-article{
-		/* height: 145px; */
-	}
-	/*FIN Article */
+#block-osha-newsletter-osha-newsletter-image #campaigns-newsletter-subscribe-form>div{
+	display: block;
+}
+
+#block-osha-newsletter-osha-newsletter-image #block_newsletter_image_text .form-group{
+	display: block;
+}
+
+#block-osha-newsletter-osha-newsletter-image #campaigns-newsletter-subscribe-form #edit-email{
+	width: 100%;
+}
+
+
+#block-osha-newsletter-osha-newsletter-image #campaigns-newsletter-subscribe-form button{
+	width: 100%;
+	padding-bottom:1em;
+	margin-bottom: 0.5em;
+}
+
+
+/*FIN home*/
 
 /*news*/
 //detail
@@ -122,9 +155,6 @@ header{
 }
 /*fin create events & news*/
 	
-
-
-
 .view-mode-full .hwc-share-widget{
 	ul{
 		.share-this-article{
@@ -167,15 +197,13 @@ header{
 	}
 }
 
-
 /*Focal points*/
 
 .view-display-id-fop img{
 	width: 78px;
-	height:auto;
+	height:48px;
 }
 /*FIn container*/
-
 
 /*Oficial campaigns partners*/
 
@@ -190,7 +218,6 @@ header{
 	height:210px!important;
 }
 
-
 /* Media partners */
 
 .view-id-partners_list .quicktabs-views-group, .view-id-partners_list .views-row{
@@ -199,10 +226,17 @@ header{
 	border-right: 1px dotted #749b00;
 }
 
+button.navbar-toggle.active{
+	position: absolute;
+    top: 0px;
+    right: 0em;
+}
 
 header.navbar-default .campaigns-header .navbar-header .region-header #block-lang-dropdown-language, header.navbar-default .campaigns-header .navbar-header .region-header #block-menu-menu-header-login ~ #block-lang-dropdown-language{
-	position:relative;
-	bottom: -2px;
+	bottom: -4px;
+	position: relative;
+	float: left;
+    padding-left: 1em;
 }
 
 .node-type-article .hwc-share-widget {
@@ -223,20 +257,27 @@ header.navbar-default .campaigns-header .navbar-header .region-header #block-lan
 
 /*Fix DA language*/
 .main-container h1 {
-    font-size: 1.65em;
+    font-size: 1.60em;
 }
 
 .main-container h2{
 	font-size: 1.45em!important;
 }
 
-/*Fix ET language*/
-
-#block-osha-newsletter-osha-newsletter-image #campaigns-newsletter-subscribe-form #edit-email{
-	width: 130px!important;
+.employers-section .case-studies .one-resource h4, .employers-section .other-practical-tools .one-resource h4, .employers-section .publications .one-resource h4{
+	font-size:1.4em;
 }
 
+.pane-hwc-practical-tool-hwc-practical-tool-listing #edit-content .form-type-radios.form-item-sort div{
+	display: block;
+}
 
+.pane-hwc-practical-tool-hwc-practical-tool-listing #edit-content .form-type-radios.form-item-sort label{
+	float: none;
+}
 
+.get-involved-section .information-tailored h3{
+	font-size:1.95em;
+}
 
 }

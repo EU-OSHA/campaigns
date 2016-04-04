@@ -101,6 +101,7 @@ class PartnerMigration extends HwcCrmMigration {
           ),
           'warning'
         );
+        unset($row->field_orgtype);
       }
     }
     if (isset($row->field_bussines_sector)) {

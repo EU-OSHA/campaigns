@@ -155,7 +155,7 @@ function hwc_workflow_node_submit_form($form, &$form_state, $node) {
   $form['#node'] = $node;
   $form['actions']['send_for_approval'] = array(
     '#type' => 'submit',
-    '#value' => t('Submit !type item for validation', array('!type' => $form['type']['#value'])),
+    '#value' => strtr('Submit !type item for validation', array('!type' => $form['type']['#value'])),
     '#submit' => array('hwc_workflow_node_simple_submit'),
   );
   return $form;
@@ -479,7 +479,7 @@ function _hwc_workflow_partner_node_form_alter(&$form, &$form_state) {
     );
     $form['actions']['send_for_approval'] = array(
       '#type' => 'submit',
-      '#value' => t('Submit !type item for validation', array('!type' => $form['type']['#value'])),
+      '#value' => strtr('Submit !type item for validation', array('!type' => $form['type']['#value'])),
       '#submit' => array('hwc_workflow_node_form_submit_send'),
     );
   }

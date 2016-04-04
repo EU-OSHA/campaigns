@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * Remove duplicated aliases for en
+ */
+function ncw_migration_update_7001() {
+  $result = db_query("select count(pid) as cpid, source from url_alias where language='en' group by source having cpid > 1");
+  foreach($result as $row) {
+    // Get first path and remove it.
+    $path = db_select('url_alias')
+      ->fields('url_alias')
+      ->condition('source', $row->source)
+      ->orderBy('pid', 'ASC')
+      ->execute()
+      ->fetchAssoc();
+    db_delete('url_alias')
+      ->condition('pid', $path['pid'])
+      ->execute();
+  }
+}
+
+/**
+ * Set different channel for ncw migration cron.
+ */
+function ncw_migration_update_7002() {
+  cache_clear_all();
+  elysia_cron_set_job_channel('ncw_migration_cron', 'ncw_migration_cron');
+}

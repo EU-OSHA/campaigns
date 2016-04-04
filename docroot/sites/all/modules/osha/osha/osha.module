@@ -2,6 +2,7 @@
 
 include_once 'osha.features.inc';
 include_once 'osha.utils.inc';
+include_once 'osha.pathauto.inc';
 
 define('OSHA_ARTICLE_CONTENT_TYPE_ARTICLE', 'article');
 define('OSHA', 'OSHA');
@@ -616,9 +617,8 @@ function osha_url_inbound_alter(&$path, $original_path, $path_language) {
   if (empty($orig_path_source) && empty($orig_path_alias)) {
     $source_en = drupal_lookup_path('source', $original_path, 'en');
     if (!empty($source_en)) {
-      // Pass the current query params to the redirect.
-      $query = drupal_get_query_parameters();
-      drupal_goto($source_en, array('query' => $query), 301);
+      $path = $source_en;
+      return;
     }
   }
   // For images, in migrated content there are images with alias appended

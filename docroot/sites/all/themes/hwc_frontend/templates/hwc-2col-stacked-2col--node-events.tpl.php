@@ -3,8 +3,8 @@
 <?php if (isset($title_suffix['contextual_links'])): ?>
   <?php print render($title_suffix['contextual_links']); ?>
 <?php endif; ?>
-<h2 class="node-edit-form-heading"><?php print t('General information'); ?></h2>
-<div class="required-form-fields"><?php print t('Required fields'); ?> *</div>
+<h2 class="node-edit-form-heading"><?php print 'General information'; ?></h2>
+<div class="required-form-fields"><?php print 'Required fields'; ?> *</div>
 <<?php print $header_wrapper ?> class="group-header<?php print $header_classes; ?>">
 <?php print $header; ?>
 </<?php print $header_wrapper ?>>
@@ -22,7 +22,7 @@
 </<?php print $center_wrapper ?>>
 
 <?php if (!empty($left2) || !empty($right2) || !empty($footer)) { ?>
-<h2 class="node-edit-form-heading"><?php print t('Further information'); ?></h2>
+<h2 class="node-edit-form-heading"><?php print 'Further information'; ?></h2>
 
 <<?php print $left2_wrapper ?> class="group-left2<?php print $left2_classes; ?>">
 <?php print $left2; ?>

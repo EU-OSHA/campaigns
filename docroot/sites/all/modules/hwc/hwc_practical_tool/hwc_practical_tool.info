@@ -79,3 +79,4 @@ features[variable][] = menu_parent_practical_tool
 features[variable][] = node_options_practical_tool
 features[variable][] = node_preview_practical_tool
 features[variable][] = node_submitted_practical_tool
+features[variable][] = pathauto_node_practical_tool_pattern

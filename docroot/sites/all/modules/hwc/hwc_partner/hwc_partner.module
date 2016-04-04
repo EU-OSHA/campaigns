@@ -396,6 +396,50 @@ function hwc_partner_form_user_profile_form_alter(&$form, $form_state) {
 }
 
 /**
+ * Try to un translate some form labels.
+ */
+function _hwc_partner_untranslate_form_labels(&$element) {
+  if (is_object($element)) {
+    return;
+  }
+  if (is_array($element)) {
+    $child_keys = element_children($element);
+    foreach ($child_keys as $key) {
+      if (!empty($element['#title'])
+        && !empty($element[$key]['#title'])) {
+        $element[$key]['#title'] = $element['#title'];
+      }
+      _hwc_partner_untranslate_form_labels($element[$key]);
+    }
+  }
+  return;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function hwc_partner_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+  global $language;
+  // Un translate form labels if is a partner. (nasty solution)
+  if (in_array(ROLE_CAMPAIGN_PARTNER, $user->roles)
+    && $language->language != 'en') {
+    if (in_array($form_id, array('news_node_form', 'events_node_form'))) {
+      _hwc_partner_untranslate_form_labels($form);
+      if (!empty($form['field_country_code'][LANGUAGE_NONE]['#title'])) {
+        $form['field_country_code'][LANGUAGE_NONE]['#title'] = 'Country';
+      }
+      if (!empty($form['field_image'][LANGUAGE_NONE][0]['#title'])) {
+        $form['field_image'][LANGUAGE_NONE][0]['#title'] = 'Image';
+      }
+      if (!empty($form['field_website_of_event'][LANGUAGE_NONE]['#title'])) {
+        $form['field_website_of_event'][LANGUAGE_NONE]['#title'] = 'Website of event';
+      }
+    }
+  }
+}
+
+/**
  * HCW-1099.
  *
  * MP and OCP - When the user changes the password and saves changes, the system
