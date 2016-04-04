@@ -19,12 +19,24 @@ html:lang(pt) header.navbar-default .navbar-collapse nav ul.menu li{
 	font-size:0.79em;
 }
 
-html:lang(sv) header.navbar-default .navbar-collapse nav ul.menu li:nth-child(3) ul li:nth-child(2):before{
+html:lang(sv) header.navbar-default .navbar-collapse nav ul.menu li:nth-child(3) ul li:nth-child(2)::before
+{
 	padding-bottom: 44px;
 }
 
 header.navbar-default .navbar-collapse nav ul.menu li .dropdown-menu li{
 	min-height: auto;
+}
+
+
+#block-system-main div div.form-type-password, #block-system-main div div.form-type-textfield{
+	display: block;
+	padding-left: 2em;
+	padding-right: 2em;
+}
+
+#block-system-main form div button.form-submit{
+	margin-left: 2em;
 }
 
 }
@@ -267,10 +279,6 @@ header{
 			padding-right: 30px;
 			padding-left: 30px;
 		}
-		.dot-separator.green{
-			/* margin-left: @margin-tablet;
-			margin-right: @margin-tablet; */
-		}
 	}
 }
 /*fin articles*/
@@ -356,12 +364,6 @@ header{
 		padding: 0.2em @margin-tablet;
 		background: @bg-color-3 url("../images/content/slideDown.png") no-repeat 95% center;
 		margin-bottom: 1em;
-		/* &:after{
-			color: @text-color-2;
-			content: "\e258";
-			font-family: 'Glyphicons Halflings';
-			float: right;
-		} */
 		&.closeLabel{
 			margin-bottom: 0;
 			background-image: url("../images/content/slideUp.png");
@@ -806,7 +808,6 @@ header{
 		h2{
 		    padding: 0.5em @margin-tablet 0;
 			float: left;
-			/* background: #e2e2e3 url("../images/content/slideDown.png") no-repeat 95% center; */
 			margin-bottom: 0;
 		}
 		.facetapi-facetapi-checkbox-links{
@@ -820,9 +821,6 @@ header{
 				width: auto;
 				white-space: nowrap;
 				margin-right: 1em;
-				input[type="checkbox"]{
-					/* margin-right: 0.1em; */
-				}
 			}
 		}
 	}

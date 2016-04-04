@@ -1,10 +1,23 @@
 //rewrite styles for responsive design
+@media (min-width: 1400px){
+	/*CSS to image */
 
+.page-official-campaign-partners .node-article .field-name-field-image+.field-name-title-field{
+	background: none;
+}
+
+.page-official-campaign-partners .node-article .field.field-name-field-image{
+	height: auto;
+}
+
+}
 @media (min-width: 1200px){
 
 	.container.header_top_bar {
     	width: 100%;
 	}
+
+
 }
 
 @media (min-width: 1650px){
@@ -25,6 +38,7 @@
 
 @media (max-width: 1480px){
 
+
 	#homepage_slider .views-field-title{
 		font-size: 1.9em;
 	}
@@ -38,4 +52,14 @@
     	left: 46%!important;
 	}
 
+	.become-partner .coments .col h2{
+		font-size: 1.3em;
+	}
+}
+
+@media (max-width: 1350px){
+	html:lang(sv) header.navbar-default .navbar-collapse nav ul.menu li:nth-child(3) ul li:nth-child(2)::before
+	{
+		padding-bottom: 62px;
+	}
 }

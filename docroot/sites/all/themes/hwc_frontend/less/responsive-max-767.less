@@ -7,7 +7,6 @@ html:lang(en) #homepage_slider .views-field-title span{
 	font-size:1em;
 }
 
-
 header.navbar-default .navbar-collapse nav ul.menu li{
 	font-size: 1em;
 }
@@ -263,9 +262,9 @@ header.navbar-default{
     transform: rotate(45deg);
     background-color: #fff;
 }
-	/*fin header*/
+/*fin header*/
 
-	/*footer*/
+/*footer*/
 .footer{
 	min-height: 1px;
     height: auto;
@@ -289,7 +288,7 @@ header.navbar-default{
 		padding-bottom:1em; 
 	}
 }
-	/*fin footer*/
+/*fin footer*/
 
 /*container*/
 
@@ -861,7 +860,6 @@ header.navbar-default{
 	#search, #edit-content #search{
 		margin-top: 0em;
 		margin-bottom: 0em;
-		/* border-top: none; */
 		div{
 			margin-left: @margin-movil;
 		}
@@ -873,9 +871,6 @@ header.navbar-default{
 				border-top: none;
 				border-bottom: none;
 			}
-		}
-		.field-label-inline .field-label, .field-label-inline .field-items{
-		/* 	float: none; */
 		}
 		.field-name-field-country, .field-name-field-tool-type, .field-name-field-provider{
 			.field-label ~ .field-items{
@@ -909,6 +904,10 @@ header.navbar-default{
 				margin-left: @margin-movil;
 			}
 		}
+
+		.node-type-practical-tool #block-system-main > div > div > div > div.panel-pane.pane-entity-field.pane-node-field-provider > div > div > div.field-label{
+			width: 99%!important;
+		}
 		/*FIN detail*/
 	/*FIN Practical tools*/
 	
@@ -937,12 +936,19 @@ header.navbar-default{
 		.field-name-field-cover-image{
 			display: none;
 		}
-		.field-name-field-publication-date, .field-name-title-field, .field-type-text-with-summary, ul,
-		.field-name-field-cover-image ~ .field-name-title-field, .field-name-field-cover-image ~ .field-type-text-with-summary, .field-name-field-cover-image ~ ul{
-			left: @margin-movil;
-			margin-left: 0;
-		}
 	}
+
+	.field-name-field-publication-date, 
+	.field-name-title-field, 
+	.field-type-text-with-summary, 
+	ul,
+	.field-name-field-cover-image ~ .field-name-title-field,
+	.field-name-field-cover-image ~ .field-type-text-with-summary,
+	.field-name-field-cover-image ~ ul{
+		left: @margin-movil;
+		margin-left: 0;
+	}
+
 	.node-type-publication{
 		.back-to-link{
 			display: none;
@@ -1229,7 +1235,9 @@ header.navbar-default{
 		}
 	}
 
-.page-events .views-exposed-widget.views-reset-button{
+.page-events .views-exposed-widget.views-reset-button,
+.page-past-events .views-exposed-widget.views-reset-button
+{
 	float: none;
 	clear: both;
 	button{
@@ -1241,11 +1249,20 @@ header.navbar-default{
 	margin-left: 3em;
 }
 
+.view-events-search .views-submit-button #block-views-events-block-1{
+	margin-left: 3em;
+}
+
 .page-events #edit-search-api-views-fulltext{
 	max-width: 224px;
 }
 
 .page-events .views-exposed-widgets #block-views-events-block-2{
+	margin-top: 3em;
+	width: auto;
+}
+
+.page-past-events .views-exposed-widgets #block-views-events-block-1{
 	margin-top: 3em;
 	width: auto;
 }
@@ -1469,12 +1486,12 @@ header.navbar-default{
 		padding-right: @margin-movil;
 		padding-left: @margin-movil;
 		.field-type-image{
-			display: none;//hacemos desaparecer las imagenes de infographics
+			display: none;
 		}
-	}
-	h2{
-		margin-right: 0;
-		margin-left: 0;
+		h2{
+			margin-right: 0;
+			margin-left: 0;
+		}
 	}
 }
 /*end infographics*/
@@ -1590,7 +1607,7 @@ header.navbar-default{
 			h1{
 				border-bottom: none;
 				color: @color5;
-				font-size: @size1;
+				font-size: 1.5em;
 				font-style: normal;
 				font-weight: bold;
 				margin-bottom: 1em;
@@ -1757,13 +1774,11 @@ header.navbar-default{
 		padding-left: @margin-movil !important;
 		.panels-flexible-column-new-8, .panels-flexible-column-first, .panels-flexible-row-new-7-inside .panels-flexible-column-new-8{
 			width: 100%;
-			//> div{
 				.panels-flexible-region-first, .panels-flexible-region-last{
 					width: 100% !important;
 					text-align: center;
 					clear: both;
 				}
-			//}
 			div div{
 				width: 100%!important;
 			}
@@ -2243,3 +2258,4 @@ header.navbar-default .campaigns-header .navbar-header #block-menu-menu-header-l
 }
 
 }
+

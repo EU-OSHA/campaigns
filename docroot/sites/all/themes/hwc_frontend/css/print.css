@@ -26,9 +26,16 @@
 }
 
 header.navbar-default .navbar-header img:nth-child(3){
-	padding-top: 25px;
-    padding-bottom: 15px;
-    padding-right: 17px;
+	padding-top: 25px!important;
+    padding-bottom: 15px!important;
+    padding-right: 17px!important;
+}
+
+header.navbar-default .campaigns-header .navbar-header a img.pull-left {
+    width: 120px!important;
+    height: auto!important;
+    margin-top: -10px!important;
+    margin-left: 0!important;
 }
 
 .header-text{
@@ -63,11 +70,16 @@ header.navbar-default .navbar-header img:nth-child(3){
 	display:none;
 }
 
+html:lang(en) #homepage_slider .views-field-title span {
+	width: 100%!important;
+}
+
 #homepage_slider .views-field-title span{
 	width: 100%!important;
-    float: left!important;
+    float: none!important;
     padding-left: 25px;
     text-align: left!important;
+    display: block!important;
 }
 
 #homepage_slider #num_slides > div div a img{

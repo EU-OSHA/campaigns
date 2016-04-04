@@ -58,12 +58,13 @@ function osha_newsletter_subscribe_extra_form_validate($form, &$form_state) {
   $email = trim($form_state['values']['email']);
   if (strlen($email) != 0) {
     if (!valid_email_address($form_state['values']['email'])) {
-      form_set_error('email', t('The e-mail address is not valid.'));
+      form_set_error('email', t('E-mail address not valid.'));
     }
   }
   else {
     form_set_error('email', t('Please enter the e-mail address.'));
   }
+  osha_newsletter_reorder_error_messages();
 }
 
 /**

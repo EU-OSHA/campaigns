@@ -1,13 +1,3 @@
-<?php
-/**
- * @file
- * EU-OSHA's theme implementation to display a newsletter item in Newsletter item view mode.
- *
- * @see template_preprocess()
- * @see template_preprocess_node()
- * @see template_process()
- */
-?>
 <?php if($node->title != NULL) {?>
 <table id="node-<?php print $node->nid; ?>" border="0" cellpadding="0" cellspacing="0" width="100%">
   <tbody>
@@ -48,22 +38,6 @@
     }
     ?>
     <tr>
-      <!-- <td align="left" width="5%" style="padding-left: 0px; padding-right: 0px; vertical-align: top; padding-top: 5px;">
-        <//?php
-          $directory = drupal_get_path('module','osha_newsletter');
-          global $base_url; // TODO: should link to node
-          print l(theme('image', array(
-          'path' => $directory . '/images/link-arrow.png',
-          'width' => 7,
-          'height' => 11,
-          'alt' => 'link arrow',
-          'attributes' => array('style' => 'border: 0px;')
-          )), $base_url, array(
-          'html' => TRUE,
-          'external' => TRUE
-        ));
-        ?>
-      </td> -->
       <td style="text-align: left; padding-top: 5px;">
         <?php
         if (isset($variables['elements']['#campaign_id'])) {
