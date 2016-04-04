@@ -1,13 +1,3 @@
-<?php
-/**
- * @file
- * EU-OSHA's theme implementation to display a newsletter item in Newsletter item view mode.
- *
- * @see template_preprocess()
- * @see template_preprocess_node()
- * @see template_process()
- */
-?>
 <?php if($node->title != NULL) {?>
 <table id="node-<?php print $node->nid; ?>" border="0" cellpadding="0" cellspacing="0" width="100%">
   <tbody>
