@@ -302,8 +302,26 @@ function hwc_theme() {
 }
 
 function hwc_page_not_found() {
+  // Try to find it in the old site.
+  $request_uri = request_uri();
+  $old_site = variable_get('hwc_old_site_url', 'http://hw2014.healthy-workplaces.eu');
+  $old_url = $old_site . $request_uri;
+  $response = drupal_http_request($old_url);
+  if (!empty($response) && $response->code == 200) {
+    unset($_GET['destination']);
+    drupal_goto($old_url, array(), 301);
+  }
+  elseif (!preg_match('/^\/[a-z]{2}\//', $request_uri)) {
+    // Try with en prefix.
+    $old_url_en = $old_site . '/en' . $request_uri;
+    $response = drupal_http_request($old_url_en);
+    if (!empty($response) && $response->code == 200) {
+      unset($_GET['destination']);
+      drupal_goto($old_url_en, array(), 301);
+    }
+  }
   drupal_set_title('Page not found');
-  $message = t('The requested page "@path" could not be found.', array('@path' => request_uri()));
+  $message = t('The requested page "@path" could not be found.', array('@path' => $request_uri));
   return $message;
 }
 
