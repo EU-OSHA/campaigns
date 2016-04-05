@@ -1,5 +1,8 @@
 <?php
 
+// TODO make it configurable.
+define('CASE_STUDY_TID', 521);
+
 function osha_publication_menu_publications_form($form, $form_state) {
   drupal_set_title(t('Publications'));
   global $language;
@@ -51,8 +54,8 @@ function osha_publication_menu_publications_form($form, $form_state) {
     '#default_value' => $publication_type,
     '#title' => t('Publications type'),
   );
-  if (isset($form['left-column']['publication_type']['#options'][92])) {
-    unset($form['left-column']['publication_type']['#options'][92]);
+  if (isset($form['left-column']['publication_type']['#options'][CASE_STUDY_TID])) {
+    unset($form['left-column']['publication_type']['#options'][CASE_STUDY_TID]);
   }
 
   $form['left-column']['languages'] = array(
@@ -137,7 +140,7 @@ function osha_publication_menu_publications_search_native($form_state) {
   $q->fields('a', array('nid', 'vid'));
   $q->condition('a.type', 'publication');
   $q->condition('a.status', 1);
-  $q->condition('b.field_publication_type_tid', 92, '!=');
+  $q->condition('b.field_publication_type_tid', CASE_STUDY_TID, '!=');
   $q->orderBy('a.changed', 'DESC');
   if (!empty($restrict)) {
     $q->condition('a.nid', $restrict, 'IN');
@@ -224,7 +227,7 @@ function osha_publication_menu_publications_search_related($form_state, $native_
   $q->fields('a', array('nid', 'vid'));
   $q->condition('a.type', 'publication');
   $q->condition('a.status', 1);
-  $q->condition('b.field_publication_type_tid', 92, '!=');
+  $q->condition('b.field_publication_type_tid', CASE_STUDY_TID, '!=');
   $q->orderBy('a.changed', 'DESC');
   if (!empty($restrict)) {
     $q->condition('a.nid', $restrict, 'IN');
@@ -352,7 +355,7 @@ function osha_publication_menu_case_studies_search_native($form_state) {
     $query->condition('status', 1);
     $query->condition('type', 'publication');
     $query->condition('field_file:file', 0, '>');
-    $query->condition('field_publication_type', 92);
+    $query->condition('field_publication_type', CASE_STUDY_TID);
     $query->keys($text);
     $query->fields(array('title_field', 'body:value'));
     $query->sort('field_publication_date', 'DESC');
@@ -376,7 +379,7 @@ function osha_publication_menu_case_studies_search_native($form_state) {
   $q->condition('a.type', 'publication');
   $q->condition('a.status', 1);
   $q->orderBy('a.changed', 'DESC');
-  $q->condition('b.field_publication_type_tid', 92);
+  $q->condition('b.field_publication_type_tid', CASE_STUDY_TID);
   if (!empty($restrict)) {
     $q->condition('a.nid', $restrict, 'IN');
   }
