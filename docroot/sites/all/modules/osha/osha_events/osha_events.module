@@ -332,7 +332,7 @@ function osha_events_views_pre_render(&$view) {
       list($selected_year, $selected_month) = explode('-', $filter_value);
     }
     foreach ($view->result as $key => $result) {
-      $row_month = format_date(strtotime($result->field_field_start_date[0]['raw']['value']), 'custom', 'M');
+      $row_month = format_date(strtotime($result->field_field_start_date[0]['raw']['value']), 'custom', 'm');
       $row_month_raw = date('m', strtotime($result->field_field_start_date[0]['raw']['value']));
       $row_year = date('Y', strtotime($result->field_field_start_date_1[0]['raw']['value']));
 
