@@ -273,15 +273,6 @@ function hwc_workflow_node_access($node, $op, $account) {
     }
   }
 
-  // Do not allow media partners to create news
-  if ($node == 'events' && $op == 'create' && in_array(ROLE_CAMPAIGN_PARTNER, $account->roles)) {
-    $partner = hwc_partner_get_account_partner($account);
-    if (hwc_partner_is_mp($partner)) {
-      // drupal_set_message('Partners are not allowed to create events.', 'error');
-      return NODE_ACCESS_DENY;
-    }
-  }
-
   return NODE_ACCESS_IGNORE;
 }
 
