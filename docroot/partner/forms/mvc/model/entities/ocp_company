@@ -40,6 +40,18 @@
       "section": "ORGANISATION",
       "type": "text"
     },
+    "contact_osh_maincontactpersonfirstnameAux": {
+      "name": "contact_osh_maincontactpersonfirstnameAux",
+      "label": "Primary name",
+      "section": "PRIMARY_CONTACT",
+      "type": "text"
+    },
+    "contact_osh_maincontactpersonlastnameAux": {
+      "name": "contact_osh_maincontactpersonlastnameAux",
+      "label": "Last Name",
+      "section": "PRIMARY_CONTACT",
+      "type": "text"
+    },
     "company_osh_osh_appform_osh_country": {
       "name": "company_osh_osh_appform_osh_country",
       "label": "Countries of activity",
@@ -376,8 +388,9 @@
     "osh_gencontactinfsection": "osh_gencontactinfsection",
     "osh_aboutyourceosection": "osh_aboutyourceosection",
     "osh_aboutyourrepsection": "osh_aboutyourrepsection",
-    "contact_osh_mainemailAux": "contact_osh_mainemailAux"
-
+    "contact_osh_mainemailAux": "contact_osh_mainemailAux",
+    "contact_osh_maincontactpersonfirstnameAux": "contact_osh_maincontactpersonfirstnameAux",
+    "contact_osh_maincontactpersonlastnameAux": "contact_osh_maincontactpersonlastnameAux"
   },
   "map_mf": {
     "company_osh_address": "osh_phaddress",
