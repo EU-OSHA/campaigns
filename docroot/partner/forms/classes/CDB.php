@@ -247,6 +247,12 @@ final class CDB
             if(isset($response['osh_orgname']) && $response['osh_orgname'] != ""){
                 $response['company_osh_orgnameAux'] = $response['osh_orgname'];
             }
+            if(isset($response['osh_firstname']) && $response['osh_firstname'] != ""){
+                $response['contact_osh_maincontactpersonfirstnameAux'] = $response['osh_firstname'];
+            }
+            if(isset($response['osh_lastname']) && $response['osh_lastname'] != ""){
+                $response['contact_osh_maincontactpersonlastnameAux'] = $response['osh_lastname'];
+            }
             foreach ($this->cdbMap as $htmlName => $cdbName) {
                 if (isset ($response[$cdbName])) {
                     if (is_array($response[$cdbName]) && isset($response[$cdbName]['Name'])) {
@@ -771,7 +777,7 @@ final class CDB
         }
         $url = $url. "&option=" .$parameters['option'];
         $ch = curl_init();
-        error_log("URL" .$url);
+        error_log("URL: " .$url);
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);
@@ -779,9 +785,10 @@ final class CDB
 
         $fieldsJson = json_encode($parameters['fields'],JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         curl_setopt($ch, CURLOPT_POSTFIELDS, base64_encode($fieldsJson));
-//        error_log("Fields:   " .print_r(base64_encode($fieldsJson),1));
-//        curl_setopt($ch, CURLOPT_POSTFIELDS, $fieldsJson);
-        error_log("Fields:   " .print_r($fieldsJson,1));
+//        error_log("Fields:   " .print_r($fieldsJson,1));
+        
+        error_log("Fields:   " .print_r($parameters['fields'],1));
+        
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
         if($server_output === false)

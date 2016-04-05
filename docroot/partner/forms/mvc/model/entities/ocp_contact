@@ -81,6 +81,18 @@
       "section": "PRIMARY_CONTACT",
       "type": "text"
     },
+    "contact_osh_maincontactpersonfirstnameAux": {
+      "name": "contact_osh_maincontactpersonfirstnameAux",
+      "label": "Primary name",
+      "section": "PRIMARY_CONTACT",
+      "type": "text"
+    },
+    "contact_osh_maincontactpersonlastnameAux": {
+      "name": "contact_osh_maincontactpersonlastnameAux",
+      "label": "Last Name",
+      "section": "PRIMARY_CONTACT",
+      "type": "text"
+    },
     "contact_osh_confirm_mainemail": {
       "name": "contact_osh_confirm_mainemail",
       "label": "Re-confirm email",
@@ -215,7 +227,9 @@
     "contact_osh_otherusermail3": "osh_otheruseremail3",
     "contact_osh_otheruserphone3": "osh_otheruserphone3",
     "osh_primarycontactsection": "osh_primarycontactsection",
-    "company_osh_orgnameAux": "company_osh_orgnameAux"
+    "company_osh_orgnameAux": "company_osh_orgnameAux",
+    "contact_osh_maincontactpersonfirstnameAux": "contact_osh_maincontactpersonfirstnameAux",
+    "contact_osh_maincontactpersonlastnameAux": "contact_osh_maincontactpersonlastnameAux"
   },
   "map_mf": {
     "contact_osh_maincontactpersonfirstname": "firstname",
