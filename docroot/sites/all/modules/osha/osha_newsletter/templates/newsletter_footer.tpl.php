@@ -36,8 +36,8 @@ $directory = drupal_get_path('module', 'osha_newsletter');
         <table border="0" cellpadding="0" cellspacing="0">
           <tbody>
             <tr style="text-align: right;">
-              <td style="padding-right: 10px;">
-                <h2 style="color: #ffffff; display: inline; font-weight: bold; font-size: 14px; font-style: normal;"><?php print t('Follow us on:'); ?></h2>
+              <td align="right" style="padding-right: 10px;">
+                <h2 style="color: #ffffff; display: inline; font-weight: bold; font-size: 14px; font-style: normal;"><?php print t('Follow us on'); ?>:</h2>
                 <?php
                 $social = array(
                   'face' => array(
