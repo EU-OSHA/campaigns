@@ -231,7 +231,7 @@ function hwc_mime_friendly_name($mime) {
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => t('Spreadsheet'),
     'application/vnd.ms-powerpoint' => t('Powerpoint'),
     'application/vnd.openxmlformats-officedocument.presentationml.presentation'  => t('Powerpoint'),
-    'application/pdf' => t('Adobe Portable Document Format'),
+    'application/pdf' => t('PDF'),
     'image/jpeg' => t('JPEG Image'),
     'image/png' => t('Portable Network Graphics'),
     'image/gif' => t('Graphics Interchange Format'),
