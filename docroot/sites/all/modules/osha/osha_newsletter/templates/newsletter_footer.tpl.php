@@ -21,12 +21,12 @@ $directory = drupal_get_path('module', 'osha_newsletter');
             }
             $urllegal = url($base_url.'/en/privacy-policy-campaign-newsletter', array('query' => $url_query));
             ?>
-            <a style="text-decoration: none;" href="<?php echo $urllegal; ?>"><span style="font-weight: bold; color: #ffffff; font-size: 14px;">Privacy notice</span></a>
+            <a style="text-decoration: none;" href="<?php echo $urllegal; ?>"><span style="font-weight: bold; color: #ffffff; font-size: 14px;"><?php print t('Privacy notice'); ?></span></a>
             <?php
             $url = url($base_url.'/en/healthy-workplaces-newsletter', array('query' => $url_query));
             ?>
             <span style="color:#ffffff; font-size: 14px;"> | </span>
-            <a style="text-decoration: none;" href="<?php echo $url; ?>"><span style="font-weight: bold; color: #ffffff; font-size: 14px;">Unsubscribe</span></a>
+            <a style="text-decoration: none;" href="<?php echo $url; ?>"><span style="font-weight: bold; color: #ffffff; font-size: 14px;"><?php print t('Unsubscribe'); ?></span></a>
           </td></tr></tbody>
         </table>
       </td>
@@ -35,7 +35,7 @@ $directory = drupal_get_path('module', 'osha_newsletter');
           <tbody>
             <tr style="text-align: right;">
               <td style="padding-right: 10px;">
-                <h2 style="color: #ffffff; display: inline; font-weight: bold; font-size: 14px; font-style: normal;">Follow us on:</h2>
+                <h2 style="color: #ffffff; display: inline; font-weight: bold; font-size: 14px; font-style: normal;"><?php print t('Follow us on:'); ?></h2>
                 <?php
                 $social = array(
                   'face' => array(
