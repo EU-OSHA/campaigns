@@ -514,3 +514,18 @@ function hwc_update_7024() {
     ->condition('language', 'en', '!=')
     ->execute();
 }
+
+/**
+ * Fix multilingual link for piwik iframe in privacy notice.
+ */
+function hwc_update_7025() {
+  $url = 'https://piwik.osha.europa.eu/piwik/index.php?module=CoreAdminHome&action=optOut&language=en';
+  $url_ln = 'https://piwik.osha.europa.eu/piwik/index.php?module=CoreAdminHome&action=optOut&language=';
+  $node = node_load(102);
+  foreach ($node->body as $lang => $value) {
+    $node->body[$lang][0]['value'] = str_replace($url, $url_ln . $lang,  $value[0]['value']);
+  }
+  $node->workbench_moderation_state_new = 'published';
+  node_save($node);
+}
+
