@@ -722,8 +722,7 @@ function hwc_news_share_widget($node, $options = array()) {
   }
   else {
     $url = url('node/' . $node->nid, array('absolute' => TRUE));
-    $wrapper = entity_metadata_wrapper('node', $node);
-    $title = $wrapper->title_field->value();
+    $title = $node->title;
     $type = $node->type;
   }
   // Add services javascript.
