@@ -1,5 +1,7 @@
 <?php
 global $base_url;
+global $language;
+
 $directory = drupal_get_path('module', 'osha_newsletter');
 ?>
 <table border="0" cellpadding="0" cellspacing="0" width="800" style="background: url('<?php print file_create_url($directory.'/images/footer-newsletter.png'); ?>') no-repeat; width:800px; height: 88px; margin-left: 25px; font-size: 14px;">
@@ -19,11 +21,11 @@ $directory = drupal_get_path('module', 'osha_newsletter');
             } else {
               $url_query = array();
             }
-            $urllegal = url($base_url.'/en/privacy-policy-campaign-newsletter', array('query' => $url_query));
+            $urllegal = url($base_url.'/'.$language->language.'/privacy-policy-campaign-newsletter', array('query' => $url_query));
             ?>
             <a style="text-decoration: none;" href="<?php echo $urllegal; ?>"><span style="font-weight: bold; color: #ffffff; font-size: 14px;"><?php print t('Privacy notice'); ?></span></a>
             <?php
-            $url = url($base_url.'/en/healthy-workplaces-newsletter', array('query' => $url_query));
+            $url = url($base_url.'/'.$language->language.'/healthy-workplaces-newsletter', array('query' => $url_query));
             ?>
             <span style="color:#ffffff; font-size: 14px;"> | </span>
             <a style="text-decoration: none;" href="<?php echo $url; ?>"><span style="font-weight: bold; color: #ffffff; font-size: 14px;"><?php print t('Unsubscribe'); ?></span></a>
