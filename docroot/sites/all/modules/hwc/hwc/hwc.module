@@ -320,9 +320,10 @@ function hwc_page_not_found() {
       drupal_goto($old_url_en, array(), 301);
     }
   }
-  drupal_set_title('Page not found');
-  $message = t('The requested page "@path" could not be found.', array('@path' => $request_uri));
-  return $message;
+  drupal_set_title(t('Page not found'));
+  $html = '<p>' . t('Sorry, we can\'t find what you are looking for.') . '</p>';
+  $html .= '<p>' . t('You could use the search above, instead or go back to !home.', array('!home' => l(t('Home'), ''))) . '</p>';
+  return $html;
 }
 
 
