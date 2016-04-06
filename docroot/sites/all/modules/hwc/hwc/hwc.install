@@ -504,3 +504,13 @@ function hwc_update_7023() {
   );
   module_enable($modules);
 }
+
+/**
+ * Remove translated aliases for node 100.
+ */
+function hwc_update_7024() {
+  db_delete('url_alias')
+    ->condition('source', 'node/100')
+    ->condition('language', 'en', '!=')
+    ->execute();
+}
