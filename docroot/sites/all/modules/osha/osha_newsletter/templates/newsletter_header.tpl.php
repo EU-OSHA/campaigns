@@ -11,7 +11,7 @@ if($newsletter_date) {
   <![endif]-->
   <tbody>
     <tr>
-      <td style="vertical-align: top; padding-top: 0; padding-bottom: 0; padding-left: 50%; height: 90px;">
+      <td style="vertical-align: top; padding-top: 0; padding-bottom: 0; padding-left: 400px; height: 90px;">
         <table border="0" cellpadding="0" cellspacing="0"><tbody>
           <tr>
             <?php
@@ -93,7 +93,7 @@ if($newsletter_date) {
         </table>
       </td>
     </tr>
-	<tr><td style="vertical-align: top; padding-top: 10px; padding-left: 50%;">
+	<tr><td align="left" style="vertical-align: top; padding-top: 10px; padding-left: 400px;">
       <table border="0" cellpadding="0" cellspacing="0">
         <tbody>
           <tr>
