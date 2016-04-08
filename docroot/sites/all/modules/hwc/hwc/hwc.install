@@ -535,6 +535,7 @@ function hwc_update_7025() {
 function hwc_update_7026() {
   $strings = array(
     'Select',
+    'Logout',
   );
   foreach ($strings as $string) {
     _osha_tmgmt_add_translations_to_identical_strings($string);
