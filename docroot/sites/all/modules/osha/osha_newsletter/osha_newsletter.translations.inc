@@ -27,6 +27,6 @@ function osha_newsletter_get_translatable_strings() {
     'Join',
     'subscribers',
     'You have succesfully unsubscribed',
-    'Follow us on:'
+    'Follow us on'
   );
 }
