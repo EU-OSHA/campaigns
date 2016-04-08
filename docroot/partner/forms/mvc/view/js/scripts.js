@@ -489,30 +489,40 @@ $(document).ready(function () {
         }else if($(field).attr("id") == 'company_osh_logoimage_file' || $(field).attr("id") == 'company_osh_ceoimage_file'){
             $(field).removeClass("error");
             $(field).attr("data-error", "");
-        }else{
+        }else if($(field).attr("id") == 'contact_osh_captcha'){
         
-//            var urlParamsArray = {
-//                route: getUrlVar("route"),
-//                ajax: true,
-//                async: false,
-//                action: "validateAttribute",
-//                attribute: $(field).attr("id"),
-//                contentType:"application/json; charset=utf-8",
-//                dataType:"json",
-//                value: $(field).val()
-//            };
-//            var urlParams = $.param(urlParamsArray);
-//            var url = window.location.href;
-//            if (url.indexOf("?") != -1) {
-//                var pos = url.indexOf("?");
-//                url = url.substr(0, pos);
-//            }
-//            url += "?" + urlParams;
+            var urlParamsArray = {
+                route: getUrlVar("route"),
+                ajax: true,
+                async: false,
+                action: "validateAttribute",
+                attribute: $(field).attr("id"),
+                contentType:"application/json; charset=utf-8",
+                dataType:"json",
+                value: $(field).val()
+            };
+            var urlParams = $.param(urlParamsArray);
+            var url = window.location.href;
+            if (url.indexOf("?") != -1) {
+                var pos = url.indexOf("?");
+                url = url.substr(0, pos);
+            }
+            url += "?" + urlParams;
 
     //        Evitamos que valide los campos de contact si el check maincontactchange está pulsado.
 //            if(!isMainContact($(field))){
-//                $.get(url, function (data, status) {
-//                    var response = jQuery.parseJSON(data);
+                $.get(url, function (data, status) {
+                    var response = jQuery.parseJSON(data);
+                    if(!response.status){
+                        $(field).addClass("error");
+                        $(field).attr("data-error", "true");
+                    }else{
+                         $(field).removeClass("error");
+                        $(field).attr("data-error", "");
+                    }
+                });
+                
+        }else{
                     var response = true;
                     if($(field).prop("type") != "button"){
                         response = validateRequiredField($(field));

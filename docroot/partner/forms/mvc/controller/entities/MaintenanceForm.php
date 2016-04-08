@@ -45,7 +45,6 @@ class MaintenanceForm extends Controller implements IController, IForm {
     public function execute() {
         // Load the bundle
         if($this->toCongrats()){
-            error_log("PASA POR EL MAINTENANCE TO CONGRATS");
             $params = Parameters::getInstance();
             $renderer = new Renderer('Congrats');
             $renderer->setViewPath($params->get('viewEntitiesPath'));
