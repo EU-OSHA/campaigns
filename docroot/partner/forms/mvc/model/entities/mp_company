@@ -37,6 +37,18 @@
       "section": "ORGANISATION",
       "type": "text"
     },
+    "contact_osh_maincontactpersonfirstnameAux": {
+      "name": "contact_osh_maincontactpersonfirstnameAux",
+      "label": "Primary name",
+      "section": "PRIMARY_CONTACT",
+      "type": "text"
+    },
+    "contact_osh_maincontactpersonlastnameAux": {
+      "name": "contact_osh_maincontactpersonlastnameAux",
+      "label": "Last Name",
+      "section": "PRIMARY_CONTACT",
+      "type": "text"
+    },
     "company_osh_publicationonline": {
       "name": "company_osh_publicationonline",
       "label": "Online",
@@ -324,14 +336,16 @@
     "osh_aboutyourorgsection": "osh_aboutyourorgsection",
     "osh_gencontactinfsection": "osh_gencontactinfsection",
     "osh_aboutyourceosection": "osh_aboutyourceosection",
-    "contact_osh_mainemailAux": "contact_osh_mainemailAux"
+    "contact_osh_mainemailAux": "contact_osh_mainemailAux",
+    "contact_osh_maincontactpersonfirstnameAux": "contact_osh_maincontactpersonfirstnameAux",
+    "contact_osh_maincontactpersonlastnameAux": "contact_osh_maincontactpersonlastnameAux"
   },
   "map_mf": {
     "company_osh_orgname": "osh_companyorganisationname",
     "company_osh_address": "osh_phaddress",
     "company_osh_bussinessector": "osh_bussinessector",
-    "company_osh_ceo_firstname": "firstname",
-    "company_osh_ceo_lastname": "lastname",
+    "company_osh_ceo_firstname": "osh_ceofirstname",
+    "company_osh_ceo_lastname": "osh_ceolastname",
     "company_osh_city": "osh_phtown",
     "company_osh_conferenceactivity": "osh_conferenceactivity",
     "company_osh_country": "osh_phcountryid",

@@ -181,7 +181,14 @@ abstract class Controller {
                 } else {
                     $required = ($attribute->getValidator() == Validator::VALIDATION_NOTNULL) ? 'required' : '';
                 }
-
+                if ($attribute->getType() == Attribute::TYPE_RADIO) {
+                    $radioValue = $attribute->getValue();
+                    if(empty($radioValue)){
+                        $attribute->setValue('No');
+                    }else if ($radioValue == 1 || $radioValue == "1"){
+                        $attribute->setValue('Yes');
+                    }
+                }
                 if ($attribute->getType() == Attribute::TYPE_DROPDOWN_MULTIPLE) {
                     $data = $attribute->getValue();
                     foreach ($data as $countryKey => $countryValue) {
@@ -519,7 +526,7 @@ abstract class Controller {
                 }
 
                 
-            if (strpos($key, 'category') !== false || strpos($key, 'leads') !== false || $key == "contact_osh_mainemailAux" || $key == "company_osh_orgnameAux") {
+            if (strpos($key, 'category') !== false || strpos($key, 'leads') !== false || $key == "contact_osh_mainemailAux" || $key == "company_osh_orgnameAux" || $key == "contact_osh_maincontactpersonfirstnameAux" || $key == "contact_osh_maincontactpersonlastnameAux") {
                 // Don't send neither category and osh_leads field.
                 continue;
                 

@@ -36,6 +36,18 @@
       "section": "BECOME",
       "type": "text"
     },
+    "contact_osh_maincontactpersonfirstnameAux": {
+      "name": "contact_osh_maincontactpersonfirstnameAux",
+      "label": "Primary name",
+      "section": "PRIMARY_CONTACT",
+      "type": "text"
+    },
+    "contact_osh_maincontactpersonlastnameAux": {
+      "name": "contact_osh_maincontactpersonlastnameAux",
+      "label": "Last Name",
+      "section": "PRIMARY_CONTACT",
+      "type": "text"
+    },
     "involvement_osh_promoteandsupportcampaign": {
       "name": "involvement_osh_promoteandsupportcampaign",
       "label": "How do you plan to promote and support the campaign via your website and other electronic means  (Intranet, Newsletter, social media etc.)?",
@@ -133,8 +145,9 @@
     "osh_supportforcampaignsection": "osh_supportforcampaignsection",
     "osh_yourcampaignpledgesection": "osh_yourcampaignpledgesection",
     "contact_osh_mainemailAux": "contact_osh_mainemailAux",
-    "company_osh_orgnameAux": "company_osh_orgnameAux"
-    
+    "company_osh_orgnameAux": "company_osh_orgnameAux",
+    "contact_osh_maincontactpersonfirstnameAux": "contact_osh_maincontactpersonfirstnameAux",
+    "contact_osh_maincontactpersonlastnameAux": "contact_osh_maincontactpersonlastnameAux"
   },
   "map_mf": {
     "involvement_osh_tobeanocponhwc": "osh_tobeanocp",

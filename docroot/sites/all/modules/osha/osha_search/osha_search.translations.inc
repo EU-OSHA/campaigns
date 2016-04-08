@@ -20,7 +20,7 @@ function osha_search_get_translatable_strings() {
     'Asc',
     'Desc',
     'Order',
-    '<span class="result_summary">Displaying @start - @end of @total</span>',
+    'Displaying @start - @end of @total',
     'More results are available in OSHWiki',
   );
 }

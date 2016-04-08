@@ -669,11 +669,11 @@ input#socialNetworkTextBox{
 div.typeSN{
 	font-weight: bold;
 	color: #003399;
-	font-size: 9pt;
+	/*font-size: 9pt;*/
 	float:left;
 }
 div.titleSN{
- 	font-size: 9pt; 
+ 	/*font-size: 9pt;*/ 
 	color: #003399;
 	/*font-size: 7pt;*/
         margin-bottom: 2%;
@@ -720,6 +720,7 @@ form.new div.container-message, form.mf div.container-message {
 .required input:not(.select2-search__field),.required textarea, .required select,.select2.select2-container{
     border: 1px #003399 solid;
     /*background-color:#FEF5F1;*/
+    padding: 1px;
 }
 
 .imagePostRequired{

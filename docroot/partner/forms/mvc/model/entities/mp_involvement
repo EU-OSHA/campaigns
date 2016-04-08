@@ -33,6 +33,18 @@
       "section": "PLEDGE",
       "type": "text"
     },
+    "contact_osh_maincontactpersonfirstnameAux": {
+      "name": "contact_osh_maincontactpersonfirstnameAux",
+      "label": "Primary name",
+      "section": "PRIMARY_CONTACT",
+      "type": "text"
+    },
+    "contact_osh_maincontactpersonlastnameAux": {
+      "name": "contact_osh_maincontactpersonlastnameAux",
+      "label": "Last Name",
+      "section": "PRIMARY_CONTACT",
+      "type": "text"
+    },
     "osh_yourcampaignpledgesection": {
       "name": "osh_yourcampaignpledgesection",
       "section": "PLEDGE",
@@ -101,7 +113,9 @@
     "involvement_osh_otheractivities": "osh_otheractivities",
     "osh_yourcampaignpledgesection": "osh_yourcampaignpledgesection",
     "contact_osh_mainemailAux": "contact_osh_mainemailAux",
-    "company_osh_orgnameAux": "company_osh_orgnameAux"
+    "company_osh_orgnameAux": "company_osh_orgnameAux",
+    "contact_osh_maincontactpersonfirstnameAux": "contact_osh_maincontactpersonfirstnameAux",
+    "contact_osh_maincontactpersonlastnameAux": "contact_osh_maincontactpersonlastnameAux"
   },
   "map_mf": {
     "involvement_osh_campaignpledge": "osh_campaignpledge",
