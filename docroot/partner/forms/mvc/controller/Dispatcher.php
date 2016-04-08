@@ -16,6 +16,7 @@ class Dispatcher {
             $sessionID = null;
             $params->set('session_id', null, true);
             $params->setUrlParamValue('maintenance_mode', false);
+            unset($_SESSION['mainContactChangeCheck']);
 //            $this->resetSession();
         }else if(isset ($_REQUEST['session_id'])){
             $sessionID = $_REQUEST['session_id'];

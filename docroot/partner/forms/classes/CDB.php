@@ -238,9 +238,7 @@ final class CDB
         //Informamos los campos,sino no
         //        if (!$partnerType === 'mp' && $formType === 'new' && $statusCode === $sent)) {
         //(/CRG - #154)
-        
-            //Insertamos una variable para mostrar el check del main contact change.
-            $_SESSION['mainContactChangeCheck'] = true;
+
             if(isset($response['osh_mainemail']) && $response['osh_mainemail'] != ""){
                 $response['contact_osh_mainemailAux'] = $response['osh_mainemail'];
             }
@@ -266,6 +264,10 @@ final class CDB
                     }
                 }
             }
+        }
+        if ($statusCode != $sent){
+            //Insertamos una variable para mostrar el check del main contact change.
+            $_SESSION['mainContactChangeCheck'] = true;
         }
         // Debug::dump($this->fields, 'FIELDS', true);
     }
