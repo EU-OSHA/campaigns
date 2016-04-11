@@ -1041,7 +1041,6 @@ header.navbar-default{
 							background-color: @bg-default-color;
 							border: 1px solid @bg-color-2;
 							overflow: visible !important;
-							
 							&:before{
 								bottom: 100%;
 								left: 50%;
@@ -1071,13 +1070,18 @@ header.navbar-default{
 								margin-left: -8px;
 							}
 							li{
-								float: none;
+								float: left;
 								position: relative;
+								padding: 0!important;
+								margin: 0!important;
 								&.views-row-last{
 									background-image: none;
 								}
 								.views-field-field-start-date{
 									display: block;
+								}
+								div{
+									margin: 0 4px;
 								}
 							}
 						}
