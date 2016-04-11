@@ -196,7 +196,8 @@
     "contact_osh_maincontactchange": {
       "name": "contact_osh_maincontactchange",
       "label": "Main contact change",
-      "type": "contact_change"
+      "type": "contact_change",
+      "helpText": "For change of contact person, please, activate the (icon of the box) box and provide the new contact details.</br>For typo mistakes in the contacts related fields, correct directly the text in the fields."
     }
   },
   "map": {

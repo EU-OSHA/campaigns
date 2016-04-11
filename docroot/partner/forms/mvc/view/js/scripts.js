@@ -191,6 +191,11 @@ window.onload = function () {
          $(".delSN").prop("disabled", "disabled");
          $("#plusSN").prop("disabled", "disabled");
     }
+    //Workaound error displaying field IE9 or less
+    if($("#company_osh_orgname").length > 0){
+        $("#company_osh_orgname").prop("tabindex", "-1");
+    }
+    
     $("body").css("cursor", "default");
     if($('.validation').length > 0 && $('.validation').css('display') != 'none'){
         if($('#osh_aboutyourorgsection').val() == true || $('#osh_aboutyourorgsection').val() == "true"){

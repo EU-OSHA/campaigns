@@ -265,10 +265,10 @@ final class CDB
                 }
             }
         }
-        if ($statusCode != $sent){
-            //Insertamos una variable para mostrar el check del main contact change.
-            $_SESSION['mainContactChangeCheck'] = true;
-        }
+//        if ($statusCode != $sent){
+//            //Insertamos una variable para mostrar el check del main contact change.
+//            $_SESSION['mainContactChangeCheck'] = true;
+//        }
         // Debug::dump($this->fields, 'FIELDS', true);
     }
 
@@ -281,7 +281,12 @@ final class CDB
      */
     private function getSessionDataMF($response, $countries, $response2)
     {
-        if (isset($response[0]['Fields'])) {
+        //Workaround para resolver la response en caso de que un mismo user tenga varios roles. 
+        //En este caso, envío información duplicada errónea, por lo que comprobamos que es esta casuística
+        // (envío una response con 3 arrauys en vez de 2), y en ese caso nos quedamos con la que se debe.
+        if (isset($response[2]) && isset($response[1]['Fields'])) {
+            $response = $response[1]['Fields'];
+        }elseif (isset($response[0]['Fields'])) {
             $response = $response[0]['Fields'];
         } else {
             throw new CDBException('configuration_error', 500);

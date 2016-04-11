@@ -1,4 +1,7 @@
 <div class="checkbox mainContactCheck">
     <input {$disabled} type="checkbox" name="{$fieldName}" id="{$fieldName}" data-section="{$fieldSection}" class="main-contact-change-checkbox" />
     <label>{$fieldLabel}</label>
+    {if !empty($fieldHelpText)}
+    <p class="help-block">{$fieldHelpText}</p>
+    {/if}
 </div>
