@@ -149,10 +149,10 @@ function hwc_req_param($form_state, $name, $default = NULL) {
       $ret = check_plain($_GET[$name]);
     }
   }
-  if (is_array($ret)) {
-    $ret = array_filter($ret);
-  }
   if (!empty($ret)) {
+    if (is_array($ret)) {
+      $ret = array_filter($ret);
+    }
     return $ret;
   }
   return $default;
