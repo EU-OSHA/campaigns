@@ -542,3 +542,14 @@ function hwc_update_7026() {
   }
 }
 
+/**
+ * Set eu_cookie for all languages.
+ */
+function hwc_update_7027() {
+  $languages = language_list();
+  $en_settings = variable_get('eu_cookie_compliance_en');
+  unset($languages['en']);
+  foreach (array_keys($languages) as $lang) {
+    variable_set('eu_cookie_compliance_' . $lang, $en_settings);
+  }
+}
