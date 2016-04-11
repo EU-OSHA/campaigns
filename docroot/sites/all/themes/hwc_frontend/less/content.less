@@ -1278,6 +1278,9 @@ ul.tabs--primary.nav.nav-tabs{
 					width: 100%;
 				}
 			}
+			div.views-row-1{
+				float: none;
+			}
 		}
 		.more-link{
 			clear: both;
@@ -1791,6 +1794,9 @@ ul.tabs--primary.nav.nav-tabs{
 			min-height: 230px;
 			margin-top: 15px;
 			max-width: 156px;
+			img{
+				border:1px solid #CCC;
+			}
 		}
 		.more-link, ul li a{
 			color: @btn-default-bg;
@@ -4337,7 +4343,8 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 			.field-item{
 				width:260px;
 				overflow: hidden;
-				text-overflow: ellipsis; 
+				text-overflow: ellipsis;
+				white-space: nowrap;
 			}
 		}
 
@@ -4352,7 +4359,8 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 				.field-item{ 
 				    width: 280px; 
 				    overflow: hidden;
-				    text-overflow: ellipsis; 
+				    text-overflow: ellipsis;
+				    white-space: nowrap;
 				}
 			}
 			&[class*="twitter"]{
@@ -4362,7 +4370,8 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 				.field-item{ 
 				    width: 280px; 
 				    overflow: hidden;
-				    text-overflow: ellipsis; 
+				    text-overflow: ellipsis;
+				    white-space: nowrap;
 				}
 			}
 			&[class*="slideshare"]{
@@ -4372,7 +4381,8 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 				.field-item{ 
 				    width: 280px; 
 				    overflow: hidden;
-				    text-overflow: ellipsis; 
+				    text-overflow: ellipsis;
+				    white-space: nowrap;
 				}
 			}
 			&[class*="youtube"]{
@@ -4382,7 +4392,8 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 				.field-item{ 
 				    width: 280px; 
 				    overflow: hidden;
-				    text-overflow: ellipsis; 
+				    text-overflow: ellipsis;
+				    white-space: nowrap;
 				}
 			}
 			&[class*="linkedin"]{
@@ -4392,7 +4403,8 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 				.field-item{ 
 				    width: 280px; 
 				    overflow: hidden;
-				    text-overflow: ellipsis; 
+				    text-overflow: ellipsis;
+				    white-space: nowrap; 
 				}
 			}
 			&[class*="google-plus"]{
@@ -4402,7 +4414,8 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 				.field-item{ 
 				    width: 280px; 
 				    overflow: hidden;
-				    text-overflow: ellipsis; 
+				    text-overflow: ellipsis;
+				    white-space: nowrap; 
 				}
 			}
 			&[class*="pinterest"]{
@@ -4412,7 +4425,8 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 				.field-item{ 
 				    width: 280px; 
 				    overflow: hidden;
-				    text-overflow: ellipsis; 
+				    text-overflow: ellipsis;
+				    white-space: nowrap; 
 				}
 			}
 			a{
@@ -6000,9 +6014,9 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 			content: '';
 			position: absolute;
 			bottom: 0px;
-			left: 80%;
+			left: 79%;
 			pointer-events: none;
-			background: @bg-color-2 url("../images/content/arrow-down.png") no-repeat right center;
+			background: @bg-color-2 url("../images/content/arrow-down.png") no-repeat center center;
 			-moz-box-sizing: border-box;
 			-webkit-box-sizing: border-box;
 			box-sizing: border-box;
@@ -6017,7 +6031,8 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 			-moz-box-sizing: border-box;
 			-webkit-box-sizing: border-box;
 			box-sizing: border-box;
-			width: 80%;
+			width: 84%;
+			cursor: pointer;
 		}
 	}
 	button{
@@ -6660,5 +6675,5 @@ input#edit-field-image-und-0-upload::before {
     content: "Select file";
     background-color: #003399;
     color: white;
-    padding: 3px 35px;
+    padding: 3px 10px;
 }

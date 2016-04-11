@@ -101,6 +101,11 @@ header{
 	}
 }
 
+.page-events .region-content #block-system-main .view-events-search .view-content:nth-child(2) .views-row .views-field-view-node, .page-past-events .region-content #block-system-main .view-events-search .view-content:nth-child(2) .views-row .views-field-view-node{
+	position: relative;
+    margin-left: 1em;
+}
+
 .navbar-header{
 	.row{
 		padding-left: 0px;
@@ -630,6 +635,9 @@ header.navbar-default{
 			}
 		}
 	}
+	.front #block-views-partners-block-1 div.more-link a{
+		height: auto;
+	}
 	/*fin home*/
 
 	/* Article */
@@ -1033,7 +1041,6 @@ header.navbar-default{
 							background-color: @bg-default-color;
 							border: 1px solid @bg-color-2;
 							overflow: visible !important;
-							
 							&:before{
 								bottom: 100%;
 								left: 50%;
@@ -1063,13 +1070,18 @@ header.navbar-default{
 								margin-left: -8px;
 							}
 							li{
-								float: none;
+								float: left;
 								position: relative;
+								padding: 0!important;
+								margin: 0!important;
 								&.views-row-last{
 									background-image: none;
 								}
 								.views-field-field-start-date{
 									display: block;
+								}
+								div{
+									margin: 0 4px;
 								}
 							}
 						}

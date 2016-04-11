@@ -42,6 +42,12 @@ abstract class Controller {
         $progressbarContent = $progressbar->execute();
         // Build the form
         $route = $params->get('route');
+        $statusCode  = $params->get('statuscode');
+        $sent        = intval($params->get('cdb')['sent']);
+        if ($statusCode != $sent){
+            //Insertamos una variable para mostrar el check del main contact change.
+            $_SESSION['mainContactChangeCheck'] = true;
+        }
         $submitText = isset($params->get('routes')[$route]['submitText']) ? $params->get('routes')[$route]['submitText'] : 'Next';
         $isPrintable = $this->isPrintable();
         $renderer = new Renderer($this->getEntityName());

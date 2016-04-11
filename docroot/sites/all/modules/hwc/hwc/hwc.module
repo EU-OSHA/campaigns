@@ -149,10 +149,10 @@ function hwc_req_param($form_state, $name, $default = NULL) {
       $ret = check_plain($_GET[$name]);
     }
   }
-  if (is_array($ret)) {
-    $ret = array_filter($ret);
-  }
   if (!empty($ret)) {
+    if (is_array($ret)) {
+      $ret = array_filter($ret);
+    }
     return $ret;
   }
   return $default;
@@ -231,7 +231,7 @@ function hwc_mime_friendly_name($mime) {
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => t('Spreadsheet'),
     'application/vnd.ms-powerpoint' => t('Powerpoint'),
     'application/vnd.openxmlformats-officedocument.presentationml.presentation'  => t('Powerpoint'),
-    'application/pdf' => t('Adobe Portable Document Format'),
+    'application/pdf' => t('PDF'),
     'image/jpeg' => t('JPEG Image'),
     'image/png' => t('Portable Network Graphics'),
     'image/gif' => t('Graphics Interchange Format'),
@@ -320,9 +320,10 @@ function hwc_page_not_found() {
       drupal_goto($old_url_en, array(), 301);
     }
   }
-  drupal_set_title('Page not found');
-  $message = t('The requested page "@path" could not be found.', array('@path' => $request_uri));
-  return $message;
+  drupal_set_title(t('Page not found'));
+  $html = '<p>' . t('Sorry, we can\'t find what you are looking for.') . '</p>';
+  $html .= '<p>' . t('You could use the search above, instead or go back to !home.', array('!home' => l(t('Home'), ''))) . '</p>';
+  return $html;
 }
 
 
@@ -722,8 +723,7 @@ function hwc_news_share_widget($node, $options = array()) {
   }
   else {
     $url = url('node/' . $node->nid, array('absolute' => TRUE));
-    $wrapper = entity_metadata_wrapper('node', $node);
-    $title = $wrapper->title_field->value();
+    $title = $node->title;
     $type = $node->type;
   }
   // Add services javascript.
