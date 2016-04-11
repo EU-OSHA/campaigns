@@ -13,10 +13,10 @@ $directory = drupal_get_path('module', 'osha_newsletter');
   <tbody>
     <tr>
       <td width="800" style="padding-top: 0px; padding-bottom: 0px;">
-        <table border="0" cellpadding="10" cellspacing="0" width="100%">
+        <table border="0" cellpadding="5" cellspacing="0" width="100%">
           <tbody>
           <tr>
-            <td width="50%" style="padding-top: 32px;vertical-align: top;">
+            <td style="padding-top: 32px;vertical-align: top;">
               <?php
               if (isset($campaign_id)) {
                 $url_query = array('pk_campaign' => $campaign_id);
@@ -32,10 +32,10 @@ $directory = drupal_get_path('module', 'osha_newsletter');
               <span style="color:#ffffff; font-size: 14px;"> | </span>
               <a style="text-decoration: none;" href="<?php echo $url; ?>"><span style="font-weight: bold; color: #ffffff; font-size: 14px;"><?php print t('Unsubscribe'); ?></span></a>
             </td>
-            <td width="30%" style="vertical-align: top; padding-top: 32px; text-align: right;">
+            <td width="1%" style="vertical-align: top; padding-top: 32px; text-align: right; white-space: nowrap">
               <h2 style="color: #ffffff; display: inline; font-weight: bold; font-size: 14px; font-style: normal;"><?php print t('Follow us on'); ?>:</h2>
             </td>
-            <td width="20%" style="vertical-align: top; padding-top: 32px; text-align: right;">
+            <td width="1%" style="vertical-align: top; padding-top: 32px; text-align: right; white-space: nowrap">
               <?php
               $social = array(
                 'face' => array(
@@ -58,14 +58,14 @@ $directory = drupal_get_path('module', 'osha_newsletter');
 
               foreach ($social as $name => $options) {
                 $directory = drupal_get_path('module','osha_newsletter');
-                print l(theme('image', array(
+                print '&nbsp;&nbsp;' . l(theme('image', array(
                   'path' => $directory . '/images/' . $name . '.png',
                   'width' => 'auto',
 
                   'alt' => $options['alt'],
                   'attributes' => array('style' => 'border: 0px;')
                 )), $options['path'], array(
-                  'attributes' => array('style' => 'color:#144989; text-decoration:none; display: inline-block; vertical-align: middle; padding-left: 10px;'),
+                  'attributes' => array('style' => 'color:#144989; text-decoration:none; display: inline-block; vertical-align: middle;'),
                   'html' => TRUE,
                   'external' => TRUE
                 ));
