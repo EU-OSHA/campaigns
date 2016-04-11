@@ -224,11 +224,12 @@ function osha_publication_menu_publications_search_related($form_state, $native_
   // Select all publications having field_file available in filtered languages.
   $q = db_select('node', 'a');
   $q->innerJoin('field_data_field_publication_type', 'b', 'a.nid = b.entity_id');
+  $q->leftJoin('field_data_field_publication_date', 'pd', 'a.nid = pd.entity_id');
   $q->fields('a', array('nid', 'vid'));
   $q->condition('a.type', 'publication');
   $q->condition('a.status', 1);
   $q->condition('b.field_publication_type_tid', CASE_STUDY_TID, '!=');
-  $q->orderBy('a.changed', 'DESC');
+  $q->orderBy('pd.field_publication_date_value', 'DESC');
   if (!empty($restrict)) {
     $q->condition('a.nid', $restrict, 'IN');
   }
