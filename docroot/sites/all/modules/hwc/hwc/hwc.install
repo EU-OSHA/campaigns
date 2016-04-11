@@ -504,3 +504,52 @@ function hwc_update_7023() {
   );
   module_enable($modules);
 }
+
+/**
+ * Remove translated aliases for node 100.
+ */
+function hwc_update_7024() {
+  db_delete('url_alias')
+    ->condition('source', 'node/100')
+    ->condition('language', 'en', '!=')
+    ->execute();
+}
+
+/**
+ * Fix multilingual link for piwik iframe in privacy notice.
+ */
+function hwc_update_7025() {
+  $url = 'https://piwik.osha.europa.eu/piwik/index.php?module=CoreAdminHome&action=optOut&language=en';
+  $url_ln = 'https://piwik.osha.europa.eu/piwik/index.php?module=CoreAdminHome&action=optOut&language=';
+  $node = node_load(102);
+  foreach ($node->body as $lang => $value) {
+    $node->body[$lang][0]['value'] = str_replace($url, $url_ln . $lang,  $value[0]['value']);
+  }
+  $node->workbench_moderation_state_new = 'published';
+  node_save($node);
+}
+
+/**
+ * Import some translations from string to string.
+ */
+function hwc_update_7026() {
+  $strings = array(
+    'Select',
+    'Logout',
+  );
+  foreach ($strings as $string) {
+    _osha_tmgmt_add_translations_to_identical_strings($string);
+  }
+}
+
+/**
+ * Set eu_cookie for all languages.
+ */
+function hwc_update_7027() {
+  $languages = language_list();
+  $en_settings = variable_get('eu_cookie_compliance_en');
+  unset($languages['en']);
+  foreach (array_keys($languages) as $lang) {
+    variable_set('eu_cookie_compliance_' . $lang, $en_settings);
+  }
+}

@@ -112,10 +112,14 @@ function ncw_migration_migrate_api() {
         'dependencies' => array(),
         'class_name' => 'NCWTaxonomyNewsletterSectionsMigration',
       ),
+      // Don't migrate some types
+      // Magazine, Annual reports and other corporate publications, Promotional Material
+      // Evaluation reports, Corporate strategies and annual management plans
       'tax_publication_types' => array(
         'group_name' => 'ncw',
         'dependencies' => array(),
         'class_name' => 'NCWTaxonomyPublicationTypeMigration',
+        'skip_ids' => array(4, 2, 3, 1, 3022),
       ),
       'tax_segment' => array(
         'group_name' => 'ncw',
@@ -175,11 +179,15 @@ abstract class AbstractNCWNodeMigration extends Migration {
       'default',
       array('track_last_imported' => TRUE)
     );
-    $this->source = new $source_klass(array(
+    $options = array(
       'cache_counts' => FALSE,
       'endpoint_url' => $this->endpoint_url,
       'track_changes' => TRUE,
-    ));
+    );
+    if (!empty($arguments['skip_ids'])) {
+      $options['skip_ids'] = $arguments['skip_ids'];
+    }
+    $this->source = new $source_klass($options);
     $this->destination = new MigrateDestinationNode($bundle);
     $this->addFieldMappings();
   }
@@ -435,10 +443,14 @@ abstract class AbstractNCWNodeSource extends MigrateSource {
   protected $endpoint_url = NULL;
   protected $rows = array();
   protected $count = -1;
+  protected $skip_ids = array();
 
   public function __construct($options) {
     parent::__construct($options);
     $this->endpoint_url = $options['endpoint_url'];
+    if (!empty($options['skip_ids'])) {
+      $this->skip_ids = $options['skip_ids'];
+    }
   }
 
   /**
@@ -457,7 +469,16 @@ abstract class AbstractNCWNodeSource extends MigrateSource {
       $data = $this->fileGetContents($this->endpoint_url);
       $this->count = 0;
       if ($data = json_decode($data)) {
-        $this->count = count($data->items);
+        if (!empty($data->items)) {
+          $data = $data->items;
+          foreach ($data as $ob) {
+            $ob = $ob->item;
+            $id = $this->itemIdentifier($ob);
+            if (!in_array($id, $this->skip_ids)) {
+              $this->count++;
+            }
+          }
+        }
       }
     }
     ncw_migration_debug('!klass: Found !count items', array('!klass' => get_class($this), '!count' => $this->count));
@@ -504,6 +525,9 @@ abstract class AbstractNCWNodeSource extends MigrateSource {
       foreach ($data->items as $ob) {
         $ob = $ob->item;
         $id = $this->itemIdentifier($ob);
+        if (in_array($id, $this->skip_ids)) {
+          continue;
+        }
         $node_url = $this->itemURL($id);
         ncw_migration_debug('!klass:      * Reading item: !url', array('!klass' => get_class($this), '!url' => $node_url));
         if ($rowd = $this->fileGetContents($node_url)) {
@@ -593,10 +617,14 @@ abstract class AbstractNCWTaxonomyTermMigration extends AbstractNCWNodeMigration
       ),
       MigrateDestinationTerm::getKeySchema()
     );
-    $this->source = new $source_klass(array(
+    $options = array(
       'endpoint_url' => $this->endpoint_url,
       'track_changes' => TRUE,
-    ));
+    );
+    if (!empty($arguments['skip_ids'])) {
+      $options['skip_ids'] = $arguments['skip_ids'];
+    }
+    $this->source = new $source_klass($options);
     $this->destination = new MigrateDestinationTerm($bundle, array('language' => 'en'));
     $this->ignoreMetatagMigration();
   }
