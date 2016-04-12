@@ -13,9 +13,7 @@
             {$attributes.contact_osh_maincontactpersonfirstname}
             {$attributes.contact_osh_maincontactpersonlastname}
             {$attributes.contact_osh_positionmaincontactperson}
-            {if !$mf && $partner_type != "current" && !$locked && $HelpMessage != "print"}
-            {$attributes.contact_osh_captcha}
-            {/if}
+
         </div>
         <div class="float-right" style="margin-top: 2%">
             {$attributes.contact_osh_mainphone}
@@ -31,6 +29,11 @@
             {/if}
         </div>
     </div>
+  <div class="float-left">
+            {if !$mf && $partner_type != "current" && !$locked && $HelpMessage != "print"}
+            {$attributes.contact_osh_captcha}
+            {/if}
+        </div>
     <div class="hidden">
         {$attributes.helpMessage}
         {$attributes.contact_osh_mainemailAux}

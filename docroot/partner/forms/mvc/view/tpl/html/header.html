@@ -45,6 +45,16 @@
         <img src="mvc/view/img/alertIcon.png"/><br>
         <p>Please fill in the required fields</p>
     </div>
+    <div id="captchaDialog" class="dialog errorDialog hidden">
+        <a class="closeDialog">[X]</a>
+        <img src="mvc/view/img/alertIcon.png"/><br>
+        <p>The data introduced is not correct. Please try again</p>
+    </div>
+    <div id="captchaAndFieldDialog" class="dialog errorDialog hidden">
+        <a class="closeDialog">[X]</a>
+        <img src="mvc/view/img/alertIcon.png"/><br>
+        <p>CAPTCHA is incorrect. Try again and mandatory above fields are incompleted. Please check again.</p>
+    </div>
     <div id="checkFieldsDialog" class="dialog errorDialog hidden">
         <a class="closeDialog">[X]</a>
         <img src="mvc/view/img/alertIcon.png"/><br>
@@ -66,12 +76,11 @@
         <img src="mvc/view/img/alertIcon.png"/><br>
         <p>There are sections unconfirmed or there are mandatory fields not filled</p>
     </div>
-        {if $fieldsValidatingDialog}
-        <div id="fieldsValidatingDialog" class="dialog errorDialog">
-            <a class="closeDialog" style="color: black; font-size: inherit;">[X]</a>
-            <p style="color: black; font-weight: inherit;">Your changes are being reviewed by the campaign team. <br> You will receive feedback shortly. Thanks for participating in the Healthy Workplaces Campaign.</p>
-        </div>
         {/if}
-        
+        {if $fieldsValidatingDialog}
+            <div id="fieldsValidatingDialog" class="dialog errorDialog">
+                <a class="closeDialog" style="color: black; font-size: inherit;">[X]</a>
+                <p style="color: black; font-weight: inherit;">Your changes are being reviewed by the campaign team. <br> You will receive feedback shortly. Thanks for participating in the Healthy Workplaces Campaign.</p>
+            </div>
         {/if}
 {/if}

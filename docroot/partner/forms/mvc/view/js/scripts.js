@@ -772,6 +772,11 @@ $(document).ready(function () {
             }
         }
     });
+    $('#contact_osh_mainemail').on({
+        change: function () {
+            validateEmail(this);
+        }
+    });
 
     /**
      * Validate confirmation email
@@ -815,8 +820,22 @@ $(document).ready(function () {
                     if($("#container-message").length > 0){
                         closeGreyBox();
                     }
-                    
-                    $("#fillRequiredDialog").removeClass('hidden');
+                    if ($(".main-form input[data-error='true']").length == 1 &&
+                            $(".main-form input[data-error='true']").attr('id') == "contact_osh_captcha"){
+                        $("#captchaDialog").removeClass('hidden');
+                    }else{
+                        var captchaAndFieldDialog = false;
+                        $(".main-form input[data-error='true']").each(function (id, item) {
+                            if ($(item).attr("id") == 'contact_osh_captcha') {
+                               captchaAndFieldDialog = true; 
+                            }
+                        });
+                        if(captchaAndFieldDialog){
+                            $("#captchaAndFieldDialog").removeClass('hidden');
+                        }else{
+                            $("#fillRequiredDialog").removeClass('hidden');
+                        }
+                    }
 //                    document.location.href = "#top";
                     document.body.scrollTop = document.documentElement.scrollTop = 0;
                     if(window.parent.document.getElementsByClassName("top_anchor").length == 1){
@@ -884,8 +903,22 @@ $(document).ready(function () {
             if($("#container-message").length > 0){
                 closeGreyBox();
             }
-
-            $("#fillRequiredDialog").removeClass('hidden');
+            if ($(".main-form input[data-error='true']").length == 1 &&
+                            $(".main-form input[data-error='true']").attr('id') == "contact_osh_captcha"){
+                        $("#captchaDialog").removeClass('hidden');
+            }else{
+                var captchaAndFieldDialog = false;
+                $(".main-form input[data-error='true']").each(function (id, item) {
+                    if ($(item).attr("id") == 'contact_osh_captcha') {
+                       captchaAndFieldDialog = true; 
+                    }
+                });
+                if(captchaAndFieldDialog){
+                    $("#captchaAndFieldDialog").removeClass('hidden');
+                }else{
+                    $("#fillRequiredDialog").removeClass('hidden');
+                }
+            }
 //                    document.location.href = "#top";
             document.body.scrollTop = document.documentElement.scrollTop = 0;
             if(window.parent.document.getElementsByClassName("top_anchor").length == 1){
@@ -999,9 +1032,9 @@ $(document).ready(function () {
         var field;
         $("#form form .required .controls").each(function (id, item) {
             //WorkAround main contact change
-            if($(item).find("input[type=text]").attr("data-section") == "PRIMARY_CONTACT" && $('#contact_osh_maincontactchange').prop('checked')){
-                return true;
-            }
+//            if($(item).find("input[type=text]").attr("data-section") == "PRIMARY_CONTACT" && $('#contact_osh_maincontactchange').prop('checked')){
+//                return true;
+//            }
             if (field = $(item).find("input[type=text]")) {
                 if ($(field).attr("data-section") && !$(field).val()) {
                     ret = false;
@@ -1508,8 +1541,8 @@ $(document).ready(function () {
                 $('#'+$(item).attr("id")+'_clone').val($(item).val());
                 $('#'+$(item).attr("id")+'_clone').addClass("main-contact-change-backup");
                 $(item).val("");
-                $(item).removeClass("error");
-                $(item).attr("data-error", "");
+//                $(item).removeClass("error");
+//                $(item).attr("data-error", "");
                 $("#"+$(item).attr("id")+"_errormsg").remove();
                 
             });
