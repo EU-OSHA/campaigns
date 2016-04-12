@@ -167,6 +167,8 @@ function hwc_workflow_node_simple_submit($form, &$form_state) {
 
 function hwc_worklow_node_belongs_to_partner_user($node) {
   global $user;
+  // if masquerade, the access it's not loaded correctly.
+  workbench_access_user_load_data($user);
   $sections = array_keys($user->workbench_access);
   if (!empty($sections)) {
     $query = db_select('workbench_access_node', 'wan')
