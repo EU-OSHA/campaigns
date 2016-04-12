@@ -542,6 +542,10 @@ final class CDB
                     }
                 }
             }
+            //Lock fields if the changes are pending validation.
+            if(isset($_SESSION['fieldsValidatingDialog']) && $_SESSION['fieldsValidatingDialog'] == true){
+                $params->setUrlParamValue('locked', true);
+            }
         }
     }
 

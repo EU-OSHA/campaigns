@@ -165,6 +165,7 @@ class MaintenanceForm extends Controller implements IController, IForm {
                 'submit_text' => 'Submit',
                 'actionType' => $params->get('actionType'),
                 'disabled' => '',
+                'locked' => $params->getUrlParamValue('locked'),
                 'fieldsValidatingDialog' => $this->fieldsValidation(),
             );
             // PDF version
