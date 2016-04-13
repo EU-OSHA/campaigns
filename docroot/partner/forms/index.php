@@ -4,8 +4,8 @@
 ini_set('display_errors', false);
 define('APP_ROOT', dirname($_SERVER['SCRIPT_FILENAME']) . '/');
 $phpSelf = pathinfo($_SERVER['PHP_SELF']);
-define('APP_URL', 'http://' . $_SERVER['HTTP_HOST'] . $phpSelf['dirname'] . '/');
-define('HTTP_HOST', 'http://' . $_SERVER['HTTP_HOST'] . '/');
+define('APP_URL', 'https://' . $_SERVER['HTTP_HOST'] . $phpSelf['dirname'] . '/');
+define('HTTP_HOST', 'https://' . $_SERVER['HTTP_HOST'] . '/');
 
 define('APP_PORT', intval($_SERVER['SERVER_PORT']) != 80 ? ':' . $_SERVER['SERVER_PORT'] : '');
 define('APP_CONFIG', APP_ROOT . 'config/');
