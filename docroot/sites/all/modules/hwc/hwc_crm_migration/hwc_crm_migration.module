@@ -18,6 +18,7 @@ function hwc_crm_migration_cron() {
   module_load_include('inc', 'hwc_crm_migration', 'hwc_crm_migration.migrate');
 
   if ($migration = Migration::getInstance('partner')) {
+    $migration->prepareUpdate();
     $migration->processImport(array('update' => TRUE));
 
     // Trigger LDAP sync after partner migration to update users sections

@@ -11,111 +11,114 @@ if($newsletter_date) {
   <![endif]-->
   <tbody>
     <tr>
-      <td width="100%" style="vertical-align: top; padding-top: 0; padding-bottom: 0; padding-left: 400px; height: 90px;">
-        <table border="0" cellpadding="0" cellspacing="0"><tbody>
-          <tr>
-            <?php
-            if (isset($campaign_id)) {
-              $url_query = array('pk_campaign' => $campaign_id);
-            }
-            else {
-              $url_query = array();
-            }
-            $directory = drupal_get_path('module', 'osha_newsletter');
-            global $base_url;
-            ?>
-            <td>
-              <h4 style="padding-top: 10px; text-align: left; font-size: 14px; font-weight: bold; color: #003399; font-family: Oswald, Arial,sans-serif;line-height: 14px;">
-                <?php print t('Healthy Workplaces for All Ages'); ?>
-              </h4>
-            </td>
-            <td style="padding-top: 8px;">
+      <td width="800" style="vertical-align: top; padding-top: 0; padding-bottom: 0; height: 90px;">
+        <table width="100%" border="0" cellpadding="8" cellspacing="0">
+          <tbody>
+            <tr style="vertical-align: middle;">
               <?php
-              print l(
-                theme(
-                  'image',
-                  array(
-                    'path' => $directory . '/images/Osha-EU-logos.png',
-                    'width' => 105,
-                    'alt' => 'Osha logo',
-                    'attributes' => array('style' => 'border: 0px;'),
-                  )
-                ),
-                $base_url, array(
-                  'html' => TRUE,
-                  'external' => TRUE,
-                  'query' => $url_query,
-                )
-              );
+              if (isset($campaign_id)) {
+                $url_query = array('pk_campaign' => $campaign_id);
+              }
+              else {
+                $url_query = array();
+              }
+              $directory = drupal_get_path('module', 'osha_newsletter');
+              global $base_url;
               ?>
-            </td>
-            <td style="padding-top: 48px;">
-              <?php
-              print l(
-                theme(
-                  'image',
-                  array(
-                    'path' => $directory . '/images/logo-eu.png',
-                    'width' => 50,
-                    'alt' => 'Osha logo',
-                    'attributes' => array('style' => 'border: 0px;'),
+              <td height="1" width="50%" style="font-size: 1px; line-height: 1px;">&nbsp;</td>
+              <td>
+                <h4 style="text-align: left; font-size: 14px; font-weight: bold; color: #003399; font-family: Oswald, Arial,sans-serif;line-height: 14px;">
+                  <?php print t('Healthy Workplaces for All Ages'); ?>
+                </h4>
+              </td><td>
+                <?php
+                print l(
+                  theme(
+                    'image',
+                    array(
+                      'path' => $directory . '/images/Osha-EU-logos.png',
+                      'width' => 105,
+                      'alt' => 'Osha logo',
+                      'attributes' => array('style' => 'border: 0px;'),
+                    )
+                  ),
+                  $base_url, array(
+                    'html' => TRUE,
+                    'external' => TRUE,
+                    'query' => $url_query,
                   )
-                ),
-                $base_url, array(
-                  'html' => TRUE,
-                  'external' => TRUE,
-                  'query' => $url_query,
-                )
-              );
-              ?>
-            </td>
-            <td style="padding-top: 13px; padding-left: 20px;">
-              <?php
-              print l(
-                theme(
-                  'image',
-                  array(
-                    'path' => $directory . '/images/healthy_workplaces.png',
-                    'width' => 80,
-                    'alt' => 'Healthy workplaces logo',
-                    'attributes' => array('style' => 'border: 0px;'),
+                );
+                ?>
+              </td><td>
+                <?php
+                print l(
+                  theme(
+                    'image',
+                    array(
+                      'path' => $directory . '/images/logo-eu.png',
+                      'width' => 50,
+                      'alt' => 'Osha logo',
+                      'attributes' => array('style' => 'border: 0px;'),
+                    )
+                  ),
+                  $base_url, array(
+                    'html' => TRUE,
+                    'external' => TRUE,
+                    'query' => $url_query,
                   )
-                ),
-                $base_url, array(
-                  'html' => TRUE,
-                  'external' => TRUE,
-                  'query' => $url_query,
-                )
-              );
-              ?>
-            </td>
-          </tr></tbody>
+                );
+                ?>
+              </td><td>
+                <?php
+                print l(
+                  theme(
+                    'image',
+                    array(
+                      'path' => $directory . '/images/healthy_workplaces.png',
+                      'width' => 80,
+                      'alt' => 'Healthy workplaces logo',
+                      'attributes' => array('style' => 'border: 0px;'),
+                    )
+                  ),
+                  $base_url, array(
+                    'html' => TRUE,
+                    'external' => TRUE,
+                    'query' => $url_query,
+                  )
+                );
+                ?></td></tr>
+          </tbody>
         </table>
       </td>
     </tr>
-	<tr><td width="100%" align="left" style="vertical-align: top; padding-top: 10px; padding-left: 400px;">
-      <table border="0" cellpadding="0" cellspacing="0">
-        <tbody>
-          <tr>
-            <td>
-              <h1 style="font-size: 28px; color: #FFF; border: none; padding: 0; margin: 0; text-align: left; line-height: 28px;"><?php print $newsletter_title ?></h1>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <h2 style="font-style: italic; font-weight: normal; font-size: 18px; color: #FFF; padding: 0; margin: 0; text-align: left;"><?php print $newsletter_ready_date ?></h2>
-            </td>
-          </tr>
-          <?php if(!empty($newsletter_intro)){ ?>
+    <tr>
+      <td width="800" style="vertical-align: top;">
+        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+          <tbody>
             <tr>
-              <td style="padding-top: 10px;">
-                <p style="font-style: italic; color: #FFF; font-size: 12px;"><?php print($newsletter_intro);?></p>
+              <td height="1" width="50%" style="font-size: 1px; line-height: 1px;">&nbsp;</td>
+              <td>
+                <h1 style="font-size: 28px; color: #ffffff; border: none; margin: 0; text-align: left; line-height: 28px;"><?php print $newsletter_title ?></h1>
               </td>
             </tr>
-          <?php } ?>
-        </tbody>
-      </table>
-	</td></tr>
+            <tr>
+              <td height="1" width="50%" style="font-size: 1px; line-height: 1px;">&nbsp;</td>
+              <td>
+                <h2 style="font-style: italic; font-weight: normal; font-size: 18px; color: #ffffff; margin: 0; text-align: left;"><?php print $newsletter_ready_date ?></h2>
+              </td>
+            </tr>
+            <?php if(!empty($newsletter_intro)){ ?>
+              <tr>
+                <td height="1" width="50%" style="font-size: 1px; line-height: 1px;">&nbsp;</td>
+                <td>
+                  <p style="font-style: italic; color: #ffffff; font-size: 12px;"><?php print($newsletter_intro);?></p>
+                </td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+    </td>
+    </tr>
   </tbody>
   <!--[if gte mso 9]>
   </v:textbox>

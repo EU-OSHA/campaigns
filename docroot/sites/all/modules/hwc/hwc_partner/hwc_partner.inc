@@ -14,7 +14,8 @@ function hwc_partner_by_section_id_load($id) {
   $q = new EntityFieldQuery();
   $q->entityCondition('entity_type', 'node');
   $q->entityCondition('bundle', 'partner');
-  $q->propertyCondition('status', NODE_PUBLISHED);
+//  $q->propertyCondition('status', NODE_PUBLISHED);
+  $q->fieldCondition('field_appform_status', 'value', _hwc_partner_get_appform_codes(), 'IN');
   $result = $q->execute();
   if (isset($result['node'])) {
     $partners = entity_load('node', array_keys($result['node']));
@@ -25,6 +26,10 @@ function hwc_partner_by_section_id_load($id) {
     }
   }
   return FALSE;
+}
+
+function _hwc_partner_get_appform_codes() {
+  return array(863680002, 863680003, 863680011, 863680005);
 }
 
 /**

@@ -104,10 +104,17 @@ class HwcCrmMigration extends Migration {
     if (!empty($removed)) {
       foreach ($removed as $to_remove) {
         if ($node = node_load($to_remove->destid1)) {
-          $node->status = 0;
-          node_save($node);
-          watchdog('hwc_crm_migration', 'Unpublishing partner nid: !nid, \'!partner\'',
-            array('!nid' => $node->nid, '!partner' => $node->title), WATCHDOG_INFO);
+          if ($node->status == 1 || !empty($node->field_appform_status)) {
+            $node->status = 0;
+            $node->field_appform_status = NULL;
+            node_save($node);
+            $this->currentMigration()->displayMessage(
+              strtr('Unpublishing partner @partner - not found in source anymore.',
+                array('@partner' => $node->title)
+              ),
+              'warning'
+            );
+          }
         }
       }
     }

@@ -1,7 +1,14 @@
 //rewrite styles for responsive design
 
 @media only screen and (max-width : 767px) {
+
+#sliding-popup.sliding-popup-top{
+	height: 1%!important;
+    overflow: hidden;
+}
+
 /*Header*/
+
 
 html:lang(en) #homepage_slider .views-field-title span{
 	font-size:1em;
@@ -941,9 +948,21 @@ header.navbar-default{
 	.publication-item{
 		padding-left: @margin-movil;
 		padding-right: @margin-movil;
+		.field-name-field-publication-date{
+			left: 15px;
+		}
+
 		.field-name-field-cover-image{
 			display: none;
 		}
+	}
+
+	.publication-item .field-name-field-cover-image~.field-name-title-field, .publication-item .field-name-field-cover-image~.field-type-text-with-summary, .publication-item .field-name-field-cover-image~ul{
+		margin-left: 0px;
+	}
+
+	.publication-item .field-name-title-field, .publication-item .field-type-text-with-summary, .publication-item ul{
+		margin-left: 0px;
 	}
 
 	.field-name-field-publication-date, 
