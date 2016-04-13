@@ -662,15 +662,18 @@ function _hwc_partner_masquerade_reswitch() {
  * the time resting to enter.
  */
 function _hwc_partner_show_editing_time_to_partners($node) {
-  $account = hwc_partner_get_account_partner();
-  if ($account != NULL) {
-    if ($node->workbench_moderation_state_new == 'final_draft' && (in_array(($type = $node->type), array('news', 'events')))) {
-      $time = variable_get('hwc_workflow_partner_content_minutes_gap_autosubmit', 30);
-      $text = $type == 'news' ? 'news' : 'an event';
-      drupal_set_message(
-        t('You submitted !what. From now on, you can update it for <b>!interval</b> minutes',
-          array('!what' => $text, '!interval' => $time))
-      );
+  global $user;
+  if (in_array(ROLE_CAMPAIGN_PARTNER, $user->roles)){
+    $p_account = hwc_partner_get_account_partner();
+    if ($p_account != NULL) {
+      if (in_array($type = $node->type, array('news', 'events')) && $node->workbench_moderation_state_new == 'final_draft') {
+        $time = variable_get('hwc_workflow_partner_content_minutes_gap_autosubmit', 30);
+        $text = $type == 'news' ? 'news' : 'an event';
+        drupal_set_message(
+          t('You submitted !what. From now on, you can update it for <b>!interval</b> minutes',
+            array('!what' => $text, '!interval' => $time))
+        );
+      }
     }
   }
 }
