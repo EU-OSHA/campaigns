@@ -35,7 +35,7 @@ $directory = drupal_get_path('module', 'osha_newsletter');
             <td width="1%" style="vertical-align: top; padding-top: 32px; text-align: right; white-space: nowrap">
               <h2 style="color: #ffffff; display: inline; font-weight: bold; font-size: 14px; font-style: normal;"><?php print t('Follow us on'); ?>:</h2>
             </td>
-            <td width="1%" style="vertical-align: top; padding-top: 32px; text-align: right; white-space: nowrap">
+            <td width="160" style="vertical-align: top; padding-top: 32px; text-align: right;">
               <?php
               $social = array(
                 'twitter' => array(
