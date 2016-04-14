@@ -53,6 +53,10 @@ $directory = drupal_get_path('module', 'osha_newsletter');
                 'youtube' => array(
                   'path' => 'https://www.youtube.com/user/EUOSHA',
                   'alt' => t('Youtube')
+                ),
+                'flickr' => array(
+                  'path' => 'https://www.flickr.com/photos/euosha',
+                  'alt' => t('Flickr')
                 )
               );
 
