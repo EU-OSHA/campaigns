@@ -133,6 +133,19 @@ class PartnerMigration extends HwcCrmMigration {
     }
     return TRUE;
   }
+
+  public function prepare($entity, $row) {
+    // Unpublish partner if status is not 863680005 (MH-129)
+    if ($row->field_appform_status != 863680005) {
+      $this->currentMigration()->displayMessage(
+        strtr('The partner profile "@partner" does not have app form status published; unpublishing...',
+          array('@partner' => $row->title)
+        ),
+        'warning'
+      );
+      $entity->status = 0;
+    }
+  }
 }
 
 

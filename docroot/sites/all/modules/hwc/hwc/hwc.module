@@ -200,6 +200,18 @@ function hwc_field_extra_fields() {
   return $extra;
 }
 
+/**
+ * Implements hook_webform_select_options_info().
+ */
+function hwc_webform_select_options_info() {
+  $items = array();
+  $items['business_sector'] = array(
+    'title' => t('Business sector'),
+    'options callback' => '_hwc_sector_options_list',
+  );
+  return $items;
+}
+
 function hwc_mime_friendly_acronym($mime) {
   $mappings = array(
     'application/msword' => t('DOC'),
@@ -822,6 +834,21 @@ function _hwc_get_allowed_section_node_types() {
 function _hwc_segment_options_list() {
   $return = array('0' => t('All audience'));
   $vocabulary = taxonomy_vocabulary_machine_name_load('segment');
+  if (!empty($vocabulary)) {
+    $terms = taxonomy_term_load_multiple(array(), array('vid' => $vocabulary->vid));
+    foreach($terms as $key => $term) {
+      $return[$term->tid] = $term->name;
+    }
+  }
+  return $return;
+}
+
+/**
+ * Get business sector options array.
+ */
+function _hwc_sector_options_list() {
+  $return = array();
+  $vocabulary = taxonomy_vocabulary_machine_name_load('bussines_sector');
   if (!empty($vocabulary)) {
     $terms = taxonomy_term_load_multiple(array(), array('vid' => $vocabulary->vid));
     foreach($terms as $key => $term) {

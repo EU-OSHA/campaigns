@@ -191,10 +191,6 @@ window.onload = function () {
          $(".delSN").prop("disabled", "disabled");
          $("#plusSN").prop("disabled", "disabled");
     }
-    //Workaound error displaying field IE9 or less
-    if($("#company_osh_orgname").length > 0){
-        $("#company_osh_orgname").prop("tabindex", "-1");
-    }
     
     $("body").css("cursor", "default");
     if($('.validation').length > 0 && $('.validation').css('display') != 'none'){
@@ -372,6 +368,13 @@ function validaImagenes(section) {
     }
 
     function checkSections() {
+    	//Workaound error displaying field IE
+        if($("#company_osh_orgname").length > 0){
+            $("#company_osh_orgname").val($("#company_osh_orgname").val());
+        }
+        if($("#contact_osh_maincontactpersonfirstname").length > 0){
+            $("#contact_osh_maincontactpersonfirstname").val($("#contact_osh_maincontactpersonfirstname").val());
+        }
         var ret = false;
         $("#sidebar-top .section").each(function (id, item) {
             var elemId = $(item).attr("data-section");
