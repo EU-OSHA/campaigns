@@ -38,13 +38,13 @@ $directory = drupal_get_path('module', 'osha_newsletter');
             <td width="1%" style="vertical-align: top; padding-top: 32px; text-align: right; white-space: nowrap">
               <?php
               $social = array(
-                'face' => array(
-                  'path' => 'https://www.facebook.com/EuropeanAgencyforSafetyandHealthatWork',
-                  'alt' => t('Facebook')
-                ),
                 'twitter' => array(
                   'path' => 'https://twitter.com/eu_osha',
                   'alt' => t('Twitter')
+                ),
+                'face' => array(
+                  'path' => 'https://www.facebook.com/EuropeanAgencyforSafetyandHealthatWork',
+                  'alt' => t('Facebook')
                 ),
                 'linkedin' => array(
                   'path' => 'https://www.linkedin.com/company/european-agency-for-safety-and-health-at-work',
