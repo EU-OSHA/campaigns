@@ -780,6 +780,11 @@ $(document).ready(function () {
             validateEmail(this);
         }
     });
+    $('#company_osh_emailrepresentative').on({
+        change: function () {
+            validateEmail(this);
+        }
+    });
 
     /**
      * Validate confirmation email
