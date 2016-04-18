@@ -365,6 +365,21 @@ function osha_search_facetapi_widgets() {
 }
 
 /**
+ * Implements hook_ENTITY_TYPE_defaults_rebuild().
+ */
+function osha_search_search_api_index_defaults_rebuild() {
+  // Ugly Fix a hard to replicate error - summary fields get unchecked in index and breaks the search page.
+  $indexes = osha_search_default_search_api_index();
+  if (!empty($indexes['default_multilingual_node_index'])) {
+    $index = search_api_index_load('default_multilingual_node_index');
+    if (!empty($index)) {
+      $index->options['fields'] = $indexes['default_multilingual_node_index']->options['fields'];
+      $index->save();
+    }
+  }
+}
+
+/**
  * Widget that renders facets as a dropdown.
  *
  * This widget renders facets in the same way as FacetapiWidgetLinks but uses

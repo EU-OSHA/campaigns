@@ -319,3 +319,11 @@ div.loader {
 div.loader p{
    padding-top: 1em;
 }
+
+.newsletter-wrapper table td, table th {
+    vertical-align: middle;
+    padding: 8px 10px;
+    border: 0;
+    color: #000;
+}
+
