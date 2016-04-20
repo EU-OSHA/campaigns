@@ -519,6 +519,7 @@ function hwc_frontend_colorbox_image_formatter($variables) {
     'title' => $caption,
     'gid' => $gallery_id,
     'entity' => $entity,
+    'colorbox_style' => $style_name,
   ));
 }
 /**
@@ -541,7 +542,7 @@ function hwc_frontend_colorbox_imagefield($variables) {
     $image = theme('image', $variables['image']);
   }
   $image_vars = array(
-    'style_name' => 'large',
+    'style_name' => $variables['colorbox_style'],
     'path' => $variables['image']['path'],
     'alt' => $variables['entity']->title,
   );

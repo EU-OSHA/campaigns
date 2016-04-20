@@ -120,7 +120,7 @@ function hwc_gallery_field_default_field_instances() {
           'colorbox_caption_custom' => '',
           'colorbox_gallery' => 'field_post',
           'colorbox_gallery_custom' => '',
-          'colorbox_image_style' => 'large',
+          'colorbox_image_style' => 'xl_image',
           'colorbox_multivalue_index' => NULL,
           'colorbox_node_style' => 'medium_thumbnail_mc_340',
           'colorbox_node_style_first' => '',
