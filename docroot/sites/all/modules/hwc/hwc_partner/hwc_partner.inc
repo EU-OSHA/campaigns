@@ -15,7 +15,7 @@ function hwc_partner_by_section_id_load($id) {
   $q->entityCondition('entity_type', 'node');
   $q->entityCondition('bundle', 'partner');
 //  $q->propertyCondition('status', NODE_PUBLISHED);
-  $q->fieldCondition('field_appform_status', 'value', _hwc_partner_get_appform_codes(), 'IN');
+//  $q->fieldCondition('field_appform_status', 'value', _hwc_partner_get_appform_codes(), 'IN');
   $result = $q->execute();
   if (isset($result['node'])) {
     $partners = entity_load('node', array_keys($result['node']));
