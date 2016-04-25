@@ -48,6 +48,12 @@ tr.osha_newsletter_section_admin_content {
   padding-bottom: 10px;
 }
 
+.newsletter-wrapper table td, table th {
+  vertical-align: middle;
+  padding: 7px;
+  border: 0;
+  color: #000;
+}
 
 /* view-id-reporting_view */
 .view-id-reporting_view .view-header{
