@@ -194,9 +194,10 @@ class PartnerMigrateListXml extends AbstractCrmMigrateListXml {
     return iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $string);
   }
 
-  public function prepareFileName($title, $suf) {
-    $filename = $this->transliterateString($title);
-    return trim(substr($filename, 0, 20)) . $suf;
+  public function prepareFileName($data, $suf) {
+    $filename = $this->transliterateString($data->title);
+    $short_title = trim(substr($filename, 0, 20));
+    return $short_title . $suf . '_' . $data->field_guid_organisation;
   }
 
 
@@ -226,7 +227,7 @@ class PartnerMigrateListXml extends AbstractCrmMigrateListXml {
         $logo_ext = (string) $attributes['Textbox9'];
         if (!empty($logo_image) && !empty($logo_ext)) {
           $data->field_logo = $logo_image;
-          $filename = $this->prepareFileName($data->title, '_logo');
+          $filename = $this->prepareFileName($data, '_logo');
           $data->field_logo_file = file_munge_filename($filename . '.' . $logo_ext, '');
           $data->field_logo_mime = (string) $attributes['Textbox9'];
         }
@@ -253,7 +254,7 @@ class PartnerMigrateListXml extends AbstractCrmMigrateListXml {
         $ceo_image_ext = (string) $attributes['Textbox27'];
         if (!empty($ceo_image) && !empty($ceo_image_ext)) {
           $data->field_ceo_photo = $ceo_image;
-          $filename = $this->prepareFileName($data->title, '_ceo');
+          $filename = $this->prepareFileName($data, '_ceo');
           $data->field_ceo_photo_file = file_munge_filename($filename . '.' . $ceo_image_ext, '');
         }
 
