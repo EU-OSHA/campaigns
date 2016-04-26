@@ -31,6 +31,7 @@ features[fe_block_settings][] = panels_mini-news_and_events
 features[features_api][] = api:2
 features[image][] = medium_large
 features[image][] = medium_thumbnail_mc
+features[image][] = newsletter_thumb
 features[image][] = small_thumbnail_mc_150_150
 features[page_manager_pages][] = get_your_certificate_page
 features[panels_mini][] = additional_resources

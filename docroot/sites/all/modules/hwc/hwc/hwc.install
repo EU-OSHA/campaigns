@@ -553,3 +553,10 @@ function hwc_update_7027() {
     variable_set('eu_cookie_compliance_' . $lang, $en_settings);
   }
 }
+
+/**
+ * Revert hwc module - add new image style
+ */
+function hwc_update_7028() {
+  features_revert_module('hwc');
+}

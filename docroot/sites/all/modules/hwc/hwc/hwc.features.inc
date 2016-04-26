@@ -72,6 +72,21 @@ function hwc_image_default_styles() {
     ),
   );
 
+  // Exported image style: newsletter_thumb.
+  $styles['newsletter_thumb'] = array(
+    'label' => 'Newsletter thumb (150 X 150)',
+    'effects' => array(
+      1 => array(
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 150,
+          'height' => 150,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
   // Exported image style: small_thumbnail_mc_150_150.
   $styles['small_thumbnail_mc_150_150'] = array(
     'label' => 'Small Thumbnail Manual Crop (150X150)',
