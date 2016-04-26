@@ -170,7 +170,7 @@ window.onload = function () {
             window.parent.document.getElementsByClassName("top_anchor")[0].click();
         }
     }
-    if($("#container-message").length > 0){
+   /* if($("#container-message").length > 0){
         var height = $("#MESSAGE").height()+30;
         if($("#ORGANISATION").length > 0){
             $("#ORGANISATION").css("padding-top", height);
@@ -184,7 +184,7 @@ window.onload = function () {
             $("#PLEDGE").css("padding-top", height);
         }
         
-    }
+    }*/
     if($("#company_osh_homepage").prop("disabled")){
          $("#company_osh_selectsocialnetworks").prop("disabled", "disabled");
          $("#socialNetworkTextBox").prop("disabled", "disabled");
@@ -1469,7 +1469,27 @@ $(document).ready(function () {
     /**
      * Dropdown multiple
      */
-    $(".dropdown-multiple").select2();
+    
+    //Start HWCCDB-338 PHP- OCP - Countries of Activity -
+    // the search shoudl be "Countries starting with the letter entered in the search engine", not "Countries wich contain the following word"
+    // 
+    //    $(".dropdown-multiple").select2();
+
+    function matchStart (term, text) {
+      if (text.toUpperCase().indexOf(term.toUpperCase()) == 0) {
+        return true;
+      }
+
+      return false;
+    }
+
+    $.fn.select2.amd.require(['select2/compat/matcher'], function (oldMatcher) {
+      $(".dropdown-multiple").select2({
+        matcher: oldMatcher(matchStart)
+      })
+    });
+
+    //End HWCCDB-338
 
     $("#refresh").click(function (e) {
         $("#captcha").attr("src", 'lib/securimage/securimage_show.php?' + Math.random());
@@ -1580,9 +1600,9 @@ $(document).ready(function () {
                     'color': 'white'
                     });
             }
-            $(target).css({
-            'margin-top': '1%'
-            });
+//            $(target).css({
+//            'margin-top': '3%'
+//            });
         }
     });
     $(".combined-textbox").click(function () {
