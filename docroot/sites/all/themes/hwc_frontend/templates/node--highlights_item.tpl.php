@@ -60,7 +60,7 @@
               <td style="padding-bottom: 10px; width: 100%; font-size: 13px; font-family: Arial, sans-serif; color: #000000;">
                 <?php
                 print l(theme('image_style', array(
-                  'style_name' => 'thumbnail',
+                  'style_name' => 'newsletter_thumb',
                   'path' => (isset($field_image) && !empty($field_image)) ? $field_image[0]['uri'] : '',
                   'width' => 150,
                   'alt' => (isset($field_image) && !empty($field_image)) ? $field_image[0]['alt'] : '',

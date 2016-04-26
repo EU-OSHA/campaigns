@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * Revert osha_news module - change image style for highlights_newsletter view mode
+ */
+function osha_news_update_7001() {
+  features_revert_module('osha_news');
+}
