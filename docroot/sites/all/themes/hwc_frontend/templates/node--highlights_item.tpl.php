@@ -8,20 +8,14 @@
  * @see template_process()
  */
 ?>
-<style>
-	.container-ppal a:before{
-		content: ">";
-		padding-right: 5px;
-	}
-</style>
-<table id="node-<?php print $node->nid; ?>" class="container-ppal" border="0" cellpadding="0" cellspacing="0" width="100%" style="padding-top: 0px; margin-left: 10px;">
+<table id="node-<?php print $node->nid; ?>" border="0" cellpadding="0" cellspacing="0" width="100%" style="padding-top: 0px; margin-left: 10px;">
   <tbody>
     <tr>
       <td>
         <table border="0" cellpadding="0" cellspacing="0" class="item-thumbnail-and-title" width="100%">
           <tbody>
             <tr>
-              <td width="67%" valign="top" style="color: #003399; padding-bottom: 10px; padding-left: 0px; padding-right: 0px; font-family: Oswald, Arial, sans-serif; font-size: 18px; vertical-align: top;">
+              <td width="67%" valign="top" style="color: #003399; padding-bottom: 10px; padding-left: 5px; padding-right: 0px; font-family: Oswald, Arial, sans-serif; font-size: 18px; vertical-align: top;">
                 <?php
                 if (isset($variables['elements']['#campaign_id'])) {
                   $url_query = array('pk_campaign' => $variables['elements']['#campaign_id']);

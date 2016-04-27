@@ -40,7 +40,7 @@
               </td>
             </tr>
             <tr>
-              <td style="font-size: 12px;">
+              <td style="font-size: 12px; padding-bottom: 10px;">
                 <?php
                 $date = (isset($field_publication_date) && !empty($field_publication_date)) ? strtotime($field_publication_date[0]['value']) : '';
                 print format_date($date, 'custom', 'M d, Y');
