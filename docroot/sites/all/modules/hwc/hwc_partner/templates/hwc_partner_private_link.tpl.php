@@ -8,10 +8,10 @@
   </span>
   <p class="draft">
     <?php if ($delta == 'hwc_partner_private_link_0' && !empty($node)) {
-      print l('Not published events', 'node/' . $node->nid . '/events');
+      print l('My events', 'node/' . $node->nid . '/events', array('query' =>array('type' => 'events')));
     }
     if ($delta == 'hwc_partner_private_link_1' && !empty($node)) {
-      print l('Not published news', 'node/' . $node->nid . '/news');
+      print l('My news', 'node/' . $node->nid . '/news', array('query' =>array('type' => 'news')));
     } ?>
   </p>
 </div>

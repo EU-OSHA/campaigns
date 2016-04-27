@@ -63,6 +63,8 @@ fi
 drush devify_solr
 drush devify_ldap
 
+drush cc all
+
 if [ ! -z "$post_update" ]; then
   echo "Run post update"
   ../$post_update

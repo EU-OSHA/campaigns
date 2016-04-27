@@ -99,6 +99,17 @@ function campaigns_newsletter_subscribe_captcha_form_submit($form, &$form_state)
   $email = $form_state['values']['email'];
   $to = variable_get('osha_newsletter_listserv', 'listserv@list.osha.europa.eu');
 
+  // Need to redirect due to Ajax handling.
+  $referer = empty($_SERVER['HTTP_REFERER']) ? '/' : $_SERVER['HTTP_REFERER'];
+  $form_state['redirect'] = $referer;
+
+  // Anonymous could avoid click on input and submit form without capcha input
+  // so check for captcha.
+  if (user_is_anonymous() && !isset($form_state['values']['captcha'])) {
+    drupal_set_message('You have sent the form without captcha.', 'error');
+    return;
+  }
+
   osha_newsletter_send_email(
     'campaigns_subscribe_email',
     $to,
@@ -107,7 +118,4 @@ function campaigns_newsletter_subscribe_captcha_form_submit($form, &$form_state)
     t('Your subscription has been submitted succesfully.')
   );
 
-  // Need to redirect due to Ajax handling.
-  $referer = empty($_SERVER['HTTP_REFERER']) ? '/' : $_SERVER['HTTP_REFERER'];
-  $form_state['redirect'] = $referer;
 }

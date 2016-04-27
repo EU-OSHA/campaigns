@@ -27,7 +27,7 @@ if($newsletter_date) {
               ?>
               <td height="1" width="50%" style="font-size: 1px; line-height: 1px;">&nbsp;</td>
               <td>
-                <h4 style="text-align: left; font-size: 14px; font-weight: bold; color: #003399; font-family: Oswald, Arial,sans-serif;line-height: 14px;">
+                <h4 style="text-align: left; font-size: 12px; font-weight: bold; color: #003399; font-family: Oswald, Arial,sans-serif;line-height: 12px;">
                   <?php print t('Healthy Workplaces for All Ages'); ?>
                 </h4>
               </td><td>

@@ -67,6 +67,11 @@ class PartnerMigration extends HwcCrmMigration {
     /** @var stdClass $term */
     if ($term = osha_workflow_get_partner_section_by_guid($row->field_guid_organisation)) {
       $row->workbench_access[$term->tid] = $term->tid;
+      if ($term->name != $row->title) {
+        $term->name = $row->title;
+        taxonomy_term_save($term);
+        $row->regenerate_alias = TRUE;
+      }
     }
     else {
       if ($term = osha_workflow_create_section($row->title, $row->field_guid_organisation)) {
@@ -135,8 +140,16 @@ class PartnerMigration extends HwcCrmMigration {
   }
 
   public function prepare($entity, $row) {
-    // Unpublish partner if status is not 863680005 (MH-129)
-    if ($row->field_appform_status != 863680005) {
+    // Unpublish partner if status is not 863680005 (MH-129) - except fop.
+    $term = taxonomy_get_term_by_name($row->field_partner_type, 'partner_types');
+    $is_fop = FALSE;
+    if (!empty($term)) {
+      $term = current($term);
+      if ($term->uuid == PARTNER_TYPE_FOP) {
+        $is_fop = TRUE;
+      }
+    }
+    if (!$is_fop && $row->field_appform_status != 863680005) {
       $this->currentMigration()->displayMessage(
         strtr('The partner profile "@partner" does not have app form status published; unpublishing...',
           array('@partner' => $row->title)
@@ -144,6 +157,24 @@ class PartnerMigration extends HwcCrmMigration {
         'warning'
       );
       $entity->status = 0;
+    }
+    $entity->path['pathauto'] = TRUE;
+    if (!empty($row->regenerate_alias) && !empty($entity->nid)) {
+      if ($existing_alias = _pathauto_existing_alias_data('node/' . $entity->nid, 'en')) {
+        // Remove old alias
+        path_delete($existing_alias['pid']);
+        // Redirect old alias
+        $redirect = new stdClass();
+        redirect_object_prepare($redirect);
+        $redirect->source = $existing_alias['alias'];
+        $redirect->redirect = $existing_alias['source'];
+        $redirect->language = LANGUAGE_NONE;
+        // Check if the redirect exists before saving.
+        $hash = redirect_hash($redirect);
+        if (!redirect_load_by_hash($hash)) {
+          redirect_save($redirect);
+        }
+      }
     }
   }
 }
@@ -163,9 +194,10 @@ class PartnerMigrateListXml extends AbstractCrmMigrateListXml {
     return iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $string);
   }
 
-  public function prepareFileName($title, $suf) {
-    $filename = $this->transliterateString($title);
-    return trim(substr($filename, 0, 20)) . $suf;
+  public function prepareFileName($data, $suf) {
+    $filename = $this->transliterateString($data->title);
+    $short_title = trim(substr($filename, 0, 20));
+    return $short_title . $suf . '_' . $data->field_guid_organisation;
   }
 
 
@@ -180,8 +212,8 @@ class PartnerMigrateListXml extends AbstractCrmMigrateListXml {
       foreach ($xml->xpath('//Details') as $item) {
         $data = new stdClass();
         $attributes = $item->attributes();
-        $data->title = (string) $attributes['Textbox1'];
-        $data->title_field = (string) $attributes['Textbox1'];
+        $data->title = trim((string) $attributes['Textbox1']);
+        $data->title_field = $data->title;
         $data->field_guid_organisation = (string) $attributes['Table0_Details1'];
         $data->field_general_email = (string) $attributes['Textbox2'];
         $data->field_general_phone = (string) $attributes['Textbox3'];
@@ -195,7 +227,7 @@ class PartnerMigrateListXml extends AbstractCrmMigrateListXml {
         $logo_ext = (string) $attributes['Textbox9'];
         if (!empty($logo_image) && !empty($logo_ext)) {
           $data->field_logo = $logo_image;
-          $filename = $this->prepareFileName($data->title, '_logo');
+          $filename = $this->prepareFileName($data, '_logo');
           $data->field_logo_file = file_munge_filename($filename . '.' . $logo_ext, '');
           $data->field_logo_mime = (string) $attributes['Textbox9'];
         }
@@ -222,7 +254,7 @@ class PartnerMigrateListXml extends AbstractCrmMigrateListXml {
         $ceo_image_ext = (string) $attributes['Textbox27'];
         if (!empty($ceo_image) && !empty($ceo_image_ext)) {
           $data->field_ceo_photo = $ceo_image;
-          $filename = $this->prepareFileName($data->title, '_ceo');
+          $filename = $this->prepareFileName($data, '_ceo');
           $data->field_ceo_photo_file = file_munge_filename($filename . '.' . $ceo_image_ext, '');
         }
 
