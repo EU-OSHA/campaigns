@@ -35,16 +35,16 @@ $directory = drupal_get_path('module', 'osha_newsletter');
             <td width="1%" style="vertical-align: top; padding-top: 32px; text-align: right; white-space: nowrap">
               <h2 style="color: #ffffff; display: inline; font-weight: bold; font-size: 14px; font-style: normal;"><?php print t('Follow us on'); ?>:</h2>
             </td>
-            <td width="1%" style="vertical-align: top; padding-top: 32px; text-align: right; white-space: nowrap">
+            <td width="160" style="vertical-align: top; padding-top: 32px; text-align: right;">
               <?php
               $social = array(
-                'face' => array(
-                  'path' => 'https://www.facebook.com/EuropeanAgencyforSafetyandHealthatWork',
-                  'alt' => t('Facebook')
-                ),
                 'twitter' => array(
                   'path' => 'https://twitter.com/eu_osha',
                   'alt' => t('Twitter')
+                ),
+                'face' => array(
+                  'path' => 'https://www.facebook.com/EuropeanAgencyforSafetyandHealthatWork',
+                  'alt' => t('Facebook')
                 ),
                 'linkedin' => array(
                   'path' => 'https://www.linkedin.com/company/european-agency-for-safety-and-health-at-work',
@@ -53,6 +53,10 @@ $directory = drupal_get_path('module', 'osha_newsletter');
                 'youtube' => array(
                   'path' => 'https://www.youtube.com/user/EUOSHA',
                   'alt' => t('Youtube')
+                ),
+                'flickr' => array(
+                  'path' => 'https://www.flickr.com/photos/euosha',
+                  'alt' => t('Flickr')
                 )
               );
 

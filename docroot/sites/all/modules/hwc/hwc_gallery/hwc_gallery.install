@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * Revert gallery.
+ */
+function hwc_gallery_update_7001() {
+  features_revert_module('hwc_gallery');
+}

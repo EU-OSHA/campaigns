@@ -203,6 +203,10 @@ function osha_news_strongarm() {
             'weight' => '12',
             'visible' => FALSE,
           ),
+          'highlights_item' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
         ),
       ),
     ),
