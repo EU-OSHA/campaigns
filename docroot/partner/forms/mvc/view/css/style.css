@@ -394,7 +394,7 @@ form.new .validation, form.mf .validation {
 
 .fields-campaign {
     font-size : 0.8vw;
-    width     : 16vw;
+    width     : 17vw;
     margin-top: 1vw !important;
 }
 
@@ -466,8 +466,8 @@ form.new .validation, form.mf .validation {
 
 /*Modificación para que en tablets en posición horizontal tengan la misma 
 visualización que en un dispositivo móvil*/
-/*@media (max-width : 767px) {*/
-@media (max-width : 1024px) {
+/*@media (max-width : 1024px) {*/
+@media (max-width : 964px) {
    /* .float-left, .float-right {
         float : none;
         width : 100%;
@@ -495,19 +495,20 @@ visualización que en un dispositivo móvil*/
         left:0;
     }
 }
-
-@media (min-width : 1280px){
-  body{/*font-size: 1.4vw;*/}  
-}
-
-@media (min-width : 1024px) and (max-width : 1279px){
+/*
+@media (min-width : 1024px) and (max-width : 1279px){*/
+@media (min-width : 994px) and (max-width : 1249px){
   body{font-size: 1.2vw;}
   .screen-right{width:1.5vw;}
-  
+  .nav-side-menu .screen{
+      background-size: 2vw;
+    width: 2vw;
+    height: 2vw;
+  }
   .nav-side-menu{font-size:1.4vw !important;}
   .nav-side-menu .fields-campaign{font-size:1.2vw}
   #sidebar-top .section-title a{font-size:1.2vw !important;}
-  #menu-content li a{font-size:1.1vw !important;}
+  #menu-content li a{font-size:1vw !important;}
   #sidebar-top .sidebar-error{background-size:12px !important;}
   #sidebar-top .section{background-size:12px !important;}
   
@@ -516,11 +517,13 @@ visualización que en un dispositivo móvil*/
   
 }
 
-@media (min-width : 768px) and (max-width : 1023px){
+/*@media (min-width : 768px) and (max-width : 1023px){*/
+@media (min-width : 738px) and (max-width : 963px){
   body{font-size: 1.4vw;} 
 }
 
-@media (min-width : 768px) and (max-width : 1024px){
+/*@media (min-width : 768px) and (max-width : 1024px){*/
+@media (min-width : 708px) and (max-width : 964px){
     .control-group {
         margin-bottom: 0;
     }  
@@ -533,14 +536,18 @@ visualización que en un dispositivo móvil*/
   }
    
 }
-@media (min-width : 768px) and (max-width : 1023px){
+/*@media (min-width : 768px) and (max-width : 1023px){*/
+@media (min-width : 708px) and (max-width : 963px){
   body{font-size: 1.6vw;}  
   
-  .nav-side-menu{font-size:1.4vw !important;}
+  .nav-side-menu{
+       font-size:1.4vw !important;
+       width: 25%;
+  }
   .nav-side-menu .fields-campaign{font-size:1.2vw}
  
   #sidebar-top .section-title a{font-size:1.4vw !important;}
-  #menu-content li a{font-size:1.2vw !important;}
+  #menu-content li a{font-size:1.3vw !important;}
   #sidebar-top .sidebar-error{background-size:12px !important;}
   #sidebar-top .section{background-size:12px !important;}
   button{font-size:1.5vw !important;}
@@ -555,12 +562,14 @@ visualización que en un dispositivo móvil*/
   }
 }
 
-@media (max-width : 1024px){
+/*@media (max-width : 1024px){*/
+@media (max-width : 964px){
     #form{padding-right:3%;}
     .screen-right{width:1.5vw;}
 }
 
-@media (max-width : 767px) {
+/*@media (max-width : 767px) {*/
+@media (max-width : 707px) {
     body {
         
     }
@@ -580,8 +589,8 @@ visualización que en un dispositivo móvil*/
     
 }
 
-@media only screen and (max-width : 767px) {
-/*@media only screen and (max-width : 480px) {*/
+/*@media only screen and (max-width : 767px) {*/
+@media only screen and (max-width : 707px) {
     body {
         font-size : 3vw;
     }
@@ -713,7 +722,8 @@ textarea.error {
     left: 30%;
 }
 
-@media (min-width : 768px) and (max-width : 1024px){
+/*@media (min-width : 768px) and (max-width : 1024px){*/
+@media (min-width : 708px) and (max-width : 964px){
     .mfp-content{max-width:500px;}
 }
 
@@ -734,7 +744,8 @@ textarea.error {
     height: 1%;
 }
 
-@media (max-width: 1024px) and (min-width: 768px){
+/*@media (max-width: 1024px) and (min-width: 768px){*/
+@media (max-width: 964px) and (min-width: 708px){
     .combined-textbox {
         margin-top: 3%;
     }
