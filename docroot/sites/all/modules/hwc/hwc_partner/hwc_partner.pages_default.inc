@@ -4784,7 +4784,7 @@ function hwc_partner_default_page_manager_pages() {
     $display->content['new-43dc0335-e792-4884-9be8-0fe5bc86180d'] = $pane;
     $display->panels['center'][0] = 'new-43dc0335-e792-4884-9be8-0fe5bc86180d';
     $pane = new stdClass();
-    $pane->pid = 'new-6bf8772d-426e-44c5-ae55-e79b6dc6aa4d';
+    $pane->pid = 'new-70d232a3-c541-48ba-a043-2b591b8bfb71';
     $pane->panel = 'center';
     $pane->type = 'views';
     $pane->subtype = 'partner_draft_content';
@@ -4792,8 +4792,8 @@ function hwc_partner_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'override_pager_settings' => 0,
-      'use_pager' => 0,
-      'nodes_per_page' => '5',
+      'use_pager' => 1,
+      'nodes_per_page' => '25',
       'pager_id' => '0',
       'offset' => '0',
       'more_link' => 0,
@@ -4802,7 +4802,7 @@ function hwc_partner_default_page_manager_pages() {
       'link_to_view' => 0,
       'args' => '%1',
       'url' => '',
-      'display' => 'block_partner_draft_news',
+      'display' => 'page_1',
       'context' => array(
         0 => '',
       ),
@@ -4818,11 +4818,11 @@ function hwc_partner_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $pane->uuid = '6bf8772d-426e-44c5-ae55-e79b6dc6aa4d';
-    $display->content['new-6bf8772d-426e-44c5-ae55-e79b6dc6aa4d'] = $pane;
-    $display->panels['center'][1] = 'new-6bf8772d-426e-44c5-ae55-e79b6dc6aa4d';
+    $pane->uuid = '70d232a3-c541-48ba-a043-2b591b8bfb71';
+    $display->content['new-70d232a3-c541-48ba-a043-2b591b8bfb71'] = $pane;
+    $display->panels['center'][1] = 'new-70d232a3-c541-48ba-a043-2b591b8bfb71';
   $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = 'new-6bf8772d-426e-44c5-ae55-e79b6dc6aa4d';
+  $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['not_published_news'] = $page;
@@ -6282,7 +6282,7 @@ foreach( $contexts[\'argument_entity_id:node_1\']->data->field_users[\'und\'] as
     $pane->uuid = '9bf21a4c-e961-4544-acb9-e6cfcac8fec6';
     $display->content['new-9bf21a4c-e961-4544-acb9-e6cfcac8fec6'] = $pane;
     $display->panels['center_'][0] = 'new-9bf21a4c-e961-4544-acb9-e6cfcac8fec6';
-  $display->hide_title = PANELS_TITLE_PANE;
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-9bf21a4c-e961-4544-acb9-e6cfcac8fec6';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;

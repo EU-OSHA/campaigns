@@ -40,7 +40,7 @@
               </td>
             </tr>
             <tr>
-              <td style="font-size: 12px;">
+              <td style="font-family: Arial, sans-serif; font-weight: bold; font-size: 12px; padding-bottom: 10px;">
                 <?php
                 $date = (isset($field_publication_date) && !empty($field_publication_date)) ? strtotime($field_publication_date[0]['value']) : '';
                 print format_date($date, 'custom', 'M d, Y');
@@ -59,7 +59,7 @@
                   'path' => (isset($field_image) && !empty($field_image)) ? $field_image[0]['uri'] : '',
                   'width' => 150,
                   'alt' => (isset($field_image) && !empty($field_image)) ? $field_image[0]['alt'] : '',
-                  'attributes' => array('style' => 'width: 150px; heigth: auto; border: 0px; float: left; margin-right: 20px; margin-bottom:20px;')
+                  'attributes' => array('style' => 'width: 150px; heigth: auto; border: 0px; padding-right: 20px; padding-bottom: 20px;', 'align' => 'left', 'hspace' => 20, 'vspace' => 20)
                 )), url('node/' . $node->nid, array('absolute' => TRUE)), array(
                   'html' => TRUE,
                   'external' => TRUE

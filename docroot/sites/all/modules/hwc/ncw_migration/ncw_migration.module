@@ -7,7 +7,7 @@
 function ncw_migration_cronapi() {
   return array('ncw_migration_cron' => array(
     'description' => 'Migrate NCW content',
-    'rule' => '0 0 * * *', // Daily at midnight.
+    'rule' => '0 3 * * *',
   ));
 }
 
