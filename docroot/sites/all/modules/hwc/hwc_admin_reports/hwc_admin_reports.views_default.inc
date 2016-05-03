@@ -952,7 +952,8 @@ function hwc_admin_reports_views_default_views() {
   $handler->display->display_options['fields']['created']['table'] = 'node';
   $handler->display->display_options['fields']['created']['field'] = 'created';
   $handler->display->display_options['fields']['created']['label'] = 'Created';
-  $handler->display->display_options['fields']['created']['date_format'] = 'osha_day_only';
+  $handler->display->display_options['fields']['created']['date_format'] = 'us_date_only_format';
+  $handler->display->display_options['fields']['created']['custom_date_format'] = 'm/d/Y H:i';
   $handler->display->display_options['fields']['created']['second_date_format'] = 'year';
   /* Field: Content: Starting date and time */
   $handler->display->display_options['fields']['field_start_date']['id'] = 'field_start_date';
@@ -1103,7 +1104,7 @@ function hwc_admin_reports_views_default_views() {
   $handler->display->display_options['fields']['field_schedule_1']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_schedule_1']['type'] = 'token_formatters_field_collection';
   $handler->display->display_options['fields']['field_schedule_1']['settings'] = array(
-    'text' => '[field_collection_item:field-talking-date:value:custom:d/m/Y H:i] to [field_collection_item:field-talking-date:value2:custom:d/m/Y H:i]',
+    'text' => '[field_collection_item:field-talking-date:value:custom:m/d/Y H:i] to [field_collection_item:field-talking-date:value2:custom:m/d/Y H:i]',
     'link' => '',
     'check_access' => 0,
     'field_formatter_class' => '',
@@ -1125,7 +1126,7 @@ function hwc_admin_reports_views_default_views() {
   );
   $handler->display->display_options['fields']['field_schedule']['delta_offset'] = '0';
   $handler->display->display_options['fields']['field_schedule']['separator'] = '|';
-  /* Field: Content: Files */
+  /* Field: Content: Related documents */
   $handler->display->display_options['fields']['field_related_documents']['id'] = 'field_related_documents';
   $handler->display->display_options['fields']['field_related_documents']['table'] = 'field_data_field_related_documents';
   $handler->display->display_options['fields']['field_related_documents']['field'] = 'field_related_documents';
@@ -1137,7 +1138,7 @@ function hwc_admin_reports_views_default_views() {
   );
   $handler->display->display_options['fields']['field_related_documents']['delta_offset'] = '0';
   $handler->display->display_options['fields']['field_related_documents']['separator'] = '|';
-  /* Field: Content: Files */
+  /* Field: Content: Related documents */
   $handler->display->display_options['fields']['field_related_documents_1']['id'] = 'field_related_documents_1';
   $handler->display->display_options['fields']['field_related_documents_1']['table'] = 'field_data_field_related_documents';
   $handler->display->display_options['fields']['field_related_documents_1']['field'] = 'field_related_documents';

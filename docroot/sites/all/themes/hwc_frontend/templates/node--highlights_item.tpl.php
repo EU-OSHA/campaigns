@@ -8,20 +8,14 @@
  * @see template_process()
  */
 ?>
-<style>
-	.container-ppal a:before{
-		content: ">";
-		padding-right: 5px;
-	}
-</style>
-<table id="node-<?php print $node->nid; ?>" class="container-ppal" border="0" cellpadding="0" cellspacing="0" width="100%" style="padding-top: 0px; margin-left: 10px;">
+<table id="node-<?php print $node->nid; ?>" border="0" cellpadding="0" cellspacing="0" width="100%" style="padding-top: 0px; margin-left: 10px;">
   <tbody>
     <tr>
       <td>
         <table border="0" cellpadding="0" cellspacing="0" class="item-thumbnail-and-title" width="100%">
           <tbody>
             <tr>
-              <td width="67%" valign="top" style="color: #003399; padding-bottom: 10px; padding-left: 0px; padding-right: 0px; font-family: Oswald, Arial, sans-serif; font-size: 18px; vertical-align: top;">
+              <td width="67%" valign="top" style="color: #003399; padding-bottom: 10px; padding-left: 5px; padding-right: 0px; font-family: Oswald, Arial, sans-serif; font-size: 18px; vertical-align: top;">
                 <?php
                 if (isset($variables['elements']['#campaign_id'])) {
                   $url_query = array('pk_campaign' => $variables['elements']['#campaign_id']);
@@ -45,7 +39,7 @@
               </td>
             </tr>
             <tr>
-              <td style="font-size: 12px; padding-bottom: 10px;">
+              <td style="font-size: 12px; font-weight: bold; padding-bottom: 10px;">
                 <?php
                 $date = (isset($field_publication_date) && !empty($field_publication_date)) ? strtotime($field_publication_date[0]['value']) : '';
                 print format_date($date, 'custom', 'M d, Y');
@@ -64,7 +58,7 @@
                   'path' => (isset($field_image) && !empty($field_image)) ? $field_image[0]['uri'] : '',
                   'width' => 150,
                   'alt' => (isset($field_image) && !empty($field_image)) ? $field_image[0]['alt'] : '',
-                  'attributes' => array('style' => 'border: 0px; width: 150px; float: left; margin-right: 20px; margin-bottom: 20px;')
+                  'attributes' => array('style' => 'border: 0px; width: 150px; padding-right: 20px; padding-bottom: 20px;', 'align' => 'left', 'hspace' => '20', 'vspace' => '20')
                 )), url('node/' . $node->nid, array('absolute' => TRUE)), array(
                   'html' => TRUE,
                   'external' => TRUE
