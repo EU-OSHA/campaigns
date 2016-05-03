@@ -17,21 +17,21 @@
         <table border="0" cellpadding="0" cellspacing="0" class="item-thumbnail-and-title" width="100%">
           <tbody>
             <tr>
-              <td>
+              <td style="padding: 0;">
                 <?php
                 print l(theme('image_style', array(
                   'style_name' => 'newsletter_thumb',
                   'path' => (isset($field_image) && !empty($field_image)) ? $field_image[0]['uri'] : '',
                   'width' => 150,
                   'alt' => (isset($field_image) && !empty($field_image)) ? $field_image[0]['alt'] : '',
-                  'attributes' => array('style' => 'width: 150px; heigth: auto; border: 0px; float: left; padding-right: 20px; padding-bottom:20px;')
+                  'attributes' => array('style' => 'width: 150px; max-width: 150px; height: auto; border: 0px; float: left; padding-right: 20px; padding-bottom:20px; margin: 0;')
                 )), url('node/' . $node->nid, array('absolute' => TRUE)), array(
                   'html' => TRUE,
                   'external' => TRUE
                 ));
                 ?>
               </td>
-              <td>
+              <td style="padding: 0;">
                 <table border="0" cellpadding="0" cellspacing="0" class="item-summary" width="100%" style="padding-bottom: 10px;">
                   <tbody>
                   <tr>
