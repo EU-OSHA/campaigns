@@ -31,7 +31,7 @@
                 ));
                 ?>
               </td>
-              <td>
+              <td width="67%">
                 <table border="0" cellpadding="0" cellspacing="0" class="item-summary" width="100%" style="padding-bottom: 10px;">
                   <tbody>
                   <tr>

@@ -11,7 +11,7 @@ if($newsletter_date) {
   <![endif]-->
   <tbody>
     <tr>
-      <td width="800" style="vertical-align: top; padding-top: 0; padding-bottom: 0; height: 90px;">
+      <td width="800" style="vertical-align: top; padding-top: 0; padding-bottom: 0; height: 90px; font-family: Oswald, Arial, sans-serif;">
         <table width="100%" border="0" cellpadding="8" cellspacing="0">
           <tbody>
             <tr style="vertical-align: middle;">
