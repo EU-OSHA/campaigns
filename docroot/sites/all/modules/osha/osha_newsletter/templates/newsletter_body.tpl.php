@@ -34,8 +34,10 @@
 				  print(render($item));
 			  }
 			} else {
-			  if ($idx != 1 && $item["#view_mode"] == "highlights_item") {?>
-				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+			  if ($idx != 1 && $item["#view_mode"] == "highlights_item") { ?>
+
+				<?php
+					/*	<table border="0" cellpadding="0" cellspacing="0" width="100%">
 				  <tbody>
 				  <tr>
 					<td style="border-bottom:2px dotted #CFDDEE;padding-top:0px;"></td>
@@ -44,7 +46,8 @@
 					<td></td>
 				  </tr>
 				  </tbody>
-				</table>
+				</table>*/
+					?>
 			  <?php
 			  }
 			  print(render($item));

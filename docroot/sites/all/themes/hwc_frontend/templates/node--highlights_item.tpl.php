@@ -58,7 +58,7 @@
                   'path' => (isset($field_image) && !empty($field_image)) ? $field_image[0]['uri'] : '',
                   'width' => 150,
                   'alt' => (isset($field_image) && !empty($field_image)) ? $field_image[0]['alt'] : '',
-                  'attributes' => array('style' => 'border: 0px; width: 150px; float: left; margin-right: 20px; margin-bottom: 20px;')
+                  'attributes' => array('style' => 'border: 0px; width: 150px; margin-right: 20px; margin-bottom: 20px;', 'align' => 'left')
                 )), url('node/' . $node->nid, array('absolute' => TRUE)), array(
                   'html' => TRUE,
                   'external' => TRUE

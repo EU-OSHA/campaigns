@@ -656,6 +656,7 @@ function osha_newsletter_form_alter(&$form, &$form_state, $form_id) {
             if (strpos($k, 'node:') === 0) {
               $v['style']['#options'] = array(
                 'highlights_item' => 'Newsletter Highlights',
+                'highlights_item_alternative' => 'Newsletter Highlights Teaser',
                 'newsletter_item' => 'Newsletter Item',
               );
             }
@@ -1334,6 +1335,11 @@ function osha_newsletter_entity_info_alter(&$entity_info) {
     'label' => t('Newsletter Item'),
     'custom settings' => TRUE
   );
+
+  $entity_info['node']['view modes']['highlights_item_alternative'] = array(
+    'label' => t('Newsletter Highlights Teaser'),
+    'custom settings' => TRUE,
+  );
 }
 
 function osha_newsletter_preprocess_node(&$vars) {
@@ -1345,6 +1351,16 @@ function osha_newsletter_preprocess_node(&$vars) {
     $vars['theme_hook_suggestions'][] = 'node__highlights_item';
     $vars['theme_hook_suggestions'][] = 'node__' . $vars['node']->type . '__highlights_item';
     $vars['theme_hook_suggestions'][] = 'node__' . $vars['node']->nid . '__highlights_item';
+  }
+
+  if ($vars['view_mode'] == 'highlights_item_alternative') {
+    if (array_key_exists('links', $vars)) {
+      unset($vars['links']);
+    }
+
+    $vars['theme_hook_suggestions'][] = 'node__highlights_item_alternative';
+    $vars['theme_hook_suggestions'][] = 'node__' . $vars['node']->type . '__highlights_item_alternative';
+    $vars['theme_hook_suggestions'][] = 'node__' . $vars['node']->nid . '__highlights_item_alternative';
   }
 
   if ($vars['view_mode'] == 'newsletter_item') {
