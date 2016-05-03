@@ -872,6 +872,7 @@ function osha_migration_normalize_field_link_field($row, $field_name, $field_inf
   $field = array(
     'url' => array(),
     'title' => array(),
+    'language' => array(),
   );
   if (!empty($row->{$field_name}) && is_array($row->{$field_name})) {
     if ($field_info['translatable'] == 0) {
@@ -882,10 +883,21 @@ function osha_migration_normalize_field_link_field($row, $field_name, $field_inf
         $field['attributes'][] = $link['attributes'];
       }
     }
+    else {
+      foreach ($row->{$field_name} as $lang => $data) {
+        foreach ($data as $link) {
+          $field['url'][] = $link['url'];
+          $field['title'][] = $link['title'];
+          $field['attributes'][] = $link['attributes'];
+          $field['language'][] = $lang;
+        }
+      }
+    }
   }
   $row->{$field_name} = $field['url'];
   $row->{$field_name . '_title'} = $field['title'];
   $row->{$field_name . '_attributes'} = $field['attributes'];//@todo not tested
+  $row->{$field_name . '_language'} = $field['language'];
 }
 
 function osha_migration_normalize_field_text($row, $field_name, $field_info, $filter_languages) {
