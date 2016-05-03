@@ -8,7 +8,7 @@
  * @see template_process()
  */
 ?>
-<table id="node-<?php print $node->nid; ?>" border="0" cellpadding="0" cellspacing="0" width="100%" style="padding-top: 0px; margin-left: 10px;">
+<table id="node-<?php print $node->nid; ?>" border="0" cellpadding="0" cellspacing="0" width="100%" style="padding-top: 0px; margin-left: 0px;">
   <tbody>
     <tr>
       <td>
@@ -58,7 +58,7 @@
                   'path' => (isset($field_image) && !empty($field_image)) ? $field_image[0]['uri'] : '',
                   'width' => 150,
                   'alt' => (isset($field_image) && !empty($field_image)) ? $field_image[0]['alt'] : '',
-                  'attributes' => array('style' => 'border: 0px; width: 150px; padding-right: 20px; padding-bottom: 20px;', 'align' => 'left', 'hspace' => '20', 'vspace' => '20')
+                  'attributes' => array('style' => 'border: 0px; width: 150px; max-width: 150px; padding-right: 20px; padding-bottom: 20px; margin: 0;', 'align' => 'left', 'hspace' => '20', 'vspace' => '20')
                 )), url('node/' . $node->nid, array('absolute' => TRUE)), array(
                   'html' => TRUE,
                   'external' => TRUE
