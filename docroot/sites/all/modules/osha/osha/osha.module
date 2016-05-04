@@ -503,7 +503,8 @@ function osha_date_field_formatter_settings_form_alter(&$form, &$form_state, $co
       '#type' => 'select',
       '#options' => array(
         '' => t('Default'),
-        'calendar' => t('Calendar page')),
+        'with_time' => t('Show time for 1 day events'),
+      ),
       '#default_value' => $settings['osha_date_theme'],
     );
   }

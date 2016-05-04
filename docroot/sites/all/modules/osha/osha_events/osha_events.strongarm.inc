@@ -252,6 +252,9 @@ function osha_events_strongarm() {
       'revision' => array(
         'custom_settings' => FALSE,
       ),
+      'highlights_item_alternative' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
