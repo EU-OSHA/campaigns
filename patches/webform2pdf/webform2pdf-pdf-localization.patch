@@ -1,0 +1,17 @@
+diff --git a/docroot/sites/all/modules/contrib/webform2pdf/webform2pdf.tokens.inc b/docroot/sites/all/modules/contrib/webform2pdf/webform2pdf.tokens.inc
+index b93f077..bec9c9c 100644
+--- a/docroot/sites/all/modules/contrib/webform2pdf/webform2pdf.tokens.inc
++++ b/docroot/sites/all/modules/contrib/webform2pdf/webform2pdf.tokens.inc
+@@ -44,6 +44,12 @@ function webform2pdf_tokens($type, $tokens, array $values = array(), array $opti
+     $node = isset($values['node']) ? $values['node'] : node_load($submission->nid);
+     $format = $sanitize ? 'html' : 'text';
+ 
++    if (module_exists('webform_localization') && module_exists('hwc_webform2pdf_localization')) {
++      $languages = language_list();
++      $language = isset($languages[$submission->language]) ? $languages[$submission->language] : NULL;
++      $options += array('language' => $language);
++    }
++
+     $option_components = array();
+     foreach ($node->webform['components'] as $cid => $component) {
+       if ('select' == $component['type']) {

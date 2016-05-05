@@ -44,6 +44,12 @@ function webform2pdf_tokens($type, $tokens, array $values = array(), array $opti
     $node = isset($values['node']) ? $values['node'] : node_load($submission->nid);
     $format = $sanitize ? 'html' : 'text';
 
+    if (module_exists('webform_localization') && module_exists('hwc_webform2pdf_localization')) {
+      $languages = language_list();
+      $language = isset($languages[$submission->language]) ? $languages[$submission->language] : NULL;
+      $options += array('language' => $language);
+    }
+
     $option_components = array();
     foreach ($node->webform['components'] as $cid => $component) {
       if ('select' == $component['type']) {

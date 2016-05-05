@@ -301,7 +301,10 @@ List of patches (most recent first)
   * https://www.drupal.org/node/2499749
   * webform2pdf/webform-exclude_empty-2499749-6.patch
 
-  * webform2pdf_correct-variable-and-theme_2446585-3.patch
+  * webform2pdf/webform2pdf_correct-variable-and-theme_2446585-3.patch
+
+  * webform2pdf/webform2pdf-allow-template-alter.patch
+  * webform2pdf/webform2pdf-pdf-localization.patch
 
 Patch documentation should be in the following format:
 
