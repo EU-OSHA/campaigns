@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * Implements hook_webform_submission_update().
+ */
+function hwc_webform2pdf_localization_webform_submission_insert($node, $submission) {
+  global $language ;
+
+  $selected_lang = $language->language ;
+  
+  // Update language field when a submission is updated.
+  db_update('webform_submissions')
+    ->fields(array(
+      'language' => $selected_lang,
+    ))
+    ->condition('sid', $submission->sid)
+    ->execute();
+}
