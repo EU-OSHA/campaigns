@@ -114,7 +114,6 @@ function hwc_webform2pdf_localization_edit_form_submit($form, &$form_state) {
     $available_images = [];
     foreach ($languages as $language) {
       $available_images[] = 'p_background_' . $language->language;
-      unset($save["p_background_{$language->language}"]);
       unset($save["p_background_{$language->language}_file"]);
     }
 
