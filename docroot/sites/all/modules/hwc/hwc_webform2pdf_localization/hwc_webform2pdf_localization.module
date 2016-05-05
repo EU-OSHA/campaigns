@@ -4,10 +4,8 @@
  * Implements hook_webform_submission_update().
  */
 function hwc_webform2pdf_localization_webform_submission_insert($node, $submission) {
-  global $language ;
-
-  $selected_lang = $language->language ;
-  
+  global $language;
+  $selected_lang = $language->language;
   // Update language field when a submission is updated.
   db_update('webform_submissions')
     ->fields(array(
@@ -15,4 +13,140 @@ function hwc_webform2pdf_localization_webform_submission_insert($node, $submissi
     ))
     ->condition('sid', $submission->sid)
     ->execute();
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function hwc_webform2pdf_localization_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'webform2pdf_edit_form' && arg(0) == 'node' && is_numeric(arg(1))) {
+    $languages = language_list();
+    $base = &$form['base'];
+    $nid = arg(1);
+    $default = webform2pdf_get_setting($nid);
+
+    if (!$default) {
+      $default = variable_get('webform2pdf_default', '');
+      $default['enabled'] = 0;
+    }
+
+    $base['multilingual_background'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Multilingual background'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#states' => array(
+        'visible' => array(
+          'input[name="enabled"]' => array('checked' => TRUE),
+        ),
+      ),
+    );
+
+    foreach ($languages as $language) {
+      if ($language->enabled) {
+        $lang = $language->language;
+
+        $base['multilingual_background'][$lang] = array(
+          '#type' => 'fieldset',
+          '#title' => "{$language->name} ({$lang})",
+          '#collapsible' => TRUE,
+          '#collapsed' => TRUE,
+          '#states' => array(
+            'visible' => array(
+              'input[name="enabled"]' => array('checked' => TRUE),
+            ),
+          ),
+        );
+        $base['multilingual_background'][$lang]['p_background_' . $lang] = array(
+          '#type' => 'value',
+          '#value' => $default['p_background_' . $lang],
+        );
+
+        if ($default['p_background_' . $lang]) {
+          $file = file_load($default['p_background_' . $lang]);
+
+          $picture = array(
+            'path' => $file->uri,
+            'alt' => 'Page background',
+            'title' => $file->filename,
+          );
+          $base['multilingual_background'][$lang]['p_background_' . $lang . '_img'] = array(
+            '#type' => 'item',
+            '#title' => t('Background image for page'),
+            '#markup' => theme('image', $picture),
+          );
+          $base['multilingual_background'][$lang]['p_background_' . $lang . '_del'] = array(
+            '#type' => 'checkbox',
+            '#title' => t('Delete this image.'),
+          );
+        }
+        else {
+          $base['multilingual_background'][$lang]['p_background_' . $lang . '_file'] = array(
+            '#type' => 'file',
+            '#title' => t('Background image for page.'),
+            '#size' => 60,
+            '#description' => t('Upload background image for page. Image will be scaled by page size.'),
+          );
+        }
+      }
+    }
+
+    $form['#submit'][] = 'hwc_webform2pdf_localization_edit_form_submit';
+  }
+}
+
+/**
+ * Implements submit hook.
+ */
+function hwc_webform2pdf_localization_edit_form_submit($form, &$form_state) {
+  $languages = language_list();
+  if ($form_state['values']['enabled']) {
+
+    $default = db_select('webform2pdf', 'w2p')
+      ->fields('w2p')
+      ->condition('nid', $form_state['values']['nid'], '=')
+      ->execute()
+      ->fetchAssoc();
+
+    $save = $default ? unserialize($default['data']) : [];
+
+    // Image file deleted.
+    $available_images = [];
+    foreach ($languages as $language) {
+      $available_images[] = 'p_background_' . $language->language;
+      unset($save["p_background_{$language->language}"]);
+      unset($save["p_background_{$language->language}_file"]);
+    }
+
+    foreach ($available_images as $logo) {
+      if (isset($form_state['values'][$logo . '_del'])) {
+        if ($form_state['values'][$logo . '_del']) {
+          $logo_file = file_load($form_state['values'][$logo]);
+          file_usage_delete($logo_file, 'webform2pdf', $logo, 1);
+          file_delete($logo_file);
+          $save[$logo] = 0;
+        }
+      }
+    }
+
+    // Header and footer image file save.
+    foreach ($available_images as $logo) {
+      if (isset($form_state['values'][$logo . '_file'])) {
+        $save[$logo] = _webform2pdf_save_logo($logo, $form_state['values']['nid']);
+      }
+    }
+
+    $default['data'] = $save;
+    drupal_write_record('webform2pdf', $default, 'nid');
+  }
+}
+
+/**
+ * Implements hook_webform2pdf_submission_template_alter().
+ */
+function hwc_webform2pdf_localization_webform2pdf_submission_template_alter($submission, &$template) {
+  $lang = $submission->language;
+  if (isset($template['p_background_' . $lang]) && $template['p_background_' . $lang] != 0) {
+    $template['p_background'] = $template['p_background_' . $lang];
+  }
 }
