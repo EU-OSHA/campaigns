@@ -304,7 +304,6 @@ List of patches (most recent first)
   * webform2pdf/webform2pdf_correct-variable-and-theme_2446585-3.patch
 
   * webform2pdf/webform2pdf-allow-template-alter.patch
-  * webform2pdf/webform2pdf-pdf-localization.patch
 
 Patch documentation should be in the following format:
 
