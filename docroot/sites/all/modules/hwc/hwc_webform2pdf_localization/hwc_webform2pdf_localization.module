@@ -151,3 +151,23 @@ function hwc_webform2pdf_localization_webform2pdf_submission_template_alter($sub
     $template['p_background'] = $template['p_background_' . $lang];
   }
 }
+
+/**
+ * Implements hook_tokens_alter().
+ *
+ * Make sure tokens are properly translated.
+ */
+function hwc_webform2pdf_localization_tokens_alter(array &$replacements, array $context) {
+  if ($context['type'] == 'submission' && !empty($context['data']['webform-submission'])) {
+    $submission = $context['data']['webform-submission'];
+    $language_code = NULL;
+    
+    if (!empty($submission->language)) {
+      $language_code = $submission->language;
+    }
+
+    foreach ($replacements as $token => $value) {
+      $replacements[$token] = t($replacements[$token], array(), array('langcode' => $language_code));
+    }
+  }
+}

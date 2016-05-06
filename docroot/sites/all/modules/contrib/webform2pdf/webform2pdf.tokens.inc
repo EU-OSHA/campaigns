@@ -33,6 +33,7 @@ function webform2pdf_token_info_alter(&$info) {
 /**
  * Implements hook_tokens().
  */
+
 function webform2pdf_tokens($type, $tokens, array $values = array(), array $options = array()) {
   $replacements = array();
   $sanitize = !empty($options['sanitize']);
@@ -43,12 +44,6 @@ function webform2pdf_tokens($type, $tokens, array $values = array(), array $opti
     $submission = $values['webform-submission'];
     $node = isset($values['node']) ? $values['node'] : node_load($submission->nid);
     $format = $sanitize ? 'html' : 'text';
-
-    if (module_exists('webform_localization') && module_exists('hwc_webform2pdf_localization')) {
-      $languages = language_list();
-      $language = isset($languages[$submission->language]) ? $languages[$submission->language] : NULL;
-      $options += array('language' => $language);
-    }
 
     $option_components = array();
     foreach ($node->webform['components'] as $cid => $component) {
