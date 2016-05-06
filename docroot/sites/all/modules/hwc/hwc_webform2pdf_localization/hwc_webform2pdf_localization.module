@@ -161,13 +161,25 @@ function hwc_webform2pdf_localization_tokens_alter(array &$replacements, array $
   if ($context['type'] == 'submission' && !empty($context['data']['webform-submission'])) {
     $submission = $context['data']['webform-submission'];
     $language_code = NULL;
-    
+    $node = $context['data']['node'];
+    $mappings = array();
+
     if (!empty($submission->language)) {
       $language_code = $submission->language;
     }
 
+    foreach ($node->webform['components'] as $cid => $component) {
+      if (!empty($component['name']) && !empty($component['extra']['translated_strings'])){
+        $key = "[submission:values:" . $component['form_key'] . ":label]";
+        $mappings[$key]['translation_key'] = $component['extra']['translated_strings'][0];
+        $mappings[$key]['name'] = $component['name'];
+      }
+    }
+
     foreach ($replacements as $token => $value) {
-      $replacements[$token] = t($replacements[$token], array(), array('langcode' => $language_code));
+      if (!empty($mappings[$token])) {
+        $replacements[$token] = i18n_string($mappings[$token]['translation_key'], $mappings[$token]['name'], array('langcode' => $language_code));
+      }
     }
   }
 }
