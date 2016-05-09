@@ -1,0 +1,11 @@
+<?php
+
+/**
+ * Increase module weight to execute after all other hooks
+ */
+function hwc_webform2pdf_localization_install() {
+  db_update('system')
+    ->fields(array('weight' => 10))
+    ->condition('name', 'hwc_webform2pdf_localization', '=')
+    ->execute();
+}

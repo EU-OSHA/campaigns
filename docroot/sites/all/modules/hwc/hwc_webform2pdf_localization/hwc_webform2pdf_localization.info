@@ -1,0 +1,10 @@
+name = HWC Webform2PDF Localization
+description = Enables localization features to PDFs generated from webforms.
+dependencies[] = webform
+dependencies[] = i18n_string
+dependencies[] = webform_localization
+dependencies[] = webform2pdf
+core = 7.x
+package = HWC
+
+project = "hwc_webform2pdf_localization"
