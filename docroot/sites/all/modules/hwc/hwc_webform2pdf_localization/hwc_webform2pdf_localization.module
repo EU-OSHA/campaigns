@@ -178,7 +178,7 @@ function hwc_webform2pdf_localization_tokens_alter(array &$replacements, array $
 
     foreach ($replacements as $token => $value) {
       if (!empty($mappings[$token])) {
-        $replacements[$token] = i18n_string($mappings[$token]['translation_key'], $mappings[$token]['name'], array('langcode' => $language_code));
+        $replacements[$token] = i18n_string_translate($mappings[$token]['translation_key'], $mappings[$token]['name'], array('langcode' => $language_code));
       }
     }
   }
