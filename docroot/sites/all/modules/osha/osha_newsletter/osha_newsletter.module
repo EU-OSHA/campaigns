@@ -652,8 +652,27 @@ function osha_newsletter_form_alter(&$form, &$form_state, $form_id) {
           foreach ($form['content'] as $k => &$v) {
             if (strpos($k, 'taxonomy_term:') !== FALSE) {
               hide($v['style']);
+              if ($v['#content']->content->uuid == '184c62a6-3f57-4551-9e82-5308affcd5c3') {
+                $v['start_date'] = array(
+                  '#markup' => t('Date'),
+                );
+              } else {
+                $v['start_date'] = array(
+                  '#markup' => '',
+                );
+              }
             }
             if (strpos($k, 'node:') === 0) {
+              if (!empty($v['#content']->content->field_start_date)) {
+                $v['start_date'] = array(
+                  '#markup' => format_date(strtotime($v['#content']->content->field_start_date[LANGUAGE_NONE][0]['value']), 'custom', 'd/m/Y H:i'),
+                );
+              } else {
+                $v['start_date'] = array(
+                  '#markup' => '',
+                );
+              }
+
               $v['style']['#options'] = array(
                 'highlights_item' => 'Newsletter Highlights',
                 'highlights_item_alternative' => 'Newsletter Highlights Teaser',
@@ -687,7 +706,6 @@ function osha_newsletter_form_alter(&$form, &$form_state, $form_id) {
             '#value' => t('Send test newsletter'),
             '#submit' => array('osha_newsletter_send_test_email')
           );
-
         }
 
         // Attach js to add css class for taxonomy rows.
@@ -709,7 +727,6 @@ function osha_newsletter_form_alter(&$form, &$form_state, $form_id) {
     default:
   }
 }
-
 
 function osha_newsletter_form_validate($form, &$form_state){
   // TODO : Check the submitted items
