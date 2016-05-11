@@ -33,6 +33,7 @@ function webform2pdf_token_info_alter(&$info) {
 /**
  * Implements hook_tokens().
  */
+
 function webform2pdf_tokens($type, $tokens, array $values = array(), array $options = array()) {
   $replacements = array();
   $sanitize = !empty($options['sanitize']);

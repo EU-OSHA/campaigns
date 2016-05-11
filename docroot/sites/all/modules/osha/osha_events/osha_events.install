@@ -95,3 +95,10 @@ function osha_events_update_7006() {
   db_delete('field_revision_field_talking_date')
     ->execute();
 }
+
+/**
+ * Revert osha_events.
+ */
+function osha_events_update_7007() {
+  features_revert_module('osha_events');
+}

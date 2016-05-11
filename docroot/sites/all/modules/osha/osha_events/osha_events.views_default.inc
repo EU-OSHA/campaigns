@@ -1380,7 +1380,6 @@ function osha_events_views_default_views() {
   $handler->display->display_options['footer']['result']['id'] = 'result';
   $handler->display->display_options['footer']['result']['table'] = 'views';
   $handler->display->display_options['footer']['result']['field'] = 'result';
-  $handler->display->display_options['footer']['result']['content'] = 'Displaying @start - @end of @total';
   /* No results behavior: Global: Unfiltered text */
   $handler->display->display_options['empty']['area_text_custom']['id'] = 'area_text_custom';
   $handler->display->display_options['empty']['area_text_custom']['table'] = 'views';
@@ -1543,7 +1542,7 @@ function osha_events_views_default_views() {
     'multiple_number' => '',
     'multiple_from' => '',
     'multiple_to' => '',
-    'osha_date_theme' => '',
+    'osha_date_theme' => 'with_time',
     'field_formatter_class' => '',
   );
   /* Field: Indexed Multilingual Content: Title */
@@ -1696,7 +1695,7 @@ function osha_events_views_default_views() {
     'multiple_number' => '',
     'multiple_from' => '',
     'multiple_to' => '',
-    'osha_date_theme' => '',
+    'osha_date_theme' => 'with_time',
     'field_formatter_class' => '',
   );
   /* Field: Indexed Multilingual Content: Title */

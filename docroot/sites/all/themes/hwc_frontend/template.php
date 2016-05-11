@@ -574,6 +574,33 @@ function hwc_frontend_colorbox_imagefield($variables) {
 }
 
 /**
+ * Implements theme_date_display_combination().
+ */
+function hwc_frontend_date_display_combination(&$variables) {
+  $date_theme = '';
+  if (!empty($variables['dates']['value']['osha_date_theme'])) {
+    $date_theme = $variables['dates']['value']['osha_date_theme'];
+  }
+  switch ($date_theme) {
+    case 'with_time':
+      if (!empty($variables['dates']['value2'])) {
+        $start_date = $variables['dates']['value']['formatted_iso'];
+        $end_date = $variables['dates']['value2']['formatted_iso'];
+        // If same day event, show the time also.
+        if (date('Y-m-d', strtotime($start_date)) == date('Y-m-d', strtotime($end_date))) {
+          $variables['display']['settings']['format_type'] = 'short_date_eu';
+          $variables['dates'] = date_formatter_process('date_default', $variables['entity_type'], $variables['entity'], $variables['field'], $variables['instance'], $variables['langcode'], $variables['item'], $variables['display']);
+        }
+      }
+      return theme_date_display_combination($variables);
+      break;
+    default:
+      return theme_date_display_combination($variables);
+  }
+}
+
+
+/**
  * @see theme_flickr_photoset.
  */
 function hwc_frontend_flickr_photoset($variables) {
