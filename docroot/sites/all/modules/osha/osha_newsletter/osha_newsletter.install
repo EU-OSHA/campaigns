@@ -20,3 +20,10 @@ function osha_newsletter_enable() {
 function osha_newsletter_update_7001() {
   variable_set('htmlmail_postfilter', '0');
 }
+
+/**
+ * Revert osha_newsletter module - add start date for events in newsletter add content form
+ */
+function osha_newsletter_update_7002() {
+  features_revert_module('osha_newsletter');
+}
