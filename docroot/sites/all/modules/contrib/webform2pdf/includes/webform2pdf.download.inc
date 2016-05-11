@@ -15,6 +15,8 @@ function webform2pdf_submission_download_pdf($node, $submission, $output_type = 
 
   if ( in_array($output_type, $output_types) ) {
     $template = _webform2pdf_get_template($node->nid);
+    
+    drupal_alter('webform2pdf_submission_template', $submission, $template);
 
     $pdf = theme('webform2pdf_pdf_init', array('node' => $node, 'template' => $template));
     if ( !empty($pdf) ) {

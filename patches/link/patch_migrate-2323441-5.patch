@@ -1,0 +1,20 @@
+diff --git a/link.migrate.inc b/link.migrate.inc
+index fc8363f..a11e7f9 100644
+--- a/link.migrate.inc
++++ b/link.migrate.inc
+@@ -105,7 +105,14 @@ class MigrateLinkFieldHandler extends MigrateFieldHandler {
+         }
+       }
+       $item['url'] = $value;
+-      $return[$language][$delta] = $item;
++
++      if (is_array($language)) {
++        $current_language = $language[$delta];
++      }
++      else {
++        $current_language = $language;
++      }
++      $return[$current_language][$delta] = $item;
+     }
+ 
+     return isset($return) ? $return : NULL;

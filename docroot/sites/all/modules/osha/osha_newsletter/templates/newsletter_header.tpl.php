@@ -11,7 +11,7 @@ if($newsletter_date) {
   <![endif]-->
   <tbody>
     <tr>
-      <td width="800" style="vertical-align: top; padding-top: 0; padding-bottom: 0; height: 90px;">
+      <td width="800" style="vertical-align: top; padding-top: 0; padding-bottom: 0; height: 90px; ">
         <table width="100%" border="0" cellpadding="8" cellspacing="0">
           <tbody>
             <tr style="vertical-align: middle;">
@@ -104,14 +104,14 @@ if($newsletter_date) {
             <tr>
               <td height="1" width="50%" style="font-size: 1px; line-height: 1px;">&nbsp;</td>
               <td>
-                <h2 style="font-style: italic; font-weight: normal; font-size: 18px; color: #ffffff; margin: 0; text-align: left;"><?php print $newsletter_ready_date ?></h2>
+                <h2 style="font-family: Oswald, Arial,sans-serif; font-style: italic; font-weight: normal; font-size: 18px; color: #ffffff; margin: 0; text-align: left;"><?php print $newsletter_ready_date ?></h2>
               </td>
             </tr>
             <?php if(!empty($newsletter_intro)){ ?>
               <tr>
                 <td height="1" width="50%" style="font-size: 1px; line-height: 1px;">&nbsp;</td>
                 <td>
-                  <p style="font-style: italic; color: #ffffff; font-size: 12px;"><?php print($newsletter_intro);?></p>
+                  <p style="font-style: italic; color: #ffffff; font-size: 12px; font-family: Oswald, Arial,sans-serif;"><?php print($newsletter_intro);?></p>
                 </td>
               </tr>
             <?php } ?>

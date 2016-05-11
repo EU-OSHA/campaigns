@@ -174,7 +174,7 @@ function osha_newsletter_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'osha_newsletter_listserv_from';
-  $strongarm->value = 'oshmail@osha.europa.eu';
+  $strongarm->value = 'hwc-newsletter@osha.europa.eu';
   $export['osha_newsletter_listserv_from'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -240,7 +240,7 @@ function osha_newsletter_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'subscribe_block_details_link_label';
-  $strongarm->value = 'Privacy notice';
+  $strongarm->value = 'Privacy policy';
   $export['subscribe_block_details_link_label'] = $strongarm;
 
   $strongarm = new stdClass();
