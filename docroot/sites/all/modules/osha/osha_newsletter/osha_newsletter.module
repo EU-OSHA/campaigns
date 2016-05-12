@@ -664,8 +664,12 @@ function osha_newsletter_form_alter(&$form, &$form_state, $form_id) {
             }
             if (strpos($k, 'node:') === 0) {
               if (!empty($v['#content']->content->field_start_date)) {
+                $timezone = $v['#content']->content->field_start_date[LANGUAGE_NONE][0]['timezone'];
+                $timezone_db = $v['#content']->content->field_start_date[LANGUAGE_NONE][0]['timezone_db'];
+                $datetime = new \DateTime($v['#content']->content->field_start_date[LANGUAGE_NONE][0]['value'], new DateTimeZone($timezone_db));
+                $datetime->setTimezone(new DateTimeZone($timezone));
                 $v['start_date'] = array(
-                  '#markup' => format_date(strtotime($v['#content']->content->field_start_date[LANGUAGE_NONE][0]['value']), 'custom', 'd/m/Y H:i'),
+                  '#markup' => $datetime->format('d/m/Y H:i'),
                 );
               } else {
                 $v['start_date'] = array(
