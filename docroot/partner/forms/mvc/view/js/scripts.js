@@ -20,6 +20,7 @@ rrss[3] = "company_osh_youtubeprofile";
 rrss[4] = "company_osh_linkedinprofile";
 rrss[5] = "company_osh_pinterestprofile";
 rrss[6] = "company_osh_googleplusprofile";
+var ceoImage = "";
 function fillSN(args)
 {
 	var target = args["target"];
@@ -1563,7 +1564,8 @@ $(document).ready(function () {
         if ($(this).prop('checked')) {
 //            var contactBackup = $(".main-contact-change").clone();
 //            $(contactBackup).addClass("main-contact-change-backup");
-            $(".main-contact-change input").each(function (id, item) {
+			$(this).parents('fieldset').find(".main-contact-change :input").not(':button').each(function (id, item) {
+            // $(".main-contact-change :input").not(':button').each(function (id, item) { //Issue with main contact when CEO/Editor change is checked in mf
 //                $(contactBackup).find("#" + $(item).attr("id")).val($(item).val());
                 
                 $('#'+$(item).attr("id")+'_clone').val($(item).val());
@@ -1572,15 +1574,30 @@ $(document).ready(function () {
 //                $(item).removeClass("error");
 //                $(item).attr("data-error", "");
                 $("#"+$(item).attr("id")+"_errormsg").remove();
-                
+
             });
+            // if($(".main-contact-change-checkbox").attr("id")== "company_osh_ceochange"){
+            if($(this).attr("id")== "company_osh_ceochange"){
+               // ceoImage = $('#company_osh_ceoimage_image_container img').attr('src');
+               // $('#company_osh_ceoimage_image_container img').attr('src' ,"");
+               // $('#company_osh_ceoimage_thumbBox img').attr('src' ,"");
+			   ceoImage = $('.company_osh_ceoimage_image_container img').attr('src');
+               $('.company_osh_ceoimage_image_container img').attr('src' ,"");
+               $('.company_osh_ceoimage_thumbBox img').attr('src' ,"");
+            }
             $("#confirmemail_errormsg").remove();
 //            $(contactBackup).appendTo(".main-contact-change");
         } else {
-            $(".main-contact-change-backup").each(function (id, item) {
+			$(this).parents('fieldset').find(".main-contact-change-backup").each(function (id, item) {
+            // $(".main-contact-change-backup").each(function (id, item) { //Issue with main contact when CEO/Editor change is checked in mf
                 $("#"+$(item).attr("id").substr(0,$(item).attr("id").indexOf("_clone"))).val($(item).val());
-//                $(".main-contact-change").find("#" + $(item).attr("id")).val($(item).val());
+//                $(".main-contact-change").find("#" + $(item).attr("id")).val($(item).val()); 
             });
+            // if($(".main-contact-change-checkbox").attr("id")== "company_osh_ceochange"){
+            if($(this).attr("id")== "company_osh_ceochange"){
+                // $('#company_osh_ceoimage_image_container img').attr('src' ,ceoImage);
+                $('.company_osh_ceoimage_image_container img').attr('src' ,ceoImage);
+            }
 //            $(".main-contact-change").remove(".main-contact-change-backup");
         }
     });
