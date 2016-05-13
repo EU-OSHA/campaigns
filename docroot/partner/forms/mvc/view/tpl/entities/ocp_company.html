@@ -110,15 +110,23 @@
     </legend>
     
     <div class="separatorFieldSet">&nbsp;</div>
-    
-    <div class="float-left">
-        {$attributes.company_osh_ceo_firstname}
-        {$attributes.company_osh_ceo_lastname}
-        {$attributes.company_osh_ceoimage}
-        {$attributes.company_osh_positionid}
+    {if $mf}{$attributes.company_osh_ceochange}{/if}
+    <div class="main-contact-change">
+        <div class="float-left">
+            {$attributes.company_osh_ceo_firstname}
+            {$attributes.company_osh_ceo_lastname}
+            {$attributes.company_osh_ceoimage}
+            {$attributes.company_osh_positionid}
+        </div>
+        <div class="float-right">
+            {$attributes.company_osh_quoteonhwc}
+        </div>
     </div>
-    <div class="float-right">
-        {$attributes.company_osh_quoteonhwc}
+    <div class="hidden">
+        {$attributes.company_osh_ceo_firstname_clone}
+        {$attributes.company_osh_ceo_lastname_clone}
+        {$attributes.company_osh_positionid_clone}
+        {$attributes.company_osh_quoteonhwc_clone}
     </div>
 </fieldset>
 <fieldset>

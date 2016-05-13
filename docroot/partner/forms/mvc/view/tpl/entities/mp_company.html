@@ -119,11 +119,17 @@
     </legend>
     
     <div class="separatorFieldSet">&nbsp;</div>
-    
-    <div class="float-left">
-        {$attributes.company_osh_ceo_firstname}
+    {if $mf}{$attributes.company_osh_editorchange}{/if}
+    <div class="main-contact-change">
+        <div class="float-left">
+            {$attributes.company_osh_ceo_firstname}
+        </div>
+        <div class="float-right">
+            {$attributes.company_osh_ceo_lastname}
+        </div>
     </div>
-    <div class="float-right">
-        {$attributes.company_osh_ceo_lastname}
+    <div class="hidden">
+        {$attributes.company_osh_ceo_firstname_clone}
+        {$attributes.company_osh_ceo_lastname_clone}
     </div>
 </fieldset>
