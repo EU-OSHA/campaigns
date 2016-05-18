@@ -664,8 +664,12 @@ function osha_newsletter_form_alter(&$form, &$form_state, $form_id) {
             }
             if (strpos($k, 'node:') === 0) {
               if (!empty($v['#content']->content->field_start_date)) {
+                $timezone = $v['#content']->content->field_start_date[LANGUAGE_NONE][0]['timezone'];
+                $timezone_db = $v['#content']->content->field_start_date[LANGUAGE_NONE][0]['timezone_db'];
+                $datetime = new \DateTime($v['#content']->content->field_start_date[LANGUAGE_NONE][0]['value'], new DateTimeZone($timezone_db));
+                $datetime->setTimezone(new DateTimeZone($timezone));
                 $v['start_date'] = array(
-                  '#markup' => format_date(strtotime($v['#content']->content->field_start_date[LANGUAGE_NONE][0]['value']), 'custom', 'd/m/Y H:i'),
+                  '#markup' => $datetime->format('d/m/Y H:i'),
                 );
               } else {
                 $v['start_date'] = array(
@@ -923,8 +927,10 @@ function osha_newsletter_entity_insert($entity_collection, $type) {
 
     // Select latest published content and attach it to the newsletter.
     if (!empty($entity_collection->field_newsletter_content_after[LANGUAGE_NONE][0]['value'])) {
-      $after = $entity_collection->field_newsletter_content_after[LANGUAGE_NONE][0]['value'];
-      $after = strtotime($after);
+      $after_date = $entity_collection->field_newsletter_content_after[LANGUAGE_NONE][0]['value'];
+      $after = strtotime($after_date);
+
+      $newsletter_publication_date = $entity_collection->field_publication_date[LANGUAGE_NONE][0]['value'];
       $result = array();
 
       if (!empty($ordinary_order_bundles)) {
@@ -942,8 +948,10 @@ function osha_newsletter_entity_insert($entity_collection, $type) {
         ->entityCondition('bundle', 'news')
         ->propertyCondition('created', $after, '>=')
         ->propertyCondition('status', NODE_PUBLISHED)
+        ->fieldCondition('field_publication_date', 'value', $after_date, '>=')
         ->fieldOrderBy('field_publication_date', 'value', 'DESC')
         ->execute();
+
       $result = isset($news['node']) ? array_merge($result, array_keys($news['node'])) : $result;
 
       $query_events = new EntityFieldQuery();
@@ -951,6 +959,7 @@ function osha_newsletter_entity_insert($entity_collection, $type) {
         ->entityCondition('bundle', 'events')
         ->propertyCondition('created', $after, '>=')
         ->propertyCondition('status', NODE_PUBLISHED)
+        ->fieldCondition('field_start_date', 'value', $newsletter_publication_date, '>=')
         ->fieldOrderBy('field_start_date', 'value', 'ASC')
         ->execute();
       $result = isset($events['node']) ? array_merge($result, array_keys($events['node'])) : $result;
