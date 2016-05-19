@@ -123,7 +123,7 @@ function hwc_frontend_preprocess_page(&$vars) {
     );
     switch ($node->type) {
       case 'publication':
-        if ($node->field_publication_type[LANGUAGE_NONE][0]['tid'] == 92 /* Case Studies */) {
+        if ($node->field_publication_type[LANGUAGE_NONE][0]['tid'] == 521 /* Case Studies */) {
           $link_title = t('Back to case studies list');
           $link_href = 'case-studies';
           $tag_vars['element']['#value'] = t('Case studies');
@@ -241,7 +241,7 @@ function hwc_frontend_preprocess_page(&$vars) {
     if ($node->type == 'publication') {
       ctools_include('plugins');
       ctools_include('context');
-      if ($node->field_publication_type[LANGUAGE_NONE][0]['tid'] == 92 /* Case Studies */) {
+      if ($node->field_publication_type[LANGUAGE_NONE][0]['tid'] == 521 /* Case Studies */) {
         $pb = path_breadcrumbs_load_by_name('case_studies_detail_page');
       }
       else {
