@@ -776,6 +776,14 @@ final class CDB
             $otherusers.= str_replace(" ", "", $parameters['otherusers3']);
             unset($parameters['otherusers3']);
         }
+		
+	/* "osh_ceo_changed" param can only be send on mantenaince*/
+	$params = Parameters::getInstance();
+	if(empty($params->get('mf')) && isset($parameters['fields']['osh_ceo_changed'])){
+		unset($parameters['fields']['osh_ceo_changed']);
+	}
+	/* */
+		
         $updateMethod = $this->getMethod('update', 'update_mf');
         
         $urlBase          = $this->host . $this->port . $this->resource . $updateMethod;

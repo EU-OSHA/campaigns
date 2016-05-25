@@ -2,8 +2,16 @@
    <!-- <input {$disabled} type="checkbox" name="{$fieldName}" id="{$fieldName}" data-section="{$fieldSection}" class="main-contact-change-checkbox" /> -->
     <!-- <label>{$fieldLabel}</label> -->
     {if !empty($fieldHelpText)}
-    <p class="help-block">For typo mistakes in the contacts related fields insert directly the corrections in the bellow fields.</br>
-        Should you want to change fully the contact person´s details, please, firstly activate the following box  <input {$disabled} type="checkbox" name="{$fieldName}" id="{$fieldName}" data-section="{$fieldSection}" class="main-contact-change-checkbox" /></br>
-    and then provide the new contact´s details in the fields bellow.</p>
+        {if $fieldName == "contact_osh_maincontactchange"}
+            <p class="help-block">For typo mistakes in the contacts related fields insert directly the corrections in the bellow fields.</br>
+                Should you want to change fully the contact person´s details, please, firstly activate the following box  <input {$disabled} type="checkbox" name="{$fieldName}" id="{$fieldName}" data-section="{$fieldSection}" class="main-contact-change-checkbox" /></br>
+                and then provide the new contact´s details in the fields bellow.</p>
+        {elseif $fieldName == "company_osh_ceochange"}
+            <p class="help-block">For typo mistakes in the CEO related fields, correct directly the text in the fields.</br>
+                For change of CEO, please, activate the  <input {$disabled} type="checkbox" name="{$fieldName}" id="{$fieldName}" data-section="{$fieldSection}" class="main-contact-change-checkbox" /> box and provide the new CEO details.</p>
+        {elseif $fieldName == "company_osh_editorchange"}
+            <p class="help-block">For typo mistakes in the Editor in Chief related fields, correct directly the text in the fields.</br>
+                For change of Editor in Chief, please, activate the  <input {$disabled} type="checkbox" name="{$fieldName}" id="{$fieldName}" data-section="{$fieldSection}" class="main-contact-change-checkbox" /> box and provide the new Editor in Chief details.</p>
+        {/if}
     {/if}
 </div>

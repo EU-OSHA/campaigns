@@ -560,3 +560,13 @@ function hwc_update_7027() {
 function hwc_update_7028() {
   features_revert_module('hwc');
 }
+
+/**
+ * Enable new custom module - hwc_webform2pdf_localization - used for certificate translation.
+ */
+function hwc_update_7029() {
+  $modules = array(
+    'hwc_webform2pdf_localization',
+  );
+  module_enable($modules);
+}

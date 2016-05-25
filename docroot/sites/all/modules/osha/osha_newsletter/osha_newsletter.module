@@ -652,8 +652,31 @@ function osha_newsletter_form_alter(&$form, &$form_state, $form_id) {
           foreach ($form['content'] as $k => &$v) {
             if (strpos($k, 'taxonomy_term:') !== FALSE) {
               hide($v['style']);
+              if ($v['#content']->content->uuid == '184c62a6-3f57-4551-9e82-5308affcd5c3') {
+                $v['start_date'] = array(
+                  '#markup' => t('Date'),
+                );
+              } else {
+                $v['start_date'] = array(
+                  '#markup' => '',
+                );
+              }
             }
             if (strpos($k, 'node:') === 0) {
+              if (!empty($v['#content']->content->field_start_date)) {
+                $timezone = $v['#content']->content->field_start_date[LANGUAGE_NONE][0]['timezone'];
+                $timezone_db = $v['#content']->content->field_start_date[LANGUAGE_NONE][0]['timezone_db'];
+                $datetime = new \DateTime($v['#content']->content->field_start_date[LANGUAGE_NONE][0]['value'], new DateTimeZone($timezone_db));
+                $datetime->setTimezone(new DateTimeZone($timezone));
+                $v['start_date'] = array(
+                  '#markup' => $datetime->format('d/m/Y H:i'),
+                );
+              } else {
+                $v['start_date'] = array(
+                  '#markup' => '',
+                );
+              }
+
               $v['style']['#options'] = array(
                 'highlights_item' => 'Newsletter Highlights',
                 'highlights_item_alternative' => 'Newsletter Highlights Teaser',
@@ -687,7 +710,6 @@ function osha_newsletter_form_alter(&$form, &$form_state, $form_id) {
             '#value' => t('Send test newsletter'),
             '#submit' => array('osha_newsletter_send_test_email')
           );
-
         }
 
         // Attach js to add css class for taxonomy rows.
@@ -709,7 +731,6 @@ function osha_newsletter_form_alter(&$form, &$form_state, $form_id) {
     default:
   }
 }
-
 
 function osha_newsletter_form_validate($form, &$form_state){
   // TODO : Check the submitted items
@@ -906,8 +927,10 @@ function osha_newsletter_entity_insert($entity_collection, $type) {
 
     // Select latest published content and attach it to the newsletter.
     if (!empty($entity_collection->field_newsletter_content_after[LANGUAGE_NONE][0]['value'])) {
-      $after = $entity_collection->field_newsletter_content_after[LANGUAGE_NONE][0]['value'];
-      $after = strtotime($after);
+      $after_date = $entity_collection->field_newsletter_content_after[LANGUAGE_NONE][0]['value'];
+      $after = strtotime($after_date);
+
+      $newsletter_publication_date = $entity_collection->field_publication_date[LANGUAGE_NONE][0]['value'];
       $result = array();
 
       if (!empty($ordinary_order_bundles)) {
@@ -925,8 +948,10 @@ function osha_newsletter_entity_insert($entity_collection, $type) {
         ->entityCondition('bundle', 'news')
         ->propertyCondition('created', $after, '>=')
         ->propertyCondition('status', NODE_PUBLISHED)
+        ->fieldCondition('field_publication_date', 'value', $after_date, '>=')
         ->fieldOrderBy('field_publication_date', 'value', 'DESC')
         ->execute();
+
       $result = isset($news['node']) ? array_merge($result, array_keys($news['node'])) : $result;
 
       $query_events = new EntityFieldQuery();
@@ -934,6 +959,7 @@ function osha_newsletter_entity_insert($entity_collection, $type) {
         ->entityCondition('bundle', 'events')
         ->propertyCondition('created', $after, '>=')
         ->propertyCondition('status', NODE_PUBLISHED)
+        ->fieldCondition('field_start_date', 'value', $newsletter_publication_date, '>=')
         ->fieldOrderBy('field_start_date', 'value', 'ASC')
         ->execute();
       $result = isset($events['node']) ? array_merge($result, array_keys($events['node'])) : $result;

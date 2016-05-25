@@ -33,6 +33,7 @@ if [ ${ecode} != 0 ]; then
   exit ${ecode};
 fi
 
+drush vset maintenance_mode 1
 
 if [ ! -z "$pre_update" ]; then
   echo "Run pre update"
@@ -64,6 +65,8 @@ drush devify_solr
 drush devify_ldap
 
 drush cc all
+
+drush vset maintenance_mode 0
 
 if [ ! -z "$post_update" ]; then
   echo "Run post update"

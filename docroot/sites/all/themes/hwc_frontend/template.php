@@ -123,7 +123,7 @@ function hwc_frontend_preprocess_page(&$vars) {
     );
     switch ($node->type) {
       case 'publication':
-        if ($node->field_publication_type[LANGUAGE_NONE][0]['tid'] == 92 /* Case Studies */) {
+        if ($node->field_publication_type[LANGUAGE_NONE][0]['tid'] == 521 /* Case Studies */) {
           $link_title = t('Back to case studies list');
           $link_href = 'case-studies';
           $tag_vars['element']['#value'] = t('Case studies');
@@ -241,7 +241,7 @@ function hwc_frontend_preprocess_page(&$vars) {
     if ($node->type == 'publication') {
       ctools_include('plugins');
       ctools_include('context');
-      if ($node->field_publication_type[LANGUAGE_NONE][0]['tid'] == 92 /* Case Studies */) {
+      if ($node->field_publication_type[LANGUAGE_NONE][0]['tid'] == 521 /* Case Studies */) {
         $pb = path_breadcrumbs_load_by_name('case_studies_detail_page');
       }
       else {
@@ -572,6 +572,33 @@ function hwc_frontend_colorbox_imagefield($variables) {
   $link_tag = l($image, $variables['path'], $link_options);
   return $link_tag . '<div style="display: none;"><div id="colorbox-inline-' . md5($variables['image']['path']) . '">' . $popup . '</div></div>';
 }
+
+/**
+ * Implements theme_date_display_combination().
+ */
+function hwc_frontend_date_display_combination(&$variables) {
+  $date_theme = '';
+  if (!empty($variables['dates']['value']['osha_date_theme'])) {
+    $date_theme = $variables['dates']['value']['osha_date_theme'];
+  }
+  switch ($date_theme) {
+    case 'with_time':
+      if (!empty($variables['dates']['value2'])) {
+        $start_date = $variables['dates']['value']['formatted_iso'];
+        $end_date = $variables['dates']['value2']['formatted_iso'];
+        // If same day event, show the time also.
+        if (date('Y-m-d', strtotime($start_date)) == date('Y-m-d', strtotime($end_date))) {
+          $variables['display']['settings']['format_type'] = 'short_date_eu';
+          $variables['dates'] = date_formatter_process('date_default', $variables['entity_type'], $variables['entity'], $variables['field'], $variables['instance'], $variables['langcode'], $variables['item'], $variables['display']);
+        }
+      }
+      return theme_date_display_combination($variables);
+      break;
+    default:
+      return theme_date_display_combination($variables);
+  }
+}
+
 
 /**
  * @see theme_flickr_photoset.
