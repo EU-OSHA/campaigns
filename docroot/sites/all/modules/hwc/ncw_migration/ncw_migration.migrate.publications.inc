@@ -67,6 +67,7 @@ class NCWPublicationsMigration extends AbstractNCWNodeMigration {
 
   function prepareRow($row) {
     parent::prepareRow($row);
+
     // field_related_publications
     $fi = field_info_field('field_related_publications');
     osha_migration_normalize_field_entityreference($row, 'field_related_publications', $fi);
@@ -93,6 +94,45 @@ class NCWPublicationsMigration extends AbstractNCWNodeMigration {
     foreach ($additional_resources as $original_nid) {
       if ($destid1 = ncw_migration_find_additional_resource($original_nid)) {
         $row->field_aditional_resources[] = $destid1;
+      }
+    }
+
+    // Replace "publications" with case-studies in aliases.
+    // more things are done in prepare().
+    $publication_type_term = taxonomy_get_term_by_name('Case studies', 'publication_types');
+    if (!empty($publication_type_term)) {
+      reset($publication_type_term);
+      $publication_type_term = current($publication_type_term);
+      if ($row->field_publication_type == $publication_type_term->tid) {
+        $row->path = str_replace('/publications/', '/case-studies/', $row->path);
+      }
+    }
+  }
+
+  /**
+   * Implements Migration::prepare()
+   */
+  public function prepare($entity, stdClass $row) {
+    parent::prepare($entity, $row);
+    // Remove old aliases and create redirects (when alias changes on source).
+    if (!empty($row->path) && !empty($entity->nid)) {
+      $existing_alias = path_load(array('source' => 'node/' . $entity->nid));
+      if (!empty($existing_alias) && $existing_alias['alias'] != $row->path) {
+        $entity->path['pathauto'] = 0;
+        $entity->path['alias'] = $row->path;
+        // Remove old alias
+        path_delete(array('alias' => $existing_alias['alias']));
+        // Redirect old alias
+        $redirect = new stdClass();
+        redirect_object_prepare($redirect);
+        $redirect->source = $existing_alias['alias'];
+        $redirect->redirect = $existing_alias['source'];
+        $redirect->language = LANGUAGE_NONE;
+        // Check if the redirect exists before saving.
+        $hash = redirect_hash($redirect);
+        if (!redirect_load_by_hash($hash)) {
+          redirect_save($redirect);
+        }
       }
     }
   }
