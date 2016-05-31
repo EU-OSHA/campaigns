@@ -33,12 +33,23 @@ function hwc_admin_config_form() {
     '#type' => 'date',
     '#default_value' => variable_get('hwc_partner_registration_deadline', ''),
   );
+  $deadline_message = variable_get('hwc_partner_registration_deadline_message', '');
   $form['hwc_partner_registration_deadline_message'] = array(
     '#title' => 'Message to show after the registration deadline is over',
     '#description' => '',
     '#type' => 'textfield',
-    '#default_value' => variable_get('hwc_partner_registration_deadline_message', ''),
+    '#default_value' => $deadline_message,
   );
+  $lid = db_select('locales_source', 'l')
+    ->fields('l', ['lid'])
+    ->condition('l.source', $deadline_message)
+    ->condition('l.location', '%admin/config/system/hwc%', 'LIKE')
+    ->orderBy('l.lid', 'DESC')
+    ->execute()
+    ->fetchField();
+  if (!empty($lid)) {
+    $form['hwc_partner_registration_deadline_message']['#description'] = t('!clickhere to translate this string.', ['!clickhere' => l(t('Click here'), '/admin/config/regional/translate/edit/' . $lid)]);
+  }
 
   $form['site_hwc_mostra_mailbox'] = array(
     '#title' => 'Mostra mailbox',
@@ -108,7 +119,8 @@ function hwc_admin_config_form_submit($form, &$form_state) {
     locale($new_message);
     $lid = db_select('locales_source', 'l')
       ->fields('l', ['lid'])
-      ->condition('source', $new_message)
+      ->condition('l.source', $new_message)
+      ->condition('l.location', '%admin/config/system/hwc%', 'LIKE')
       ->orderBy('l.lid', 'DESC')
       ->execute()
       ->fetchField();
