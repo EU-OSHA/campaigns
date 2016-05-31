@@ -92,5 +92,30 @@ function hwc_admin_config_form() {
 
   $form = system_settings_form($form);
   $form['actions']['#weight'] = 150;
+  // Prepend this hook to the beginning of array because we need the unchanged
+  // variables.
+  array_unshift($form['#submit'], 'hwc_admin_config_form_submit');
   return $form;
+}
+
+/**
+ * HWC admin configuration form submit.
+ */
+function hwc_admin_config_form_submit($form, &$form_state) {
+  $old_message = variable_get('hwc_partner_registration_deadline_message', '');
+  $new_message = $form_state['values']['hwc_partner_registration_deadline_message'];
+  if ($old_message != $new_message) {
+    locale($new_message);
+    $lid = db_select('locales_source', 'l')
+      ->fields('l', ['lid'])
+      ->condition('source', $new_message)
+      ->orderBy('l.lid', 'DESC')
+      ->execute()
+      ->fetchField();
+    drupal_set_message(t('New translatable string was added. !clickhere to translate it.',
+      [
+        '!clickhere' => l(t('Click here'), '/admin/config/regional/translate/edit/' . $lid),
+      ]
+    ));
+  }
 }
