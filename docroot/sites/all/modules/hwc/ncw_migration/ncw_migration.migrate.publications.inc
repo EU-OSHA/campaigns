@@ -114,12 +114,12 @@ class NCWPublicationsMigration extends AbstractNCWNodeMigration {
    */
   public function prepare($entity, stdClass $row) {
     parent::prepare($entity, $row);
+    $entity->path['pathauto'] = 0;
+    $entity->path['alias'] = $row->path;
     // Remove old aliases and create redirects (when alias changes on source).
     if (!empty($row->path) && !empty($entity->nid)) {
       $existing_alias = path_load(array('source' => 'node/' . $entity->nid));
       if (!empty($existing_alias) && $existing_alias['alias'] != $row->path) {
-        $entity->path['pathauto'] = 0;
-        $entity->path['alias'] = $row->path;
         // Remove old alias
         path_delete(array('alias' => $existing_alias['alias']));
         // Redirect old alias
