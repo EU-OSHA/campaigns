@@ -43,7 +43,6 @@ function hwc_admin_config_form() {
   $lid = db_select('locales_source', 'l')
     ->fields('l', ['lid'])
     ->condition('l.source', $deadline_message)
-    ->condition('l.location', '%admin/config/system/hwc%', 'LIKE')
     ->orderBy('l.lid', 'DESC')
     ->execute()
     ->fetchField();
@@ -120,7 +119,6 @@ function hwc_admin_config_form_submit($form, &$form_state) {
     $lid = db_select('locales_source', 'l')
       ->fields('l', ['lid'])
       ->condition('l.source', $new_message)
-      ->condition('l.location', '%admin/config/system/hwc%', 'LIKE')
       ->orderBy('l.lid', 'DESC')
       ->execute()
       ->fetchField();
