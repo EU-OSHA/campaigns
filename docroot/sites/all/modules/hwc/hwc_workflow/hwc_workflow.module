@@ -267,6 +267,12 @@ function hwc_workflow_node_access($node, $op, $account) {
     return NODE_ACCESS_IGNORE;
   }
 
+  // Supervisors have access based on perm
+  // skip additional validations..
+  if (in_array(ROLE_SUPERVISOR, $account->roles)) {
+    return NODE_ACCESS_IGNORE;
+  }
+
   // Don't allow CPM if not assign to node.
   if ($op == 'update' && in_array(HWC_ROLE_CAMPAIGN_PROJECT_MANAGER, $account->roles)) {
     module_load_include('inc', 'hwc_workflow', 'hwc_workflow.cpm');
