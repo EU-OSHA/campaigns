@@ -324,6 +324,17 @@ function hwc_frontend_preprocess_field(&$variables) {
   if (!empty($variables['element']['#view_mode'])) {
     $variables['theme_hook_suggestions'][] = 'field__' . $variables['element']['#field_name'] . '__' . $variables['element']['#view_mode'];
   }
+  // Convert new lines to BR for textareas.
+  if ($variables['element']['#field_type'] == 'text_long') {
+    $field_name = $variables['element']['#field_name'];
+    foreach ($variables['items'] as $key => &$item) {
+      foreach ($variables['element']['#object']->{$field_name} as $lang => $value) {
+        if ($variables['element']['#object']->{$field_name}[$lang][$key]['format'] == NULL) {
+          $item['#markup'] = nl2br($item['#markup']);
+        }
+      }
+    }
+  }
 }
 function hwc_frontend_preprocess_node(&$vars) {
   if ($vars['view_mode'] == 'full' && $vars['type'] == 'events') {
