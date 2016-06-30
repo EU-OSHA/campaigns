@@ -118,3 +118,10 @@ function hwc_workflow_update_7005() {
     }
   }
 }
+
+/**
+ * Revert workflow rules.
+ */
+function hwc_workflow_update_7006() {
+  features_revert_module('hwc_workflow');
+}
