@@ -2211,7 +2211,11 @@ function osha_events_field_default_field_instances() {
   // Exported field_instance: 'node-events-field_wf_notification'.
   $field_instances['node-events-field_wf_notification'] = array(
     'bundle' => 'events',
-    'default_value' => NULL,
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -2264,19 +2268,21 @@ function osha_events_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_wf_notification',
     'label' => 'Disable notifications',
-    'required' => FALSE,
+    'required' => 0,
     'settings' => array(
       'entity_translation_sync' => FALSE,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
+      'active' => 1,
       'module' => 'options',
       'settings' => array(
-        'display_label' => 0,
+        'display_label' => 1,
       ),
       'type' => 'options_onoff',
       'weight' => 32,
     ),
+    'workbench_access_field' => 0,
   );
 
   // Exported field_instance: 'node-events-title_field'.
