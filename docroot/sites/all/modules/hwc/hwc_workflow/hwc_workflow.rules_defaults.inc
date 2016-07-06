@@ -9,6 +9,55 @@
  */
 function hwc_workflow_default_rules_configuration() {
   $items = array();
+  $items['rules_hwc_workflow_notif_his_content_published'] = entity_import('rules_config', '{ "rules_hwc_workflow_notif_his_content_published" : {
+      "LABEL" : "Notifi partner when his content published",
+      "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
+      "REQUIRES" : [ "rules", "hwc_workflow", "workbench_moderation" ],
+      "ON" : { "workbench_moderation_after_moderation_transition" : [] },
+      "IF" : [
+        { "data_is" : { "data" : [ "new-state" ], "value" : "published" } },
+        { "entity_is_of_bundle" : {
+            "entity" : [ "node" ],
+            "type" : "node",
+            "bundle" : { "value" : { "events" : "events", "news" : "news" } }
+          }
+        },
+        { "node_has_partner_section" : { "entity" : [ "node" ] } },
+        { "entity_has_field" : { "entity" : [ "node" ], "field" : "field_wf_notification" } },
+        { "data_is_empty" : { "data" : [ "node:field-wf-notification" ] } }
+      ],
+      "DO" : [
+        { "hwc_mail_to_users_of_partner" : {
+            "node" : [ "node" ],
+            "subject" : "HWC Workflow: New content has been published for your company",
+            "message" : "\\u003Cp\\u003EDear Partner,\\u003C\\/p\\u003E\\r\\n\\u003Cp\\u003EThe [node:type] item that you submitted for publication on your organisation\\u2019s profile has been validated by EU-OSHA and has now been published.\\u003C\\/p\\u003E\\r\\n\\u003Cp\\u003E\\u003Ca href=\\u0022[node:url]\\u0022\\u003E[node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\r\\n\\u003Cp\\u003EThank you for your participation in the Healthy Workplaces for All Ages campaign.\\u003C\\/p\\u003E"
+          }
+        }
+      ]
+    }
+  }');
+  $items['rules_hwc_workflow_notif_partner_to_be_reviewed'] = entity_import('rules_config', '{ "rules_hwc_workflow_notif_partner_to_be_reviewed" : {
+      "LABEL" : "Notification partner when to be reviewed",
+      "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
+      "REQUIRES" : [ "rules", "hwc_workflow", "workbench_moderation" ],
+      "ON" : { "workbench_moderation_after_moderation_transition" : [] },
+      "IF" : [
+        { "data_is" : { "data" : [ "new-state" ], "value" : "needs_review" } },
+        { "entity_has_field" : { "entity" : [ "node" ], "field" : "field_wf_notification" } },
+        { "data_is_empty" : { "data" : [ "node:field-wf-notification" ] } }
+      ],
+      "DO" : [
+        { "hwc_mail_to_users_of_partner" : {
+            "node" : [ "node" ],
+            "subject" : "HWC Workflow: New content has been sent for validation",
+            "message" : "\\u003Cp\\u003EDear Partner,\\u003C\\/p\\u003E\\r\\n\\u003Cp\\u003EThank you for submitting a [node:type] item for publication on your organisation\\u2019s profile on the campaign website. Once validated by EU-OSHA, this update will be visible on your public profile. You will be informed when the update has been published.\\u003C\\/p\\u003E\\r\\n\\u003Cp\\u003E\\u003Ca href=\\u0022[node:url]\\u0022\\u003E[node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\r\\n\\u003Cp\\u003EThank you for your participation in the Healthy Workplaces for All Ages campaign.\\u003C\\/p\\u003E\\r\\n\\r\\n"
+          }
+        }
+      ]
+    }
+  }');
   $items['rules_hwc_workflow_notification_after_approval'] = entity_import('rules_config', '{ "rules_hwc_workflow_notification_after_approval" : {
       "LABEL" : "Notification after approval",
       "PLUGIN" : "reaction rule",
@@ -52,7 +101,9 @@ function hwc_workflow_default_rules_configuration() {
             "type" : "node",
             "bundle" : { "value" : { "events" : "events", "news" : "news" } }
           }
-        }
+        },
+        { "entity_has_field" : { "entity" : [ "node" ], "field" : "field_wf_notification" } },
+        { "data_is_empty" : { "data" : [ "node:field-wf-notification" ] } }
       ],
       "DO" : [
         { "hwc_mail_to_users_of_partner" : {
@@ -81,12 +132,6 @@ function hwc_workflow_default_rules_configuration() {
         { "node_has_partner_section" : { "entity" : [ "node" ] } }
       ],
       "DO" : [
-        { "hwc_mail_to_users_of_partner" : {
-            "node" : [ "node" ],
-            "subject" : "HWC Workflow: New content has been published for your company",
-            "message" : "\\u003Cp\\u003EDear Partner,\\u003C\\/p\\u003E\\r\\n\\u003Cp\\u003EThe [node:type] item that you submitted for publication on your organisation\\u2019s profile has been validated by EU-OSHA and has now been published.\\u003C\\/p\\u003E\\r\\n\\u003Cp\\u003E\\u003Ca href=\\u0022[node:url]\\u0022\\u003E[node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\r\\n\\u003Cp\\u003EThank you for your participation in the Healthy Workplaces for All Ages campaign.\\u003C\\/p\\u003E"
-          }
-        },
         { "mail_to_users_of_role" : {
             "roles" : { "value" : { "14" : "14" } },
             "subject" : "New content has been published",
@@ -138,7 +183,7 @@ function hwc_workflow_default_rules_configuration() {
       "LABEL" : "Notification when to be reviewed (RM_US_02, SU_US_04)",
       "PLUGIN" : "reaction rule",
       "OWNER" : "rules",
-      "REQUIRES" : [ "rules", "hwc_workflow", "workbench_moderation" ],
+      "REQUIRES" : [ "rules", "workbench_moderation" ],
       "ON" : { "workbench_moderation_after_moderation_transition" : [] },
       "IF" : [ { "data_is" : { "data" : [ "new-state" ], "value" : "needs_review" } } ],
       "DO" : [
@@ -153,12 +198,6 @@ function hwc_workflow_default_rules_configuration() {
             "subject" : "HWC Workflow: New content needs your review",
             "message" : "\\u003Cp\\u003E[node:author:name] ([node:author:mail]) has submitted a [node:type] item for validation. Please see the submitted update here: \\u003Ca href=\\u0022[node:url]\\u0022\\u003E[node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E",
             "language" : [ "" ]
-          }
-        },
-        { "hwc_mail_to_users_of_partner" : {
-            "node" : [ "node" ],
-            "subject" : "HWC Workflow: New content has been sent for validation",
-            "message" : "\\u003Cp\\u003EDear Partner,\\u003C\\/p\\u003E\\r\\n\\u003Cp\\u003EThank you for submitting a [node:type] item for publication on your organisation\\u2019s profile on the campaign website. Once validated by EU-OSHA, this update will be visible on your public profile. You will be informed when the update has been published.\\u003C\\/p\\u003E\\r\\n\\u003Cp\\u003E\\u003Ca href=\\u0022[node:url]\\u0022\\u003E[node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\r\\n\\u003Cp\\u003EThank you for your participation in the Healthy Workplaces for All Ages campaign.\\u003C\\/p\\u003E\\r\\n\\r\\n"
           }
         }
       ]
