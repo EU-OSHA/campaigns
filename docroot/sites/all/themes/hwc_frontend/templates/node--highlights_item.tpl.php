@@ -67,7 +67,6 @@
 
                 <?php if (isset($body) && is_array($body)) {
                   if (!empty($body)) {
-                    // dpm($body);
                     if (isset($body[0]['safe_value'])) {
                       print($body[0]['safe_value']);
                     }

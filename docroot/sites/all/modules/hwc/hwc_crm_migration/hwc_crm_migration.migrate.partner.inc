@@ -67,7 +67,7 @@ class PartnerMigration extends HwcCrmMigration {
     /** @var stdClass $term */
     if ($term = osha_workflow_get_partner_section_by_guid($row->field_guid_organisation)) {
       $row->workbench_access[$term->tid] = $term->tid;
-      if ($term->name != $row->title) {
+      if (strtolower($term->name) != strtolower($row->title)) {
         $term->name = $row->title;
         taxonomy_term_save($term);
         $row->regenerate_alias = TRUE;
