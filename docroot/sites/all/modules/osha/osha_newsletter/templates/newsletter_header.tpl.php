@@ -3,7 +3,7 @@ $newsletter_ready_date = date('F Y');
 if($newsletter_date) {
   $newsletter_ready_date = date('F Y', strtotime($newsletter_date));
 }?>
-<table border="0" cellpadding="28" cellspacing="0" width="800" style="font-family: Oswald, Arial,sans-serif; margin-left: 25px; margin-bottom: 40px; background-repeat: no-repeat;" height="300" background="<?php print file_create_url('sites/all/modules/osha/osha_newsletter/images/header-newsletter.png'); ?>">
+<table border="0" cellpadding="28" cellspacing="0" width="800" style="font-family: Oswald, Arial,sans-serif; margin-left: 25px; margin-bottom: 5px; background-repeat: no-repeat;" height="300" background="<?php print file_create_url('sites/all/modules/osha/osha_newsletter/images/header-newsletter.png'); ?>">
   <!--[if gte mso 9]>
   <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:800px;height:300px;">
   <v:fill type="tile" src="<?php print file_create_url('sites/all/modules/osha/osha_newsletter/images/header-newsletter.png'); ?>"/>
