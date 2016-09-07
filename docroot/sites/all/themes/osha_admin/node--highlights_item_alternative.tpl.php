@@ -60,10 +60,15 @@
               }
               ?>
             </p>
+
             <?php
-            if (!empty($elements['field_summary'])) {
-              print render($elements['field_summary']);
-            }
+            if (!empty($elements['field_summary'])) {?>
+            <div style="font-weight: bold; padding-bottom: 5px;">
+            <?php print render($elements['field_summary']); ?>
+            </div>
+            <?php } ?>
+
+            <?php
             if (!empty($elements['body'])) {
               print render($elements['body']);
             }
