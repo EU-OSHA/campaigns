@@ -65,6 +65,12 @@
                 ));
                 ?>
 
+                <?php if (!empty($field_summary['en'][0]['safe_value'])) {?>
+                <div style="font-weight: bold; padding-bottom: 5px;">
+                  <?php print $field_summary['en'][0]['safe_value']; ?>
+                </div>
+                <?php } ?>
+
                 <?php if (isset($body) && is_array($body)) {
                   if (!empty($body)) {
                     if (isset($body[0]['safe_value'])) {
