@@ -76,13 +76,36 @@ function hwc_image_default_styles() {
   $styles['newsletter_thumb'] = array(
     'label' => 'Newsletter thumb (150 X 150)',
     'effects' => array(
-      1 => array(
-        'name' => 'image_scale_and_crop',
+      3 => array(
+        'name' => 'image_scale',
         'data' => array(
           'width' => 150,
           'height' => 150,
+          'upscale' => 0,
         ),
-        'weight' => 1,
+        'weight' => -10,
+      ),
+      2 => array(
+        'name' => 'canvasactions_definecanvas',
+        'data' => array(
+          'RGB' => array(
+            'HEX' => '#FFFFFF',
+          ),
+          'under' => 1,
+          'exact' => array(
+            'width' => 150,
+            'height' => 150,
+            'xpos' => 'center',
+            'ypos' => 'center',
+          ),
+          'relative' => array(
+            'leftdiff' => '',
+            'rightdiff' => '',
+            'topdiff' => '',
+            'bottomdiff' => '',
+          ),
+        ),
+        'weight' => -9,
       ),
     ),
   );
