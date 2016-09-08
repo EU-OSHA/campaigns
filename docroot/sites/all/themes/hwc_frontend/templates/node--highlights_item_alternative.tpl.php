@@ -47,13 +47,13 @@
                 }
                 if ($node->type == 'publication') {
                   print l($title, url('node/' . $node->nid . '/view', array('absolute' => TRUE)), array(
-                    'attributes' => array('style' => 'color: #003399; padding-bottom: 10px; padding-left: 0px; padding-right: 0px; font-family: Oswald, Arial, sans-serif; font-size: 18px; vertical-align: top; text-decoration: none;'),
+                    'attributes' => array('style' => 'font-family: Arial, sans-serif; color: #003399; padding-bottom: 10px; padding-left: 0px; padding-right: 0px; font-family: Oswald, Arial, sans-serif; font-size: 18px; vertical-align: top; text-decoration: none;'),
                     'query' => $url_query,
                     'external' => TRUE
                   ));
                 } else {
                   print l($title, url('node/' . $node->nid, array('absolute' => TRUE)), array(
-                    'attributes' => array('style' => 'color: #003399; padding-bottom: 10px; padding-left: 0px; padding-right: 0px; font-family: Oswald, Arial, sans-serif; font-size: 18px; vertical-align: top; text-decoration: none;'),
+                    'attributes' => array('style' => 'font-family: Arial, sans-serif; color: #003399; padding-bottom: 10px; padding-left: 0px; padding-right: 0px; font-family: Oswald, Arial, sans-serif; font-size: 18px; vertical-align: top; text-decoration: none;'),
                     'query' => $url_query,
                     'external' => TRUE
                   ));
@@ -62,9 +62,10 @@
                 </p>
                 <?php
                 if (!empty($elements['field_summary'])) {?>
-                  <div style="font-weight: bold">
+                  <span style="font-weight: bold;">
                     <?php print render($elements['field_summary']); ?>
-                  </div>
+                  </span>
+                  <br>
                 <?php } ?>
 
                 <?php
