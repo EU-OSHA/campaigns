@@ -63,9 +63,9 @@
 
             <?php
             if (!empty($elements['field_summary'])) {?>
-              <p style="font-weight: bold;">
+              <span style="font-weight: bold;">
                 <?php print render($elements['field_summary']); ?>
-              </p>
+              </span>
               <br>
             <?php } ?>
 

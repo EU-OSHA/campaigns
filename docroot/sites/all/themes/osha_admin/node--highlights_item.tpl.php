@@ -68,9 +68,9 @@
 
                 <?php
                 if (!empty($field_summary['en'][0]['safe_value'])) {?>
-                  <p style="font-weight: bold;">
+                  <span style="font-weight: bold;">
                     <?php print $field_summary['en'][0]['safe_value']; ?>
-                  </p>
+                  </span>
                   <br>
                 <?php } ?>
                 <?php if (isset($body) && is_array($body)) {
