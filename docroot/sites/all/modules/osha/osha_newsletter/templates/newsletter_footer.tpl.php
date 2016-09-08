@@ -25,15 +25,15 @@ $directory = drupal_get_path('module', 'osha_newsletter');
               }
               $urllegal = url($base_url.'/'.$language->language.'/privacy-policy-campaign-newsletter', array('query' => $url_query));
               ?>
-              <a style="text-decoration: none;" href="<?php echo $urllegal; ?>"><span style="font-weight: bold; color: #ffffff; font-size: 14px;"><?php print t('Privacy notice'); ?></span></a>
+              <a style="text-decoration: none;" href="<?php echo $urllegal; ?>"><span style="font-family: Arial, sans-serif; font-weight: bold; color: #ffffff; font-size: 14px;"><?php print t('Privacy notice'); ?></span></a>
               <?php
               $url = url($base_url.'/'.$language->language.'/healthy-workplaces-newsletter', array('query' => $url_query));
               ?>
-              <span style="color:#ffffff; font-size: 14px;"> | </span>
-              <a style="text-decoration: none;" href="<?php echo $url; ?>"><span style="font-weight: bold; color: #ffffff; font-size: 14px;"><?php print t('Unsubscribe'); ?></span></a>
+              <span style="color:#ffffff; font-size: 14px;font-family: Arial, sans-serif;"> | </span>
+              <a style="text-decoration: none;" href="<?php echo $url; ?>"><span style="font-family: Arial, sans-serif; font-weight: bold; color: #ffffff; font-size: 14px;"><?php print t('Unsubscribe'); ?></span></a>
             </td>
             <td width="1%" style="vertical-align: top; padding-top: 32px; text-align: right; white-space: nowrap">
-              <h2 style="color: #ffffff; display: inline; font-weight: bold; font-size: 14px; font-style: normal;"><?php print t('Follow us on'); ?>:</h2>
+              <h2 style="color: #ffffff; display: inline; font-family: Arial, sans-serif; font-weight: bold; font-size: 14px; font-style: normal;"><?php print t('Follow us on'); ?>:</h2>
             </td>
             <td width="160" style="vertical-align: top; padding-top: 32px; text-align: right;">
               <?php
@@ -69,7 +69,7 @@ $directory = drupal_get_path('module', 'osha_newsletter');
                   'alt' => $options['alt'],
                   'attributes' => array('style' => 'border: 0px;')
                 )), $options['path'], array(
-                  'attributes' => array('style' => 'color:#144989; text-decoration:none; display: inline-block; vertical-align: middle;'),
+                  'attributes' => array('style' => 'font-family: Arial, sans-serif; color:#144989; text-decoration:none; display: inline-block; vertical-align: middle;'),
                   'html' => TRUE,
                   'external' => TRUE
                 ));
