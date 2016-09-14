@@ -24,7 +24,9 @@ function hwc_partner_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Partner content';
   $handler->display->display_options['use_ajax'] = TRUE;
+  $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['use_more_text'] = 'See all events';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -106,7 +108,7 @@ function hwc_partner_views_default_views() {
   $handler->display->display_options['use_more_text'] = 'See all news';
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '4';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '0';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
@@ -190,7 +192,7 @@ function hwc_partner_views_default_views() {
   /* Display: Latest partner events */
   $handler = $view->new_display('block', 'Latest partner events', 'latest_partner_events');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Partner Events';
+  $handler->display->display_options['title'] = 'Upcoming Events';
   $handler->display->display_options['defaults']['use_more'] = FALSE;
   $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['defaults']['use_more_always'] = FALSE;
@@ -200,7 +202,7 @@ function hwc_partner_views_default_views() {
   $handler->display->display_options['use_more_text'] = 'See all events';
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '4';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '0';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
@@ -209,6 +211,7 @@ function hwc_partner_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['empty'] = FALSE;
   $handler->display->display_options['defaults']['relationships'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Nid */
@@ -291,10 +294,96 @@ function hwc_partner_views_default_views() {
   $handler->display->display_options['filters']['field_start_date_value']['granularity'] = 'second';
   $handler->display->display_options['filters']['field_start_date_value']['default_date'] = 'now';
   $handler->display->display_options['block_description'] = 'Events';
+
+  /* Display: Past Events */
+  $handler = $view->new_display('block', 'Past Events', 'past_events');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Past events';
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '0';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  /* Field: Content: Starting date and time */
+  $handler->display->display_options['fields']['field_start_date']['id'] = 'field_start_date';
+  $handler->display->display_options['fields']['field_start_date']['table'] = 'field_data_field_start_date';
+  $handler->display->display_options['fields']['field_start_date']['field'] = 'field_start_date';
+  $handler->display->display_options['fields']['field_start_date']['label'] = '';
+  $handler->display->display_options['fields']['field_start_date']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['field_start_date']['alter']['path'] = 'node/[nid]';
+  $handler->display->display_options['fields']['field_start_date']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_start_date']['settings'] = array(
+    'format_type' => 'osha_day_only',
+    'fromto' => 'value',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+    'osha_date_theme' => '',
+    'field_formatter_class' => '',
+  );
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title_field']['id'] = 'title_field';
+  $handler->display->display_options['fields']['title_field']['table'] = 'field_data_title_field';
+  $handler->display->display_options['fields']['title_field']['field'] = 'title_field';
+  $handler->display->display_options['fields']['title_field']['label'] = '';
+  $handler->display->display_options['fields']['title_field']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title_field']['type'] = 'title_linked';
+  $handler->display->display_options['fields']['title_field']['settings'] = array(
+    'title_style' => '_none',
+    'title_link' => '',
+    'title_class' => '',
+    'field_formatter_class' => '',
+  );
+  $handler->display->display_options['fields']['title_field']['link_to_entity'] = 0;
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Content: Starting date and time -  start date (field_start_date) */
+  $handler->display->display_options['sorts']['field_start_date_value']['id'] = 'field_start_date_value';
+  $handler->display->display_options['sorts']['field_start_date_value']['table'] = 'field_data_field_start_date';
+  $handler->display->display_options['sorts']['field_start_date_value']['field'] = 'field_start_date_value';
+  $handler->display->display_options['sorts']['field_start_date_value']['order'] = 'DESC';
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = '1';
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'events' => 'events',
+  );
+  $handler->display->display_options['filters']['type']['group'] = 1;
+  /* Filter criterion: Content: Starting date and time -  start date (field_start_date) */
+  $handler->display->display_options['filters']['field_start_date_value']['id'] = 'field_start_date_value';
+  $handler->display->display_options['filters']['field_start_date_value']['table'] = 'field_data_field_start_date';
+  $handler->display->display_options['filters']['field_start_date_value']['field'] = 'field_start_date_value';
+  $handler->display->display_options['filters']['field_start_date_value']['operator'] = '<';
+  $handler->display->display_options['filters']['field_start_date_value']['form_type'] = 'date_text';
+  $handler->display->display_options['filters']['field_start_date_value']['default_date'] = 'now';
+  $handler->display->display_options['block_description'] = 'Past Events';
   $translatables['partner_content'] = array(
     t('Master'),
     t('Partner content'),
-    t('more'),
+    t('See all events'),
     t('Apply'),
     t('Reset'),
     t('Sort by'),
@@ -314,9 +403,11 @@ function hwc_partner_views_default_views() {
     t('See all news'),
     t('News'),
     t('Latest partner events'),
-    t('Partner Events'),
-    t('See all events'),
+    t('Upcoming Events'),
     t('Events'),
+    t('Past Events'),
+    t('Past events'),
+    t('more'),
   );
   $export['partner_content'] = $view;
 

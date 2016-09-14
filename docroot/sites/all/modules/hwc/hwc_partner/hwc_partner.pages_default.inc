@@ -4139,7 +4139,7 @@ return (!empty($data->field_facebook_profile) || !empty($data->field_linkedin_pr
     $pane->configuration = array(
       'override_pager_settings' => 0,
       'use_pager' => 0,
-      'nodes_per_page' => '4',
+      'nodes_per_page' => '0',
       'pager_id' => '0',
       'offset' => '0',
       'more_link' => 0,
@@ -4167,6 +4167,44 @@ return (!empty($data->field_facebook_profile) || !empty($data->field_linkedin_pr
     $pane->uuid = '22050c50-2a04-49d6-b147-ee7e3f0b7183';
     $display->content['new-22050c50-2a04-49d6-b147-ee7e3f0b7183'] = $pane;
     $display->panels['right_'][0] = 'new-22050c50-2a04-49d6-b147-ee7e3f0b7183';
+    $pane = new stdClass();
+    $pane->pid = 'new-152fad72-a7ac-4e0a-ad19-5c1c02d86057';
+    $pane->panel = 'right_';
+    $pane->type = 'views';
+    $pane->subtype = 'partner_content';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_pager_settings' => 0,
+      'use_pager' => 0,
+      'nodes_per_page' => '0',
+      'pager_id' => '0',
+      'offset' => '0',
+      'more_link' => 0,
+      'feed_icons' => 0,
+      'panel_args' => 0,
+      'link_to_view' => 0,
+      'args' => '',
+      'url' => '',
+      'display' => 'past_events',
+      'context' => array(
+        0 => '',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = '152fad72-a7ac-4e0a-ad19-5c1c02d86057';
+    $display->content['new-152fad72-a7ac-4e0a-ad19-5c1c02d86057'] = $pane;
+    $display->panels['right_'][1] = 'new-152fad72-a7ac-4e0a-ad19-5c1c02d86057';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
