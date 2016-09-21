@@ -85,7 +85,7 @@ class hwc_quicktabs_style_plugin extends quicktabs_style_plugin {
     }
 
     // Sort all results for all tab.
-    asort($all_rows);
+    asort($all_rows, SORT_NATURAL | SORT_FLAG_CASE);
 
     $contents = '';
     foreach (array_keys($all_rows) as $row_index) {

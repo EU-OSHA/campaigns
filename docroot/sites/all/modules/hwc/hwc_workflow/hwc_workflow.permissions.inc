@@ -37,7 +37,7 @@ function hwc_workflow_permissions_role_supervisor() {
     'edit any content in final_draft',
     'edit any content in needs_review',
 
-    'moderate content from draft to final_draft',
+//    'moderate content from draft to final_draft',
     'moderate content from draft to needs_review',
     'moderate content from needs_review to draft',
     'moderate content from needs_review to to_be_approved',

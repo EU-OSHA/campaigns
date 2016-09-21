@@ -3,7 +3,7 @@ $newsletter_ready_date = date('F Y');
 if($newsletter_date) {
   $newsletter_ready_date = date('F Y', strtotime($newsletter_date));
 }?>
-<table border="0" cellpadding="28" cellspacing="0" width="800" style="font-family: Oswald, Arial,sans-serif; margin-left: 25px; margin-bottom: 40px; background-repeat: no-repeat;" height="300" background="<?php print file_create_url('sites/all/modules/osha/osha_newsletter/images/header-newsletter.png'); ?>">
+<table border="0" cellpadding="28" cellspacing="0" width="800" style="font-family: Oswald, Arial,sans-serif; margin-left: 25px; margin-bottom: 5px; background-repeat: no-repeat;" height="300" background="<?php print file_create_url('sites/all/modules/osha/osha_newsletter/images/header-newsletter.png'); ?>">
   <!--[if gte mso 9]>
   <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:800px;height:300px;">
   <v:fill type="tile" src="<?php print file_create_url('sites/all/modules/osha/osha_newsletter/images/header-newsletter.png'); ?>"/>
@@ -26,8 +26,8 @@ if($newsletter_date) {
               global $base_url;
               ?>
               <td height="1" width="50%" style="font-size: 1px; line-height: 1px;">&nbsp;</td>
-              <td>
-                <h4 style="text-align: left; font-size: 12px; font-weight: bold; color: #003399; font-family: Oswald, Arial,sans-serif;line-height: 12px;">
+              <td style="font-family: Arial, sans-serif;">
+                <h4 style="text-align: left; font-size: 12px; font-weight: bold; color: #003399; font-family: Arial,sans-serif;line-height: 12px;">
                   <?php print t('Healthy Workplaces for All Ages'); ?>
                 </h4>
               </td><td>
@@ -97,21 +97,21 @@ if($newsletter_date) {
           <tbody>
             <tr>
               <td height="1" width="50%" style="font-size: 1px; line-height: 1px;">&nbsp;</td>
-              <td>
-                <h1 style="font-size: 28px; color: #ffffff; border: none; margin: 0; text-align: left; line-height: 28px;"><?php print $newsletter_title ?></h1>
+              <td style="font-family: Arial,sans-serif;">
+                <h1 style="font-family: Arial, sans-serif; font-size: 28px; color: #ffffff; border: none; margin: 0; text-align: left; line-height: 28px;"><?php print $newsletter_title ?></h1>
               </td>
             </tr>
             <tr>
               <td height="1" width="50%" style="font-size: 1px; line-height: 1px;">&nbsp;</td>
-              <td>
-                <h2 style="font-family: Oswald, Arial,sans-serif; font-style: italic; font-weight: normal; font-size: 18px; color: #ffffff; margin: 0; text-align: left;"><?php print $newsletter_ready_date ?></h2>
+              <td style="font-family: Arial, sans-serif;">
+                <h2 style="font-family: Arial, sans-serif; font-style: italic; font-weight: normal; font-size: 18px; color: #ffffff; margin: 0; text-align: left;"><?php print $newsletter_ready_date ?></h2>
               </td>
             </tr>
             <?php if(!empty($newsletter_intro)){ ?>
               <tr>
                 <td height="1" width="50%" style="font-size: 1px; line-height: 1px;">&nbsp;</td>
                 <td>
-                  <p style="font-style: italic; color: #ffffff; font-size: 12px; font-family: Oswald, Arial,sans-serif;"><?php print($newsletter_intro);?></p>
+                  <p style="font-style: italic; color: #ffffff; font-size: 12px; font-family: Arial,sans-serif;"><?php print($newsletter_intro);?></p>
                 </td>
               </tr>
             <?php } ?>

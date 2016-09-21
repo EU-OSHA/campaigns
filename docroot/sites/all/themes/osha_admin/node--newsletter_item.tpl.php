@@ -62,7 +62,7 @@
       </td>
     </tr>
     <tr>
-      <td colspan="2" style="font-family: Arial, sans-serif; font-size: 14px;">
+      <td colspan="2" style="font-family: Arial, sans-serif; font-size: 12px;">
         <?php
         if($node->type == 'events'){
           ?>

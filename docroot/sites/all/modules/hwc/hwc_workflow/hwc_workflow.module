@@ -267,6 +267,12 @@ function hwc_workflow_node_access($node, $op, $account) {
     return NODE_ACCESS_IGNORE;
   }
 
+  // Supervisors have access based on perm
+  // skip additional validations..
+  if (in_array(ROLE_SUPERVISOR, $account->roles)) {
+    return NODE_ACCESS_IGNORE;
+  }
+
   // Don't allow CPM if not assign to node.
   if ($op == 'update' && in_array(HWC_ROLE_CAMPAIGN_PROJECT_MANAGER, $account->roles)) {
     module_load_include('inc', 'hwc_workflow', 'hwc_workflow.cpm');
@@ -370,6 +376,7 @@ function hwc_workflow_form_news_node_form_alter(&$form, &$form_state) {
     $form['field_expiration_date']['#access'] = FALSE;
     $form['field_tags']['#access'] = FALSE;
     $form['field_activity']['#access'] = FALSE;
+    $form['field_wf_notification']['#access'] = FALSE;
     $form['#after_build'][] = 'hwc_workflow_node_form_after_build_hide_hints';
 
     _hwc_workflow_partner_node_form_alter($form, $form_state);
@@ -404,6 +411,7 @@ function hwc_workflow_form_events_node_form_alter(&$form, &$form_state) {
     $form['field_speaker']['#access'] = FALSE;
     $form['field_activity']['#access'] = FALSE;
     $form['field_gallery']['#access'] = FALSE;
+    $form['field_wf_notification']['#access'] = FALSE;
     $form['#after_build'][] = 'hwc_workflow_node_form_after_build_hide_hints';
 
     _hwc_workflow_partner_node_form_alter($form, $form_state);

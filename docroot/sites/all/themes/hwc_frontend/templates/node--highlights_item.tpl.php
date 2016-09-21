@@ -24,13 +24,13 @@
                 }
                 if ($node->type == 'publication') {
                   print l($title, url('node/' . $node->nid . '/view', array('absolute' => TRUE)), array(
-                    'attributes' => array('style' => 'color: #003399; text-decoration: none;'),
+                    'attributes' => array('style' => 'font-family: Arial, sans-serif; color: #003399; text-decoration: none;'),
                     'query' => $url_query,
                     'external' => TRUE
                   ));
                 } else {
                   print l($title, url('node/' . $node->nid, array('absolute' => TRUE)), array(
-                    'attributes' => array('style' => 'color: #003399; text-decoration: none;'),
+                    'attributes' => array('style' => 'font-family: Arial, sans-serif; color: #003399; text-decoration: none;'),
                     'query' => $url_query,
                     'external' => TRUE
                   ));
@@ -65,9 +65,15 @@
                 ));
                 ?>
 
+                <?php if (!empty($field_summary['en'][0]['safe_value'])) {?>
+                  <span style="font-weight: bold;">
+                    <?php print $field_summary['en'][0]['safe_value']; ?>
+                  </span>
+                  <br>
+                <?php } ?>
+
                 <?php if (isset($body) && is_array($body)) {
                   if (!empty($body)) {
-                    // dpm($body);
                     if (isset($body[0]['safe_value'])) {
                       print($body[0]['safe_value']);
                     }

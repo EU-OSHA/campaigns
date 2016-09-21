@@ -91,3 +91,37 @@ function hwc_workflow_update_7004() {
   $role = user_role_load_by_name(HWC_ROLE_CAMPAIGN_PROJECT_MANAGER);
   user_role_grant_permissions($role->rid, hwc_workflow_permission_role_cpm());
 }
+
+/**
+ * MH-220 - supervisor should not moderate to final draft.
+ */
+function hwc_workflow_update_7005() {
+  module_load_include('inc', 'hwc_workflow', 'hwc_workflow.permissions');
+  $role = user_role_load_by_name(ROLE_SUPERVISOR);
+  user_role_revoke_permissions($role->rid, array('moderate content from draft to final_draft'));
+  user_role_grant_permissions($role->rid, hwc_workflow_permissions_role_supervisor());
+
+  // Moderate any existing news/events to
+  $query = db_select('workbench_moderation_node_history', 'wh')
+    ->fields('wh', array('nid'));
+  $query->innerJoin('node', 'node', 'node.nid=wh.nid');
+  $query->innerJoin('workbench_access_node', 'wa', 'wa.nid = wh.nid');
+  $query->condition('wa.access_id', 'section');
+  $query->condition('wh.current', 1);
+  $query->condition('wh.state', 'final_draft');
+  $query->condition('node.type', array('events', 'news'), 'IN');
+  $res = $query->execute()->fetchAllAssoc('nid');
+  if (!empty($res)) {
+    $nodes = node_load_multiple(array_keys($res));
+    foreach ($nodes as $node) {
+      workbench_moderation_moderate($node, 'needs_review');
+    }
+  }
+}
+
+/**
+ * Revert workflow rules.
+ */
+function hwc_workflow_update_7006() {
+  features_revert_module('hwc_workflow');
+}
