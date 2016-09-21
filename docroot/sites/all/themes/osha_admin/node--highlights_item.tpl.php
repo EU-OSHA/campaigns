@@ -9,7 +9,7 @@
  * @see template_process()
  */
 ?>
-<table id="node-<?php print $node->nid; ?>" border="0" cellpadding="0" cellspacing="0" width="100%" style="padding-top: 0px; margin-bottom: 20px; border-bottom: 1px dotted #749b00;">
+<table id="node-<?php print $node->nid; ?>" border="0" cellpadding="0" cellspacing="0" width="100%" style="padding-top: 0px; margin-bottom: 10px; border-bottom: 1px dotted #749b00;">
   <tbody>
     <tr>
       <td>
