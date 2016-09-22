@@ -48,7 +48,7 @@
             </tr>
           </tbody>
         </table>
-        <table border="0" cellpadding="0" cellspacing="0" class="item-summary" width="100%" style="margin-bottom: 20px; border-bottom: 1px dotted #749b00;">
+        <table border="0" cellpadding="0" cellspacing="0" class="item-summary" width="100%" style="margin-bottom: 10px; border-bottom: 1px dotted #749b00;">
           <tbody>
             <tr>
               <td style="padding-bottom: 10px; width: 100%; font-size: 13px; font-family: Arial, sans-serif; color: #000000;">

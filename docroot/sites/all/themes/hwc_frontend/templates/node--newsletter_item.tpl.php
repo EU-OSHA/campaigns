@@ -89,7 +89,7 @@
       </td>
     </tr>
     <tr>
-      <td colspan="2" style="border-bottom: 1px dotted #749b00; padding-top:0px;"></td>
+      <td colspan="2" style="border-bottom: 1px dotted #749b00; padding-top:10px;"></td>
     </tr>
     <tr>
       <td colspan="2" style="padding-bottom: 10px;" class="space-beyond-dotted-line"></td>
