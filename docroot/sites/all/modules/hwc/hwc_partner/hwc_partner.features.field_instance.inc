@@ -3126,7 +3126,7 @@ function hwc_partner_field_default_field_instances() {
   t('General phone');
   t('Google+  profile');
   t('Guid Main Contact');
-  t('Healthy and safety representative');
+  t('Health and safety representative');
   t('His/Her quote on the HWC');
   t('Linkedin profile');
   t('Logo');

@@ -24,13 +24,13 @@
                 }
                 if ($node->type == 'publication') {
                   print l($title, url('node/' . $node->nid . '/view', array('absolute' => TRUE)), array(
-                    'attributes' => array('style' => 'color: #003399; text-decoration: none;'),
+                    'attributes' => array('style' => 'font-family: Arial, sans-serif; color: #003399; text-decoration: none;'),
                     'query' => $url_query,
                     'external' => TRUE
                   ));
                 } else {
                   print l($title, url('node/' . $node->nid, array('absolute' => TRUE)), array(
-                    'attributes' => array('style' => 'color: #003399; text-decoration: none;'),
+                    'attributes' => array('style' => 'font-family: Arial, sans-serif; color: #003399; text-decoration: none;'),
                     'query' => $url_query,
                     'external' => TRUE
                   ));
@@ -48,7 +48,7 @@
             </tr>
           </tbody>
         </table>
-        <table border="0" cellpadding="0" cellspacing="0" class="item-summary" width="100%" style="margin-bottom: 20px; border-bottom: 1px dotted #749b00;">
+        <table border="0" cellpadding="0" cellspacing="0" class="item-summary" width="100%" style="margin-bottom: 10px; border-bottom: 1px dotted #749b00;">
           <tbody>
             <tr>
               <td style="padding-bottom: 10px; width: 100%; font-size: 13px; font-family: Arial, sans-serif; color: #000000;">
@@ -66,9 +66,10 @@
                 ?>
 
                 <?php if (!empty($field_summary['en'][0]['safe_value'])) {?>
-                <div style="font-weight: bold; padding-bottom: 5px;">
-                  <?php print $field_summary['en'][0]['safe_value']; ?>
-                </div>
+                  <span style="font-weight: bold;">
+                    <?php print $field_summary['en'][0]['safe_value']; ?>
+                  </span>
+                  <br>
                 <?php } ?>
 
                 <?php if (isset($body) && is_array($body)) {

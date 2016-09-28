@@ -14,7 +14,7 @@
   <tbody>
     <tr>
       <td>
-        <table border="0" cellpadding="0" cellspacing="0" class="item-summary" width="100%" style="margin-bottom: 20px; border-bottom: 1px dotted #749b00;">
+        <table border="0" cellpadding="0" cellspacing="0" class="item-summary" width="100%" style="margin-bottom: 10px; border-bottom: 1px dotted #749b00;">
           <tbody>
             <tr>
               <td style="padding-bottom: 10px; width: 20%; font-size: 12px; font-family: Arial, sans-serif; color: #000000;">
@@ -47,13 +47,13 @@
                 }
                 if ($node->type == 'publication') {
                   print l($title, url('node/' . $node->nid . '/view', array('absolute' => TRUE)), array(
-                    'attributes' => array('style' => 'color: #003399; padding-bottom: 10px; padding-left: 0px; padding-right: 0px; font-family: Oswald, Arial, sans-serif; font-size: 18px; vertical-align: top; text-decoration: none;'),
+                    'attributes' => array('style' => 'font-family: Arial, sans-serif; color: #003399; padding-bottom: 10px; padding-left: 0px; padding-right: 0px; font-family: Oswald, Arial, sans-serif; font-size: 18px; vertical-align: top; text-decoration: none;'),
                     'query' => $url_query,
                     'external' => TRUE
                   ));
                 } else {
                   print l($title, url('node/' . $node->nid, array('absolute' => TRUE)), array(
-                    'attributes' => array('style' => 'color: #003399; padding-bottom: 10px; padding-left: 0px; padding-right: 0px; font-family: Oswald, Arial, sans-serif; font-size: 18px; vertical-align: top; text-decoration: none;'),
+                    'attributes' => array('style' => 'font-family: Arial, sans-serif; color: #003399; padding-bottom: 10px; padding-left: 0px; padding-right: 0px; font-family: Oswald, Arial, sans-serif; font-size: 18px; vertical-align: top; text-decoration: none;'),
                     'query' => $url_query,
                     'external' => TRUE
                   ));
@@ -62,9 +62,10 @@
                 </p>
                 <?php
                 if (!empty($elements['field_summary'])) {?>
-                  <div style="font-weight: bold">
+                  <span style="font-weight: bold;">
                     <?php print render($elements['field_summary']); ?>
-                  </div>
+                  </span>
+                  <br>
                 <?php } ?>
 
                 <?php
