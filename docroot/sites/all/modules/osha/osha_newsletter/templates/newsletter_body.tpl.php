@@ -55,7 +55,7 @@
 		  }
 		?>
 	  </td>
-	  <td width="180" style="vertical-align: top; padding-top: 0px; padding-right: 0px;" class="right-column">
+	  <td width="180" style="vertical-align: top; padding-top: 10px; padding-right: 0px;" class="right-column">
 		<?php
 		if (!empty($events) && sizeof($events) > 1) {
 			foreach ($events as $item) {
