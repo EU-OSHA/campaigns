@@ -100,6 +100,20 @@ function hwc_admin_config_form() {
     '#size' => 90,
   );
 
+  $form['hwc_segmentation_urls'] = array(
+    '#type' => 'textarea',
+    '#title' => 'Segments used for PIWIK',
+    '#description' => 'Enter one pair url|segment per line. URL must be current_path.',
+    '#default_value' => variable_get("hwc_segmentation_urls", ''),
+  );
+
+  $form["hwc_piwik_segment_id"] = array(
+    '#type' => 'textfield',
+    '#title' => 'Piwik custom dimension ID for segment',
+    '#default_value' => variable_get("hwc_piwik_segment_id", 1),
+    '#size' => 90,
+  );
+
   $form = system_settings_form($form);
   $form['actions']['#weight'] = 150;
   // Prepend this hook to the beginning of array because we need the unchanged
