@@ -450,21 +450,16 @@ function drupal_get_query_parameters(array $query = NULL, array $exclude = array
  *
  * @param $query
  *   The query string to split.
- * @param $decode
- *   Defaults to TRUE. Boolean flag indicating that the return value should be
- *   URL-decoded.
  *
  * @return
  *   An array of URL decoded couples $param_name => $value.
  */
-function drupal_get_query_array($query, $decode = TRUE) {
+function drupal_get_query_array($query) {
   $result = array();
   if (!empty($query)) {
     foreach (explode('&', $query) as $param) {
       $param = explode('=', $param, 2);
-      $key = ($decode) ? rawurldecode($param[0]) : $param[0];
-      $value = isset($param[1]) ? ($decode) ? rawurldecode($param[1]) : $param[1] : ''; 
-      $result[$key] = $value;
+      $result[$param[0]] = isset($param[1]) ? rawurldecode($param[1]) : '';
     }
   }
   return $result;
@@ -478,9 +473,6 @@ function drupal_get_query_array($query, $decode = TRUE) {
  *
  * @param $query
  *   The query parameter array to be processed, e.g. $_GET.
- * @param $encode
- *   Defaults to TRUE. Boolean flag indicating that the return value should be
- *   URL-encoded.
  * @param $parent
  *   Internal use only. Used to build the $query array key for nested items.
  *
@@ -491,16 +483,15 @@ function drupal_get_query_array($query, $decode = TRUE) {
  * @see drupal_get_query_parameters()
  * @ingroup php_wrappers
  */
-function drupal_http_build_query(array $query, $encode = TRUE, $parent = '') {
+function drupal_http_build_query(array $query, $parent = '') {
   $params = array();
 
   foreach ($query as $key => $value) {
-    $raw_key = ($encode) ? rawurlencode($key) : $key;
-    $key = ($parent ? $parent . '[' . $raw_key . ']' : $raw_key);
+    $key = ($parent ? $parent . '[' . rawurlencode($key) . ']' : rawurlencode($key));
 
     // Recurse into children.
     if (is_array($value)) {
-      $params[] = drupal_http_build_query($value, $encode, $key);
+      $params[] = drupal_http_build_query($value, $key);
     }
     // If a query parameter value is NULL, only append its key.
     elseif (!isset($value)) {
@@ -508,8 +499,7 @@ function drupal_http_build_query(array $query, $encode = TRUE, $parent = '') {
     }
     else {
       // For better readability of paths in query strings, we decode slashes.
-      $raw_value = ($encode) ? rawurlencode($value) : $value;
-      $params[] = $key . '=' . str_replace('%2F', '/', $raw_value);
+      $params[] = $key . '=' . str_replace('%2F', '/', rawurlencode($value));
     }
   }
 
@@ -698,6 +688,13 @@ function drupal_goto($path = '', array $options = array(), $http_response_code =
     $options['fragment'] = $destination['fragment'];
   }
 
+  // In some cases modules call drupal_goto(current_path()). We need to ensure
+  // that such a redirect is not to an external URL.
+  if ($path === current_path() && empty($options['external']) && url_is_external($path)) {
+    // Force url() to generate a non-external URL.
+    $options['external'] = FALSE;
+  }
+
   drupal_alter('drupal_goto', $path, $options, $http_response_code);
 
   // The 'Location' HTTP header must be absolute.
@@ -763,7 +760,8 @@ function drupal_access_denied() {
  *   - headers: An array containing request headers to send as name/value pairs.
  *   - method: A string containing the request method. Defaults to 'GET'.
  *   - data: A string containing the request body, formatted as
- *     'param=value&param=value&...'. Defaults to NULL.
+ *     'param=value&param=value&...'; to generate this, use http_build_query().
+ *     Defaults to NULL.
  *   - max_redirects: An integer representing how many times a redirect
  *     may be followed. Defaults to 3.
  *   - timeout: A float representing the maximum number of seconds the function
@@ -788,6 +786,8 @@ function drupal_access_denied() {
  *     HTTP header names are case-insensitive (RFC 2616, section 4.2), so for
  *     easy access the array keys are returned in lower case.
  *   - data: A string containing the response body that was received.
+ *
+ * @see http_build_query()
  */
 function drupal_http_request($url, array $options = array()) {
   // Allow an alternate HTTP client library to replace Drupal's default
@@ -1770,9 +1770,15 @@ function format_rss_item($title, $link, $description, $args = array()) {
  *     - 'key': element name
  *     - 'value': element contents
  *     - 'attributes': associative array of element attributes
+ *     - 'encoded': TRUE if 'value' is already encoded
  *
  * In both cases, 'value' can be a simple string, or it can be another array
  * with the same format as $array itself for nesting.
+ *
+ * If 'encoded' is TRUE it is up to the caller to ensure that 'value' is either
+ * entity-encoded or CDATA-escaped. Using this option is not recommended when
+ * working with untrusted user input, since failing to escape the data
+ * correctly has security implications.
  */
 function format_xml_elements($array) {
   $output = '';
@@ -1785,7 +1791,7 @@ function format_xml_elements($array) {
         }
 
         if (isset($value['value']) && $value['value'] != '') {
-          $output .= '>' . (is_array($value['value']) ? format_xml_elements($value['value']) : check_plain($value['value'])) . '</' . $value['key'] . ">\n";
+          $output .= '>' . (is_array($value['value']) ? format_xml_elements($value['value']) : (!empty($value['encoded']) ? $value['value'] : check_plain($value['value']))) . '</' . $value['key'] . ">\n";
         }
         else {
           $output .= " />\n";
@@ -2184,8 +2190,6 @@ function format_username($account) {
  *   elements:
  *   - 'query': An array of query key/value-pairs (without any URL-encoding) to
  *     append to the URL.
- *   - 'encode': Defaults to TRUE. Boolean flag indicating that the return value
- *     of query parameters should be URL-encoded.
  *   - 'fragment': A fragment identifier (named anchor) to append to the URL.
  *     Do not include the leading '#' character.
  *   - 'absolute': Defaults to FALSE. Whether to force the output to be an
@@ -2229,24 +2233,11 @@ function url($path = NULL, array $options = array()) {
     'query' => array(),
     'absolute' => FALSE,
     'alias' => FALSE,
-    'prefix' => '',
-    'encode' => TRUE,
+    'prefix' => ''
   );
 
-  // A duplicate of the code from url_is_external() to avoid needing another
-  // function call, since performance inside url() is critical.
   if (!isset($options['external'])) {
-    // Return an external link if $path contains an allowed absolute URL. Avoid
-    // calling drupal_strip_dangerous_protocols() if there is any slash (/),
-    // hash (#) or question_mark (?) before the colon (:) occurrence - if any -
-    // as this would clearly mean it is not a URL. If the path starts with 2
-    // slashes then it is always considered an external URL without an explicit
-    // protocol part.
-    $colonpos = strpos($path, ':');
-    $options['external'] = (strpos($path, '//') === 0)
-      || ($colonpos !== FALSE
-        && !preg_match('![/?#]!', substr($path, 0, $colonpos))
-        && drupal_strip_dangerous_protocols($path) == $path);
+    $options['external'] = url_is_external($path);
   }
 
   // Preserve the original path before altering or aliasing.
@@ -2270,7 +2261,7 @@ function url($path = NULL, array $options = array()) {
     }
     // Append the query.
     if ($options['query']) {
-      $path .= (strpos($path, '?') !== FALSE ? '&' : '?') . drupal_http_build_query($options['query'], $options['encode']);
+      $path .= (strpos($path, '?') !== FALSE ? '&' : '?') . drupal_http_build_query($options['query']);
     }
     if (isset($options['https']) && variable_get('https', FALSE)) {
       if ($options['https'] === TRUE) {
@@ -2327,7 +2318,7 @@ function url($path = NULL, array $options = array()) {
   if (!empty($GLOBALS['conf']['clean_url'])) {
     $path = drupal_encode_path($prefix . $path);
     if ($options['query']) {
-      return $base . $path . '?' . drupal_http_build_query($options['query'], $options['encode']) . $options['fragment'];
+      return $base . $path . '?' . drupal_http_build_query($options['query']) . $options['fragment'];
     }
     else {
       return $base . $path . $options['fragment'];
@@ -2366,12 +2357,18 @@ function url($path = NULL, array $options = array()) {
  */
 function url_is_external($path) {
   $colonpos = strpos($path, ':');
-  // Avoid calling drupal_strip_dangerous_protocols() if there is any slash (/),
-  // hash (#) or question_mark (?) before the colon (:) occurrence - if any - as
-  // this would clearly mean it is not a URL. If the path starts with 2 slashes
-  // then it is always considered an external URL without an explicit protocol
-  // part.
+  // Some browsers treat \ as / so normalize to forward slashes.
+  $path = str_replace('\\', '/', $path);
+  // If the path starts with 2 slashes then it is always considered an external
+  // URL without an explicit protocol part.
   return (strpos($path, '//') === 0)
+    // Leading control characters may be ignored or mishandled by browsers, so
+    // assume such a path may lead to an external location. The \p{C} character
+    // class matches all UTF-8 control, unassigned, and private characters.
+    || (preg_match('/^\p{C}/u', $path) !== 0)
+    // Avoid calling drupal_strip_dangerous_protocols() if there is any slash
+    // (/), hash (#) or question_mark (?) before the colon (:) occurrence - if
+    // any - as this would clearly mean it is not a URL.
     || ($colonpos !== FALSE
       && !preg_match('![/?#]!', substr($path, 0, $colonpos))
       && drupal_strip_dangerous_protocols($path) == $path);
@@ -2656,6 +2653,15 @@ function drupal_deliver_html_page($page_callback_result) {
   global $language;
   drupal_add_http_header('Content-Language', $language->language);
 
+  // By default, do not allow the site to be rendered in an iframe on another
+  // domain, but provide a variable to override this. If the code running for
+  // this page request already set the X-Frame-Options header earlier, don't
+  // overwrite it here.
+  $frame_options = variable_get('x_frame_options', 'SAMEORIGIN');
+  if ($frame_options && is_null(drupal_get_http_header('X-Frame-Options'))) {
+    drupal_add_http_header('X-Frame-Options', $frame_options);
+  }
+
   // Menu status constants are integers; page content is a string or array.
   if (is_int($page_callback_result)) {
     // @todo: Break these up into separate functions?
@@ -2770,6 +2776,7 @@ function drupal_page_footer() {
   _registry_check_code(REGISTRY_WRITE_LOOKUP_CACHE);
   drupal_cache_system_paths();
   module_implements_write_cache();
+  drupal_file_scan_write_cache();
   system_run_automated_cron();
 }
 
@@ -3037,6 +3044,13 @@ function drupal_add_html_head_link($attributes, $header = FALSE) {
  */
 function drupal_add_css($data = NULL, $options = NULL) {
   $css = &drupal_static(__FUNCTION__, array());
+  $count = &drupal_static(__FUNCTION__ . '_count', 0);
+
+  // If the $css variable has been reset with drupal_static_reset(), there is
+  // no longer any CSS being tracked, so set the counter back to 0 also.
+  if (count($css) === 0) {
+    $count = 0;
+  }
 
   // Construct the options, taking the defaults into consideration.
   if (isset($options)) {
@@ -3072,7 +3086,8 @@ function drupal_add_css($data = NULL, $options = NULL) {
     }
 
     // Always add a tiny value to the weight, to conserve the insertion order.
-    $options['weight'] += count($css) / 1000;
+    $options['weight'] += $count / 1000;
+    $count++;
 
     // Add the data to the CSS array depending on the type.
     switch ($options['type']) {

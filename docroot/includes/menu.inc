@@ -1636,11 +1636,6 @@ function theme_menu_link(array $variables) {
   $element = $variables['element'];
   $sub_menu = '';
 
-  // Set the encode option to FALSE for query parameter so query parameters
-  // does not encode.
-  if (isset($element['#localized_options']['query'])) {
-    $element['#localized_options']['encode'] = FALSE;
-  }
   if ($element['#below']) {
     $sub_menu = drupal_render($element['#below']);
   }
@@ -1879,11 +1874,6 @@ function menu_navigation_links($menu_name, $level = 0) {
       if ($item['link']['in_active_trail']) {
         $class = ' active-trail';
         $l['attributes']['class'][] = 'active-trail';
-      }
-      // If query parameter available set the encode option to FALSE for query
-      // parameter so query parameters does not encode.
-      if (!empty($item['link']['options']) && isset($item['link']['options']['query'])) {
-        $l['encode'] = FALSE;
       }
       // Normally, l() compares the href of every link with $_GET['q'] and sets
       // the active class accordingly. But local tasks do not appear in menu
@@ -2429,7 +2419,7 @@ function menu_set_active_trail($new_trail = NULL) {
           // argument placeholders (%). Such links are not contained in regular
           // menu trees, and have only been loaded for the additional
           // translation that happens here, so as to be able to display them in
-          // the breadcumb for the current page.
+          // the breadcrumb for the current page.
           // @see _menu_tree_check_access()
           // @see _menu_link_translate()
           if (strpos($link['href'], '%') !== FALSE) {
