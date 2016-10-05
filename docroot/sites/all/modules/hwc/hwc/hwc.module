@@ -1075,6 +1075,29 @@ function hwc_taxonomy_term_presave($term) {
   }
 }
 
+/**
+ * Implements hook_page_alter().
+ */
+function hwc_page_alter(&$page) {
+  // MH-268
+  // Add segments as js setting and set it up as cookie to push it on piwik.
+  $segment_pairs = explode("\n", variable_get('hwc_segmentation_urls', ''));
+  $segments = [];
+  foreach ($segment_pairs as $pair) {
+    $pair = explode('|', $pair);
+    $segments[$pair[0]] = $pair[1];
+  }
+  $path = current_path();
+  if (in_array($path, array_keys($segments))) {
+    drupal_add_library('system', 'jquery.cookie');
+    drupal_add_js(array('hwc' => array(
+      'segment' => $segments[$path],
+      'cd_id' => variable_get("hwc_piwik_segment_id", 1),
+    )), 'setting');
+    drupal_add_js(drupal_get_path('module', 'hwc') .'/js/piwik_segment.js', 'file');
+  }
+}
+
 function theme_hwc_print_friendly_block() {
   $content = array(
     '#markup' => '<a href="javascript:if(window.print)window.print();" class="printfriendly" title="Print page"></a>'
