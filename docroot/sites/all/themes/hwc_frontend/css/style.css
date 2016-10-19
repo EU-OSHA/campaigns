@@ -11894,6 +11894,9 @@ html:lang(mt) .get-involved-section .information-tailored .images-section .image
 .node-type-partner .panels-flexible-region-inside div {
   text-align: left;
 }
+.node-type-partner .panels-flexible-region-inside .view-id-partner_content.view-display-id-past_events .views-row .views-field .field-content {
+  text-align: center !important;
+}
 .node-type-partner .panels-flexible-row-new-5 {
   margin-left: 25px;
   margin-right: 25px;
@@ -15097,6 +15100,9 @@ input#edit-field-image-und-0-upload::before {
   background-color: #003399;
   color: white;
   padding: 3px 10px;
+}
+.view-display-id-past_events {
+  text-align: center!important;
 }
 .footer {
   background: transparent url("../images/footer/bg-complete.png") no-repeat left;
