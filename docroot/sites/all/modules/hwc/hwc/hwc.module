@@ -707,6 +707,14 @@ function hwc_node_view($node, $view_mode, $langcode) {
   $no_share_widget = array(
     162, 241, 242, 243, 244, 245, 246,
   );
+
+  if (($view_mode == 'full' && !empty($node->field_activity))) {
+    $wrapper = entity_metadata_wrapper('node', $node);
+    drupal_add_js(array('hwc' => array(
+      'activity' => $wrapper->field_activity->value()[0]->name,
+    )), 'setting');
+  }
+
   if ($view_mode == 'full'
     && in_array($node->type, $share_widget_content_types)
     && !in_array($node->nid, $no_share_widget)) {
