@@ -7246,8 +7246,8 @@ header.navbar-default .campaigns-header .navbar-header .header-text {
   color: #003399;
   font-size: 1.65em;
   font-weight: bold;
-  width: 185px;
-  padding-top: 0.6em;
+  width: 250px;
+  padding-top: 1.2em;
   padding-left: 2em;
   float: left;
 }
@@ -11894,6 +11894,9 @@ html:lang(mt) .get-involved-section .information-tailored .images-section .image
 .node-type-partner .panels-flexible-region-inside div {
   text-align: left;
 }
+.node-type-partner .panels-flexible-region-inside .view-id-partner_content.view-display-id-past_events .views-row .views-field .field-content {
+  text-align: center !important;
+}
 .node-type-partner .panels-flexible-row-new-5 {
   margin-left: 25px;
   margin-right: 25px;
@@ -15098,6 +15101,9 @@ input#edit-field-image-und-0-upload::before {
   color: white;
   padding: 3px 10px;
 }
+.view-display-id-past_events {
+  text-align: center!important;
+}
 .footer {
   background: transparent url("../images/footer/bg-complete.png") no-repeat left;
   border: none;
@@ -15231,8 +15237,8 @@ input#edit-field-image-und-0-upload::before {
   }
   header.navbar-default .campaigns-header .navbar-header .header-text {
     font-size: 20px;
-    width: 150px;
-    padding-top: 2.5em;
+    width: 218px;
+    padding-top: 1.5em;
     padding-left: 0.8em;
   }
   header.navbar-default .campaigns-header .navbar-header .header_top_bar .region-above-header {
@@ -15447,8 +15453,8 @@ input#edit-field-image-und-0-upload::before {
   }
   header.navbar-default .campaigns-header .navbar-header .header-text {
     font-size: 16px;
-    width: 120px;
-    padding-top: 4em;
+    width: 145px;
+    padding-top: 2.5em;
     padding-left: 0.8em;
   }
   header.navbar-default .campaigns-header .navbar-header .header_top_bar .region-above-header {
