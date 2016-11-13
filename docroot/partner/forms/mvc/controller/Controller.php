@@ -499,6 +499,8 @@ abstract class Controller {
         $otherUsers1 = '';
         $otherUsers2 = '';
         $otherUsers3 = '';
+        $otherUsers4 = '';
+        $otherUsers5 = '';
         $normalValues = array();
         foreach ($fields as $key => $value) {
             // Envío del tipo de imagen
@@ -545,7 +547,7 @@ abstract class Controller {
                 } else {
                     $countries = null;
                 }
-            } elseif (strpos($key, 'otheruser') === false && $key != 'fullname1' && $key != 'fullname2' && $key != 'fullname3') {
+            } elseif (strpos($key, 'otheruser') === false && $key != 'fullname1' && $key != 'fullname2' && $key != 'fullname3' && $key != 'fullname4' && $key != 'fullname5') {
                 //Normal fields
                 if (isset($value)) {
                     if (isset($keyLogoImageType)){
@@ -582,6 +584,18 @@ abstract class Controller {
                     $otherUsers3 .= $value . '|';
                 }else if($key === 'osh_otheruserphone3'){
                     $otherUsers3 .= $value . ')';
+                }else if($key === 'fullname4'){
+                    $otherUsers4 .= '(' . str_replace(" ","+",$value) . '|';
+                }else if($key === 'osh_otheruseremail4'){
+                    $otherUsers4 .= $value . '|';
+                }else if($key === 'osh_otheruserphone4'){
+                    $otherUsers4 .= $value . ')';
+                }else if($key === 'fullname5'){
+                    $otherUsers5 .= '(' . str_replace(" ","+",$value) . '|';
+                }else if($key === 'osh_otheruseremail5'){
+                    $otherUsers5 .= $value . '|';
+                }else if($key === 'osh_otheruserphone5'){
+                    $otherUsers5 .= $value . ')';
                 }
             }
         }
@@ -607,6 +621,8 @@ abstract class Controller {
         $result['otherusers1'] = $otherUsers1;
         $result['otherusers2'] = $otherUsers2;
         $result['otherusers3'] = $otherUsers3;
+        $result['otherusers4'] = $otherUsers4;
+        $result['otherusers5'] = $otherUsers5;
         //        }
         //          (/CRG - #157 )
         if (!$params->getUrlParamValue('maintenance_mode')) {
