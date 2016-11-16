@@ -16,3 +16,7 @@ function osha_infographics_add_menu_position_rules() {
     osha_add_menu_position_rule('infographics (menu position rule)', '---- Infographics', $condition);
   }
 }
+
+function osha_infographics_update_7002() {
+  features_revert_module('osha_infographics');
+}
