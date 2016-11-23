@@ -95,7 +95,7 @@ function osha_infographics_theme() {
 function theme_osha_infographics_multilanguage_file_format($element) {
   $file = (object) $element['file'];
   $entity = (object) $element['entity'];
-  $icon_directory = drupal_get_path('theme', 'osha_frontend') . '/images/file_icons';
+  $icon_directory = drupal_get_path('theme', 'hwc_frontend') . '/images/file_icons';
 
   global $language;
   $file = isset($entity->field_file[$language->language][0])
@@ -122,7 +122,7 @@ function theme_osha_infographics_multilanguage_file_format($element) {
 function theme_osha_infographics_multilanguage_image_format($element) {
   $file = (object) $element['file'];
   $entity = (object) $element['entity'];
-  $icon_directory = drupal_get_path('theme', 'osha_frontend') . '/images/file_icons';
+  $icon_directory = drupal_get_path('theme', 'hwc_frontend') . '/images/file_icons';
 
   global $language;
   $file = isset($entity->field_image[$language->language][0])

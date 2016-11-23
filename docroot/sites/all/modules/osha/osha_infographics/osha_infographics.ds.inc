@@ -20,19 +20,21 @@ function osha_infographics_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'left' => array(
-        0 => 'field_image',
+        0 => 'field_thumbnail',
       ),
       'right' => array(
         1 => 'title_field',
         2 => 'body',
         3 => 'field_file',
+        4 => 'field_image',
       ),
     ),
     'fields' => array(
-      'field_image' => 'left',
+      'field_thumbnail' => 'left',
       'title_field' => 'right',
       'body' => 'right',
       'field_file' => 'right',
+      'field_image' => 'right',
     ),
     'classes' => array(
       'layout_class' => array(

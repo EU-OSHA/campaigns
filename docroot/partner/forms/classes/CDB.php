@@ -691,7 +691,6 @@ final class CDB
     private function getData($url)
     {
         $resource = $this->host . $this->port . $this->resource . $url;
-//        error_log($resource);
         $response = null;
 //        $time_pre = microtime(true);
         if ($content = @file_get_contents($resource)) {
@@ -776,14 +775,28 @@ final class CDB
             $otherusers.= str_replace(" ", "", $parameters['otherusers3']);
             unset($parameters['otherusers3']);
         }
+        if($otherusers != "otherusers=" && isset($parameters['otherusers4'])&& $parameters['otherusers4'] != "(||)"){
+           $otherusers.= ","; 
+        }
+        if(isset($parameters['otherusers4'])&& $parameters['otherusers4'] != "(||)"){
+            $otherusers.= str_replace(" ", "", $parameters['otherusers4']);
+            unset($parameters['otherusers4']);
+        }
+        if($otherusers != "otherusers=" && isset($parameters['otherusers5'])&& $parameters['otherusers5'] != "(||)"){
+           $otherusers.= ","; 
+        }
+        if(isset($parameters['otherusers5'])&& $parameters['otherusers5'] != "(||)"){
+            $otherusers.= str_replace(" ", "", $parameters['otherusers5']);
+            unset($parameters['otherusers5']);
+        }
 		
-	/* "osh_ceo_changed" param can only be send on mantenaince*/
-	$params = Parameters::getInstance();
-	if(empty($params->get('mf')) && isset($parameters['fields']['osh_ceo_changed'])){
-		unset($parameters['fields']['osh_ceo_changed']);
-	}
-	/* */
-		
+        /* "osh_ceo_changed" param can only be send on mantenaince*/
+        $params = Parameters::getInstance();
+        if(empty($params->get('mf')) && isset($parameters['fields']['osh_ceo_changed'])){
+                unset($parameters['fields']['osh_ceo_changed']);
+        }
+        /* */
+        
         $updateMethod = $this->getMethod('update', 'update_mf');
         
         $urlBase          = $this->host . $this->port . $this->resource . $updateMethod;
@@ -804,9 +817,9 @@ final class CDB
 
         $fieldsJson = json_encode($parameters['fields'],JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         curl_setopt($ch, CURLOPT_POSTFIELDS, base64_encode($fieldsJson));
-//        error_log("Fields:   " .print_r($fieldsJson,1));
+        error_log("Fields:   " .print_r(base64_encode($fieldsJson),1));
         
-        error_log("Fields:   " .print_r($parameters['fields'],1));
+        error_log("Fields2:   " .print_r($parameters['fields'],1));
         
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);

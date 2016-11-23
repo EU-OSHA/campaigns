@@ -189,6 +189,46 @@
       "section": "OTHER_USERS",
       "type": "text"
     },
+    "contact_osh_otherusername4": {
+      "name": "contact_osh_otherusername4",
+      "label": "Name of the additional user",
+      "section": "OTHER_USERS",
+      "type": "text"
+    },
+    "contact_osh_otherusermail4": {
+      "name": "contact_osh_otherusermail4",
+      "label": "Email address of additional user",
+      "section": "OTHER_USERS",
+      "type": "text",
+      "validator": "email"
+    },
+    "contact_osh_otheruserphone4": {
+      "name": "contact_osh_otheruserphone4",
+      "placeholder": "(000) 0000 0000",
+      "label": "Telephone of additional user",
+      "section": "OTHER_USERS",
+      "type": "text"
+    },
+    "contact_osh_otherusername5": {
+      "name": "contact_osh_otherusername5",
+      "label": "Name of the additional user",
+      "section": "OTHER_USERS",
+      "type": "text"
+    },
+    "contact_osh_otherusermail5": {
+      "name": "contact_osh_otherusermail5",
+      "label": "Email address of additional user",
+      "section": "OTHER_USERS",
+      "type": "text",
+      "validator": "email"
+    },
+    "contact_osh_otheruserphone5": {
+      "name": "contact_osh_otheruserphone5",
+      "placeholder": "(000) 0000 0000",
+      "label": "Telephone of additional user",
+      "section": "OTHER_USERS",
+      "type": "text"
+    },
     "osh_primarycontactsection": {
       "name": "osh_primarycontactsection",
       "section": "PRIMARY_CONTACT",
@@ -227,6 +267,12 @@
     "contact_osh_otherusername3": "fullname3",
     "contact_osh_otherusermail3": "osh_otheruseremail3",
     "contact_osh_otheruserphone3": "osh_otheruserphone3",
+    "contact_osh_otherusername4": "fullname4",
+    "contact_osh_otherusermail4": "osh_otheruseremail4",
+    "contact_osh_otheruserphone4": "osh_otheruserphone4",
+    "contact_osh_otherusername5": "fullname5",
+    "contact_osh_otherusermail5": "osh_otheruseremail5",
+    "contact_osh_otheruserphone5": "osh_otheruserphone5",
     "osh_primarycontactsection": "osh_primarycontactsection",
     "company_osh_orgnameAux": "company_osh_orgnameAux",
     "contact_osh_maincontactpersonfirstnameAux": "contact_osh_maincontactpersonfirstnameAux",
@@ -247,6 +293,12 @@
     "contact_osh_otherusername3": "fullname3",
     "contact_osh_otherusermail3": "osh_otheruseremail3",
     "contact_osh_otheruserphone3": "osh_otheruserphone3",
+    "contact_osh_otherusername4": "fullname4",
+    "contact_osh_otherusermail4": "osh_otheruseremail4",
+    "contact_osh_otheruserphone4": "osh_otheruserphone4",
+    "contact_osh_otherusername5": "fullname5",
+    "contact_osh_otherusermail5": "osh_otheruseremail5",
+    "contact_osh_otheruserphone5": "osh_otheruserphone5",
     "contact_osh_category": "osh_category",
     "contact_osh_leads": "osh_leads",
     "company_osh_osh_appform_osh_country": "returnPaises"

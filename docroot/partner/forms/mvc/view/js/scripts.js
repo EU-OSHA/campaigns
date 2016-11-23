@@ -369,7 +369,7 @@ function validaImagenes(section) {
     }
 
     function checkSections() {
-    	//Workaound error displaying field IE
+        //Workaound error displaying field IE
         if($("#company_osh_orgname").length > 0){
             $("#company_osh_orgname").val($("#company_osh_orgname").val());
         }
@@ -730,7 +730,19 @@ $(document).ready(function () {
             nameAndMailFilled3(this);
         }
     });
-        $('#contact_osh_otherusername1').on({
+    $('#contact_osh_otherusermail4').on({
+        change: function () {
+            validateEmail(this);
+            nameAndMailFilled4(this);
+        }
+    });
+    $('#contact_osh_otherusermail5').on({
+        change: function () {
+            validateEmail(this);
+            nameAndMailFilled5(this);
+        }
+    });
+    $('#contact_osh_otherusername1').on({
         change: function () {
             nameAndMailFilled1();
         }
@@ -743,6 +755,16 @@ $(document).ready(function () {
     $('#contact_osh_otherusername3').on({
         change: function () {
             nameAndMailFilled3();
+        }
+    });
+    $('#contact_osh_otherusername4').on({
+        change: function () {
+            nameAndMailFilled4();
+        }
+    });
+    $('#contact_osh_otherusername5').on({
+        change: function () {
+            nameAndMailFilled5();
         }
     });
     $("#company_osh_orgname").on({
@@ -1100,17 +1122,28 @@ $(document).ready(function () {
         if($('#otherUserField2').hasClass('disabled')){
             $('#otherUserField2').removeClass('disabled');
             $('#otherUserField2').css({
-            'display': 'initial'
+            'display': ''
             });
         }else if($('#otherUserField3').hasClass('disabled')){
             $('#otherUserField3').removeClass('disabled');
             $('#otherUserField3').css({
-            'display': 'initial'
+            'display': ''
             });
-        }else if($('#otherUserField1').hasClass('disabled')){
+        }else if($('#otherUserField4').hasClass('disabled')){
+            $('#otherUserField4').removeClass('disabled');
+            $('#otherUserField4').css({
+            'display': ''
+            });
+        }else if($('#otherUserField5').hasClass('disabled')){
+            $('#otherUserField5').removeClass('disabled');
+            $('#otherUserField5').css({
+            'display': ''
+            });
+        }
+        else if($('#otherUserField1').hasClass('disabled')){
             $('#otherUserField1').removeClass('disabled');
             $('#otherUserField1').css({
-            'display': 'initial'
+            'display': ''
             });
         }
         e.preventDefault();
@@ -1152,7 +1185,28 @@ $(document).ready(function () {
         $('#contact_osh_otheruserphone3').val("");
         e.preventDefault();
     });
-
+    $("#form").on("click", "#removeOtherUser4", function (e) {
+        
+        $('#otherUserField4').addClass('disabled');
+        $('#otherUserField4').css({
+            'display': 'none'
+        });
+        $('#contact_osh_otherusername4').val("");
+        $('#contact_osh_otherusermail4').val("");
+        $('#contact_osh_otheruserphone4').val("");
+        e.preventDefault();
+    });
+    $("#form").on("click", "#removeOtherUser5", function (e) {
+        
+        $('#otherUserField5').addClass('disabled');
+        $('#otherUserField5').css({
+            'display': 'none'
+        });
+        $('#contact_osh_otherusername5').val("");
+        $('#contact_osh_otherusermail5').val("");
+        $('#contact_osh_otheruserphone5').val("");
+        e.preventDefault();
+    });
     /**
      * Validation widget
      */
@@ -1474,7 +1528,7 @@ $(document).ready(function () {
     //Start HWCCDB-338 PHP- OCP - Countries of Activity -
     // the search shoudl be "Countries starting with the letter entered in the search engine", not "Countries wich contain the following word"
     // 
-    //    $(".dropdown-multiple").select2();
+//    $(".dropdown-multiple").select2();
 
     function matchStart (term, text) {
       if (text.toUpperCase().indexOf(term.toUpperCase()) == 0) {
@@ -1491,7 +1545,8 @@ $(document).ready(function () {
     });
 
     //End HWCCDB-338
-
+    
+    
     $("#refresh").click(function (e) {
         $("#captcha").attr("src", 'lib/securimage/securimage_show.php?' + Math.random());
         return false;
@@ -1505,6 +1560,18 @@ $(document).ready(function () {
     if (!$('#contact_osh_otherusername3').val() && !$('#contact_osh_otherusermail3').val()) {
         $('#otherUserField3').addClass('disabled');
         $('#otherUserField3').css({
+            'display': 'none'
+        });
+    }
+    if (!$('#contact_osh_otherusername4').val() && !$('#contact_osh_otherusermail4').val()) {
+        $('#otherUserField4').addClass('disabled');
+        $('#otherUserField4').css({
+            'display': 'none'
+        });
+    }
+    if (!$('#contact_osh_otherusername5').val() && !$('#contact_osh_otherusermail5').val()) {
+        $('#otherUserField5').addClass('disabled');
+        $('#otherUserField5').css({
             'display': 'none'
         });
     }
@@ -1574,7 +1641,7 @@ $(document).ready(function () {
 //                $(item).removeClass("error");
 //                $(item).attr("data-error", "");
                 $("#"+$(item).attr("id")+"_errormsg").remove();
-
+                
             });
             // if($(".main-contact-change-checkbox").attr("id")== "company_osh_ceochange"){
             if($(this).attr("id")== "company_osh_ceochange"){
@@ -1591,7 +1658,7 @@ $(document).ready(function () {
 			$(this).parents('fieldset').find(".main-contact-change-backup").each(function (id, item) {
             // $(".main-contact-change-backup").each(function (id, item) { //Issue with main contact when CEO/Editor change is checked in mf
                 $("#"+$(item).attr("id").substr(0,$(item).attr("id").indexOf("_clone"))).val($(item).val());
-//                $(".main-contact-change").find("#" + $(item).attr("id")).val($(item).val()); 
+//                $(".main-contact-change").find("#" + $(item).attr("id")).val($(item).val());
             });
             // if($(".main-contact-change-checkbox").attr("id")== "company_osh_ceochange"){
             if($(this).attr("id")== "company_osh_ceochange"){
@@ -2011,11 +2078,19 @@ $(document).ready(function () {
     }
     if(($('#contact_osh_otherusername2').val() != "" && $('#contact_osh_otherusername2').val() != undefined) 
             || ($('#contact_osh_otherusermail2').val() != "" &&$('#contact_osh_otherusermail2').val() != undefined)){
-        nameAndMailFilled1();
+        nameAndMailFilled2();
     }
     if(($('#contact_osh_otherusername3').val() != "" && $('#contact_osh_otherusername3').val() != undefined) 
             || ($('#contact_osh_otherusermail3').val() != "" &&$('#contact_osh_otherusermail3').val() != undefined)){
-        nameAndMailFilled1();
+        nameAndMailFilled3();
+    }
+    if(($('#contact_osh_otherusername4').val() != "" && $('#contact_osh_otherusername4').val() != undefined) 
+            || ($('#contact_osh_otherusermail4').val() != "" &&$('#contact_osh_otherusermail4').val() != undefined)){
+        nameAndMailFilled4();
+    }
+    if(($('#contact_osh_otherusername5').val() != "" && $('#contact_osh_otherusername5').val() != undefined) 
+            || ($('#contact_osh_otherusermail5').val() != "" &&$('#contact_osh_otherusermail5').val() != undefined)){
+        nameAndMailFilled5();
     }
     
     function nameAndMailFilled1(){
@@ -2082,6 +2157,50 @@ $(document).ready(function () {
            $("#contact_osh_otherusermail3").removeClass("error");
            $("#contact_osh_otherusermail3").attr("data-error", "");
            $("#contact_osh_otherusermail3_required_errormsg").remove();
+       }
+    }
+    function nameAndMailFilled4(){
+       if($('#contact_osh_otherusername4').val() != "" && $('#contact_osh_otherusermail4').val() == ""){
+            $("#contact_osh_otherusermail4").addClass("error");
+            $("#contact_osh_otherusermail4").attr("data-error", "true");
+            if (!$("#contact_osh_otherusermail4_required_errormsg").length) {
+                $("#contact_osh_otherusermail4").parent().append('<div id="contact_osh_otherusermail4_required_errormsg" class="error-msg">The field is required</div>');
+            }
+       }else if($('#contact_osh_otherusername4').val() == "" && $('#contact_osh_otherusermail4').val() != ""){
+            $("#contact_osh_otherusername4").addClass("error");
+            $("#contact_osh_otherusername4").attr("data-error", "true");
+            if (!$("#contact_osh_otherusername4_required_errormsg").length) {
+                $("#contact_osh_otherusername4").parent().append('<div id="contact_osh_otherusername4_required_errormsg" class="error-msg">The field is required</div>');
+            }
+       }else{
+           $("#contact_osh_otherusername4").removeClass("error");
+           $("#contact_osh_otherusername4").attr("data-error", "");
+           $("#contact_osh_otherusername4_required_errormsg").remove();
+           $("#contact_osh_otherusermail4").removeClass("error");
+           $("#contact_osh_otherusermail4").attr("data-error", "");
+           $("#contact_osh_otherusermail4_required_errormsg").remove();
+       }
+    }
+    function nameAndMailFilled5(){
+       if($('#contact_osh_otherusername5').val() != "" && $('#contact_osh_otherusermail5').val() == ""){
+            $("#contact_osh_otherusermail5").addClass("error");
+            $("#contact_osh_otherusermail5").attr("data-error", "true");
+            if (!$("#contact_osh_otherusermail5_required_errormsg").length) {
+                $("#contact_osh_otherusermail5").parent().append('<div id="contact_osh_otherusermail5_required_errormsg" class="error-msg">The field is required</div>');
+            }
+       }else if($('#contact_osh_otherusername5').val() == "" && $('#contact_osh_otherusermail5').val() != ""){
+            $("#contact_osh_otherusername5").addClass("error");
+            $("#contact_osh_otherusername5").attr("data-error", "true");
+            if (!$("#contact_osh_otherusername5_required_errormsg").length) {
+                $("#contact_osh_otherusername5").parent().append('<div id="contact_osh_otherusername5_required_errormsg" class="error-msg">The field is required</div>');
+            }
+       }else{
+           $("#contact_osh_otherusername5").removeClass("error");
+           $("#contact_osh_otherusername5").attr("data-error", "");
+           $("#contact_osh_otherusername5_required_errormsg").remove();
+           $("#contact_osh_otherusermail5").removeClass("error");
+           $("#contact_osh_otherusermail5").attr("data-error", "");
+           $("#contact_osh_otherusermail5_required_errormsg").remove();
        }
     }
     function validateWebFormat(web){
