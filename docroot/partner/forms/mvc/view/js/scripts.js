@@ -2033,7 +2033,7 @@ $(document).ready(function () {
      
      //Redirect to the private zone from congrats.
      $(".privateZoneredirect").click(function (e) {
-        window.top.location.href = "https://www.healthy-workplaces.eu/all-ages-splash-page/"; 
+        window.top.location.href = "https://healthy-workplaces.eu/all-ages-splash-page/"; 
      });
      $(".privateZoneredirectMF").click(function (e) {
         var partner_nid = $('#partner_nid').val();
@@ -2043,7 +2043,7 @@ $(document).ready(function () {
             var url = homeurl + language + "/node/" + partner_nid;
             window.top.location.href = url;
         }else{
-            window.top.location.href = "https://www.healthy-workplaces.eu/all-ages-splash-page/"; 
+            window.top.location.href = "https://healthy-workplaces.eu/all-ages-splash-page/"; 
         }
      });
 
