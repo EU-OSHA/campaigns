@@ -57,9 +57,9 @@
                 print l(theme('image_style', array(
                   'style_name' => 'newsletter_thumb',
                   'path' => (isset($field_image) && !empty($field_image)) ? $field_image[0]['uri'] : '',
-                  'width' => 150,
+                  'width' => 100,
                   'alt' => (isset($field_image) && !empty($field_image)) ? $field_image[0]['alt'] : '',
-                  'attributes' => array('style' => 'width: 150px; heigth: auto; border: 0px; padding-right: 20px; padding-bottom: 20px;', 'align' => 'left', 'hspace' => 20, 'vspace' => 20)
+                  'attributes' => array('style' => 'width: 100px; heigth: auto; border: 0px; padding-right: 5px; padding-bottom: 5px;', 'align' => 'left', 'hspace' => 20, 'vspace' => 20)
                 )), url('node/' . $node->nid, array('absolute' => TRUE)), array(
                   'html' => TRUE,
                   'external' => TRUE

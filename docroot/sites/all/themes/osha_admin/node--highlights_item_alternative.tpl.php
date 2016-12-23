@@ -22,9 +22,9 @@
             print l(theme('image_style', array(
               'style_name' => 'newsletter_thumb',
               'path' => (isset($field_image) && !empty($field_image)) ? $field_image[0]['uri'] : '',
-              'width' => 150,
+              'width' => 100,
               'alt' => (isset($field_image) && !empty($field_image)) ? $field_image[0]['alt'] : '',
-              'attributes' => array('style' => 'border: 0px; width: 150px; max-width: 150px; padding-right: 20px; padding-bottom: 20px; margin: 0;', 'align' => 'left', 'hspace' => '20', 'vspace' => '20')
+              'attributes' => array('style' => 'border: 0px; width: 100px; max-width: 100px; padding-right: 5px; padding-bottom: 5px; margin: 0;', 'align' => 'left', 'hspace' => '20', 'vspace' => '20')
             )), url('node/' . $node->nid, array('absolute' => TRUE)), array(
               'html' => TRUE,
               'external' => TRUE
