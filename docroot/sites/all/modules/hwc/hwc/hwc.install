@@ -570,3 +570,10 @@ function hwc_update_7029() {
   );
   module_enable($modules);
 }
+
+/**
+ * MDR-776 - Revert hwc module - update newsletter_thumb image style
+ */
+function hwc_update_7030() {
+  features_revert_module('hwc');
+}
