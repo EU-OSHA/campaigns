@@ -74,13 +74,13 @@ function hwc_image_default_styles() {
 
   // Exported image style: newsletter_thumb.
   $styles['newsletter_thumb'] = array(
-    'label' => 'Newsletter thumb (150 X 150)',
+    'label' => 'Newsletter thumb (100 X 100)',
     'effects' => array(
-      3 => array(
+      1 => array(
         'name' => 'image_scale',
         'data' => array(
-          'width' => 150,
-          'height' => 150,
+          'width' => 100,
+          'height' => 100,
           'upscale' => 0,
         ),
         'weight' => -10,
@@ -93,8 +93,8 @@ function hwc_image_default_styles() {
           ),
           'under' => 1,
           'exact' => array(
-            'width' => 150,
-            'height' => 150,
+            'width' => 100,
+            'height' => 100,
             'xpos' => 'center',
             'ypos' => 'center',
           ),
