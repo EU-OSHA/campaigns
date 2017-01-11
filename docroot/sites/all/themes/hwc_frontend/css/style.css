@@ -15105,14 +15105,17 @@ input#edit-field-image-und-0-upload::before {
   text-align: center!important;
 }
 /*Data visualisation – ageing & OSH*/
-.page-node-2494 .node-article {
+.page-node-2494 .node-article,
+.page-node-2043 .node-article {
   position: relative;
 }
-.page-node-2494 .node-article .field-name-field-image + .field-name-title-field {
+.page-node-2494 .node-article .field-name-field-image + .field-name-title-field,
+.page-node-2043 .node-article .field-name-field-image + .field-name-title-field {
   background: inherit;
   top: 50px;
 }
-.page-node-2494 .node-article .field-name-field-image + .field-name-title-field h1 {
+.page-node-2494 .node-article .field-name-field-image + .field-name-title-field h1,
+.page-node-2043 .node-article .field-name-field-image + .field-name-title-field h1 {
   padding-top: 0px;
   margin-left: 50px;
   margin-right: 0px;
@@ -15122,7 +15125,8 @@ input#edit-field-image-und-0-upload::before {
   max-width: 780px;
   font-size: 3em;
 }
-.page-node-2494 .node-article .field.field-name-field-image {
+.page-node-2494 .node-article .field.field-name-field-image,
+.page-node-2043 .node-article .field.field-name-field-image {
   height: inherit;
   margin-bottom: 2.5em;
 }
