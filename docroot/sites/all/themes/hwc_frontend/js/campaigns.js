@@ -49,6 +49,18 @@ jQuery(document).ready(function() {
 		document.addEventListener("touchstart", function() {},false);
 	});
 
+	//fixing sticky menu
+	var num = 200; //number of pixels before modifying styles
+
+	jQuery(window).bind('scroll', function () {
+	    if (jQuery(window).scrollTop() > num) {
+	        jQuery("#navbar").addClass("sticky-menu");
+	    } else {
+	        jQuery('#navbar').removeClass('sticky-menu');
+	    }
+	});
+	
+
 	/************************** FUNCTIONS *******************************/
 
 	function funcionesTabletMovil () {
