@@ -7360,7 +7360,7 @@ header.navbar-default .navbar-collapse nav ul.menu {
 }
 header.navbar-default .navbar-collapse nav ul.menu li {
   color: #ffffff;
-  width: 20%;
+  width: 18%;
 }
 header.navbar-default .navbar-collapse nav ul.menu li a,
 header.navbar-default .navbar-collapse nav ul.menu li > span {
@@ -7432,6 +7432,32 @@ header.navbar-default .navbar-collapse nav ul.menu li .dropdown-menu > .active >
 header.navbar-default .navbar-collapse nav ul.menu li .dropdown-menu > .active > span:hover,
 header.navbar-default .navbar-collapse nav ul.menu li .dropdown-menu > .active > span:focus {
   background-color: #003399;
+}
+header.navbar-default .navbar-collapse nav ul.menu > li.first {
+  width: 10%;
+}
+header.navbar-default .navbar-collapse nav ul.menu > li.first a {
+  padding-bottom: 0px;
+  padding-top: 0px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-right: 1px solid white;
+  background-color: inherit !important;
+  color: white;
+  overflow: hidden;
+  height: 20px;
+}
+header.navbar-default .navbar-collapse nav ul.menu > li.first a:hover {
+  color: white;
+}
+header.navbar-default .navbar-collapse nav ul.menu > li.first a:before {
+  content: "";
+  background: url("/sites/all/themes/hwc_frontend/images/header/campaigns-home.png") no-repeat;
+  display: block;
+  width: 100%;
+  height: 19px;
+  margin-bottom: 39px;
+  background-position: center;
 }
 header.navbar-default .navbar-collapse nav ul.menu li.last .dropdown-menu {
   min-width: 100%;
