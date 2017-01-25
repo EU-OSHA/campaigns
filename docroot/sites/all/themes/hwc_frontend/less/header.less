@@ -169,7 +169,7 @@ header.navbar-default{
 				text-transform: uppercase;
 				li{
 					color: @menu-color;
-					width: 20%;
+					width: 18%;
 					a, > span{
 						color: @menu-color;
 						text-align: center;
@@ -238,8 +238,31 @@ header.navbar-default{
 						background-color: @menu-bg-color;
 					}
 				}
-				li.first{
-				
+				> li.first{
+					width: 10%;
+					a{
+						padding-bottom: 0px;
+						padding-top: 0px;
+						margin-top: 10px;
+						margin-bottom: 10px;
+						border-right: 1px solid white;
+						background-color: inherit !important;
+					    color: white;
+					    overflow: hidden;
+					    height: 20px;
+						&:hover{
+							color: white;
+						}
+						&:before{
+							content:"";
+							background: url("/sites/all/themes/hwc_frontend/images/header/campaigns-home.png") no-repeat;
+							display: block;
+						    width: 100%;
+						    height: 19px;
+						    margin-bottom: 39px;
+						    background-position: center;
+						}
+					}
 				}
 				li.last{
 					.dropdown-menu{
