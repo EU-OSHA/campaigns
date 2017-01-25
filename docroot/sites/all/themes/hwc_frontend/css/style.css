@@ -15525,7 +15525,6 @@ input#edit-field-image-und-0-upload::before {
 @media only screen and (max-width: 1022px) {
   /*Menu*/
   header.navbar-default .navbar-collapse nav ul.menu li {
-    min-height: 62px;
     font-size: 0.85em;
   }
   html:lang(ro) header.navbar-default .navbar-collapse nav ul.menu li,
