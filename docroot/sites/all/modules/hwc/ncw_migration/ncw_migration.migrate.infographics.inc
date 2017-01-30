@@ -117,11 +117,16 @@ class NCWInfographicsSource extends AbstractNCWNodeSource {
           }
         }
         else {
-          if ($this->activeMigration) {
-            $this->activeMigration->saveMessage(format_string('Failed to read data from !url', array('!url' => $node_url)));
-          }
+          $msg = format_string('Failed to read data from !url', array('!url' => $node_url));
+          watchdog('ncw_migration', $msg, [], WATCHDOG_ERROR);
+          $this->rows[$id] = NULL;
         }
       }
+    }
+    else {
+      $msg = format_string('Failed to read data from !url', array('!url' => $this->endpoint_url));
+      watchdog('ncw_migration', $msg, [], WATCHDOG_ERROR);
+      throw new MigrateException($msg, Migration::MESSAGE_ERROR);
     }
     reset($this->rows);
   }
