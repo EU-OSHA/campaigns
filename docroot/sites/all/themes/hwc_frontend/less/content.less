@@ -5603,27 +5603,32 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 		background: url("../images/content/mail-newsletter-big.jpg") no-repeat center top;
 		background-size: 61px;
 		padding-top: 85px;
-		padding-bottom: 0em;
+		padding-bottom: 1em;
+		color: @color3 !important;
+		font-weight: bold !important;
+		font-style: normal !important;
 	}
 	button {
 		text-align: left;
 		padding-left: 1em;
 	}
-	#block-osha-newsletter-osha-newsletter-subscribe-extra{
+	.pane-osha-newsletter-osha-newsletter-subscribe-extra{
+		margin-right: 30px;
+    	margin-left: 30px;
 		h2{
+			background-color: @color3;
 			background: url("../images/content/bg-campaign-partner.png") no-repeat left top;
 			background-size: cover;
 			font-style: italic;
 			font-weight: normal;
 			text-align: center;
 			color: @h2-default-color;
-			padding: 50px;
+			padding: 30px 15px;
 			margin: 0px -15px 15px;
 		}
 		#subscribe-extra{
 			font-weight: bold;
 			div form > div{
-				border-bottom: 1px dotted @border-default-color;
 				padding-bottom: 2em;
 			}
 			input{
@@ -5683,6 +5688,10 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 				font-size: 1em;
 				margin-top: 1em!important;
 			}
+			.privacy-policy-oshmail{
+				margin-top: 15px;
+				display: block;
+			}
 		}
 	}
 	#block-osha-newsletter-osha-newsletter-subscribe{
@@ -5692,8 +5701,8 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 		h2{
 			background: url("../images/content/bg-campaign-partner.png") no-repeat left top;
 			background-size: cover;
-			padding-top: 50px;
-			padding-bottom: 50px;
+			padding-top: 30px;
+			padding-bottom: 30px;
 			margin-top: 0px;
 			font-style: italic;
 			font-weight: normal;
@@ -5777,18 +5786,23 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 			}
 		}
 	}
-	#block-osha-newsletter-osha-newsletter-latest{
-		h2.block-title{
+	.pane-osha-newsletter-osha-newsletter-latest{
+		margin-right: 30px;
+    	margin-left: 30px;
+		h2.pane-title{
+			background: @color10;
+			padding-top: 30px;
+			padding-bottom: 30px;
+			margin-top: 0px;
 			font-style: italic;
 			font-weight: normal;
+			color: white;
 			text-align: center;
-			margin: 0px 0 50px 0;
 		}
 		#latest-newsletters-block{
-			width: 50%;
 			h2{
 				text-align: left;
-				margin-right: 50px;
+				margin-right: 0px;
 				background-color: @bg-color-2;
 				line-height: 15px;
 				font-size:1.25em;
