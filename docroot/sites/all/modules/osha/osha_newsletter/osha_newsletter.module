@@ -721,6 +721,7 @@ function osha_newsletter_form_alter(&$form, &$form_state, $form_id) {
       break;
 
     case  'osha_newsletter_subscribe_extra_form':
+      break;
     case  'osha_newsletter_block_subscribe_form':
       $form['#attributes']['class'][] = 'container';
       break;
