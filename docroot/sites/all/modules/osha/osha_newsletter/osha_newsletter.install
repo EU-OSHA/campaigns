@@ -38,3 +38,10 @@ function osha_newsletter_update_7003() {
   ));
   features_revert_module('hwc');
 }
+
+/**
+ * MDR-856 - Revert osha_newsletter module - new layout for newsletter page
+ */
+function osha_newsletter_update_7004() {
+  features_revert_module('osha_newsletter');
+}
