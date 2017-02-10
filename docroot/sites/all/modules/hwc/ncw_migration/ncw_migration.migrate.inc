@@ -416,15 +416,8 @@ abstract class AbstractNCWNodeMigration extends Migration {
     $to_be_removed = array();
     if (!empty($removed)) {
       if (strpos($this->arguments['machine_name'], 'tax_') === 0) {
-//        foreach ($removed as $to_remove) {
-//          $to_be_removed[] = $to_remove->destid1;
-//          $this->getMap()->delete(array($to_remove->sourceid1));
-//        }
-//        foreach ($to_be_removed as $tid) {
-//          taxonomy_term_delete($tid);
-//          watchdog('ncw_migration', 'Deleting TERMS that are not in the source anymore: !tids.',
-//            array('!tids' => implode(', ', $to_be_removed)), WATCHDOG_INFO);
-//        }
+        // TODO ?! Removing terms that don't exists anymore
+        // Similar as for nodes below.
       }
       else {
         // Check if the needs review nodes are indeed missing in source.
@@ -440,6 +433,7 @@ abstract class AbstractNCWNodeMigration extends Migration {
           curl_close($curl);
           if (!empty($info['http_code']) && $info['http_code'] == 404) {
             $to_be_removed[] = $to_remove->destid1;
+            $this->getMap()->delete(array($to_remove->sourceid1));
           }
         }
         if (!empty($to_be_removed)) {
