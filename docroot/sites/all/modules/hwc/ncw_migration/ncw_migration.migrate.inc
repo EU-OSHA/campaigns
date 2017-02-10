@@ -410,26 +410,42 @@ abstract class AbstractNCWNodeMigration extends Migration {
    * Remove nodes that are not in the source anymore.
    */
   protected function removeNeedsUpdateItems() {
-    $removed = $this->getMap()->getRowsNeedingUpdate(10000);
+    $map = $this->getMap();
+    $source = $this->getSource();
+    $removed = $map->getRowsNeedingUpdate(10000);
     $to_be_removed = array();
     if (!empty($removed)) {
-      foreach ($removed as $to_remove) {
-        $to_be_removed[] =$to_remove->destid1;
-        $this->getMap()->delete(array($to_remove->sourceid1));
-      }
       if (strpos($this->arguments['machine_name'], 'tax_') === 0) {
-        foreach ($to_be_removed as $tid) {
-          taxonomy_term_delete($tid);
-          watchdog('ncw_migration', 'Deleting TERMS that are not in the source anymore: !tids.',
-            array('!tids' => implode(', ', $to_be_removed)), WATCHDOG_INFO);
-        }
+        // TODO ?! Removing terms that don't exists anymore
+        // Similar as for nodes below.
       }
       else {
-        node_delete_multiple($to_be_removed);
-        watchdog('ncw_migration', 'Deleting NODES that are not in the source anymore: !nids.',
-          array('!nids' => implode(', ', $to_be_removed)), WATCHDOG_INFO);
+        // Check if the needs review nodes are indeed missing in source.
+        foreach ($removed as $to_remove) {
+          $url = $source->itemURL($to_remove->source_id1);
+          $curl = curl_init();
+          curl_setopt($curl, CURLOPT_URL, $url);
+          curl_setopt($curl, CURLOPT_NOBODY, true);
+          curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
+          curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+          $result = curl_exec($curl);
+          $info = curl_getinfo($curl);
+          curl_close($curl);
+          if (!empty($info['http_code']) && $info['http_code'] == 404) {
+            $to_be_removed[] = $to_remove->destid1;
+            $this->getMap()->delete(array($to_remove->sourceid1));
+          }
+        }
+        if (!empty($to_be_removed)) {
+          $nodes = node_load_multiple($to_be_removed);
+          foreach ($nodes as $node) {
+            $node->status = 0;
+            node_save($node);
+          }
+          watchdog('ncw_migration', 'Unpublishing NODES that are not in the source anymore (@migration): !nids.',
+            array('!nids' => implode(', ', $to_be_removed), '@migration' => $this->arguments['machine_name']), WATCHDOG_INFO);
+        }
       }
-
     }
   }
 }
@@ -540,11 +556,16 @@ abstract class AbstractNCWNodeSource extends MigrateSource {
           }
         }
         else {
-          if ($this->activeMigration) {
-            $this->activeMigration->saveMessage(format_string('Failed to read data from !url', array('!url' => $node_url)));
-          }
+          $msg = format_string('Failed to read data from !url', array('!url' => $node_url));
+          watchdog('ncw_migration', $msg, [], WATCHDOG_ERROR);
+          $this->rows[$id] = NULL;
         }
       }
+    }
+    else {
+      $msg = format_string('Failed to read data from !url', array('!url' => $this->endpoint_url));
+      watchdog('ncw_migration', $msg, [], WATCHDOG_ERROR);
+      throw new MigrateException($msg, Migration::MESSAGE_ERROR);
     }
     ncw_migration_debug('!klass: Done reading items', array('!klass' => get_class($this)));
     reset($this->rows);
@@ -679,48 +700,55 @@ abstract class AbstractNCWTaxonomyTermMigration extends AbstractNCWNodeMigration
    * Implements Migration::prepareRow() to adapt JSON fields data to what migrate expects in the field.
    */
   public function prepareRow($row) {
-    ncw_migration_debug('!klass:      * Preparing source term: !id', array('!klass' => get_class($this), '!id' => $row->tid));
-    $row->language = 'en';
-    $row->path = !empty($row->path['alias']) ? $row->path['alias']:  NULL;
-    // Normalize JSON structure, to match migrate expectations for field data
-    $fields = field_info_instances('taxonomy_term', $this->bundle);
-    foreach($fields as $field_name => $field_info) {
-      if (in_array($field_name, $this->getManuallyMigratedFields())) {
-        continue;
-      }
-      $fi = field_info_field($field_name);
-      $normalizer = 'osha_migration_normalize_field_' . $fi['type'];
-      if(function_exists($normalizer)) {
-        $filter_languages = array();
-        if (!$this->allowMigrateTranslation()) {
-          $filter_languages = array('en');
+    try {
+      ncw_migration_debug('!klass:      * Preparing source term: !id', array('!klass' => get_class($this), '!id' => $row->tid));
+      $row->language = 'en';
+      $row->path = !empty($row->path['alias']) ? $row->path['alias']:  NULL;
+      // Normalize JSON structure, to match migrate expectations for field data
+      $fields = field_info_instances('taxonomy_term', $this->bundle);
+      foreach($fields as $field_name => $field_info) {
+        if (in_array($field_name, $this->getManuallyMigratedFields())) {
+          continue;
         }
-        $normalizer($row, $field_name, $fi, $filter_languages);
+        $fi = field_info_field($field_name);
+        $normalizer = 'osha_migration_normalize_field_' . $fi['type'];
+        if(function_exists($normalizer)) {
+          $filter_languages = array();
+          if (!$this->allowMigrateTranslation()) {
+            $filter_languages = array('en');
+          }
+          $normalizer($row, $field_name, $fi, $filter_languages);
+        }
+        else {
+          $name = $this->currentMigration()->getMachineName();
+          watchdog('ncw_migration', "[BUG][$name] Cannot find normalization '$normalizer', skipping field $field_name", array(), WATCHDOG_ERROR);
+          $row->{$field_name} = array();
+        }
       }
-      else {
-        $name = $this->currentMigration()->getMachineName();
-        watchdog('ncw_migration', "[BUG][$name] Cannot find normalization '$normalizer', skipping field $field_name", array(), WATCHDOG_ERROR);
-        $row->{$field_name} = array();
-      }
-    }
 
-    // Remove invalid values so we don't get field validation errors (ie. blog)
-    if (!empty($row->field_excluded_from) && is_array($row->field_excluded_from)) {
-      $whitelist = array(
-        'article',
-        'page',
-        'job_vacancies',
-        'news',
-        'press_release',
-        'publication',
-        'infographic'
-      );
-      foreach($row->field_excluded_from as $k => $v) {
-        if (!in_array($v, $whitelist)) {
-          unset($row->field_excluded_from[$k]);
+      // Remove invalid values so we don't get field validation errors (ie. blog)
+      if (!empty($row->field_excluded_from) && is_array($row->field_excluded_from)) {
+        $whitelist = array(
+          'article',
+          'page',
+          'job_vacancies',
+          'news',
+          'press_release',
+          'publication',
+          'infographic'
+        );
+        foreach($row->field_excluded_from as $k => $v) {
+          if (!in_array($v, $whitelist)) {
+            unset($row->field_excluded_from[$k]);
+          }
         }
       }
     }
+    catch(Exception $e) {
+      ncw_migration_debug("Exception while preparing the row: {$row->tid}", 'error');
+      return FALSE;
+    }
+    return TRUE;
   }
 
   /**

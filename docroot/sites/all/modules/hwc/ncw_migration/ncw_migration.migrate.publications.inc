@@ -78,7 +78,11 @@ class NCWPublicationsMigration extends AbstractNCWNodeMigration {
     }
     $row->field_tags = osha_migration_normalize_migrated_term_reference($row->field_tags, 'tax_tags');
     if (empty($row->field_publication_type)) {
-      drupal_set_message('Skipping import of publication without type', 'error');
+      watchdog(
+        'ncw_migration',
+        'Skipping import of publication without type: !title',
+        array('!title' => $row->title)
+      );
       return FALSE;
     }
     $type = array($row->field_publication_type['tid']);
@@ -199,11 +203,16 @@ class NCWPublicationsSource extends AbstractNCWNodeSource {
           }
         }
         else {
-          if ($this->activeMigration) {
-            $this->activeMigration->saveMessage(format_string('Failed to read data from !url', array('!url' => $node_url)));
-          }
+          $msg = format_string('Failed to read data from !url', array('!url' => $node_url));
+          watchdog('ncw_migration', $msg, [], WATCHDOG_ERROR);
+          $this->rows[$id] = NULL;
         }
       }
+    }
+    else {
+      $msg = format_string('Failed to read data from !url', array('!url' => $this->endpoint_url));
+      watchdog('ncw_migration', $msg, [], WATCHDOG_ERROR);
+      throw new MigrateException($msg, Migration::MESSAGE_ERROR);
     }
     reset($this->rows);
   }
