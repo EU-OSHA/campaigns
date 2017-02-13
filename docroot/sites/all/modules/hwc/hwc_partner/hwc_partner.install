@@ -55,3 +55,10 @@ function hwc_partner_update_7006() {
 function hwc_partner_update_7007() {
   features_revert_module('hwc_partner');
 }
+
+/**
+ * Revert partner module.
+ */
+function hwc_partner_update_7008() {
+  features_revert_module('hwc_partner');
+}

@@ -577,3 +577,10 @@ function hwc_update_7029() {
 function hwc_update_7030() {
   features_revert_module('hwc');
 }
+
+/**
+ * Enable spamspna
+ */
+function hwc_update_7031() {
+  module_enable(['spamspan']);
+}
