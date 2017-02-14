@@ -422,7 +422,7 @@ abstract class AbstractNCWNodeMigration extends Migration {
       else {
         // Check if the needs review nodes are indeed missing in source.
         foreach ($removed as $to_remove) {
-          $url = $source->itemURL($to_remove->source_id1);
+          $url = $source->itemURL($to_remove->sourceid1);
           $curl = curl_init();
           curl_setopt($curl, CURLOPT_URL, $url);
           curl_setopt($curl, CURLOPT_NOBODY, true);
