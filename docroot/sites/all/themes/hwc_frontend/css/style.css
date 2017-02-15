@@ -13493,11 +13493,12 @@ html:lang(mt) .get-involved-section .information-tailored .images-section .image
   border-bottom: none;
   background: url("../images/content/mail-newsletter-big.jpg") no-repeat center top;
   background-size: 61px;
-  padding-top: 85px;
-  padding-bottom: 1em;
+  padding-top: 65px;
+  padding-bottom: 0px;
   color: #749b00 !important;
   font-weight: bold !important;
   font-style: normal !important;
+  margin-top: 5px;
 }
 .page-node-129 button {
   text-align: left;
@@ -13536,7 +13537,7 @@ html:lang(mt) .get-involved-section .information-tailored .images-section .image
 .page-node-129 .pane-osha-newsletter-osha-newsletter-subscribe-extra #subscribe-extra span {
   width: 350px;
   display: block;
-  padding-bottom: 10px;
+  padding-bottom: 0px;
 }
 .page-node-129 .pane-osha-newsletter-osha-newsletter-subscribe-extra #subscribe-extra span.captcha {
   width: auto;
@@ -13585,6 +13586,10 @@ html:lang(mt) .get-involved-section .information-tailored .images-section .image
 .page-node-129 .pane-osha-newsletter-osha-newsletter-subscribe-extra #subscribe-extra .privacy-policy-oshmail {
   margin-top: 15px;
   display: block;
+  margin-bottom: -15px;
+}
+.page-node-129 .pane-osha-newsletter-osha-newsletter-subscribe-extra #subscribe-extra hr {
+  display: none;
 }
 .page-node-129 #block-osha-newsletter-osha-newsletter-subscribe {
   background: none;
