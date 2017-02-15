@@ -431,10 +431,12 @@ abstract class AbstractNCWNodeMigration extends Migration {
           $result = curl_exec($curl);
           $info = curl_getinfo($curl);
           curl_close($curl);
-          if (!empty($info['http_code']) && $info['http_code'] == 404) {
-            $to_be_removed[] = $to_remove->destid1;
-            $this->getMap()->delete(array($to_remove->sourceid1));
-          }
+          // Don't remove the mapping because it might get published again on source.
+//          // Remove the mapping
+//          if (!empty($info['http_code']) && $info['http_code'] == 404) {
+//            $to_be_removed[] = $to_remove->destid1;
+//            $this->getMap()->delete(array($to_remove->sourceid1));
+//          }
         }
         if (!empty($to_be_removed)) {
           $nodes = node_load_multiple($to_be_removed);
