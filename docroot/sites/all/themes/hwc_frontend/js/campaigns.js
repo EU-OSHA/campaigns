@@ -50,7 +50,7 @@ jQuery(document).ready(function() {
 	});
 
 	//fixing sticky menu
-	var num = 200; //number of pixels before modifying styles
+	var num = 120; //number of pixels before modifying styles
 
 	jQuery(window).bind('scroll', function () {
 	    if (jQuery(window).scrollTop() > num) {
