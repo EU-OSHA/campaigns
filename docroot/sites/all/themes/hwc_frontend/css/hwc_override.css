@@ -154,12 +154,12 @@ div.workbench-info-block {
     display: inline-block !important;
 }
 #captcha_0_readaudio img, #captcha_0_refresh img {
-    height: 38px;
-    width: 38px;
+    height: 25px;
+    width: 27px;
     z-index: 10;
 }
 #captcha_0_img {
-    height: 80px !important;
+    height: 55px !important;
     width: 215px !important;
 }
 #captcha_0 #security_code {
