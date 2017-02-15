@@ -17,23 +17,32 @@ function osha_newsletter_block_subscribe_form($form, &$form_state) {
   if (user_is_anonymous()) {
     $form['captcha_osh'] = array(
       '#type' => 'captcha',
+      '#prefix' => '<div class="col-md-6 col-sm-12">',
+      '#suffix' => '</div>',
       '#captcha_type' => 'default',
     );
   }
   $link_label = t(variable_get('subscribe_block_details_link_label', 'Privacy notice'));
   $link_url = variable_get('subscribe_block_details_link_url', OSHA_PRIVACY_PAGE_URL);
-  $form['details_link'] = array(
+
+  $form['subscribe_details'] = array(
+    '#type' => 'container',
+    '#prefix' => '<div class="col-md-6 col-sm-12">',
+    '#suffix' => '</div>',
+  );
+
+  $form['subscribe_details']['details_link'] = array(
     '#markup' => '<a class="privacy-policy-oshmail" title="Subscribe to OSHmail newsletter" target="_blank" href=' . url($link_url) . '>' . $link_label . '</a><br>',
   );
-  $form['submit'] = array(
+  $form['subscribe_details']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Subscribe'),
   );
 
-  $form['unsubscribe_text'] = array(
+  $form['subscribe_details']['unsubscribe_text'] = array(
     '#markup' => '<hr><span>' . t('Not interested any more?') . '</span>',
   );
-  $form['unsubscribe'] = array(
+  $form['subscribe_details']['unsubscribe'] = array(
     '#type' => 'submit',
     '#value' => t('Unsubscribe'),
     '#submit' => array('osha_newsletter_unsubscribe_form_submit'),

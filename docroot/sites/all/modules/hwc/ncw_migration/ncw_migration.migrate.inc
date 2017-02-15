@@ -410,30 +410,42 @@ abstract class AbstractNCWNodeMigration extends Migration {
    * Remove nodes that are not in the source anymore.
    */
   protected function removeNeedsUpdateItems() {
-    $removed = $this->getMap()->getRowsNeedingUpdate(10000);
+    $map = $this->getMap();
+    $source = $this->getSource();
+    $removed = $map->getRowsNeedingUpdate(10000);
     $to_be_removed = array();
     if (!empty($removed)) {
-      foreach ($removed as $to_remove) {
-        $to_be_removed[] =$to_remove->destid1;
-        $this->getMap()->delete(array($to_remove->sourceid1));
-      }
       if (strpos($this->arguments['machine_name'], 'tax_') === 0) {
-//        foreach ($to_be_removed as $tid) {
-//          taxonomy_term_delete($tid);
-//          watchdog('ncw_migration', 'Deleting TERMS that are not in the source anymore: !tids.',
-//            array('!tids' => implode(', ', $to_be_removed)), WATCHDOG_INFO);
-//        }
+        // TODO ?! Removing terms that don't exists anymore
+        // Similar as for nodes below.
       }
       else {
-        $nodes = node_load_multiple($to_be_removed);
-        foreach ($nodes as $node) {
-          $node->status = 0;
-          node_save($node);
+        // Check if the needs review nodes are indeed missing in source.
+        foreach ($removed as $to_remove) {
+          $url = $source->itemURL($to_remove->sourceid1);
+          $curl = curl_init();
+          curl_setopt($curl, CURLOPT_URL, $url);
+          curl_setopt($curl, CURLOPT_NOBODY, true);
+          curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
+          curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+          $result = curl_exec($curl);
+          $info = curl_getinfo($curl);
+          curl_close($curl);
+          if (!empty($info['http_code']) && $info['http_code'] == 404) {
+            $to_be_removed[] = $to_remove->destid1;
+            $this->getMap()->delete(array($to_remove->sourceid1));
+          }
         }
-        watchdog('ncw_migration', 'Unpublishing NODES that are not in the source anymore (@migration): !nids.',
-          array('!nids' => implode(', ', $to_be_removed), '@migration' => $this->arguments['machine_name']), WATCHDOG_INFO);
+        if (!empty($to_be_removed)) {
+          $nodes = node_load_multiple($to_be_removed);
+          foreach ($nodes as $node) {
+            $node->status = 0;
+            node_save($node);
+          }
+          watchdog('ncw_migration', 'Unpublishing NODES that are not in the source anymore (@migration): !nids.',
+            array('!nids' => implode(', ', $to_be_removed), '@migration' => $this->arguments['machine_name']), WATCHDOG_INFO);
+        }
       }
-
     }
   }
 }

@@ -18,29 +18,37 @@ function osha_newsletter_subscribe_extra_form() {
   if (user_is_anonymous()) {
     $form['captcha_osh'] = array(
       '#type' => 'captcha',
+      '#prefix' => '<div class="col-md-6 col-sm-12">',
+      '#suffix' => '</div>',
       '#captcha_type' => 'default',
     );
   }
-  $link_label = t(variable_get('subscribe_extra_block_details_link_label', 'How will EU-OSHA use my details?'));
-  $link_url = variable_get('subscribe_extra_block_details_link_url', OSHA_PRIVACY_PAGE_URL);
-  $form['details_link'] = array(
-    '#markup' => '<a class="privacy-policy-oshmail" title="Subscribe to newsletter" href=' . url($link_url) . '>' . $link_label . '</a><br/>',
-  );
+
   /* Remove comment for subscription on OSHA Newsletter - HCW-1005
   $form['subscribe-to-OSHMail-newsletter'] = array(
     '#type' => 'checkbox',
     '#title' => t('Subscribe to !link as well', array('!link' => l(t('OSHMail Newsletter'), 'https://osha.europa.eu/oshmail-newsletter'))),
   );
   */
-  $form['submit'] = array(
+  $form['subscribe_details'] = array(
+    '#type' => 'container',
+    '#prefix' => '<div class="col-md-6 col-sm-12">',
+    '#suffix' => '</div>',
+  );
+  $link_label = t(variable_get('subscribe_extra_block_details_link_label', 'How will EU-OSHA use my details?'));
+  $link_url = variable_get('subscribe_extra_block_details_link_url', OSHA_PRIVACY_PAGE_URL);
+  $form['subscribe_details']['details_link'] = array(
+    '#markup' => '<a class="privacy-policy-oshmail" title="Subscribe to newsletter" href=' . url($link_url) . '>' . $link_label . '</a><br/>',
+  );
+  $form['subscribe_details']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Subscribe'),
     '#submit' => array('osha_newsletter_subscribe_extra_form_submit'),
   );
-  $form['unsubscribe_text'] = array(
+  $form['subscribe_details']['unsubscribe_text'] = array(
     '#markup' => '<hr><span>' . t('Not interested any more?') . '</span>',
   );
-  $form['unsubscribe'] = array(
+  $form['subscribe_details']['unsubscribe'] = array(
     '#type' => 'submit',
     '#value' => t('Unsubscribe'),
     '#submit' => array('osha_newsletter_unsubscribe_form_submit'),
