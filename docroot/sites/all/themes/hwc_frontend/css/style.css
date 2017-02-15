@@ -13584,12 +13584,16 @@ html:lang(mt) .get-involved-section .information-tailored .images-section .image
   margin-top: 1em!important;
 }
 .page-node-129 .pane-osha-newsletter-osha-newsletter-subscribe-extra #subscribe-extra .privacy-policy-oshmail {
-  margin-top: 15px;
+  margin-top: 0px;
   display: block;
   margin-bottom: -15px;
 }
 .page-node-129 .pane-osha-newsletter-osha-newsletter-subscribe-extra #subscribe-extra hr {
   display: none;
+}
+.page-node-129 .pane-osha-newsletter-osha-newsletter-subscribe-extra #subscribe-extra #edit-subscribe-details span {
+  margin-top: 7px;
+  margin-bottom: 3px;
 }
 .page-node-129 #block-osha-newsletter-osha-newsletter-subscribe {
   background: none;
