@@ -94,6 +94,7 @@ features[field_instance][] = node-events-field_contact_phone
 features[field_instance][] = node-events-field_country_code
 features[field_instance][] = node-events-field_gallery
 features[field_instance][] = node-events-field_location
+features[field_instance][] = node-events-field_migration_source
 features[field_instance][] = node-events-field_organizer
 features[field_instance][] = node-events-field_partner_id
 features[field_instance][] = node-events-field_related_documents

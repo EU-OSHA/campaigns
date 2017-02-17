@@ -330,6 +330,7 @@ abstract class AbstractNCWNodeMigration extends Migration {
           $row->{$field_name} = array();
         }
       }
+      $row->field_migration_source = 'ncw';
     } catch(Exception $e) {
       ncw_migration_debug("Exception while preparing the row: {$row->nid}", 'error');
       return FALSE;

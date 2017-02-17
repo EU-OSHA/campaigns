@@ -115,7 +115,8 @@ function osha_news_ds_layout_settings_info() {
       ),
       'hidden' => array(
         16 => 'xmlsitemap',
-        17 => '_add_existing_field',
+        17 => 'field_wf_notification',
+        18 => '_add_existing_field',
       ),
     ),
     'fields' => array(
@@ -136,6 +137,7 @@ function osha_news_ds_layout_settings_info() {
       'field_character_count' => 'footer',
       'field_archived' => 'footer',
       'xmlsitemap' => 'hidden',
+      'field_wf_notification' => 'hidden',
       '_add_existing_field' => 'hidden',
     ),
     'classes' => array(
