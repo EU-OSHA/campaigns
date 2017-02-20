@@ -9,15 +9,6 @@ define('ROLE_SUPERADMINISTRATOR', 'Superadministrators');
 define('SOLR_SEARCH_INDEX', 'default_multilingual_node_index');
 
 /**
- * Implementation of hook_views_api().
- */
-function hwc_views_api() {
-  return array(
-    'api' => 3,
-  );
-}
-
-/**
  * Implements hook_permission().
  */
 function hwc_permission() {
@@ -1206,6 +1197,7 @@ function hwc_export_node($node) {
       }
     }
   }
+  $node->full_url = entity_uri('node', $node);
   $export = json_encode($node, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
   print $export;
   drupal_exit();
