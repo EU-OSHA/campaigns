@@ -168,7 +168,8 @@ function osha_events_ds_layout_settings_info() {
         22 => 'field_tags',
         23 => 'xmlsitemap',
         24 => 'field_wf_notification',
-        25 => '_add_existing_field',
+        25 => 'field_migration_source',
+        26 => '_add_existing_field',
       ),
     ),
     'fields' => array(
@@ -197,6 +198,7 @@ function osha_events_ds_layout_settings_info() {
       'field_tags' => 'hidden',
       'xmlsitemap' => 'hidden',
       'field_wf_notification' => 'hidden',
+      'field_migration_source' => 'hidden',
       '_add_existing_field' => 'hidden',
     ),
     'classes' => array(

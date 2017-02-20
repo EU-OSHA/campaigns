@@ -43,6 +43,7 @@ features[field_instance][] = node-news-field_activity
 features[field_instance][] = node-news-field_aditional_resources
 features[field_instance][] = node-news-field_archived
 features[field_instance][] = node-news-field_character_count
+features[field_instance][] = node-news-field_content_migrate_to
 features[field_instance][] = node-news-field_image
 features[field_instance][] = node-news-field_image_caption
 features[field_instance][] = node-news-field_migration_source

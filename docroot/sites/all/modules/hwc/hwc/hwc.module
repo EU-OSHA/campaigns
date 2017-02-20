@@ -1186,18 +1186,16 @@ function hwc_export_node($node) {
   if (function_exists('_pathologic_filter')) {
     if (!empty($node->body)) {
       foreach ($node->body as $lng => $body) {
-        $filter = filter_format_load('pathologic');
-        $node->body[$lng][0]['value'] = _pathologic_filter($node->body[$lng][0]['value'], $filter, 'full_html', $lng, NULL, NULL);
+        $node->body[$lng][0]['value'] = check_markup($node->body[$lng][0]['value'], 'full_html', $lng);
       }
     }
     if (!empty($node->field_summary)) {
       foreach ($node->field_summary as $lng => $body) {
-        $filter = filter_format_load('pathologic');
-        $node->field_summary[$lng][0]['value'] = _pathologic_filter($node->field_summary[$lng][0]['value'], $filter, 'full_html', $lng, NULL, NULL);
+        $node->field_summary[$lng][0]['value'] = check_markup($node->field_summary[$lng][0]['value'], 'full_html', $lng);
       }
     }
   }
-  $node->full_url = entity_uri('node', $node);
+  $node->full_url = url('node/' . $node->nid, ['absolute' => TRUE]);
   $export = json_encode($node, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
   print $export;
   drupal_exit();

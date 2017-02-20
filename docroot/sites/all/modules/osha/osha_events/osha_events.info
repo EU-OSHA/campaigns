@@ -91,6 +91,7 @@ features[field_instance][] = node-events-field_city
 features[field_instance][] = node-events-field_contact_email
 features[field_instance][] = node-events-field_contact_name
 features[field_instance][] = node-events-field_contact_phone
+features[field_instance][] = node-events-field_content_migrate_to
 features[field_instance][] = node-events-field_country_code
 features[field_instance][] = node-events-field_gallery
 features[field_instance][] = node-events-field_location

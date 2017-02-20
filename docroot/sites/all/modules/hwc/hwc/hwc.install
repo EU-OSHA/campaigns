@@ -587,4 +587,6 @@ function hwc_update_7031() {
 
 function hwc_update_7032() {
   module_enable(['views_json']);
+  ncw_migration_run_single('news');
+  ncw_migration_run_single('events');
 }
