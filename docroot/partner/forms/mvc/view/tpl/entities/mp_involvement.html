@@ -9,21 +9,7 @@
     </div>
 {else}
 {/if}-->
-{if !$mf}
-<fieldset>
-    <legend id="INVOLVEMENT">
-        Your support for the campaign
-        <div data-section="INVOLVEMENT" class="validation{$locked}"></div>
-    </legend>
-    
-    <div class="separatorFieldSet">&nbsp;</div>
-    
-    <!--<p class='promoteText'>How do you plan to promote and support the campaign via your website and other electronic means  (Intranet, Newsletter, social media etc.)?</p>-->
-    <div id="promoteText" class="promoteText marginRightForm">
-        {$attributes.involvement_osh_promoteandsupportcampaign}
-    </div>
-</fieldset>
-{/if}
+
 <fieldset>
     <legend id="PLEDGE">
         Your Campaign Pledge
@@ -39,7 +25,8 @@
             {$attributes.helpMessage}
             {$attributes.contact_osh_mainemailAux}
             {$attributes.company_osh_orgnameAux}
-            {$attributes.osh_supportforcampaignsection}
+            {$attributes.contact_osh_maincontactpersonfirstnameAux}
+            {$attributes.contact_osh_maincontactpersonlastnameAux}
             {$attributes.osh_yourcampaignpledgesection}
         </div>
 </fieldset>

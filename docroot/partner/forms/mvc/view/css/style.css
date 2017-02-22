@@ -15,7 +15,10 @@ label {
     clear         : both;
     margin-bottom : 0.4vw;
     margin-top: 1vw;
+    display: inline-block;
 }
+
+label + img{}
 
 .clear {
     clear : both;
@@ -95,6 +98,13 @@ input[type=text], select, textarea {
 }
 
 input[type=submit], button {
+    border           : none;
+    background-color : #003399;
+    color            : #ffffff;
+    padding          : 0.2vw 0.5vw 0.2vw 0.5vw;
+    font-size        : 1vw;
+}
+input[type=next], button {
     border           : none;
     background-color : #003399;
     color            : #ffffff;
@@ -333,6 +343,9 @@ select[disabled] {
 .action {
     width : 100%;
 }
+.action-print{
+    cursor: pointer;
+}
 
 #next {
     margin-left : 0.8vw;
@@ -356,6 +369,13 @@ select[disabled] {
 .screen-left {
     float : left;
 }
+/* Problema con maquetación actual con elementos <legend> y <input[type=check]>*/
+label.screen-left{
+    float: none;
+    display: inline-block;
+}
+
+.combined label.screen-left{float:left;}
 
 .screen-right {
         /* float: right; */
@@ -365,13 +385,16 @@ select[disabled] {
     margin-top: 1vw;
 }
 
+img.screen-right{
+    margin-top:0;
+}
 form.new .validation, form.mf .validation {
     display : none;
 }
 
 .fields-campaign {
     font-size : 0.8vw;
-    width     : 16vw;
+    width     : 17vw;
     margin-top: 1vw !important;
 }
 
@@ -420,7 +443,7 @@ form.new .validation, form.mf .validation {
 }
 
 :-ms-input-placeholder {
-    color : #749b00;
+    color : #749b00!important;
     font-size: smaller;
 }
 
@@ -432,11 +455,20 @@ form.new .validation, form.mf .validation {
 .print-finish div {
     margin-bottom : 1vw;
 }
+/* Arreglo maquetación elementos .control-group para limpieza del layout de hijos flotantes en el contenedor */
+.control-group{margin-bottom: 2vw;}
+.control-group:after{
+    content:" ";
+    display: table;
+    clear: both;
+}
+
+
 /*Modificación para que en tablets en posición horizontal tengan la misma 
 visualización que en un dispositivo móvil*/
-/*@media (max-width : 767px) {*/
-@media (max-width : 1024px) {
-    .float-left, .float-right {
+/*@media (max-width : 1024px) {*/
+@media (max-width : 964px) {
+   /* .float-left, .float-right {
         float : none;
         width : 100%;
     }
@@ -449,15 +481,124 @@ visualización que en un dispositivo móvil*/
 
     .nav-side-menu {
         float : none;
+    }*/
+   
+   .float-left, .float-right {
+        float : none;
+        width : 100%;
+    }
+    
+    .control-group{position:relative;}
+    .controls input[type="checkbox"]{
+        position:absolute;
+        top: 1.2vw;
+        left:0;
     }
 }
+/*
+@media (min-width : 1024px) and (max-width : 1279px){*/
+@media (min-width : 994px) and (max-width : 1249px){
+  body{font-size: 1.2vw;}
+  .screen-right{width:1.5vw;}
+  .nav-side-menu .screen{
+      background-size: 2vw;
+    width: 2vw;
+    height: 2vw;
+  }
+  .nav-side-menu{font-size:1.4vw !important;}
+  .nav-side-menu .fields-campaign{font-size:1.2vw}
+  #sidebar-top .section-title a{font-size:1.2vw !important;}
+  #menu-content li a{font-size:1vw !important;}
+  #sidebar-top .sidebar-error{background-size:12px !important;}
+  #sidebar-top .section{background-size:12px !important;}
+  
+  .progressbar-text{font-size:1vw;}
+ 
+  
+}
 
-@media only screen and (max-width : 480px) {
+/*@media (min-width : 768px) and (max-width : 1023px){*/
+@media (min-width : 738px) and (max-width : 963px){
+  body{font-size: 1.4vw;} 
+}
+
+/*@media (min-width : 768px) and (max-width : 1024px){*/
+@media (min-width : 708px) and (max-width : 964px){
+    .control-group {
+        margin-bottom: 0;
+    }  
+    
+  .nav-side-menu .fields-campaign .screen,
+  .nav-side-menu .print{
+          background-size: 2vw;
+          width: 2vw;
+          height:2vw;
+  }
+   
+}
+/*@media (min-width : 768px) and (max-width : 1023px){*/
+@media (min-width : 708px) and (max-width : 963px){
+  body{font-size: 1.6vw;}  
+  
+  .nav-side-menu{
+       font-size:1.4vw !important;
+       width: 25%;
+  }
+  .nav-side-menu .fields-campaign{font-size:1.2vw}
+ 
+  #sidebar-top .section-title a{font-size:1.4vw !important;}
+  #menu-content li a{font-size:1.3vw !important;}
+  #sidebar-top .sidebar-error{background-size:12px !important;}
+  #sidebar-top .section{background-size:12px !important;}
+  button{font-size:1.5vw !important;}
+  
+  .progressbar-text{
+      font-size:1.2vw;
+      line-height:300%;
+  }
+  
+  fieldset{
+      margin-bottom:1vw;
+  }
+}
+
+/*@media (max-width : 1024px){*/
+@media (max-width : 964px){
+    #form{padding-right:3%;}
+    .screen-right{width:1.5vw;}
+}
+
+/*@media (max-width : 767px) {*/
+@media (max-width : 707px) {
+    body {
+        
+    }
+    
+    
+     #form {
+        float       : none;
+        width       : 100%;
+        margin-left : 0;
+    }
+
+    .nav-side-menu {
+        float : none;
+    }
+    
+    #progressbar .row{width:100%;}
+    
+}
+
+/*@media only screen and (max-width : 767px) {*/
+@media only screen and (max-width : 707px) {
     body {
         font-size : 3vw;
     }
 
     input[type=submit], button {
+        font-size : 3vw;
+    }
+    input[type=next], button {
         font-size : 3vw;
     }
 
@@ -468,7 +609,9 @@ visualización que en un dispositivo móvil*/
     #sidebar-top .section-title a {
         font-size : 4vw !important;
     }
-
+    
+    .tituloSidebar{font-size: 4vw !important;}
+    
     #menu-content li a {
         font-size : 3vw;
     }
@@ -492,13 +635,13 @@ visualización que en un dispositivo móvil*/
     }
 
     .fields-campaign {
-        font-size : 2vw;
-        width     : 35vw;
+        font-size : 3vw;
+        width     : 55vw;
     }
 
     .print, .export-pdf, #sidebar-top .section, #sidebar-top .sidebar-error {
         background-size     : 3vw;
-        padding-left        : 5vw;
+        padding-left        : 5vw !important;
         background-position : 0 1vw;
     }
 
@@ -579,6 +722,11 @@ textarea.error {
     left: 30%;
 }
 
+/*@media (min-width : 768px) and (max-width : 1024px){*/
+@media (min-width : 708px) and (max-width : 964px){
+    .mfp-content{max-width:500px;}
+}
+
 .profiles > input {
     margin-top    : 0.5vw;
     margin-bottom : 1vw;
@@ -589,11 +737,20 @@ textarea.error {
 }
 
 .combined-textbox {
+    margin-top: 1%;
     width: 80% !important;
     margin-left: 2vw;
     /*height: 33px;*/
     height: 1%;
 }
+
+/*@media (max-width: 1024px) and (min-width: 768px){*/
+@media (max-width: 964px) and (min-width: 708px){
+    .combined-textbox {
+        margin-top: 3%;
+    }
+}
+
 label[for="company_osh_facebookprofile"],
 #company_osh_facebookprofile,
 label[for="company_osh_pinterestprofile"],
@@ -611,8 +768,8 @@ label[for="company_osh_slideshareprofile"],
 	display:none !important;
 }
 button#plusSN{
-	background-color: white;
-        margin-left: 3.2em;
+	background-color: transparent;
+        /*margin-left: 3.2em;*/
 }
 button#plusSN span{
 	 color: #003399;
@@ -644,7 +801,8 @@ select.company_osh_selectsocialnetworks{
         /*height: 24px;*/
 }
 input#socialNetworkTextBox{
-    width: 130%;
+    /* width: 130%;*/
+    width: 100%;
     vertical-align:middle;
 }
 .socialNetworks #SocialNetHidden{
@@ -655,13 +813,14 @@ input#socialNetworkTextBox{
 div.typeSN{
 	font-weight: bold;
 	color: #003399;
-	font-size: 9pt;
+	/*font-size: 9pt;*/
 	float:left;
 }
 div.titleSN{
- 	font-size: 9pt; 
+ 	/*font-size: 9pt;*/ 
 	color: #003399;
 	/*font-size: 7pt;*/
+        margin-bottom: 2%;
 }
 
 div.required > div label::after{
@@ -680,11 +839,11 @@ div.required > div label::after{
     font-weight: bold;
     margin-bottom: 38px;
     margin-right: 14px;
-    position: fixed;
-    width: 66%;
+   /* position: absolute;
+    width: 66%;*/
 }
 div.container-message{
-    height: 75px;
+    /*height: 110px;*/
 }
 /*No mostrar el mensaje de ayuda para New Forms ni mf´s*/
 form.new div.container-message, form.mf div.container-message {
@@ -694,7 +853,7 @@ form.new div.container-message, form.mf div.container-message {
     float: right;
     margin-right: 1%;
     color: darkblue;
-    margin-top: -3%;
+    margin-top: -1%;
 }
 
 .postRequired input:not(.select2-search__field),.postRequired textarea, .postRequired select, .postRequired .select2-selection--multiple{
@@ -705,6 +864,12 @@ form.new div.container-message, form.mf div.container-message {
 .required input:not(.select2-search__field),.required textarea, .required select,.select2.select2-container{
     border: 1px #003399 solid;
     /*background-color:#FEF5F1;*/
+    padding: 1px;
+}
+
+.imagePostRequired{
+    border: 1px red solid;
+    padding: 0 10px 10px 10px;
 }
 
 
@@ -714,9 +879,21 @@ form div.controls:last-of-type{
 }
 input[type="submit"]{
     width: 98%;
-    padding: 14px 0px;
+        /*padding: 14px 0px;*/
+    padding: 1.5% 0px;
     font-weight: bold;
-    font-size: initial;
+    /*font-size: initial;*/
+    font-size: 1.5vw;
+    
+}
+input[type="next"]{
+    width: 98%;
+    /*padding: 14px 0px;*/
+    padding: 1.5% 0px;
+    font-weight: bold;
+    /*font-size: initial;*/
+    font-size: 1.5vw;
+    text-align: center;
     
 }
 /*(/CRG - #173 - 02.11.2015)*/
@@ -728,8 +905,10 @@ a.button {
     font-size: x-large;
     padding-top: 6px;
     padding-bottom: 6px;
-    padding-left: 250px;
-    padding-right: 250px;
+/*    padding-left: 250px;
+    padding-right: 250px;*/
+    padding-left: 20%;
+    padding-right: 20%;
     margin-top: 14px;
 }
 a.congrats2 {
@@ -746,7 +925,7 @@ p.congrats {
     font-weight: bold;
 }
 #promoteText{
-    margin-top: -5vw;
+    /* margin-top: -5vw;*/
     }
 .promoteText2 {
     /*margin-top: 156px;*/
@@ -755,7 +934,8 @@ p.congrats {
     display: -moz-box;
 }
 .promoteText3 {
-margin-top: -10px;
+    margin-top: -10px;
+    font-weight: normal !important;
 }
 .dialog{
     height: auto;
@@ -833,7 +1013,18 @@ margin-top: -10px;
 }
 .saveExplanation{
     font-size: smaller;
+    color: black !important;
 }
 .saveExplanationSave{
     font-size: xx-small;
 }
+#containerSocialNetworks{
+    margin-top: 4%;
+}
+
+#headerPrintFriendly{
+    margin-bottom: 1%;
+    margin-top: 2%;
+}
+
+input[type="radio"]{border:0 !important;}

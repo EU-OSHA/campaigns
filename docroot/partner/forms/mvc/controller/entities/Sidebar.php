@@ -140,7 +140,7 @@ class Sidebar extends Controller implements IController
                                     $sections[$section] = 0;
                                 }elseif($section == "GENERAL_INFORMATION" && !$gencontactinfsection){
                                     $sections[$section] = 0;
-                                }elseif($section == "CEO" && !$aboutyourceosection){
+                                }elseif(($section == "CEO" || $section == "CHIEF") && !$aboutyourceosection){
                                     $sections[$section] = 0;
                                 }elseif($section == "BECOME" && !$tobecomeapartnersection){
                                     $sections[$section] = 0;
@@ -156,6 +156,10 @@ class Sidebar extends Controller implements IController
                             }
                         }
                     }
+                    //Workaround OSH section -> Not have required fields
+                    if($sections[$section] && $params->getUrlParamValue('partner_type') == 'current' && $section == "OSH" && !$aboutyourrepsection){
+                                    $sections[$section] = 0;
+                                }
                 }
             }
         }
@@ -173,12 +177,21 @@ class Sidebar extends Controller implements IController
         $params       = Parameters::getInstance();
         $entity       = $params->getUrlParamValue('entity');
         $routes       = $params->get('routes');
+        $partnertype = $params->getUrlParamValue('entity');
+        if($partnertype == 'fop'){
+            unset($routes['involvement']);
+        }
         $entitiesPath = $params->get('entitiesPath');
         foreach ($routes as $route => $routeData) {
             $entityFile = APP_ROOT . $entitiesPath . $entity . '_' . $route;
             if ($content = File::read($entityFile)) {
                 $content = json_decode($content, true);
                 $content = isset($content['sections']) ? $content['sections'] : '';
+                if($partnertype == 'fop' && isset($content['title'])){
+                    if($content['title'] == "3. Contact information"){
+                        $content['title'] = "2. Contact information";
+                    }
+                }
                 if ($content && isset($content['title']) && isset($content['sections'])) {
                     $sections[] = array(
                         'title'    => $content['title'],

@@ -7,18 +7,17 @@
             <p class="thank-you">The fields have been updated successfully, and they will be displayed on the Campaign website tomorrow.<br> Thanks for participating in the Healthy Workplaces Campaign!</p>
         {/if}
     {else}
-        <p class="thank-you">Thank you for submitting your registration!</p>
+        <p class="thank-you">Thank you for submitting your application!</p>
     {/if}
 
     <p class="congrats">
         {if $category == 'ocp' && !$mf}
-        Thank you for submitting your application! It will be reviewed by the campaign team after 31/03/2016, deadline for applying to become an official campaign partner. You will be informed about the result of your application shortly after.<br>
+        It will be reviewed by the campaign team after 20 May 2016, deadline for applying to become an official campaign partner. You will be informed about the result of your application shortly after.<br>
         You have now 20 minutes to review your application and make corrections if necessary. You just have to follow the link provided in the e-mail confirming the receipt of your application that you will receive shortly.  After that time, the application form will be sent to us for final validation. If you have any problem, please contact us: <a href="mailto:partners@healthy-workplaces.eu">partners@healthy-workplaces.eu</a>
         {/if}
         {if $category == 'mp' && !$mf}
-        Thank you for submitting your application!<br>
         You have now 20 minutes to review your application and make corrections if necessary. You just have to follow the link provided in the e-mail confirming the receipt of your application that you will receive shortly.  After that time, the application form will be sent to us for final validation. If you have any problem, please contact us: <a href="mailto:partners@healthy-workplaces.eu">partners@healthy-workplaces.eu</a>.<br>
-        Once the application is validated, your profile will be published on <a href="https://www.healthy-workplaces.eu/en/campaign-partners/media-partners">https://www.healthy-workplaces.eu/en/campaign-partners/media-partners</a>.
+        Once the application is validated, your profile will be published on <a href="https://healthy-workplaces.eu/en/campaign-partners/media-partners">https://healthy-workplaces.eu/en/campaign-partners/media-partners</a>.
         {/if}
     </p>
     <div class="control-group">
@@ -32,7 +31,7 @@
                 <a class="button privateZoneredirectMF">Go to homepage</a>
                 <input id="partner_nid" class="hidden" name="partner_nid" type="text" value="{$partner_nid}">
                 <input id="language" class="hidden" name="language" type="text" value="{$language}">
-                <input id="appurl" class="hidden" name="appurl" type="text" value="{$homeurl}">
+                <input id="appurl" class="hidden" name="appurl" type="text" value="{$httpHost}">
             </div>
         {else}
             <div class="controls center">

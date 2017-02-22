@@ -4,7 +4,7 @@
         {if !empty($fieldPublicProfile)}<img src="{$appurl}mvc/view/img/screen.png" title="Fields displayed on campaign site" style="margin-top: 0%;" class="screen-right"/>{/if}
     </div>
     {if !empty($fieldHelpText) && empty($fieldValue.content)}
-    <p class="help-block">{$fieldHelpText}</p>
+    <p class="help-block {$fieldName}_helpText">{$fieldHelpText}</p>
     {/if}
     {if !empty($fieldValue.content) && !empty($fieldHelpTextImage)}
     <p class="help-block">{$fieldHelpTextImage}</p>

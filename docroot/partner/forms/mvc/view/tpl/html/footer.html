@@ -4,7 +4,7 @@
                 <label class="control-label" for="next"></label>
                 <div class="controls">
                     {if !$locked}
-                    <input id="next" name="next" value="{$submit_text}" type="submit" />
+                    <input id="next" name="next" value="{$submit_text}" {if $actionType ==="submit"}type="submit"{else}type="next"{/if} />
                     {else}
                     <input id="nextInLocked" class="nextInLocked" name="next" value="{$submit_text}" type="submit" />
                     {/if}

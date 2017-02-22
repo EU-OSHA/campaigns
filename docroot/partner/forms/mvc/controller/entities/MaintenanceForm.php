@@ -49,15 +49,24 @@ class MaintenanceForm extends Controller implements IController, IForm {
             $renderer = new Renderer('Congrats');
             $renderer->setViewPath($params->get('viewEntitiesPath'));
             $progressbar = new Progressbar(false);
+            $partner_nid = null;
+            if(isset($_SESSION['partner_nid'])){
+                $partner_nid = $_SESSION['partner_nid'];
+            }
+            $language = null;
+            if(isset($_SESSION['language'])){
+                $language = $_SESSION['language'];
+            }
             $progressbarContent = $progressbar->execute();
             $contentArray = array(
                 'appurl' => APP_URL . '?route=' . $params->get('route'),
                 'homeurl' => APP_URL,
+                'httpHost' => HTTP_HOST,
                 'title' => $params->get('title'),
                 'hideButtons' => true,
                 'fullwidth' => true,
-                'partner_nid' => $_SESSION['partner_nid'],
-                'language' => $_SESSION['language'],
+                'partner_nid' => $partner_nid,
+                'language' => $language,
                 'mf' => true,
                 'printable' => false,
                 'category' => $params->getUrlParamValue('entity')
@@ -156,6 +165,7 @@ class MaintenanceForm extends Controller implements IController, IForm {
                 'submit_text' => 'Submit',
                 'actionType' => $params->get('actionType'),
                 'disabled' => '',
+                'locked' => $params->getUrlParamValue('locked'),
                 'fieldsValidatingDialog' => $this->fieldsValidation(),
             );
             // PDF version

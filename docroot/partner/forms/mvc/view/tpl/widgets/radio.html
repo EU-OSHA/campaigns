@@ -8,11 +8,11 @@
     {/if}
     <!-- <div class="controls"> -->
         <label class="radio inline" for="{$fieldName}">
-            <input {$disabled} class="field" name="{$fieldName}" id="{$fieldName}-yes" value="Yes" type="radio" {if $fieldValue}checked="true" {/if} data-section="{$fieldSection}">
+            <input {$disabled} class="field" name="{$fieldName}" id="{$fieldName}-yes" value="Yes" type="radio" {if $fieldValue && $fieldValue != 'No'}checked="true" {/if} data-section="{$fieldSection}">
             Yes
         </label>
         <label class="radio inline" for="{$fieldName}">
-            <input {$disabled} class="field" name="{$fieldName}" id="{$fieldName}-no" value="No" type="radio" {if !$fieldValue}checked="true" {/if} data-section="{$fieldSection}">
+            <input {$disabled} class="field" name="{$fieldName}" id="{$fieldName}-no" value="No" type="radio" {if !$fieldValue || $fieldValue == 'No'}checked="true" {/if} data-section="{$fieldSection}">
             No
         </label>
     <!-- </div> -->

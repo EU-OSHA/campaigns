@@ -40,6 +40,7 @@ textarea {
 }
 .socialNetworks #SocialNetHidden{
     display: inherit!important;
+    margin-top: -6%;
 }
 #promoteText{
     margin-top: 0 !important;
@@ -52,4 +53,23 @@ textarea {
     }
 #otherUserField1{
     margin-top: 0px !important;
-}   
+}
+#otherUserField2{
+    display:  inherit !important;
+     margin-top: 5px !important;
+}
+#otherUserField3{
+    display:  inherit !important;
+     margin-top: 5px !important;
+}
+#otherUserField4{
+    display:  inherit !important;
+     margin-top: 5px !important;
+}
+#otherUserField5{
+    display:  inherit !important;
+     margin-top: 5px !important;
+}
+.multipleLabelMP{
+    display: none !important;
+}
