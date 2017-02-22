@@ -1,0 +1,16 @@
+SpamSpan implements the spamspan technique (http://www.spamspan.com ) for hiding email addresses from spambots.
+This file lists where each function is used.
+
+
+Content views are the most frequent activity. Anything in this list should be in the .module file.
+spamspan_filter_info()
+spamspan_filter_tips()
+spamspan_help()
+
+Content edit save. This can be shoved off to the admin code.
+spamspan_filter_process()
+
+Content edit save when there is an email address in the content.
+This can be shoved off to the admin code.
+_spamspan_callback_email()
+_spamspan_output()

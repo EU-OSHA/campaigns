@@ -58,11 +58,13 @@ class NCWPressMigration extends AbstractNCWNodeMigration {
     }
 
     // field_pr_notes_to_editor
-    $source_press_releases = $row->field_pr_notes_to_editor[LANGUAGE_NONE];
-    $row->notes_to_editor = array();
-    foreach($source_press_releases as $original) {
-      if ($destid1 = ncw_migration_find_migrated_item_id($original['target_id'], 'notes_to_editor')) {
-        $row->field_pr_notes_to_editor[] = $destid1;
+    if (!empty($row->field_pr_notes_to_editor)) {
+      $source_press_releases = $row->field_pr_notes_to_editor[LANGUAGE_NONE];
+      $row->notes_to_editor = array();
+      foreach($source_press_releases as $original) {
+        if ($destid1 = ncw_migration_find_migrated_item_id($original['target_id'], 'notes_to_editor')) {
+          $row->field_pr_notes_to_editor[] = $destid1;
+        }
       }
     }
   }

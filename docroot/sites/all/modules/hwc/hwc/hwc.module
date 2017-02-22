@@ -9,15 +9,6 @@ define('ROLE_SUPERADMINISTRATOR', 'Superadministrators');
 define('SOLR_SEARCH_INDEX', 'default_multilingual_node_index');
 
 /**
- * Implementation of hook_views_api().
- */
-function hwc_views_api() {
-  return array(
-    'api' => 3,
-  );
-}
-
-/**
  * Implements hook_permission().
  */
 function hwc_permission() {
@@ -59,6 +50,12 @@ function hwc_menu() {
     'title' => 'Page not found',
     'page callback' => 'hwc_page_not_found',
     'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+  $items['export/node/%node'] = array(
+    'page callback' => 'hwc_export_node',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
   return $items;
@@ -462,6 +459,20 @@ function hwc_form_chosen_admin_settings_alter(&$form, $form_state) {
   // Add options to chosen 30.
   $form['chosen_minimum_single']['#options']['30'] = '30';
   $form['chosen_minimum_multiple']['#options']['30'] = '30';
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function hwc_form_node_form_alter(&$form, &$form_state, $form_id) {
+  // Hide migration source field.
+  if (isset($form['field_migration_source'])) {
+    $form['field_migration_source']['#access'] = FALSE;
+  }
+  if (!empty($form['#entity']->field_migration_source)) {
+    drupal_set_message('You are not allowed to edit imported content', 'warning');
+    $form['#access'] = FALSE;
+  }
 }
 
 /**
@@ -1154,4 +1165,42 @@ function _hwc_filter_html_id($text) {
     $node->removeAttribute('id');
   }
   return filter_dom_serialize($html_dom);
+}
+
+/**
+ * Export node to JSON.
+ *
+ * @param $node
+ */
+function hwc_export_node($node) {
+  if ($node->status == 0) {
+    drupal_access_denied();
+  }
+  header('Content-type: application/javascript; charset=utf-8');
+  $fields = field_info_instances('node', $node->type);
+  $w = entity_metadata_wrapper('node', $node);
+  $node->path = path_load('node/' . $node->nid);
+  foreach(array_keys($fields) as $field_name) {
+    $info = field_info_field($field_name);
+    if ($info['type'] == 'taxonomy_term_reference') {
+      $node->$field_name = $w->$field_name->value();
+    }
+  }
+  // Change relative links to absolute.
+  if (function_exists('_pathologic_filter')) {
+    if (!empty($node->body)) {
+      foreach ($node->body as $lng => $body) {
+        $node->body[$lng][0]['value'] = check_markup($node->body[$lng][0]['value'], 'full_html', $lng);
+      }
+    }
+    if (!empty($node->field_summary)) {
+      foreach ($node->field_summary as $lng => $body) {
+        $node->field_summary[$lng][0]['value'] = check_markup($node->field_summary[$lng][0]['value'], 'full_html', $lng);
+      }
+    }
+  }
+  $node->full_url = url('node/' . $node->nid, ['absolute' => TRUE]);
+  $export = json_encode($node, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
+  print $export;
+  drupal_exit();
 }
