@@ -470,7 +470,7 @@ function hwc_form_node_form_alter(&$form, &$form_state, $form_id) {
   // Hide migration source field.
   if (isset($form['field_migration_source'])) {
     $form['field_migration_source']['#access'] = FALSE;
-  }``
+  }
 
   if (isset($form['field_show_in_ncw'])) {
     $form['field_show_in_ncw']['#access'] = OshaWorkflowPermissions::userHasRole(OSHA_WORKFLOW_ROLE_ADMINISTRATOR, $user);
