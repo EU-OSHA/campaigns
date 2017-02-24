@@ -43,7 +43,7 @@ final class CDB
      *
      * @return $thi
      */
-    public static function getInstance($cdbMap, $sessionId = '')
+    public static function getInstance($cdbMap, $sessionId = '', $loadFromCDB = false)
     {   
         static $inst = null;
         if ($inst === null) {
@@ -57,7 +57,10 @@ final class CDB
         }
         // Load the data of the dropDowns
         if ($inst->cdbMap) {
-            $inst->loadDropdownsData();
+            if(($loadFromCDB)||((!isset($inst->dropdowns['company_osh_orgtype']) || !$inst->dropdowns['company_osh_orgtype']['values']) && (!isset($inst->dropdowns['company_osh_bussinessector']) || !$inst->dropdowns['company_osh_bussinessector']['values'])
+                    && (!isset($inst->dropdowns['company_osh_osh_appform_osh_country']) || !$inst->dropdowns['company_osh_osh_appform_osh_country']['values']) && (!isset($inst->dropdowns['company_osh_country']) || !$inst->dropdowns['company_osh_country']['values']))){
+                $inst->loadDropdownsData();
+            }
         }
 
         return $inst;
@@ -235,10 +238,19 @@ final class CDB
         //Informamos los campos,sino no
         //        if (!$partnerType === 'mp' && $formType === 'new' && $statusCode === $sent)) {
         //(/CRG - #154)
-        
-            //Insertamos una variable para mostrar el check del main contact change.
-            $_SESSION['mainContactChangeCheck'] = true;
-            
+
+            if(isset($response['osh_mainemail']) && $response['osh_mainemail'] != ""){
+                $response['contact_osh_mainemailAux'] = $response['osh_mainemail'];
+            }
+            if(isset($response['osh_orgname']) && $response['osh_orgname'] != ""){
+                $response['company_osh_orgnameAux'] = $response['osh_orgname'];
+            }
+            if(isset($response['osh_firstname']) && $response['osh_firstname'] != ""){
+                $response['contact_osh_maincontactpersonfirstnameAux'] = $response['osh_firstname'];
+            }
+            if(isset($response['osh_lastname']) && $response['osh_lastname'] != ""){
+                $response['contact_osh_maincontactpersonlastnameAux'] = $response['osh_lastname'];
+            }
             foreach ($this->cdbMap as $htmlName => $cdbName) {
                 if (isset ($response[$cdbName])) {
                     if (is_array($response[$cdbName]) && isset($response[$cdbName]['Name'])) {
@@ -253,6 +265,10 @@ final class CDB
                 }
             }
         }
+//        if ($statusCode != $sent){
+//            //Insertamos una variable para mostrar el check del main contact change.
+//            $_SESSION['mainContactChangeCheck'] = true;
+//        }
         // Debug::dump($this->fields, 'FIELDS', true);
     }
 
@@ -265,7 +281,12 @@ final class CDB
      */
     private function getSessionDataMF($response, $countries, $response2)
     {
-        if (isset($response[0]['Fields'])) {
+        //Workaround para resolver la response en caso de que un mismo user tenga varios roles. 
+        //En este caso, envío información duplicada errónea, por lo que comprobamos que es esta casuística
+        // (envío una response con 3 arrauys en vez de 2), y en ese caso nos quedamos con la que se debe.
+        if (isset($response[2]) && isset($response[1]['Fields'])) {
+            $response = $response[1]['Fields'];
+        }elseif (isset($response[0]['Fields'])) {
             $response = $response[0]['Fields'];
         } else {
             throw new CDBException('configuration_error', 500);
@@ -521,6 +542,10 @@ final class CDB
                     }
                 }
             }
+            //Lock fields if the changes are pending validation.
+            if(isset($_SESSION['fieldsValidatingDialog']) && $_SESSION['fieldsValidatingDialog'] == true){
+                $params->setUrlParamValue('locked', true);
+            }
         }
     }
 
@@ -666,7 +691,6 @@ final class CDB
     private function getData($url)
     {
         $resource = $this->host . $this->port . $this->resource . $url;
-//        error_log($resource);
         $response = null;
 //        $time_pre = microtime(true);
         if ($content = @file_get_contents($resource)) {
@@ -734,23 +758,45 @@ final class CDB
         }
         $otherusers="otherusers=";
         if(isset($parameters['otherusers1']) && $parameters['otherusers1'] != "(||)"){
-            $otherusers.= $parameters['otherusers1'];
+            $otherusers.= str_replace(" ", "", $parameters['otherusers1']);
             unset($parameters['otherusers1']);
         }
         if($otherusers != "otherusers=" && isset($parameters['otherusers2'])&& $parameters['otherusers2'] != "(||)"){
            $otherusers.= ","; 
         }
         if(isset($parameters['otherusers2'])&& $parameters['otherusers2'] != "(||)"){
-            $otherusers.= $parameters['otherusers2'];
+            $otherusers.= str_replace(" ", "", $parameters['otherusers2']);
             unset($parameters['otherusers2']);
         }
         if($otherusers != "otherusers=" && isset($parameters['otherusers3'])&& $parameters['otherusers3'] != "(||)"){
            $otherusers.= ","; 
         }
         if(isset($parameters['otherusers3'])&& $parameters['otherusers3'] != "(||)"){
-            $otherusers.= $parameters['otherusers3'];
+            $otherusers.= str_replace(" ", "", $parameters['otherusers3']);
             unset($parameters['otherusers3']);
         }
+        if($otherusers != "otherusers=" && isset($parameters['otherusers4'])&& $parameters['otherusers4'] != "(||)"){
+           $otherusers.= ","; 
+        }
+        if(isset($parameters['otherusers4'])&& $parameters['otherusers4'] != "(||)"){
+            $otherusers.= str_replace(" ", "", $parameters['otherusers4']);
+            unset($parameters['otherusers4']);
+        }
+        if($otherusers != "otherusers=" && isset($parameters['otherusers5'])&& $parameters['otherusers5'] != "(||)"){
+           $otherusers.= ","; 
+        }
+        if(isset($parameters['otherusers5'])&& $parameters['otherusers5'] != "(||)"){
+            $otherusers.= str_replace(" ", "", $parameters['otherusers5']);
+            unset($parameters['otherusers5']);
+        }
+		
+        /* "osh_ceo_changed" param can only be send on mantenaince*/
+        $params = Parameters::getInstance();
+        if(empty($params->get('mf')) && isset($parameters['fields']['osh_ceo_changed'])){
+                unset($parameters['fields']['osh_ceo_changed']);
+        }
+        /* */
+        
         $updateMethod = $this->getMethod('update', 'update_mf');
         
         $urlBase          = $this->host . $this->port . $this->resource . $updateMethod;
@@ -763,7 +809,7 @@ final class CDB
         }
         $url = $url. "&option=" .$parameters['option'];
         $ch = curl_init();
-        error_log("URL" .$url);
+        error_log("URL: " .$url);
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);
@@ -771,9 +817,10 @@ final class CDB
 
         $fieldsJson = json_encode($parameters['fields'],JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         curl_setopt($ch, CURLOPT_POSTFIELDS, base64_encode($fieldsJson));
-//        error_log("Fields:   " .print_r(base64_encode($fieldsJson),1));
-//        curl_setopt($ch, CURLOPT_POSTFIELDS, $fieldsJson);
-        error_log("Fields:   " .print_r($fieldsJson,1));
+        error_log("Fields:   " .print_r(base64_encode($fieldsJson),1));
+        
+        error_log("Fields2:   " .print_r($parameters['fields'],1));
+        
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
         if($server_output === false)

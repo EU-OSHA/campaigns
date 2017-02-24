@@ -86,6 +86,9 @@ class Validator
                             $attribute->getName()=="company_osh_bussinessector"){
                         $value=$attribute->getSelectedValues();
                     }
+                     if($attribute->getName()=="company_osh_socialdialoguepartner"){
+                        $value="true";
+                    }
                  //   if($attribute->getName()=="company_osh_logoimage"){
                    //     if(!isset($value['content'])){
                  //        $value = null;

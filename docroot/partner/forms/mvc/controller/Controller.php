@@ -42,6 +42,12 @@ abstract class Controller {
         $progressbarContent = $progressbar->execute();
         // Build the form
         $route = $params->get('route');
+        $statusCode  = $params->get('statuscode');
+        $sent        = intval($params->get('cdb')['sent']);
+        if ($statusCode != $sent){
+            //Insertamos una variable para mostrar el check del main contact change.
+            $_SESSION['mainContactChangeCheck'] = true;
+        }
         $submitText = isset($params->get('routes')[$route]['submitText']) ? $params->get('routes')[$route]['submitText'] : 'Next';
         $isPrintable = $this->isPrintable();
         $renderer = new Renderer($this->getEntityName());
@@ -181,7 +187,14 @@ abstract class Controller {
                 } else {
                     $required = ($attribute->getValidator() == Validator::VALIDATION_NOTNULL) ? 'required' : '';
                 }
-
+                if ($attribute->getType() == Attribute::TYPE_RADIO) {
+                    $radioValue = $attribute->getValue();
+                    if(empty($radioValue)){
+                        $attribute->setValue('No');
+                    }else if ($radioValue == 1 || $radioValue == "1"){
+                        $attribute->setValue('Yes');
+                    }
+                }
                 if ($attribute->getType() == Attribute::TYPE_DROPDOWN_MULTIPLE) {
                     $data = $attribute->getValue();
                     foreach ($data as $countryKey => $countryValue) {
@@ -356,10 +369,22 @@ abstract class Controller {
 //                                        $session->setAttribute($atributo->getName(), $atributo->getValue());
 //                                }
 //                            }
-
                             foreach ($this->model->getAttributes() as $atributo) {
-                                if(strpos($atributo->getName(), 'otherus') !== false){
+                                if(strpos($atributo->getName(), 'otherus') !== false || strpos($atributo->getName(), 'publication') !== false ||
+                                        strpos($atributo->getName(), 'readership') !== false){
                                         $session->setAttribute($atributo->getName(), $params->get($atributo->getName()));
+                                }
+                                if(isset($_SESSION['mf']) && $_SESSION['mf']){
+                                    if(strpos($atributo->getName(), 'profile') !== false){
+                                        $name = $atributo->getName();
+                                        if (isset($_POST[$name])){
+                                            $value = $_POST[$name];
+                                        }
+                                        if(isset($value)){
+                                            $session->setAttribute($name, $value);
+                                            $params->set($name, $value, true);
+                                        }
+                                    }
                                 }
                             }
                             
@@ -436,7 +461,12 @@ abstract class Controller {
             }
             $route = $params->get('route');
             $nextRoute = isset($params->get('routes')[$route]['next']) ? $params->get('routes')[$route]['next'] : '';
-            header('Location: ' . APP_URL . '?route=' . $nextRoute);
+            if(isset($_SESSION['mf']) && $_SESSION['mf']== true){
+                 header('Location: ' . APP_URL . '?route=' . $nextRoute . "&mf=true");
+            }else{
+                 header('Location: ' . APP_URL . '?route=' . $nextRoute);
+            }
+           
             exit;
         } else {
             $url = "$_SERVER[REQUEST_URI]";
@@ -469,6 +499,8 @@ abstract class Controller {
         $otherUsers1 = '';
         $otherUsers2 = '';
         $otherUsers3 = '';
+        $otherUsers4 = '';
+        $otherUsers5 = '';
         $normalValues = array();
         foreach ($fields as $key => $value) {
             // Envío del tipo de imagen
@@ -502,7 +534,7 @@ abstract class Controller {
                 }
 
                 
-            if (strpos($key, 'category') !== false || strpos($key, 'leads') !== false) {
+            if (strpos($key, 'category') !== false || strpos($key, 'leads') !== false || $key == "contact_osh_mainemailAux" || $key == "company_osh_orgnameAux" || $key == "contact_osh_maincontactpersonfirstnameAux" || $key == "contact_osh_maincontactpersonlastnameAux") {
                 // Don't send neither category and osh_leads field.
                 continue;
                 
@@ -515,7 +547,7 @@ abstract class Controller {
                 } else {
                     $countries = null;
                 }
-            } elseif (strpos($key, 'otheruser') === false && $key != 'fullname1' && $key != 'fullname2' && $key != 'fullname3') {
+            } elseif (strpos($key, 'otheruser') === false && $key != 'fullname1' && $key != 'fullname2' && $key != 'fullname3' && $key != 'fullname4' && $key != 'fullname5') {
                 //Normal fields
                 if (isset($value)) {
                     if (isset($keyLogoImageType)){
@@ -552,6 +584,18 @@ abstract class Controller {
                     $otherUsers3 .= $value . '|';
                 }else if($key === 'osh_otheruserphone3'){
                     $otherUsers3 .= $value . ')';
+                }else if($key === 'fullname4'){
+                    $otherUsers4 .= '(' . str_replace(" ","+",$value) . '|';
+                }else if($key === 'osh_otheruseremail4'){
+                    $otherUsers4 .= $value . '|';
+                }else if($key === 'osh_otheruserphone4'){
+                    $otherUsers4 .= $value . ')';
+                }else if($key === 'fullname5'){
+                    $otherUsers5 .= '(' . str_replace(" ","+",$value) . '|';
+                }else if($key === 'osh_otheruseremail5'){
+                    $otherUsers5 .= $value . '|';
+                }else if($key === 'osh_otheruserphone5'){
+                    $otherUsers5 .= $value . ')';
                 }
             }
         }
@@ -577,6 +621,8 @@ abstract class Controller {
         $result['otherusers1'] = $otherUsers1;
         $result['otherusers2'] = $otherUsers2;
         $result['otherusers3'] = $otherUsers3;
+        $result['otherusers4'] = $otherUsers4;
+        $result['otherusers5'] = $otherUsers5;
         //        }
         //          (/CRG - #157 )
         if (!$params->getUrlParamValue('maintenance_mode')) {
@@ -660,12 +706,30 @@ abstract class Controller {
     }
 
     public function savesessionajax() {
+        $params = Parameters::getInstance();
+        if($params->getUrlParamValue('locked')){
+            return false;
+        }
+        
         $session = Session::getInstance();
         $this->load();
         $attributes = $this->model->getAttributes();
         foreach ($attributes as $kAttr => $attr) {
-
             $name = $attr->getName();
+            if(strpos($name, 'publication') !== false || strpos($name, 'readership') !== false){
+                $session->setAttribute($name, $params->get($name));
+                $params->set($name, $params->get($name), true);
+//                $_POST[$name] = $params->get($name);
+                if(!isset($_POST[$name])){
+                    $_POST[$name] = "";
+                    $session->setAttribute($name, "");
+                    $params->set($name, "", true);
+                }else{
+                    $_POST[$name] = $params->get($name);
+                }
+            }else if($name == 'company_osh_osh_appform_osh_country' && !isset($_POST[$name])){
+                $_POST[$name] = "";
+            }
             $valueSession = $session->getAttribute($name);
             if (isset($_POST[$name])){
                 $value = $_POST[$name];

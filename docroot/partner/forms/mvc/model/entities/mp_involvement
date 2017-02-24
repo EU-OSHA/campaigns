@@ -2,7 +2,6 @@
   "sections": {
     "title": "2. About your involvement",
     "sections": {
-        "INVOLVEMENT": "Your support for the campaign",
         "PLEDGE": "Your Campaign Pledge"
     },
     "sections_mf": {
@@ -15,14 +14,6 @@
       "label": "Your Campaign Pledge",
       "publicProfile": "publicProfile",
       "section": "PLEDGE",
-      "type": "textarea",
-      "validator": "not_null"
-    },
-    "involvement_osh_promoteandsupportcampaign": {
-      "name": "involvement_osh_promoteandsupportcampaign",
-      "label": "How do you plan to promote and support the campaign via your website and other electronic means  (Intranet, Newsletter, social media etc.)?",
-      "placeholder": "Please explain in short your plans for promotion and support and, when possible, include some link(s) to your website and social media accounts to show the section(s) that will be used for this promotion",
-      "section": "INVOLVEMENT",
       "type": "textarea",
       "validator": "not_null"
     },
@@ -42,9 +33,16 @@
       "section": "PLEDGE",
       "type": "text"
     },
-    "osh_supportforcampaignsection": {
-      "name": "osh_supportforcampaignsection",
-      "section": "PLEDGE",
+    "contact_osh_maincontactpersonfirstnameAux": {
+      "name": "contact_osh_maincontactpersonfirstnameAux",
+      "label": "Primary name",
+      "section": "PRIMARY_CONTACT",
+      "type": "text"
+    },
+    "contact_osh_maincontactpersonlastnameAux": {
+      "name": "contact_osh_maincontactpersonlastnameAux",
+      "label": "Last Name",
+      "section": "PRIMARY_CONTACT",
       "type": "text"
     },
     "osh_yourcampaignpledgesection": {
@@ -113,8 +111,11 @@
     "involvement_osh_promotioninthemedia": "osh_promotioninthemedia",
     "involvement_osh_bestpractice": "osh_bestpractice",
     "involvement_osh_otheractivities": "osh_otheractivities",
-    "osh_supportforcampaignsection": "osh_supportforcampaignsection",
-    "osh_yourcampaignpledgesection": "osh_yourcampaignpledgesection"
+    "osh_yourcampaignpledgesection": "osh_yourcampaignpledgesection",
+    "contact_osh_mainemailAux": "contact_osh_mainemailAux",
+    "company_osh_orgnameAux": "company_osh_orgnameAux",
+    "contact_osh_maincontactpersonfirstnameAux": "contact_osh_maincontactpersonfirstnameAux",
+    "contact_osh_maincontactpersonlastnameAux": "contact_osh_maincontactpersonlastnameAux"
   },
   "map_mf": {
     "involvement_osh_campaignpledge": "osh_campaignpledge",

@@ -131,7 +131,7 @@ class Model {
      */
     private function loadFromCDB($cdbMap, $sessionId = '') {
         $value = false;
-        $cdb = CDB::getInstance($cdbMap, $sessionId);
+        $cdb = CDB::getInstance($cdbMap, $sessionId, true);
         foreach ($this->attributes as $name => &$attribute) {
             // If a callback is defined, invoke the callback
             if ($callback = $attribute->getCallback()) {
