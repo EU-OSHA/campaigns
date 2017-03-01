@@ -465,10 +465,17 @@ function hwc_form_chosen_admin_settings_alter(&$form, $form_state) {
  * Implements hook_form_BASE_FORM_ID_alter().
  */
 function hwc_form_node_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+
   // Hide migration source field.
   if (isset($form['field_migration_source'])) {
     $form['field_migration_source']['#access'] = FALSE;
   }
+
+  if (isset($form['field_show_in_ncw'])) {
+    $form['field_show_in_ncw']['#access'] = OshaWorkflowPermissions::userHasRole(OSHA_WORKFLOW_ROLE_ADMINISTRATOR, $user);
+  }
+
   if (!empty($form['#entity']->field_migration_source)) {
     drupal_set_message('You are not allowed to edit imported content', 'warning');
     $form['#access'] = FALSE;
