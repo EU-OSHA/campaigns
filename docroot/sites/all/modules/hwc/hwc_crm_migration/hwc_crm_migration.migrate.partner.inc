@@ -140,6 +140,7 @@ class PartnerMigration extends HwcCrmMigration {
   }
 
   public function prepare($entity, $row) {
+    $entity->status = 1;
     // Unpublish partner if status is not 863680005 (MH-129) - except fop.
     $term = taxonomy_get_term_by_name($row->field_partner_type, 'partner_types');
     $is_fop = FALSE;

@@ -577,3 +577,22 @@ function hwc_update_7029() {
 function hwc_update_7030() {
   features_revert_module('hwc');
 }
+
+/**
+ * Enable spamspna
+ */
+function hwc_update_7031() {
+  module_enable(['spamspan']);
+}
+
+/**
+ * Migrate news, events to fix the source field.
+ */
+function hwc_update_7032() {
+  module_enable(['views_json']);
+  features_revert_module('hwc');
+  features_revert_module('osha_news');
+  features_revert_module('osha_events');
+  ncw_migration_run_single('news');
+  ncw_migration_run_single('events');
+}

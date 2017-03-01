@@ -934,7 +934,7 @@ national-focal-points
   $pane->access = array();
   $pane->configuration = array(
     'label' => 'hidden',
-    'formatter' => 'email_default',
+    'formatter' => 'email_spamspan',
     'delta_limit' => 0,
     'delta_offset' => '0',
     'delta_reversed' => FALSE,
@@ -2092,7 +2092,7 @@ campaign-media-partners
   $pane->access = array();
   $pane->configuration = array(
     'label' => 'hidden',
-    'formatter' => 'email_default',
+    'formatter' => 'email_spamspan',
     'delta_limit' => 0,
     'delta_offset' => '0',
     'delta_reversed' => FALSE,
@@ -3784,7 +3784,7 @@ official-campaign-partners
   $pane->access = array();
   $pane->configuration = array(
     'label' => 'hidden',
-    'formatter' => 'email_default',
+    'formatter' => 'email_spamspan',
     'delta_limit' => 0,
     'delta_offset' => '0',
     'delta_reversed' => FALSE,

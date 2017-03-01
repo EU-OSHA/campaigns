@@ -101,6 +101,7 @@ class NCWEventsSource extends AbstractNCWNodeSource {
       'field_website_of_event_attributes',
       'field_related_documents',
       'field_related_documents_language',
+      'field_migration_source',
     );
     return array_combine($fields, $fields);
   }

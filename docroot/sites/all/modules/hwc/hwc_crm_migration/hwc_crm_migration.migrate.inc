@@ -100,10 +100,25 @@ class HwcCrmMigration extends Migration {
 
   public function removeNeedsUpdateItems() {
     // Remove non-existing sources.
-    $removed = $this->getMap()->getRowsNeedingUpdate(10000);
+    $removed = [];
+    // Getting guids from source.
+    $guids = $this->source->idsToProcess;
+
+    // Get existing nodes.
+    $query = db_select('field_data_field_guid_organisation', 'g');
+    $query->fields('g', ['entity_id', 'field_guid_organisation_value']);
+    $result = $query->execute();
+    $existing_partners = $result->fetchAllKeyed();
+
+    // Check guids that are in website and not in source.
+    foreach ($existing_partners as $nid => $guid) {
+      if (!in_array($guid, $guids)) {
+        $removed[] = $nid;
+      }
+    }
     if (!empty($removed)) {
-      foreach ($removed as $to_remove) {
-        if ($node = node_load($to_remove->destid1)) {
+      foreach ($removed as $nid) {
+        if ($node = node_load($nid)) {
           if ($node->status == 1 || !empty($node->field_appform_status)) {
             $node->status = 0;
             $node->field_appform_status = NULL;

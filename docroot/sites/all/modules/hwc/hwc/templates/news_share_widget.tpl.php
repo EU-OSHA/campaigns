@@ -82,7 +82,8 @@ $twitter_url = str_replace('https://', '', $twitter_url);
   (function($) {
 
     $(window).ready(function(){
-      $('#twitter-share-button-<?php print $node->nid; ?> a').click(function(event) {
+      $('#twitter-share-button-<?php print $node->nid; ?> a').click(function(e) {
+        e.preventDefault();
         var width  = 575,
           height = 400,
           left   = ($(window).width()  - width)  / 2,
@@ -93,10 +94,10 @@ $twitter_url = str_replace('https://', '', $twitter_url);
             ',top='    + top    +
             ',left='   + left;
         window.open(this.href, 'twitter', opts);
-        return false;
       });
-      
-      $('#linked-in-<?php print $node->nid; ?> a').click(function() {
+
+      $('#linked-in-<?php print $node->nid; ?> a').click(function(e) {
+        e.preventDefault();
         var width  = 575,
           height = 400,
           left   = ($(window).width()  - width)  / 2,
@@ -107,8 +108,37 @@ $twitter_url = str_replace('https://', '', $twitter_url);
             ',top='    + top    +
             ',left='   + left;
         window.open(this.href, 'Linked In', opts);
-        return false;
       });
     });
   })(jQuery);
+</script>
+
+
+<?php
+/* PIWIK EVENTS */
+$event_name = '/node/' . $node->nid;
+$event_val = $language->language;
+if (!empty($node->path['alias'])) {
+  $event_name = '/' . $node->path['alias'];
+}
+?>
+<script>
+    (function($) {
+        $(window).ready(function(){
+            if (typeof _paq != 'undefined') {
+                $('#linked-in-<?php print $node->nid; ?> a').click(function(event) {
+                    _paq.push(['trackEvent', 'Share', 'LinkedIn', '<?php print $event_name ?>', '<?php print $event_val ?>']);
+                });
+                $('#twitter-share-button-<?php print $node->nid; ?> a').click(function(event) {
+                    _paq.push(['trackEvent', 'Share', 'Twitter', '<?php print $event_name ?>', '<?php print $event_val ?>']);
+                });
+                $('#facebook-share-button-<?php print $node->nid; ?> a').click(function(event) {
+                    _paq.push(['trackEvent', 'Share', 'Facebook', '<?php print $event_name ?>', '<?php print $event_val ?>']);
+                });
+                $('#google-plus-<?php print $node->nid; ?> a').click(function(event) {
+                    _paq.push(['trackEvent', 'Share', 'Google+', '<?php print $event_name ?>', '<?php print $event_val ?>']);
+                });
+            }
+        });
+    })(jQuery);
 </script>

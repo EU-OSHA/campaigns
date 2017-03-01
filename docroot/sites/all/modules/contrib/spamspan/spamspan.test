@@ -1,0 +1,207 @@
+<?php
+
+class SpamspanTestCase extends DrupalWebTestCase {
+
+	public static function getInfo() {
+    // Note: getInfo() strings are not translated with t().
+    return array(
+      'name' => 'Spamspan',
+      'description' => 'Ensure that spamspan obfuscates emails properly',
+      'group' => 'Spamspan',
+    );
+  }
+
+  function setUp() {
+    parent::setUp(array('spamspan'));
+  }
+
+	//wrapper function that conveniently wraps some text around main test subject and then asserts
+  private function _assert($input, $shouldbe, $prefix = '', $suffix = '') {
+    $output = spamspan($prefix . $input . $suffix);
+    $this->assertEqual($prefix . $shouldbe . $suffix, $output);
+  }
+
+
+  private function _assert_form($input, $shouldbe, $prefix = '', $suffix = '') {
+    $settings = array('spamspan_use_form' => 1);
+    $output = spamspan($prefix . $input . $suffix, $settings);
+    $this->assertEqual($prefix . $shouldbe . $suffix, $output);
+  }
+
+  private function _assert_at_dot($input, $shouldbe, $prefix = '', $suffix = '') {
+    $settings = array('spamspan_use_graphic' => 1, 'spamspan_dot_enable' => 1);
+    $output = spamspan($prefix . $input . $suffix, $settings);
+    $this->assertEqual($prefix . $shouldbe . $suffix, $output);
+  }
+
+	function testSpamspan() {
+		// test that strings without emails a passed unchanged
+    $noemails = array(
+      'no email here',
+      'oneword',
+      '',
+      'notan@email',
+      'notan@email either',
+      'some text and notan.email@something here',
+    );
+
+    foreach ($noemails as $input) {
+      $this->_assert($input, $input);
+    }
+
+    // a list of addresses, together with what they should look like
+    $emails = array(
+      'user@example.com' =>
+        '<span class="spamspan"><span class="u">user</span> [at] <span class="d">example.com</span></span>',
+
+      'user@example.co.uk' =>
+        '<span class="spamspan"><span class="u">user</span> [at] <span class="d">example.co.uk</span></span>',
+
+      'user@example.somenewlongtld' =>
+        '<span class="spamspan"><span class="u">user</span> [at] <span class="d">example.somenewlongtld</span></span>',
+
+      'user.user@example.com' =>
+        '<span class="spamspan"><span class="u">user.user</span> [at] <span class="d">example.com</span></span>',
+
+      'user\'user@example.com' =>
+        '<span class="spamspan"><span class="u">user\'user</span> [at] <span class="d">example.com</span></span>',
+
+      'user-user@example.com' =>
+        '<span class="spamspan"><span class="u">user-user</span> [at] <span class="d">example.com</span></span>',
+
+      'user_user@example.com' =>
+        '<span class="spamspan"><span class="u">user_user</span> [at] <span class="d">example.com</span></span>',
+
+      'user+user@example.com' =>
+        '<span class="spamspan"><span class="u">user+user</span> [at] <span class="d">example.com</span></span>',
+
+      '<a href="mailto:email@example.com"></a>' =>
+        '<span class="spamspan"><span class="u">email</span> [at] <span class="d">example.com</span></span>',
+
+      '<a href="mailto:email@example.com"><img src="/misc/favicon.ico"></a>' =>
+        '<span class="spamspan"><span class="u">email</span> [at] <span class="d">example.com</span><span class="a"> (<img src="/misc/favicon.ico">)</span></span>',
+
+      '<a href="mailto:email@example.com?subject=Hi there!&body=Dear Sir">some text</a>' =>
+        '<span class="spamspan"><span class="u">email</span> [at] <span class="d">example.com</span><span class="h"> (subject: Hi%20there%21, body: Dear%20Sir) </span><span class="a"> (some text)</span></span>',
+
+      '<a href="mailto:email@example.com">The email@example.com should not show and neither email2@example.me</a>' =>
+        '<span class="spamspan"><span class="u">email</span> [at] <span class="d">example.com</span><span class="a"> (The  should not show and neither )</span></span>',
+
+      '<a class="someclass" href="mailto:email@example.com" id="someid"></a>' =>
+        '<span class="spamspan"><span class="u">email</span> [at] <span class="d">example.com</span><span class="e"><!--class="someclass" id="someid"--></span></span>',
+
+      '<a href="mailto:email@example.com?subject=Message%20Subject%2C%20nasty%20%22%20%3Cchars%3F%3E&amp;body=%22This%20is%20a%20message%20body!%20%3C%20%3E%20%22%3F%0A%0A!%22%C2%A3%24%25%5E%26*()%3A%40~%3B%23%3C%3E%3F%2C.%2F%20%5B%5D%20%7B%7D%20-%3D%20_%2B">some text</a>' =>
+        '<span class="spamspan"><span class="u">email</span> [at] <span class="d">example.com</span><span class="h"> (subject: Message%20Subject%2C%20nasty%20%22%20%3Cchars%3F%3E, body: %22This%20is%20a%20message%20body!%20%3C%20%3E%20%22%3F%0A%0A!%22%C2%A3%24%25%5E%26*()%3A%40~%3B%23%3C%3E%3F%2C.%2F%20%5B%5D%20%7B%7D%20-%3D%20_%2B) </span><span class="a"> (some text)</span></span>',
+
+      "<a href=\"mailto:email@example.com?subject=Hi there!&body=Dear'Sir\">some text</a>" =>
+        "<span class=\"spamspan\"><span class=\"u\">email</span> [at] <span class=\"d\">example.com</span><span class=\"h\"> (subject: Hi%20there%21, body: Dear%27Sir) </span><span class=\"a\"> (some text)</span></span>",
+
+    );
+
+    foreach ($emails as $input => $shouldbe) {
+      // Test for bare email;
+      $this->_assert($input, $shouldbe);
+      // Test for email with text at the start
+      $this->_assert($input, $shouldbe, 'some text at the start ');
+      // Test for email with text at the end
+      $this->_assert($input, $shouldbe, '', ' some text at the end');
+      // Test for email with text at the start and end
+      $this->_assert($input, $shouldbe, 'some text at the start ', ' some text at the end');
+      // Test for email with tags at the start and end
+      $this->_assert($input, $shouldbe, '<p>', '</p>');
+      // Test for email with trailing commas
+      $this->_assert($input, $shouldbe, 'some text at the start ', ', next clause.');
+      // Test for email with trailing full stop
+      $this->_assert($input, $shouldbe, 'some text at the start ', '. next sentence.');
+      // Test for email with preceding tag, and no closing tag
+      $this->_assert($input, $shouldbe, '<dt>');
+      // Test for brackets
+      $this->_assert($input, $shouldbe, '(', ')');
+      // Test for angular brackets
+      $this->_assert($input, $shouldbe, '<', '>');
+      // Test for newlines
+      $this->_assert($input, $shouldbe, "\n", "\n");
+      // Test for spaces
+      $this->_assert($input, $shouldbe, ' ', ' ');
+    }
+
+    $basepath = base_path();
+
+    // use form tests
+    $emails = array(
+      'user@example.com' =>
+        '<a href="'. $basepath .'contact?goto=dXNlckBleGFtcGxlLmNvbQ%3D%3D">contact form</a>',
+
+      'user@example.co.uk[mycontactform]' =>
+        '<a href="'. $basepath .'mycontactform?goto=dXNlckBleGFtcGxlLmNvLnVr">contact form</a>',
+
+      'user@example.com[http://google.com]' =>
+        '<a href="http://google.com?goto=dXNlckBleGFtcGxlLmNvbQ%3D%3D">contact form</a>',
+
+      'user@example.museum[mycontactform|Contact me using this form]' =>
+        '<a href="'. $basepath .'mycontactform?goto=dXNlckBleGFtcGxlLm11c2V1bQ%3D%3D">Contact me using this form</a>',
+    );
+
+    foreach ($emails as $input => $shouldbe) {
+      // Test for bare email;
+      $this->_assert_form($input, $shouldbe);
+      // Test for email with text at the start
+      $this->_assert_form($input, $shouldbe, 'some text at the start ');
+      // Test for email with text at the end
+      $this->_assert_form($input, $shouldbe, '', ' some text at the end');
+      // Test for email with text at the start and end
+      $this->_assert_form($input, $shouldbe, 'some text at the start ', ' some text at the end');
+      // Test for email with tags at the start and end
+      $this->_assert_form($input, $shouldbe, '<p>', '</p>');
+      // Test for email with trailing commas
+      $this->_assert_form($input, $shouldbe, 'some text at the start ', ', next clause.');
+      // Test for email with trailing full stop
+      $this->_assert_form($input, $shouldbe, 'some text at the start ', '. next sentence.');
+      // Test for email with preceding tag, and no closing tag
+      $this->_assert_form($input, $shouldbe, '<dt>');
+      // Test for brackets
+      $this->_assert_form($input, $shouldbe, '(', ')');
+      // Test for angular brackets
+      $this->_assert_form($input, $shouldbe, '<', '>');
+      // Test for newlines
+      $this->_assert_form($input, $shouldbe, "\n", "\n");
+      // Test for spaces
+      $this->_assert_form($input, $shouldbe, ' ', ' ');
+    }
+
+    // graphical at and [dot]
+    $emails = array(
+      'user@example.com' =>
+        '<span class="spamspan"><span class="u">user</span><img class="spam-span-image" alt="at" width="10" src="'. base_path() . drupal_get_path('module', 'spamspan') .'/image.gif" /><span class="d">example<span class="t"> [dot] </span>com</span></span>',
+    );
+
+    foreach ($emails as $input => $shouldbe) {
+      // Test for bare email;
+      $this->_assert_at_dot($input, $shouldbe);
+      // Test for email with text at the start
+      $this->_assert_at_dot($input, $shouldbe, 'some text at the start ');
+      // Test for email with text at the end
+      $this->_assert_at_dot($input, $shouldbe, '', ' some text at the end');
+      // Test for email with text at the start and end
+      $this->_assert_at_dot($input, $shouldbe, 'some text at the start ', ' some text at the end');
+      // Test for email with tags at the start and end
+      $this->_assert_at_dot($input, $shouldbe, '<p>', '</p>');
+      // Test for email with trailing commas
+      $this->_assert_at_dot($input, $shouldbe, 'some text at the start ', ', next clause.');
+      // Test for email with trailing full stop
+      $this->_assert_at_dot($input, $shouldbe, 'some text at the start ', '. next sentence.');
+      // Test for email with preceding tag, and no closing tag
+      $this->_assert_at_dot($input, $shouldbe, '<dt>');
+      // Test for brackets
+      $this->_assert_at_dot($input, $shouldbe, '(', ')');
+      // Test for angular brackets
+      $this->_assert_at_dot($input, $shouldbe, '<', '>');
+      // Test for newlines
+      $this->_assert_at_dot($input, $shouldbe, "\n", "\n");
+      // Test for spaces
+      $this->_assert_at_dot($input, $shouldbe, ' ', ' ');
+    }
+
+	}
+	
+}
