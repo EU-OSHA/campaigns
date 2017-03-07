@@ -7197,6 +7197,10 @@ table .checkbox input[type="checkbox"] {
 .alert-danger a {
   color: #843534;
 }
+#sliding-popup {
+  height: auto !important;
+  overflow: hidden;
+}
 header.navbar-default {
   border: none;
   background-color: #ffffff;
@@ -7204,6 +7208,7 @@ header.navbar-default {
   padding-left: 0;
   padding-right: 0;
   margin-bottom: 0;
+  top: 0px;
   /* header */
   /* menu */
 }
