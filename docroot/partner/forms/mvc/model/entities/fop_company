@@ -252,6 +252,7 @@
     "company_osh_orgname": "osh_orgname",
     "company_osh_orgtype": "osh_orgtype",
     "company_osh_dedicatedsite": "osh_dedicatedsite",
+    "company_osh_homepage": "osh_homepage",
     "company_osh_logoimage": "osh_logoimage",
     "company_osh_facebookprofile": "osh_facebookprofile",
     "company_osh_pinterestprofile": "osh_pinterestprofile",

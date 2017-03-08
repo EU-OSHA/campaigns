@@ -1,5 +1,5 @@
 <div class="checkbox {$required}">
     <label>
-        <input {$disabled} type="checkbox" name="{$fieldName}" id="{$fieldName}" data-section="{$fieldSection}" {if $fieldValue} checked="true" {/if}/> {$fieldLabel}
+        <input {$disabled} type="checkbox" name="{$fieldName}" id="{$fieldName}" data-section="{$fieldSection}" {if $fieldValue == true || $fieldValue == 'true' || $fieldValue == 1 || $fieldValue == 'on'} checked="true" {/if}/> {$fieldLabel}
     </label>
 </div>

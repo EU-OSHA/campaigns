@@ -20,6 +20,7 @@ rrss[3] = "company_osh_youtubeprofile";
 rrss[4] = "company_osh_linkedinprofile";
 rrss[5] = "company_osh_pinterestprofile";
 rrss[6] = "company_osh_googleplusprofile";
+var ceoImage = "";
 function fillSN(args)
 {
 	var target = args["target"];
@@ -73,8 +74,30 @@ function addSN(args)
 	{
 		
 //		alert("You can not select more than  " + maxEachSN + " type of social network");
+                if($("#container-message").length > 0){
+                    $("#container-message").addClass('hidden');
+                    //Insert a class in a static object.
+                    $("#helpMessage").val("false");
+
+                    if($("#ORGANISATION").length > 0){
+                        $("#ORGANISATION").css("padding-top", 0);
+                    }
+                    if($("#BECOME").length > 0){
+                        $("#BECOME").css("padding-top", 0);
+                    }
+                    if($("#PRIMARY_CONTACT").length > 0){
+                        $("#PRIMARY_CONTACT").css("padding-top", 0);
+                    }
+                    if($("#INVOLVEMENT").length > 0){
+                        $("#INVOLVEMENT").css("padding-top", 0);
+                    }
+                }
                 $("#maxSocialNetDialog").removeClass('hidden');
-                document.location.href = "#top";
+//                document.location.href = "#top";
+                document.body.scrollTop = document.documentElement.scrollTop = 0;
+                if(window.parent.document.getElementsByClassName("top_anchor").length == 1){
+                    window.parent.document.getElementsByClassName("top_anchor")[0].click();
+                }
 	}
 }
 function delSN(args)
@@ -131,14 +154,47 @@ function delSN(args)
 /*Método para deshabilitar las redes sociales. Nos apoyamos en un 
  * campo similar, ya que los deshabilitados van por attributes de PHP y ente caso no es válido. */
 window.onload = function () {
+    if(window.parent.document.getElementsByClassName("main-container").length > 0){
+        if(window.parent.document.getElementsByClassName("loader").length > 0){
+            window.parent.document.getElementsByClassName("loader")[0].className += " hidden";
+        }
+    }
+    if(window.parent.document.getElementsByClassName("iframe-partnership").length > 0){
+        window.parent.document.getElementsByClassName("iframe-partnership")[0].className = "iframe-partnership";
+    }
+    if(window.parent.document.getElementsByClassName("iframe-update").length > 0){
+        window.parent.document.getElementsByClassName("iframe-update")[0].className = "iframe-update";
+    }
+    if(document.activeElement.id == "company_osh_orgname" || document.activeElement.id == "involvement_osh_tobeanocponhwc" || document.activeElement.id == "contact_osh_maincontactpersonfirstname"){
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
+        if(window.parent.document.getElementsByClassName("top_anchor").length == 1){
+            window.parent.document.getElementsByClassName("top_anchor")[0].click();
+        }
+    }
+   /* if($("#container-message").length > 0){
+        var height = $("#MESSAGE").height()+30;
+        if($("#ORGANISATION").length > 0){
+            $("#ORGANISATION").css("padding-top", height);
+        }else if($("#BECOME").length > 0){
+            $("#BECOME").css("padding-top", height);
+        }else if($("#PRIMARY_CONTACT").length > 0){
+            $("#PRIMARY_CONTACT").css("padding-top", height);
+        }else if($("#INVOLVEMENT").length > 0){
+            $("#INVOLVEMENT").css("padding-top", height);
+        }else if($("#PLEDGE").length > 0){
+            $("#PLEDGE").css("padding-top", height);
+        }
+        
+    }*/
     if($("#company_osh_homepage").prop("disabled")){
          $("#company_osh_selectsocialnetworks").prop("disabled", "disabled");
          $("#socialNetworkTextBox").prop("disabled", "disabled");
          $(".delSN").prop("disabled", "disabled");
          $("#plusSN").prop("disabled", "disabled");
     }
+    
     $("body").css("cursor", "default");
-    if($('.validation:visible').length > 0){
+    if($('.validation').length > 0 && $('.validation').css('display') != 'none'){
         if($('#osh_aboutyourorgsection').val() == true || $('#osh_aboutyourorgsection').val() == "true"){
             checkSectionsByCDB("ORGANISATION");
         }
@@ -147,6 +203,7 @@ window.onload = function () {
         }
         if($('#osh_aboutyourceosection').val() == true || $('#osh_aboutyourceosection').val() == "true"){
             checkSectionsByCDB("CEO");
+            checkSectionsByCDB("CHIEF");
         }
         if($('#osh_aboutyourrepsection').val() == true || $('#osh_aboutyourrepsection').val() == "true"){
             checkSectionsByCDB("OSH");
@@ -164,22 +221,42 @@ window.onload = function () {
             checkSectionsByCDB("PRIMARY_CONTACT");
         }
     }
+    if($(".combined-textbox").length > 0){
+        $(".combined-textbox").each(function (id, item) {
+        if($(item).val() == "Yes."){
+            $('#'+$(item).attr("id")).css({
+                    'color': 'white'
+                });
+            }
+        });
+    }
+    $(".checkbox input").each(function (id, item) {
+            //WorkAround main contact change
+            if($(item).prop('checked')){
+                $(item).val('on');
+            }else{
+                $(item).val('');
+            }
+        });
 }
 function checkSectionsByCDB(dataSection){
 //    setCheckSectionAttributte(dataSection,true);
      $('#form form :input[data-section="' + dataSection + '"]').prop("onlyread", "onlyread");
-                $('#form form :input[data-section="' + dataSection + '"]').css({
-                    'pointer-events': 'none',
-                    'background-color': '#E3E3E4'
-                });
-                //Disabled the imageButtons
-                $('.company_osh_logoimage_popup-modal').css({
-                    'pointer-events': 'none'
-                });
-                //Disabled countries of activity
-                $('.select2').css({
-                    'pointer-events': 'none'
-                });
+//                $('#form form :input[data-section="' + dataSection + '"]').css({
+//                    'pointer-events': 'none',
+//                    'background-color': '#E3E3E4'
+//                });
+    $('#form form :input[data-section="' + dataSection + '"]').each(function (id, item) {
+        $(item).css({
+            'pointer-events': 'none'
+        });
+        if($(item).attr('type') != 'button'){
+            $(item).css({
+                'background': '#E3E3E4'
+            });
+        }
+    }); 
+                
     $('[data-section="' + dataSection + '"]*.validation').addClass("validation-pressed");
 //    $(this).addClass("validation-pressed");
 
@@ -196,9 +273,32 @@ function checkSectionsByCDB(dataSection){
         });
         $("#company_osh_orgname").prop("disabled", "disabled");
     }
-     if(dataSection=="ORGANISATION"){
-        $("#contact_osh_mainemail").prop("disabled", "disabled");
-     }
+    if(dataSection=="ORGANISATION"){
+       if($('.select2-selection').length > 0){
+           $('.select2-selection').css({
+                            'background-color': '#E3E3E4'
+        });
+       } 
+       $("#contact_osh_mainemail").prop("disabled", "disabled");
+       //Disabled countries of activity
+       $('.select2').css({
+           'pointer-events': 'none'
+       });
+       //Disabled the imageButtons
+       $('.company_osh_logoimage_popup-modal').css({
+           'pointer-events': 'none'
+       });
+       //Disabled checkbox
+       $('.checkbox').css({
+           'pointer-events': 'none'
+       });
+    }
+    if(dataSection=="CEO"){
+        //Disabled the imageButtons
+        $('.company_osh_ceoimage_popup-modal').css({
+            'pointer-events': 'none'
+        });
+    }
 }
 function stopRKey(evt) { 
   var evt = (evt) ? evt : ((event) ? event : null); 
@@ -269,6 +369,13 @@ function validaImagenes(section) {
     }
 
     function checkSections() {
+        //Workaound error displaying field IE
+        if($("#company_osh_orgname").length > 0){
+            $("#company_osh_orgname").val($("#company_osh_orgname").val());
+        }
+        if($("#contact_osh_maincontactpersonfirstname").length > 0){
+            $("#contact_osh_maincontactpersonfirstname").val($("#contact_osh_maincontactpersonfirstname").val());
+        }
         var ret = false;
         $("#sidebar-top .section").each(function (id, item) {
             var elemId = $(item).attr("data-section");
@@ -391,30 +498,40 @@ $(document).ready(function () {
         }else if($(field).attr("id") == 'company_osh_logoimage_file' || $(field).attr("id") == 'company_osh_ceoimage_file'){
             $(field).removeClass("error");
             $(field).attr("data-error", "");
-        }else{
+        }else if($(field).attr("id") == 'contact_osh_captcha'){
         
-//            var urlParamsArray = {
-//                route: getUrlVar("route"),
-//                ajax: true,
-//                async: false,
-//                action: "validateAttribute",
-//                attribute: $(field).attr("id"),
-//                contentType:"application/json; charset=utf-8",
-//                dataType:"json",
-//                value: $(field).val()
-//            };
-//            var urlParams = $.param(urlParamsArray);
-//            var url = window.location.href;
-//            if (url.indexOf("?") != -1) {
-//                var pos = url.indexOf("?");
-//                url = url.substr(0, pos);
-//            }
-//            url += "?" + urlParams;
+            var urlParamsArray = {
+                route: getUrlVar("route"),
+                ajax: true,
+                async: false,
+                action: "validateAttribute",
+                attribute: $(field).attr("id"),
+                contentType:"application/json; charset=utf-8",
+                dataType:"json",
+                value: $(field).val()
+            };
+            var urlParams = $.param(urlParamsArray);
+            var url = window.location.href;
+            if (url.indexOf("?") != -1) {
+                var pos = url.indexOf("?");
+                url = url.substr(0, pos);
+            }
+            url += "?" + urlParams;
 
     //        Evitamos que valide los campos de contact si el check maincontactchange está pulsado.
 //            if(!isMainContact($(field))){
-//                $.get(url, function (data, status) {
-//                    var response = jQuery.parseJSON(data);
+                $.get(url, function (data, status) {
+                    var response = jQuery.parseJSON(data);
+                    if(!response.status){
+                        $(field).addClass("error");
+                        $(field).attr("data-error", "true");
+                    }else{
+                         $(field).removeClass("error");
+                        $(field).attr("data-error", "");
+                    }
+                });
+                
+        }else{
                     var response = true;
                     if($(field).prop("type") != "button"){
                         response = validateRequiredField($(field));
@@ -565,6 +682,22 @@ $(document).ready(function () {
             $("#contact_osh_mainemailAux").val($("#contact_osh_mainemail").val());
         }
     });
+    
+    $("#contact_osh_maincontactpersonfirstname").on({
+        blur: function () {
+            $("#contact_osh_maincontactpersonfirstnameAux").val($("#contact_osh_maincontactpersonfirstname").val());
+        }, change: function () {
+            $("#contact_osh_maincontactpersonfirstnameAux").val($("#contact_osh_maincontactpersonfirstname").val());
+        }
+    });
+    
+    $("#contact_osh_maincontactpersonlastname").on({
+        blur: function () {
+            $("#contact_osh_maincontactpersonlastnameAux").val($("#contact_osh_maincontactpersonlastname").val());
+        }, change: function () {
+            $("#contact_osh_maincontactpersonlastnameAux").val($("#contact_osh_maincontactpersonlastname").val());
+        }
+    });
 
 //    $("#contact_osh_confirm_mainemail").on({
 //        change: function () {
@@ -574,6 +707,8 @@ $(document).ready(function () {
     
      $("#company_osh_generalemail").on({
         change: function () {
+            validateEmail(this);
+        }, blur: function () {
             validateEmail(this);
         }
     });
@@ -595,7 +730,19 @@ $(document).ready(function () {
             nameAndMailFilled3(this);
         }
     });
-        $('#contact_osh_otherusername1').on({
+    $('#contact_osh_otherusermail4').on({
+        change: function () {
+            validateEmail(this);
+            nameAndMailFilled4(this);
+        }
+    });
+    $('#contact_osh_otherusermail5').on({
+        change: function () {
+            validateEmail(this);
+            nameAndMailFilled5(this);
+        }
+    });
+    $('#contact_osh_otherusername1').on({
         change: function () {
             nameAndMailFilled1();
         }
@@ -610,6 +757,16 @@ $(document).ready(function () {
             nameAndMailFilled3();
         }
     });
+    $('#contact_osh_otherusername4').on({
+        change: function () {
+            nameAndMailFilled4();
+        }
+    });
+    $('#contact_osh_otherusername5').on({
+        change: function () {
+            nameAndMailFilled5();
+        }
+    });
     $("#company_osh_orgname").on({
         blur: function () {
             //Set the value to the Aux
@@ -621,11 +778,34 @@ $(document).ready(function () {
     $('#company_osh_homepage').on({
         change: function () {
             validateWebFormat(this);
+        },  blur: function () {
+            validateWebFormat(this);
         }
     });
     $('#company_osh_dedicatedsite').on({
         change: function () {
             validateWebFormat(this);
+        },  blur: function () {
+            validateWebFormat(this);
+        }
+    });
+    $('.checkbox input').on({
+        change: function () {
+            if($(this).prop("checked")){
+                $(this).val('on');
+            }else{
+                $(this).val('');
+            }
+        }
+    });
+    $('#contact_osh_mainemail').on({
+        change: function () {
+            validateEmail(this);
+        }
+    });
+    $('#company_osh_emailrepresentative').on({
+        change: function () {
+            validateEmail(this);
         }
     });
 
@@ -634,7 +814,9 @@ $(document).ready(function () {
      */
     function validateConfirmEmail() {
         //Set the value to the Aux
-        $("#contact_osh_mainemailAux").val($("#contact_osh_mainemail").val());
+        if($("#contact_osh_mainemail").val() != undefined){
+            $("#contact_osh_mainemailAux").val($("#contact_osh_mainemail").val());
+        }
         if ($("#contact_osh_mainemail").val() != $("#contact_osh_confirm_mainemail").val() &&
                 (!$("#contact_osh_mainemail").val() == "" && $("#contact_osh_confirm_mainemail").val() != undefined)) {
             $("#contact_osh_mainemail").addClass("error");
@@ -666,15 +848,58 @@ $(document).ready(function () {
                     $(".main-form textarea[data-error='true']").length ||
                     $(".main-form select[data-error='true']").length) {
 //                    alert("Error: Some fields contain errors");
-                    $("#dataErrorDialog").removeClass('hidden');
-                    document.location.href = "#top";
+                    if($("#container-message").length > 0){
+                        closeGreyBox();
+                    }
+                    if ($(".main-form input[data-error='true']").length == 1 &&
+                            $(".main-form input[data-error='true']").attr('id') == "contact_osh_captcha"){
+                        $("#captchaDialog").removeClass('hidden');
+                    }else{
+                        var captchaAndFieldDialog = false;
+                        $(".main-form input[data-error='true']").each(function (id, item) {
+                            if ($(item).attr("id") == 'contact_osh_captcha') {
+                               captchaAndFieldDialog = true; 
+                            }
+                        });
+                        if(captchaAndFieldDialog){
+                            $("#captchaAndFieldDialog").removeClass('hidden');
+                        }else{
+                            $("#fillRequiredDialog").removeClass('hidden');
+                        }
+                    }
+//                    document.location.href = "#top";
+                    document.body.scrollTop = document.documentElement.scrollTop = 0;
+                    if(window.parent.document.getElementsByClassName("top_anchor").length == 1){
+                        window.parent.document.getElementsByClassName("top_anchor")[0].click();
+                    }
                     styleChange(true);
                     e.preventDefault();
                     return false;
                 } else if (!checkRequiredFields()) {
 //                    alert("Error: You must fill all the required fields");
+                    if($("#container-message").length > 0){
+                        closeGreyBox();
+                    }
                     $("#fillRequiredDialog").removeClass('hidden');
-                    document.location.href = "#top";
+//                    document.location.href = "#top";
+                    document.body.scrollTop = document.documentElement.scrollTop = 0;
+                    if(window.parent.document.getElementsByClassName("top_anchor").length == 1){
+                        window.parent.document.getElementsByClassName("top_anchor")[0].click();
+                    }
+                    styleChange(true);
+                    e.preventDefault();
+                    return false;
+                } else if (!checkRequiredFieldsSubmit()) {
+//                    alert("Error: You must fill all the required fields");
+                    if($("#container-message").length > 0){
+                        closeGreyBox();
+                    }
+                    $("#sectionRequiredDialog").removeClass('hidden');
+//                    document.location.href = "#top";
+                    document.body.scrollTop = document.documentElement.scrollTop = 0;
+                    if(window.parent.document.getElementsByClassName("top_anchor").length == 1){
+                        window.parent.document.getElementsByClassName("top_anchor")[0].click();
+                    }
                     styleChange(true);
                     e.preventDefault();
                     return false;
@@ -688,14 +913,146 @@ $(document).ready(function () {
                     } else {
 //                        $("#form form :input").prop("disabled", false);
                          styleChange(false);
+//                         saveDatanextAndSave();
 //                         $(".validation").removeClass("validation-pressed");
                     }
+                }else{
+//                    saveDatanextAndSave();
                 }
 
                 
             }
         }
     });
+    
+    function validateNextButtonFieldsAndSections(){
+        validateConfirmEmail();
+        if ($(".main-form input[data-error='true']").length ||
+            $(".main-form textarea[data-error='true']").length ||
+            $(".main-form select[data-error='true']").length) {
+//                    alert("Error: Some fields contain errors");
+            if($("#container-message").length > 0){
+                closeGreyBox();
+            }
+            if ($(".main-form input[data-error='true']").length == 1 &&
+                            $(".main-form input[data-error='true']").attr('id') == "contact_osh_captcha"){
+                        $("#captchaDialog").removeClass('hidden');
+            }else{
+                var captchaAndFieldDialog = false;
+                $(".main-form input[data-error='true']").each(function (id, item) {
+                    if ($(item).attr("id") == 'contact_osh_captcha') {
+                       captchaAndFieldDialog = true; 
+                    }
+                });
+                if(captchaAndFieldDialog){
+                    $("#captchaAndFieldDialog").removeClass('hidden');
+                }else{
+                    $("#fillRequiredDialog").removeClass('hidden');
+                }
+            }
+//                    document.location.href = "#top";
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
+            if(window.parent.document.getElementsByClassName("top_anchor").length == 1){
+                window.parent.document.getElementsByClassName("top_anchor")[0].click();
+            }
+            styleChange(true);
+            return false;
+        } else if (!checkRequiredFields()) {
+//                    alert("Error: You must fill all the required fields");
+            if($("#container-message").length > 0){
+                closeGreyBox();
+            }
+            $("#fillRequiredDialog").removeClass('hidden');
+//                    document.location.href = "#top";
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
+            if(window.parent.document.getElementsByClassName("top_anchor").length == 1){
+                window.parent.document.getElementsByClassName("top_anchor")[0].click();
+            }
+            styleChange(true);
+            return false;
+        } else if (!checkRequiredFieldsSubmit()) {
+//                    alert("Error: You must fill all the required fields");
+            if($("#container-message").length > 0){
+                closeGreyBox();
+            }
+            $("#sectionRequiredDialog").removeClass('hidden');
+//                    document.location.href = "#top";
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
+            if(window.parent.document.getElementsByClassName("top_anchor").length == 1){
+                window.parent.document.getElementsByClassName("top_anchor")[0].click();
+            }
+            styleChange(true);
+            return false;
+        } else if ($('#form form').hasClass("current")
+            && ($('.validation').length > $('.validation.validation-pressed').length))
+            {
+            if (!confirm("There are fields unconfirmed. Do you want to continue?")) {
+                e.preventDefault();
+                return false;
+            } else {
+//                        $("#form form :input").prop("disabled", false);
+                 styleChange(false);
+                 return true;
+//                         saveDatanextAndSave();
+//                         $(".validation").removeClass("validation-pressed");
+            }
+        }else{
+            return true;
+//                    saveDatanextAndSave();
+        }
+    }
+    
+    function saveDatanextAndSave(){
+        if($("#company_osh_orgnameAux").val() == '' ||
+                $("#contact_osh_mainemailAux").val() == '' || 
+                $("#contact_osh_maincontactpersonfirstnameAux").val() == '' ||
+                $("#contact_osh_maincontactpersonlastnameAux").val() == ''){
+//            alert("The fields Company/Organisation name and E-mail of the Primary Contact are required for save the information");
+            if($("#container-message").length > 0){
+                closeGreyBox();
+            }
+            $("#nameandemailrequiredDialog").removeClass('hidden');
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
+            if(window.parent.document.getElementsByClassName("top_anchor").length == 1){
+                window.parent.document.getElementsByClassName("top_anchor")[0].click();
+            }
+        }else{
+            var serializedForm = $("form").serialize();
+            var logoImage =$(".company_osh_logoimage_image_container img");
+
+            if( logoImage.attr("src") && (logoImage.attr("src") != null ||logoImage.attr("src") != "") )
+            {
+                var valueLogoImage = logoImage.attr("src");
+                valueLogoImage = valueLogoImage.replace("\s", "+");
+                serializedForm += "&company_osh_logoimage="+valueLogoImage;
+
+            }
+            var ceoImage = $(".company_osh_ceoimage_image_container img");
+            if( ceoImage.attr("src") && (ceoImage.attr("src") != null ||ceoImage.attr("src") != "") )
+            {
+                var valueLogoImage = ceoImage.attr("src");
+                valueLogoImage = valueLogoImage.replace("\s", "+");
+                serializedForm += "&company_osh_ceoimage="+valueLogoImage;
+            }
+            var dataAjax = "?action=savesessionajax";
+            $.ajax({
+                url: dataAjax,
+                data: serializedForm,
+                type: "post",
+                success: function( data, textStatus,jqXHR){
+                    var url = $("#form form").attr("action");
+                    console.log = url;
+                    var tmpRegex = new RegExp("(action=)[a-z]+", 'ig');
+                    console.log = tmpRegex;
+                    var newVal = "save";
+                    var newAction = url.replace(tmpRegex, '$1' + newVal);
+                    console.log = newAction;
+                    $("#form form").attr("action", newAction);
+                    $("#form form").submit();
+                }
+            });
+        }
+    }
 
     /**
      * Check that all the required fields are filled
@@ -706,9 +1063,9 @@ $(document).ready(function () {
         var field;
         $("#form form .required .controls").each(function (id, item) {
             //WorkAround main contact change
-            if($(item).find("input[type=text]").attr("data-section") == "PRIMARY_CONTACT" && $('#contact_osh_maincontactchange').prop('checked')){
-                return true;
-            }
+//            if($(item).find("input[type=text]").attr("data-section") == "PRIMARY_CONTACT" && $('#contact_osh_maincontactchange').prop('checked')){
+//                return true;
+//            }
             if (field = $(item).find("input[type=text]")) {
                 if ($(field).attr("data-section") && !$(field).val()) {
                     ret = false;
@@ -726,20 +1083,35 @@ $(document).ready(function () {
                 }
             }
         });
+        
+        return ret;
+    }
+    
+    function checkRequiredFieldsSubmit(){
         if($('#next').attr('value').indexOf('Submit') != -1){
             if($('.sidebar-error').length){
-                ret = false;
                 return false;
+            }else{
+                return true;
             }
+        }else{
+            return true;
         }
-        return ret;
     }
 
     function styleChange(required){
         if(required){
            $("#form form .required .controls .error").parent().addClass("postRequired");
+           if($(".main-form input[data-error='true']").length > 0){
+                $(".main-form input[data-error='true']").each(function (id, item) {
+                    if($(item).attr("id") == 'company_osh_ceoimage' || $(item).attr("id") == 'company_osh_logoimage'){
+                        $(item).parent().parent().parent().addClass('imagePostRequired');
+                    }
+                });
+           }
         }else{
            $("#form form .required .controls .error").parent().removeClass("postRequired");
+           $('.imagePostRequired').removeClass('imagePostRequired');
         }
     }
 
@@ -750,17 +1122,28 @@ $(document).ready(function () {
         if($('#otherUserField2').hasClass('disabled')){
             $('#otherUserField2').removeClass('disabled');
             $('#otherUserField2').css({
-            'display': 'initial'
+            'display': ''
             });
         }else if($('#otherUserField3').hasClass('disabled')){
             $('#otherUserField3').removeClass('disabled');
             $('#otherUserField3').css({
-            'display': 'initial'
+            'display': ''
             });
-        }else if($('#otherUserField1').hasClass('disabled')){
+        }else if($('#otherUserField4').hasClass('disabled')){
+            $('#otherUserField4').removeClass('disabled');
+            $('#otherUserField4').css({
+            'display': ''
+            });
+        }else if($('#otherUserField5').hasClass('disabled')){
+            $('#otherUserField5').removeClass('disabled');
+            $('#otherUserField5').css({
+            'display': ''
+            });
+        }
+        else if($('#otherUserField1').hasClass('disabled')){
             $('#otherUserField1').removeClass('disabled');
             $('#otherUserField1').css({
-            'display': 'initial'
+            'display': ''
             });
         }
         e.preventDefault();
@@ -802,7 +1185,28 @@ $(document).ready(function () {
         $('#contact_osh_otheruserphone3').val("");
         e.preventDefault();
     });
-
+    $("#form").on("click", "#removeOtherUser4", function (e) {
+        
+        $('#otherUserField4').addClass('disabled');
+        $('#otherUserField4').css({
+            'display': 'none'
+        });
+        $('#contact_osh_otherusername4').val("");
+        $('#contact_osh_otherusermail4').val("");
+        $('#contact_osh_otheruserphone4').val("");
+        e.preventDefault();
+    });
+    $("#form").on("click", "#removeOtherUser5", function (e) {
+        
+        $('#otherUserField5').addClass('disabled');
+        $('#otherUserField5').css({
+            'display': 'none'
+        });
+        $('#contact_osh_otherusername5').val("");
+        $('#contact_osh_otherusermail5').val("");
+        $('#contact_osh_otheruserphone5').val("");
+        e.preventDefault();
+    });
     /**
      * Validation widget
      */
@@ -814,18 +1218,48 @@ $(document).ready(function () {
             setCheckSectionAttributte(dataSection,false);
 //            $('#form form :input[data-section="' + dataSection + '"]').prop("disabled", false);
                 $('#form form :input[data-section="' + dataSection + '"]').prop("onlyread", false);
-                $('#form form :input[data-section="' + dataSection + '"]').css({
-                    'pointer-events': 'inherit',
-                    'background-color': 'white'
+                $('#form form :input[data-section="' + dataSection + '"]').each(function (id, item) {
+                    if($(item).attr('id') != "contact_osh_mainemail" || $('.disabledEmailForMF').length == 0){
+                        $(item).css({
+                            'pointer-events': 'inherit'
+                        });
+                        if($(item).attr('type') != 'button'){
+                            $(item).css({
+                                'background': 'white'
+                            });
+                        }
+                    }
                 });
-                //Enabled the imageButtons
-                $('.company_osh_logoimage_popup-modal').css({
-                    'pointer-events': 'inherit'
-                });
-                //Enabled countries of activity
-                $('.select2').css({
-                    'pointer-events': 'inherit'
-                });
+//                $('#form form :input[data-section="' + dataSection + '"]').css({
+//                    'pointer-events': 'inherit',
+//                    'background-color': 'white'
+//                });
+                if(dataSection=="ORGANISATION"){
+                    //Enabled the imageButtons
+                   $('.company_osh_logoimage_popup-modal').css({
+                       'pointer-events': 'inherit'
+                   });
+                   //Enabled countries of activity
+                   $('.select2').css({
+                       'pointer-events': 'inherit'
+                   });
+                    //Enabled checkbox
+                    $('.checkbox').css({
+                        'pointer-events': 'inherit'
+                    });
+                    if($('.select2-selection').length > 0){
+                        $('.select2-selection').css({
+                            'background-color': 'white'
+        });
+       } 
+                }
+                if(dataSection=="CEO"){
+                    //Disabled the imageButtons
+                    $('.company_osh_ceoimage_popup-modal').css({
+                        'pointer-events': 'inherit'
+                    });
+                }
+                
             $(this).removeClass("validation-pressed");
              if(dataSection=="GENERAL_INFORMATION"){
                 $("#company_osh_selectsocialnetworks").prop("disabled", false);
@@ -851,18 +1285,21 @@ $(document).ready(function () {
                 setCheckSectionAttributte(dataSection,true);
 //                $('#form form :input[data-section="' + dataSection + '"]').prop("disabled", "disabled");
                 $('#form form :input[data-section="' + dataSection + '"]').prop("onlyread", "onlyread");
-                $('#form form :input[data-section="' + dataSection + '"]').css({
-                    'pointer-events': 'none',
-                    'background-color': '#E3E3E4'
+//                $('#form form :input[data-section="' + dataSection + '"]').css({
+//                    'pointer-events': 'none',
+//                    'background-color': '#E3E3E4'
+//                });
+                $('#form form :input[data-section="' + dataSection + '"]').each(function (id, item) {
+                    $(item).css({
+                        'pointer-events': 'none'
+                    });
+                    if($(item).attr('type') != 'button'){
+                        $(item).css({
+                            'background': '#E3E3E4'
+                        });
+                    }
                 });
-                //Disabled the imageButtons
-                $('.company_osh_logoimage_popup-modal').css({
-                    'pointer-events': 'none'
-                });
-                //Disabled countries of activity
-                $('.select2').css({
-                    'pointer-events': 'none'
-                });
+                
                 
                 $(this).addClass("validation-pressed");
 
@@ -879,12 +1316,46 @@ $(document).ready(function () {
                     $("#company_osh_orgname").prop("disabled", "disabled");
                  }
                  if(dataSection=="ORGANISATION"){
-                     $("#contact_osh_mainemail").prop("disabled", "disabled");
+                    $("#contact_osh_mainemail").prop("disabled", "disabled");
+                     //Disabled the imageButtons
+                    $('.company_osh_logoimage_popup-modal').css({
+                        'pointer-events': 'none'
+                    });
+                    //Disabled countries of activity
+                    $('.select2').css({
+                        'pointer-events': 'none'
+                    });
+                    //Disabled checkbox
+                    $('.checkbox').css({
+                        'pointer-events': 'none'
+                    });
+                    if($('.select2-selection').length > 0){
+                         $('.select2-selection').css({
+                            'background-color': '#E3E3E4'
+        });
+       } 
                  }
+                if(dataSection=="CEO"){
+                    //Disabled the imageButtons
+                    $('.company_osh_ceoimage_popup-modal').css({
+                        'pointer-events': 'none'
+                    });
+                }
+                //Hidden the dialog
+                if(!$("#checkFieldsDialog").hasClass('hidden')){
+                    $("#checkFieldsDialog").addClass('hidden');
+                }
              }else{
 //                alert("Section check cannot be checked until the mandatory fields are filled");
+                if($("#container-message").length > 0){
+                    closeGreyBox();
+                }
                 $("#checkFieldsDialog").removeClass('hidden');
-                document.location.href = "#top";
+//                document.location.href = "#top";
+                document.body.scrollTop = document.documentElement.scrollTop = 0;
+                if(window.parent.document.getElementsByClassName("top_anchor").length == 1){
+                    window.parent.document.getElementsByClassName("top_anchor")[0].click();
+                }
                 }
         }
         
@@ -930,33 +1401,76 @@ $(document).ready(function () {
         }
     }
 
-
-
-
-
     /**
      * Save action
      */
     $("#save").click(function (e) {
         checkSections();
         buttonPressed = "save";
-        var url = $("#form form").attr("action");
-        console.log = url;
-        var tmpRegex = new RegExp("(action=)[a-z]+", 'ig');
-        console.log = tmpRegex;
-        var newVal = "save";
-        var newAction = url.replace(tmpRegex, '$1' + newVal);
-        console.log = newAction;
-        //validamos que los campos orgname y mainemail estén relleno antes de hacer el save.
-        if($("#company_osh_orgnameAux").val() == '' ||
-                $("#contact_osh_mainemailAux").val() == ''){
-//            alert("The fields Company/Organisation name and E-mail of the Primary Contact are required for save the information");
-            $("#nameandemailrequiredDialog").removeClass('hidden');
-            document.location.href = "#top";
-        }else{   
-        $("#form form").attr("action", newAction);
-        $("#form form").submit();
-    }
+        var actionForm = $("#form form").attr("action");
+        if(actionForm.indexOf('print') != -1){
+            $("#form form").attr("action",actionForm.substr(0,actionForm.indexOf("&print")));
+        }
+        //Workaround no perder los datos que se eliminan y no generar errores
+        if($("#next").length > 0){
+            if($("#next").val().indexOf("involvement") != -1){
+               saveDatanextAndSave(); 
+            }else{
+                var url = $("#form form").attr("action");
+                console.log = url;
+                var tmpRegex = new RegExp("(action=)[a-z]+", 'ig');
+                console.log = tmpRegex;
+                var newVal = "save";
+                var newAction = url.replace(tmpRegex, '$1' + newVal);
+                console.log = newAction;
+                //validamos que los campos orgname y mainemail estén relleno antes de hacer el save.
+                if($("#company_osh_orgnameAux").val() == '' ||
+                        $("#contact_osh_mainemailAux").val() == '' || 
+                        $("#contact_osh_maincontactpersonfirstnameAux").val() == '' ||
+                        $("#contact_osh_maincontactpersonlastnameAux").val() == ''){
+        //            alert("The fields Company/Organisation name and E-mail of the Primary Contact are required for save the information");
+                    if($("#container-message").length > 0){
+                        closeGreyBox();
+                    }
+                    $("#nameandemailrequiredDialog").removeClass('hidden');
+        //            document.location.href = "#top";
+                    document.body.scrollTop = document.documentElement.scrollTop = 0;
+                    if(window.parent.document.getElementsByClassName("top_anchor").length == 1){
+                        window.parent.document.getElementsByClassName("top_anchor")[0].click();
+                    }
+                }else{   
+                $("#form form").attr("action", newAction);
+                $("#form form").submit();
+                }
+            }
+        }else{
+            var url = $("#form form").attr("action");
+            console.log = url;
+            var tmpRegex = new RegExp("(action=)[a-z]+", 'ig');
+            console.log = tmpRegex;
+            var newVal = "save";
+            var newAction = url.replace(tmpRegex, '$1' + newVal);
+            console.log = newAction;
+            //validamos que los campos orgname y mainemail estén relleno antes de hacer el save.
+            if($("#company_osh_orgnameAux").val() == '' ||
+                    $("#contact_osh_mainemailAux").val() == '' || 
+                    $("#contact_osh_maincontactpersonfirstnameAux").val() == '' ||
+                    $("#contact_osh_maincontactpersonlastnameAux").val() == ''){
+    //            alert("The fields Company/Organisation name and E-mail of the Primary Contact are required for save the information");
+                if($("#container-message").length > 0){
+                    closeGreyBox();
+                }
+                $("#nameandemailrequiredDialog").removeClass('hidden');
+    //            document.location.href = "#top";
+                document.body.scrollTop = document.documentElement.scrollTop = 0;
+                if(window.parent.document.getElementsByClassName("top_anchor").length == 1){
+                    window.parent.document.getElementsByClassName("top_anchor")[0].click();
+                }
+            }else{   
+            $("#form form").attr("action", newAction);
+            $("#form form").submit();
+            }
+        }
     });
 
     /**
@@ -964,12 +1478,19 @@ $(document).ready(function () {
      */
     $(".guardarImg").click(function (e) {
         var targetElement = "." + $(this).attr("data-target");
+        if($(targetElement).parent().hasClass('imagePostRequired')){
+            $(targetElement).parent().removeClass('imagePostRequired');
+        }
         var imageData = $(this).parent().find(".thumbBox").html();
         $(targetElement).html(imageData);
         e.preventDefault();
         $.magnificPopup.close();
         delete $.magnificPopup.instance.popupsCache[$(this).attr("data-cropperkey")];
         $.magnificPopup.instance.popupsCache = {};
+        if(targetElement.indexOf("logoimage")!= -1){
+          $('.company_osh_logoimage_helpText').text("Please, if you want to change this logo, please upload a new one in png. or jpg. file format. The file must not exceed 1MB");
+        }
+        
     });
 
     /**
@@ -978,6 +1499,21 @@ $(document).ready(function () {
     $("#next").click(function (e) {
         buttonPressed = "next";
         checkSections();
+        if(validateNextButtonFieldsAndSections()){
+            if($("#next").val().indexOf("involvement") != -1){
+    //            $("#progressbar-2").click();
+                var dataAjax = $('#progressbar-2 a').data("ajax");
+                var href =  $('#progressbar-2 a').attr("href");
+                saveSessionAjaxNext(dataAjax,href);
+
+            }else if($("#next").val().indexOf("primary") != -1){
+    //            $("#progressbar-3").click();
+                var dataAjax = $('#progressbar-3 a').data("ajax");
+                var href =  $('#progressbar-3 a').attr("href");
+                saveSessionAjaxNext(dataAjax,href);
+
+            }
+        }
     });
 
     /**
@@ -988,8 +1524,29 @@ $(document).ready(function () {
     /**
      * Dropdown multiple
      */
-    $(".dropdown-multiple").select2();
+    
+    //Start HWCCDB-338 PHP- OCP - Countries of Activity -
+    // the search shoudl be "Countries starting with the letter entered in the search engine", not "Countries wich contain the following word"
+    // 
+//    $(".dropdown-multiple").select2();
 
+    function matchStart (term, text) {
+      if (text.toUpperCase().indexOf(term.toUpperCase()) == 0) {
+        return true;
+      }
+
+      return false;
+    }
+
+    $.fn.select2.amd.require(['select2/compat/matcher'], function (oldMatcher) {
+      $(".dropdown-multiple").select2({
+        matcher: oldMatcher(matchStart)
+      })
+    });
+
+    //End HWCCDB-338
+    
+    
     $("#refresh").click(function (e) {
         $("#captcha").attr("src", 'lib/securimage/securimage_show.php?' + Math.random());
         return false;
@@ -1003,6 +1560,18 @@ $(document).ready(function () {
     if (!$('#contact_osh_otherusername3').val() && !$('#contact_osh_otherusermail3').val()) {
         $('#otherUserField3').addClass('disabled');
         $('#otherUserField3').css({
+            'display': 'none'
+        });
+    }
+    if (!$('#contact_osh_otherusername4').val() && !$('#contact_osh_otherusermail4').val()) {
+        $('#otherUserField4').addClass('disabled');
+        $('#otherUserField4').css({
+            'display': 'none'
+        });
+    }
+    if (!$('#contact_osh_otherusername5').val() && !$('#contact_osh_otherusermail5').val()) {
+        $('#otherUserField5').addClass('disabled');
+        $('#otherUserField5').css({
             'display': 'none'
         });
     }
@@ -1029,14 +1598,16 @@ $(document).ready(function () {
 //            if ($("#save").length) {
 //                $("#save").trigger("click");
 //            } else {
+            $("body").css("cursor", "progress");
             var dataAjax = $(this).data("ajax");
             saveSessionAjax(dataAjax);
-                window.open($(this).attr("data-href"), 'popup');
+//                window.open($(this).attr("data-href"), 'popup');
 //            }
         } else {
+            $("body").css("cursor", "progress");
             var dataAjax = $(this).data("ajax");
             saveSessionAjax(dataAjax);
-            window.open($(this).attr("data-href"), 'popup');
+//            window.open($(this).attr("data-href"), 'popup');
         }
     });
     $('.action-pdf').click(function () {
@@ -1060,24 +1631,40 @@ $(document).ready(function () {
         if ($(this).prop('checked')) {
 //            var contactBackup = $(".main-contact-change").clone();
 //            $(contactBackup).addClass("main-contact-change-backup");
-            $(".main-contact-change input").each(function (id, item) {
+			$(this).parents('fieldset').find(".main-contact-change :input").not(':button').each(function (id, item) {
+            // $(".main-contact-change :input").not(':button').each(function (id, item) { //Issue with main contact when CEO/Editor change is checked in mf
 //                $(contactBackup).find("#" + $(item).attr("id")).val($(item).val());
                 
                 $('#'+$(item).attr("id")+'_clone').val($(item).val());
                 $('#'+$(item).attr("id")+'_clone').addClass("main-contact-change-backup");
                 $(item).val("");
-                $(item).removeClass("error");
-                $(item).attr("data-error", "");
+//                $(item).removeClass("error");
+//                $(item).attr("data-error", "");
                 $("#"+$(item).attr("id")+"_errormsg").remove();
                 
             });
+            // if($(".main-contact-change-checkbox").attr("id")== "company_osh_ceochange"){
+            if($(this).attr("id")== "company_osh_ceochange"){
+               // ceoImage = $('#company_osh_ceoimage_image_container img').attr('src');
+               // $('#company_osh_ceoimage_image_container img').attr('src' ,"");
+               // $('#company_osh_ceoimage_thumbBox img').attr('src' ,"");
+			   ceoImage = $('.company_osh_ceoimage_image_container img').attr('src');
+               $('.company_osh_ceoimage_image_container img').attr('src' ,"");
+               $('.company_osh_ceoimage_thumbBox img').attr('src' ,"");
+            }
             $("#confirmemail_errormsg").remove();
 //            $(contactBackup).appendTo(".main-contact-change");
         } else {
-            $(".main-contact-change-backup").each(function (id, item) {
+			$(this).parents('fieldset').find(".main-contact-change-backup").each(function (id, item) {
+            // $(".main-contact-change-backup").each(function (id, item) { //Issue with main contact when CEO/Editor change is checked in mf
                 $("#"+$(item).attr("id").substr(0,$(item).attr("id").indexOf("_clone"))).val($(item).val());
 //                $(".main-contact-change").find("#" + $(item).attr("id")).val($(item).val());
             });
+            // if($(".main-contact-change-checkbox").attr("id")== "company_osh_ceochange"){
+            if($(this).attr("id")== "company_osh_ceochange"){
+                // $('#company_osh_ceoimage_image_container img').attr('src' ,ceoImage);
+                $('.company_osh_ceoimage_image_container img').attr('src' ,ceoImage);
+            }
 //            $(".main-contact-change").remove(".main-contact-change-backup");
         }
     });
@@ -1093,30 +1680,57 @@ $(document).ready(function () {
         }else{
             if($(target).val() == ""){
                 $(target).val("Yes.");
+                $(target).css({
+                    'color': 'white'
+                    });
             }
-            $(target).css({
-            'margin-top': '1%'
-            });
+//            $(target).css({
+//            'margin-top': '3%'
+//            });
         }
+    });
+    $(".combined-textbox").click(function () {
+        var target = "#" + $(this).attr("id");
+        $(target).css({
+                    'color': '#003399'
+                    });
     });
     
     
      $(".close").click(function (e) {
-         $("#container-message").addClass('hidden');
-         //Insert a class in a static object.
-         
-         $("#helpMessage").val("false");
+        closeGreyBox();
      });
+     function closeGreyBox(){
+        $("#container-message").addClass('hidden');
+        //Insert a class in a static object.
+        $("#helpMessage").val("false");
+        
+        if($("#ORGANISATION").length > 0){
+            $("#ORGANISATION").css("padding-top", 0);
+        }
+        if($("#BECOME").length > 0){
+            $("#BECOME").css("padding-top", 0);
+        }
+        if($("#PRIMARY_CONTACT").length > 0){
+            $("#PRIMARY_CONTACT").css("padding-top", 0);
+        }
+        if($("#INVOLVEMENT").length > 0){
+            $("#INVOLVEMENT").css("padding-top", 0);
+        }
+     }
      if($("#helpMessage").val()== "false"){
          $("#container-message").addClass('hidden');
      }
      $(".closeDialog").click(function (e) {
-         $(".dialog").addClass('hidden');
-         $(".saveDialog").addClass('hidden');
+        $(".dialog").addClass('hidden');
+        $(".saveDialog").addClass('hidden');
      });
      
      if($('.disabledEmailForMF').length == 1){
-         $("#contact_osh_mainemail").prop("disabled", "disabled");
+         $("#contact_osh_mainemail").css({
+            'pointer-events': 'none',
+            'background-color': '#E3E3E4'
+        });
      }
 
     /**
@@ -1279,7 +1893,8 @@ $(document).ready(function () {
         if( logoImage.attr("src") && (logoImage.attr("src") != null ||logoImage.attr("src") != "") )
         {
             var valueLogoImage = logoImage.attr("src");
-            valueLogoImage = valueLogoImage.replace("\s", "+");
+//            valueLogoImage = valueLogoImage.replace("\s", "+");
+            valueLogoImage = valueLogoImage.replace("data:image/png;base64,", "");
             serializedForm += "&company_osh_logoimage="+valueLogoImage;
 
         }
@@ -1349,7 +1964,7 @@ $(document).ready(function () {
     function saveSessionAjax(dataAjax){
         var serializedForm = $("form").serialize();
 //        var dataAjax = $(this).data("ajax");
-        var href =  $(this).attr("href");
+//        var href =  $(this).attr("href");
         var logoImage =$(".company_osh_logoimage_image_container img");
 
         if( logoImage.attr("src") && (logoImage.attr("src") != null ||logoImage.attr("src") != "") )
@@ -1371,7 +1986,37 @@ $(document).ready(function () {
             data: serializedForm,
             type: "post",
             success: function( data, textStatus,jqXHR){
-                
+                $("body").css("cursor", "default");
+                window.open($('.action-print').attr("data-href"), 'popup');
+            }
+        });
+    }
+     function saveSessionAjaxNext(dataAjax, href){
+        var serializedForm = $("form").serialize();
+        var logoImage =$(".company_osh_logoimage_image_container img");
+
+        if( logoImage.attr("src") && (logoImage.attr("src") != null ||logoImage.attr("src") != "") )
+        {
+            var valueLogoImage = logoImage.attr("src");
+            valueLogoImage = valueLogoImage.replace("\s", "+");
+            serializedForm += "&company_osh_logoimage="+valueLogoImage;
+
+        }
+        var ceoImage = $(".company_osh_ceoimage_image_container img");
+        if( ceoImage.attr("src") && (ceoImage.attr("src") != null ||ceoImage.attr("src") != "") )
+        {
+            var valueLogoImage = ceoImage.attr("src");
+            valueLogoImage = valueLogoImage.replace("\s", "+");
+            serializedForm += "&company_osh_ceoimage="+valueLogoImage;
+        }
+        
+        $("body").css("cursor", "progress");
+        $.ajax({
+            url: dataAjax,
+            data: serializedForm,
+            type: "post",
+            success: function( data, textStatus,jqXHR){
+                document.location.href = href;//Lleva al enlace
             }
         });
     }
@@ -1379,12 +2024,16 @@ $(document).ready(function () {
         window.print();
      });
     $(".company_osh_ceoimage_popup-modal").click(function (e) {
-        document.location.href = "#top";
+//        document.location.href = "#top";
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
+        if(window.parent.document.getElementsByClassName("top_anchor").length == 1){
+            window.parent.document.getElementsByClassName("top_anchor")[0].click();
+        }
      });
      
      //Redirect to the private zone from congrats.
      $(".privateZoneredirect").click(function (e) {
-        window.top.location.href = "https://www.healthy-workplaces.eu/all-ages-splash-page/"; 
+        window.top.location.href = "https://healthy-workplaces.eu/all-ages-splash-page/"; 
      });
      $(".privateZoneredirectMF").click(function (e) {
         var partner_nid = $('#partner_nid').val();
@@ -1394,7 +2043,7 @@ $(document).ready(function () {
             var url = homeurl + language + "/node/" + partner_nid;
             window.top.location.href = url;
         }else{
-            window.top.location.href = "https://www.healthy-workplaces.eu/all-ages-splash-page/"; 
+            window.top.location.href = "https://healthy-workplaces.eu/all-ages-splash-page/"; 
         }
      });
 
@@ -1403,7 +2052,10 @@ $(document).ready(function () {
      if($(".thank-you").length){
          $(".row").css("float","left");
          $(".row").css("margin-left","-30px");
-         $(document).scrollTop(0);
+         document.body.scrollTop = document.documentElement.scrollTop = 0;
+         if(window.parent.document.getElementsByClassName("top_anchor").length == 1){
+            window.parent.document.getElementsByClassName("top_anchor")[0].click();
+        }
      }
      
     function validateEmail(email) {
@@ -1426,11 +2078,19 @@ $(document).ready(function () {
     }
     if(($('#contact_osh_otherusername2').val() != "" && $('#contact_osh_otherusername2').val() != undefined) 
             || ($('#contact_osh_otherusermail2').val() != "" &&$('#contact_osh_otherusermail2').val() != undefined)){
-        nameAndMailFilled1();
+        nameAndMailFilled2();
     }
     if(($('#contact_osh_otherusername3').val() != "" && $('#contact_osh_otherusername3').val() != undefined) 
             || ($('#contact_osh_otherusermail3').val() != "" &&$('#contact_osh_otherusermail3').val() != undefined)){
-        nameAndMailFilled1();
+        nameAndMailFilled3();
+    }
+    if(($('#contact_osh_otherusername4').val() != "" && $('#contact_osh_otherusername4').val() != undefined) 
+            || ($('#contact_osh_otherusermail4').val() != "" &&$('#contact_osh_otherusermail4').val() != undefined)){
+        nameAndMailFilled4();
+    }
+    if(($('#contact_osh_otherusername5').val() != "" && $('#contact_osh_otherusername5').val() != undefined) 
+            || ($('#contact_osh_otherusermail5').val() != "" &&$('#contact_osh_otherusermail5').val() != undefined)){
+        nameAndMailFilled5();
     }
     
     function nameAndMailFilled1(){
@@ -1499,6 +2159,50 @@ $(document).ready(function () {
            $("#contact_osh_otherusermail3_required_errormsg").remove();
        }
     }
+    function nameAndMailFilled4(){
+       if($('#contact_osh_otherusername4').val() != "" && $('#contact_osh_otherusermail4').val() == ""){
+            $("#contact_osh_otherusermail4").addClass("error");
+            $("#contact_osh_otherusermail4").attr("data-error", "true");
+            if (!$("#contact_osh_otherusermail4_required_errormsg").length) {
+                $("#contact_osh_otherusermail4").parent().append('<div id="contact_osh_otherusermail4_required_errormsg" class="error-msg">The field is required</div>');
+            }
+       }else if($('#contact_osh_otherusername4').val() == "" && $('#contact_osh_otherusermail4').val() != ""){
+            $("#contact_osh_otherusername4").addClass("error");
+            $("#contact_osh_otherusername4").attr("data-error", "true");
+            if (!$("#contact_osh_otherusername4_required_errormsg").length) {
+                $("#contact_osh_otherusername4").parent().append('<div id="contact_osh_otherusername4_required_errormsg" class="error-msg">The field is required</div>');
+            }
+       }else{
+           $("#contact_osh_otherusername4").removeClass("error");
+           $("#contact_osh_otherusername4").attr("data-error", "");
+           $("#contact_osh_otherusername4_required_errormsg").remove();
+           $("#contact_osh_otherusermail4").removeClass("error");
+           $("#contact_osh_otherusermail4").attr("data-error", "");
+           $("#contact_osh_otherusermail4_required_errormsg").remove();
+       }
+    }
+    function nameAndMailFilled5(){
+       if($('#contact_osh_otherusername5').val() != "" && $('#contact_osh_otherusermail5').val() == ""){
+            $("#contact_osh_otherusermail5").addClass("error");
+            $("#contact_osh_otherusermail5").attr("data-error", "true");
+            if (!$("#contact_osh_otherusermail5_required_errormsg").length) {
+                $("#contact_osh_otherusermail5").parent().append('<div id="contact_osh_otherusermail5_required_errormsg" class="error-msg">The field is required</div>');
+            }
+       }else if($('#contact_osh_otherusername5').val() == "" && $('#contact_osh_otherusermail5').val() != ""){
+            $("#contact_osh_otherusername5").addClass("error");
+            $("#contact_osh_otherusername5").attr("data-error", "true");
+            if (!$("#contact_osh_otherusername5_required_errormsg").length) {
+                $("#contact_osh_otherusername5").parent().append('<div id="contact_osh_otherusername5_required_errormsg" class="error-msg">The field is required</div>');
+            }
+       }else{
+           $("#contact_osh_otherusername5").removeClass("error");
+           $("#contact_osh_otherusername5").attr("data-error", "");
+           $("#contact_osh_otherusername5_required_errormsg").remove();
+           $("#contact_osh_otherusermail5").removeClass("error");
+           $("#contact_osh_otherusermail5").attr("data-error", "");
+           $("#contact_osh_otherusermail5_required_errormsg").remove();
+       }
+    }
     function validateWebFormat(web){
 //        var re = /((http|ftp|https):\/\/+)?(www.+)?[0-9A-Za-z]+\.+[0-9A-Za-z]/;
         if(web.value){
@@ -1541,10 +2245,8 @@ $(document).ready(function () {
             document.location.href = "?route=contact";
         }
     });
-//     $(".upArrow").click(function (e) {
-//        window.top.location.href = "#top";
-//    });
-if($("#contact_osh_mainemail").prop("disabled")){
+
+if($(".disabledEmailForMF").length > 0){
     $('#contact_osh_mainemail').parent().append('<p class="help-block">This field cannot be directly changed in the form. If you want to modify it, please, contact EU-OSHA in partners@healthy-workplaces.eu</p>');
 }
 });

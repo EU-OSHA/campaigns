@@ -330,6 +330,7 @@ abstract class AbstractNCWNodeMigration extends Migration {
           $row->{$field_name} = array();
         }
       }
+      $row->field_migration_source = 'ncw';
     } catch(Exception $e) {
       ncw_migration_debug("Exception while preparing the row: {$row->nid}", 'error');
       return FALSE;
@@ -431,10 +432,12 @@ abstract class AbstractNCWNodeMigration extends Migration {
           $result = curl_exec($curl);
           $info = curl_getinfo($curl);
           curl_close($curl);
-          if (!empty($info['http_code']) && $info['http_code'] == 404) {
-            $to_be_removed[] = $to_remove->destid1;
-            $this->getMap()->delete(array($to_remove->sourceid1));
-          }
+          // Don't remove the mapping because it might get published again on source.
+//          // Remove the mapping
+//          if (!empty($info['http_code']) && $info['http_code'] == 404) {
+//            $to_be_removed[] = $to_remove->destid1;
+//            $this->getMap()->delete(array($to_remove->sourceid1));
+//          }
         }
         if (!empty($to_be_removed)) {
           $nodes = node_load_multiple($to_be_removed);

@@ -7,7 +7,6 @@
  * Move less frequently used code out of the .module file.
  */
 
-// TODO: refactor code to drop spamspan_admin class
 class spamspan_admin {
   protected $configuration_page = 'admin/config/content/formats/spamspan';
   protected $defaults;
@@ -75,36 +74,36 @@ class spamspan_admin {
       '#type' => 'checkbox',
       '#title' => t('Use a form instead of a link'),
       '#default_value' => $filter->settings['spamspan_use_form'],
-      '#description' => t('Link to a contact form instad of an email address. The following settings are used only if you select this option.'),
+      '#description' => t('Link to a contact form instad of an email address.'
+        . ' The following settings are used only if you select this option.'),
     );
-    $settings['use_form']['spamspan_form_pattern'] = array(
+    $settings['use_form']['spamspan_use_url'] = array(
       '#type' => 'textfield',
       '#title' => t('Replacement string for the email address'),
-      '#default_value' => $filter->settings['spamspan_form_pattern'],
+      '#default_value' => $filter->settings['spamspan_use_url'],
       '#required' => TRUE,
-      '#description' => t('Replace the email link with this string and substitute the following <br />%url = the url where the form resides,<br />%email = the email address (base64 and urlencoded),<br />%displaytext = text to display instead of the email address.'),
+      '#description' => t('Replace the email link with this string and substitute the following <br />'
+        . '#formname = the webform name,<br />'
+        . '#email = the email address as typed,<br />'
+        . '#displaytext = text to display for the email address.'),
     );
-    $settings['use_form']['spamspan_form_default_url'] = array(
+    $settings['use_form']['spamspan_email_encode'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Encode the email address'),
+      '#default_value' => $filter->settings['spamspan_email_encode'],
+      '#required' => TRUE,
+      '#description' => t('Encode the email address using base64 to protect from spammers.'
+        . ' Must be enabled for forms because the email address ends up in a URL.'),
+    );
+    $settings['use_form']['spamspan_email_default'] = array(
       '#type' => 'textfield',
-      '#title' => t('Default url'),
-      '#default_value' => $filter->settings['spamspan_form_default_url'],
+      '#title' => t('Default form'),
+      '#default_value' => $filter->settings['spamspan_email_default'],
       '#required' => TRUE,
-      '#description' => t('Default url to form to use if none specified (e.g. me@example.com[custom_url_to_form])'),
+      '#description' => t('Default form to use if none specified'),
     );
-    $settings['use_form']['spamspan_form_default_displaytext'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Default displaytext'),
-      '#default_value' => $filter->settings['spamspan_form_default_displaytext'],
-      '#required' => TRUE,
-      '#description' => t('Default displaytext to use if none specified (e.g. me@example.com[custom_url_to_form|custom_displaytext])'),
-    );
-
-    // we need this to insert our own validate/submit handlers
-    // we use our own validate handler to extract use_form settings
-    $settings['use_form']['#process'] = array('_spamspan_admin_settings_form_process');
     return $settings;
   }
-
 
   /**
    * Responds to hook_help().
@@ -159,97 +158,67 @@ class spamspan_admin {
    * @return
    *  The span with which to replace the email address
    */
-  function output($name, $domain, $contents = '', $headers = array(), $vars = array(), $settings = NULL) {
+  function output($name, $domain, $contents = '', $headers = '', $vars = '', $settings = NULL) {
     if ($settings === NULL) {
       $settings = $this->defaults;
       if ($this->filter_is()) {
         $settings = $this->filter->settings;
       }
     }
-
-    // processing for forms
-    if (!empty($settings['spamspan_use_form'])) {
-      $email = urlencode(base64_encode($name . '@' . $domain));
-
-      //put in the defaults if nothing set
-      if (empty($vars['custom_form_url'])) {
-        $vars['custom_form_url'] = $settings['spamspan_form_default_url'];
-      }
-      if (empty($vars['custom_displaytext'])) {
-        $vars['custom_displaytext'] = t($settings['spamspan_form_default_displaytext']);
-      }
-      $vars['custom_form_url'] = strip_tags($vars['custom_form_url']);
-      $vars['custom_displaytext'] = strip_tags($vars['custom_displaytext']);
-
-      $url_parts = parse_url($vars['custom_form_url']);
-      if (!$url_parts) {
-        $vars['custom_form_url'] = '';
-      }
-      else if (empty($url_parts['host'])) {
-        $vars['custom_form_url'] = base_path() . trim($vars['custom_form_url'], '/');
-      }
-
-      $replace = array('%url' => $vars['custom_form_url'], '%displaytext' => $vars['custom_displaytext'], '%email' => $email);
-
-      $output = strtr($settings['spamspan_form_pattern'], $replace);
-      return $output;
-    }
-
     $at = $settings['spamspan_at'];
     if ($settings['spamspan_use_graphic']) {
-      $at = theme('spamspan_at_sign', array('settings' => $settings));
+      $at = '<img class="spam-span-image" alt="at" width="10" src="' . base_path() . drupal_get_path('module', 'spamspan') . '/image.gif" />';
     }
-
-    if ($settings['spamspan_dot_enable']) {
-      // Replace .'s in the address with [dot]
-      $name = str_replace('.', '<span class="t">' . $settings['spamspan_dot'] . '</span>', $name);
-      $domain = str_replace('.', '<span class="t">' . $settings['spamspan_dot'] . '</span>', $domain);
+    
+    // New processing for forms.
+    if (isset($settings['spamspan_use_form']) and $settings['spamspan_use_form']) {
+      if ($settings['spamspan_email_encode']) {
+        $email = base64_encode($name . '@' . $domain) . '&en=1';
+      }
+      else {
+        $email = $email = $name . '@' . $domain;
+      }
+      $var = strip_tags($var);
+      if (strlen($var)) {
+        $vars = explode('|', $var . ' ');
+      }
+      if (!isset($vars[0]) or !strlen($vars[0])) {
+        $vars[0] = $settings['spamspan_email_default'];
+      }
+      $output = str_replace('#formname', $vars[0], $settings['spamspan_use_url']);
     }
-    $output = '<span class="u">' . $name . '</span>' . $at . '<span class="d">' . $domain . '</span>';
-
+    else {
+      if (isset($settings['spamspan_dot_enable']) and $settings['spamspan_dot_enable']) {
+        // Replace .'s in the address with [dot]
+        $name = str_replace('.', '<span class="t">' . $settings['spamspan_dot'] . '</span>', $name);
+        $domain = str_replace('.', '<span class="t">' . $settings['spamspan_dot'] . '</span>', $domain);
+      }
+      $output = '<span class="u">' . $name . '</span>' . $at . '<span class="d">' . $domain . '</span>';
+    }
   
     // if there are headers, include them as eg (subject: xxx, cc: zzz)
-    // we replace the = in the headers by ": " to look nicer
-    if (count($headers)) {
-      foreach ($headers as $key => $header) {
-        // check if header is already urlencoded, if not, encode it
-        if ($header == rawurldecode($header)) {
-          $header = rawurlencode($header);
-          //replace the first = sign
-          $header = preg_replace('/%3D/', ': ', $header, 1);
-        }
-        else {
-          $header = str_replace('=', ': ', $header);
-        }
-
-        $headers[$key] = $header;
+    if (isset($headers) and $headers) {
+      $temp_headers = array();
+      foreach ($headers as $value) {
+        //replace the = in the headers arrays by ": " to look nicer
+        $temp_headers[] = str_replace('=', ': ', $value);
       }
-      $output .= '<span class="h"> (' . check_plain(implode(', ', $headers)) . ') </span>';
+      $output .= '<span class="h"> (' . check_plain(implode(', ', $temp_headers)) . ') </span>';
     }
-
-    // If there are tag contents, include them, between round brackets.
-    // Remove emails from the tag contents, otherwise the tag contents are themselves
+    // if there are tag contents, include them, between round brackets, unless
+    // the contents are an email address.  In that case, we can ignore them.  This
+    // is also a good idea because otherwise the tag contents are themselves
     // converted into a spamspan, with undesirable consequences - see bug #305464.
-    if (!empty($contents)) {
-      $contents = preg_replace('!' . SPAMSPAN_EMAIL . '!ix', '', $contents);
-
-      // remove anything except certain inline elements, just in case.  NB nested
-      // <a> elements are illegal.
-      $contents = filter_xss($contents, array('em', 'strong', 'cite', 'b', 'i', 'code', 'span', 'img'));
-
-      if (!empty($contents)) {
-        $output .= '<span class="a"> (' . $contents . ')</span>';
-      }
+    // NB problems may still be caused by edge cases, eg if the tag contents are
+    // "blah blah email@example.com ..."
+    if (isset($contents) and $contents and !(preg_match('!^' . SPAMSPAN_EMAIL . '$!ix', $contents))) {
+      $output .= '<span class="t"> (' . $contents . ')</span>';
     }
-
-    // put in the extra <a> attributes
-    // this has to come after the xss filter, since we want comment tags preserved
-    if (!empty($vars['extra_attributes'])) {
-      $output .= '<span class="e"><!--'. strip_tags($vars['extra_attributes']) .'--></span>';
-    }
-
     $output = '<span class="spamspan">' . $output . '</span>';
-    
+    // remove anything except certain inline elements, just in case.  NB nested
+    // <a> elements are illegal.  <img> needs to be here to allow for graphic
+    // @
+    $output = filter_xss($output, $allowed_tags = array('em', 'strong', 'cite', 'b', 'i', 'code', 'span', 'img'));
     return $output;
   }
   
@@ -269,19 +238,4 @@ class spamspan_admin {
   function page_submit($form, &$form_state) {
     $this->page_object()->submit($form, $form_state);
   }
-}
-
-function _spamspan_admin_settings_form_process(&$element, &$form_state, &$complete_form) {
-  $complete_form['#validate'][] = '_spamspan_admin_settings_form_validate';
-  return $element;
-}
-
-function _spamspan_admin_settings_form_validate(&$form, &$form_state) {
-  $settings = $form_state['values']['filters']['spamspan']['settings'];
-  $use_form = $settings['use_form'];
-
-  //no trees, see https://www.drupal.org/node/2378437
-  unset($settings['use_form']);
-  $settings += $use_form;
-  $form_state['values']['filters']['spamspan']['settings'] = $settings;
 }

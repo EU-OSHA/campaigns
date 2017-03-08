@@ -40,6 +40,18 @@
       "section": "ORGANISATION",
       "type": "text"
     },
+    "contact_osh_maincontactpersonfirstnameAux": {
+      "name": "contact_osh_maincontactpersonfirstnameAux",
+      "label": "Primary name",
+      "section": "PRIMARY_CONTACT",
+      "type": "text"
+    },
+    "contact_osh_maincontactpersonlastnameAux": {
+      "name": "contact_osh_maincontactpersonlastnameAux",
+      "label": "Last Name",
+      "section": "PRIMARY_CONTACT",
+      "type": "text"
+    },
     "company_osh_osh_appform_osh_country": {
       "name": "company_osh_osh_appform_osh_country",
       "label": "Countries of activity",
@@ -333,11 +345,38 @@
     "company_osh_leads": {
       "name": "company_osh_leads",
       "type": "text"
+    },
+    "company_osh_ceochange": {
+      "name": "company_osh_ceochange",
+      "label": "CEO change",
+      "type": "contact_change",
+      "helpText": "true"
+    },
+    "company_osh_ceo_firstname_clone": {
+      "name": "company_osh_ceo_firstname_clone",
+      "section": "CEO",
+      "type": "text"
+    },
+    "company_osh_ceo_lastname_clone": {
+      "name": "company_osh_ceo_lastname_clone",
+      "section": "CEO",
+      "type": "text"
+    },
+    "company_osh_positionid_clone": {
+      "name": "company_osh_positionid_clone",
+      "section": "CEO",
+      "type": "text"
+    },
+    "company_osh_quoteonhwc_clone": {
+      "name": "company_osh_quoteonhwc_clone",
+      "section": "CEO",
+      "type": "text"
     }
   },
   "map": {
     "company_osh_address": "osh_address",
     "company_osh_bussinessector": "osh_bussinessector",
+    "company_osh_ceochange" : "osh_ceo_changed",
     "company_osh_ceo_firstname": "osh_ceofirstname",
     "company_osh_ceo_lastname": "osh_ceolastname",
     "company_osh_city": "osh_city",
@@ -375,8 +414,10 @@
     "osh_aboutyourorgsection": "osh_aboutyourorgsection",
     "osh_gencontactinfsection": "osh_gencontactinfsection",
     "osh_aboutyourceosection": "osh_aboutyourceosection",
-    "osh_aboutyourrepsection": "osh_aboutyourrepsection"
-
+    "osh_aboutyourrepsection": "osh_aboutyourrepsection",
+    "contact_osh_mainemailAux": "contact_osh_mainemailAux",
+    "contact_osh_maincontactpersonfirstnameAux": "contact_osh_maincontactpersonfirstnameAux",
+    "contact_osh_maincontactpersonlastnameAux": "contact_osh_maincontactpersonlastnameAux"
   },
   "map_mf": {
     "company_osh_address": "osh_phaddress",
@@ -393,7 +434,7 @@
     "company_osh_phonerepresentative": "osh_representativetelephone1",
     "company_osh_yourmissionstatement": "osh_yourmissionstatement",
     "company_osh_zipcode": "osh_phcp",
-    "company_osh_generalphone":"telephone1",
+    "company_osh_generalphone":"osh_phone1",
     "company_osh_orgname": "osh_companyorganisationname",
     "company_osh_osh_appform_osh_country": "returnPaises",
     "company_osh_othercountries": "osh_othercountries",
