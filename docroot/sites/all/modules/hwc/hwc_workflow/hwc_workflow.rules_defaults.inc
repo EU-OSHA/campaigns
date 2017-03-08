@@ -71,8 +71,8 @@ function hwc_workflow_default_rules_configuration() {
             "DO" : [
               { "mail" : {
                   "to" : [ "list-item:mail" ],
-                  "subject" : "HWC Workflow: Content needs CPM approval: [node:title]",
-                  "message" : "\\u003Cp\\u003EDear [list_item:name],\\u003C\\/p\\u003E\\r\\n\\u003Cp\\u003E[user:name] should approve this content \\u003Ca href=\\u0022[node:url]\\u0022\\u003E[node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E",
+                  "subject" : "[HWC Website] CMW: ([node:nid]) [node:title-field]",
+                  "message" : "\\u003Cp\\u003EDear [list_item:name],\\u003C\\/p\\u003E\\r\\n\\u003Cp\\u003E[user:name] should approve this content: \\u003Ca href=\\u0022[node:url]\\u0022\\u003E[node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E",
                   "language" : [ "" ]
                 }
               }
@@ -81,7 +81,7 @@ function hwc_workflow_default_rules_configuration() {
         },
         { "mail" : {
             "to" : [ "user:mail" ],
-            "subject" : "HWC Workflow: Content needs your approval: [node:title]",
+            "subject" : "[HWC Website] CMW: ([node:nid]) [node:title-field]",
             "message" : "\\u003Cp\\u003EDear [user:name],\\u003C\\/p\\u003E\\r\\n\\u003Cp\\u003EA content item should be approved by you: \\u003Ca href=\\u0022[node:url]\\u0022\\u003E[node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E",
             "language" : [ "" ]
           }
@@ -140,8 +140,8 @@ function hwc_workflow_default_rules_configuration() {
         },
         { "mail" : {
             "to" : [ "site:hwc-mostra-mailbox" ],
-            "subject" : "New content has been published",
-            "message" : "This content has been published: \\u003Ca href=\\u0022[node:url]\\u0022\\u003E[node:title]\\u003C\\/a\\u003E",
+            "subject" : "[HWC Website] CMW: ([node:nid]) [node:title-field]",
+            "message" : "No action is required. This message is just to inform you that this content has been published: \\u003Ca href=\\u0022[node:url]\\u0022\\u003E[node:title]\\u003C\\/a\\u003E",
             "language" : [ "" ]
           }
         }
@@ -161,7 +161,7 @@ function hwc_workflow_default_rules_configuration() {
             "DO" : [
               { "mail" : {
                   "to" : [ "list-item:mail" ],
-                  "subject" : "HWC Workflow: Content needs CPM approval: [node:title]",
+                  "subject" : "[HWC Website] CMW: ([node:nid]) [node:title-field]",
                   "message" : "\\u003Cp\\u003EDear [list_item:name],\\u003C\\/p\\u003E\\r\\n\\u003Cp\\u003E[user:name] should approve this content \\u003Ca href=\\u0022[node:url]\\u0022\\u003E[node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E",
                   "language" : [ "" ]
                 }
@@ -171,7 +171,7 @@ function hwc_workflow_default_rules_configuration() {
         },
         { "mail" : {
             "to" : [ "user:mail" ],
-            "subject" : "HWC Workflow: Content needs your approval: [node:title]",
+            "subject" : "[HWC Website] CMW: ([node:nid]) [node:title-field]",
             "message" : "\\u003Cp\\u003EDear [user:name],\\u003C\\/p\\u003E\\r\\n\\u003Cp\\u003EA content item should be approved by you: \\u003Ca href=\\u0022[node:url]\\u0022\\u003E[node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E",
             "language" : [ "" ]
           }
@@ -189,13 +189,13 @@ function hwc_workflow_default_rules_configuration() {
       "DO" : [
         { "mail_to_users_of_role" : {
             "roles" : { "value" : { "14" : "14" } },
-            "subject" : "HWC Workflow: New content needs your review",
+            "subject" : "[HWC Website] CMW: ([node:nid]) [node:title-field]",
             "message" : "\\u003Cp\\u003E[node:author:name] ([node:author:mail]) has submitted a [node:type] item for validation. Please see the submitted update here: \\u003Ca href=\\u0022[node:url]\\u0022\\u003E[node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E"
           }
         },
         { "mail" : {
             "to" : [ "site:hwc-mostra-mailbox" ],
-            "subject" : "HWC Workflow: New content needs your review",
+            "subject" : "[HWC Website] CMW: ([node:nid]) [node:title-field]",
             "message" : "\\u003Cp\\u003E[node:author:name] ([node:author:mail]) has submitted a [node:type] item for validation. Please see the submitted update here: \\u003Ca href=\\u0022[node:url]\\u0022\\u003E[node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E",
             "language" : [ "" ]
           }
