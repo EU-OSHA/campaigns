@@ -1181,7 +1181,8 @@ function _hwc_filter_html_id($text) {
  */
 function hwc_export_node($node) {
   if ($node->status == 0) {
-    drupal_access_denied();
+    header('HTTP/1.0 404 Forbidden');
+    drupal_exit();
   }
   header('Content-type: application/javascript; charset=utf-8');
   $fields = field_info_instances('node', $node->type);
