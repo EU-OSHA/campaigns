@@ -51,7 +51,7 @@ jQuery(document).ready(function() {
 
 	//fixing sticky menu
 	var num = 210; //number of pixels before modifying styles
-	if(jQuery("body").height()>=1100){
+	if(jQuery("body").height()>=1250){
 		jQuery(window).bind('scroll', function () {
 		    if (jQuery(window).scrollTop() > num) {
 		        jQuery("#navbar").addClass("sticky-menu");
