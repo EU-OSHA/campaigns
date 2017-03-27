@@ -251,3 +251,10 @@ function osha_update_7012() {
   variable_set('pathauto_punctuation_em-dash', 1);
   variable_set('pathauto_punctuation_overline', 1);
 }
+
+/**
+ * MDR-952 - feature revert.
+ */
+function osha_update_7013() {
+  features_revert_module('osha');
+}
