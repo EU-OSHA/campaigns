@@ -205,6 +205,27 @@ ul.tabs--primary.nav.nav-tabs{
 			font-weight: normal;
 			font-family: @font-family-monospace;
 		}
+		input[type=checkbox]:checked {
+			display: inline-block;
+			margin-left: -25px;
+			margin-top: 2px;
+			cursor: pointer;
+			
+			&:before {
+				content: "\2713";
+				color: @text-color-2;
+				padding: 0px 2px 0px 2px;
+				margin-right: 6px;
+				font-weight: normal;
+				font-family: @font-family-monospace;
+				margin-top: 0px;
+				display: block;
+				background-color: white;
+				height: 15px;
+				width: 13px;
+    			line-height: 19px;
+			}
+		}
 	}
 	.radio{
 		margin-bottom: 0.5em;
@@ -6053,6 +6074,9 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 		label{
 			font-weight: bold;
 		}
+	}
+	#edit-actions{
+		width: 100%;
 	}
 	.form-type-select {
 		position: relative;
