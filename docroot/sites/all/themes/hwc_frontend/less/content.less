@@ -5896,6 +5896,7 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 		margin-left: -@margin1;
 		.form-item, .webform-component {
 			margin-bottom: 1em;
+
 		}
 		.form-control, .chosen-single span{
 			color: @text-color-2;
@@ -5927,19 +5928,30 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 			margin-left: 0;
 			width: 100%;
 		}
-		
+		.captcha{
+			padding-bottom: 25px;
+		}
+		.help-block{
+			a{
+				font-style: italic;
+				font-weight: bold;
+				font-size: 1.25em;
+			}
+		}
 		.panel-body{
 			padding-top:0px;
 			padding-bottom: 0px;
 		}
-
+		
 		.form-select {
 			position: relative;
 			display: inline-block;
 			width: 95%;
+			border: 1px solid @bg-color-2 !important;
+			box-shadow: none;
 			&:after {
 				width: 30px;
-				height: 32px;
+				height: 33px;
 				display: block;
 				content: '';
 				position: absolute;
@@ -6080,6 +6092,7 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 	}
 	#edit-actions{
 		width: 100%;
+		margin-top: 30px;
 	}
 	.form-type-select {
 		position: relative;
