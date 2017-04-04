@@ -13778,7 +13778,7 @@ html:lang(mt) .get-involved-section .information-tailored .images-section .image
 }
 .page-get-your-certificate form.webform-client-form .form-item,
 .page-get-your-certificate form.webform-client-form .webform-component {
-  margin-bottom: 1em;
+  margin-bottom: 1em !important;
 }
 .page-get-your-certificate form.webform-client-form .form-control,
 .page-get-your-certificate form.webform-client-form .chosen-single span {
