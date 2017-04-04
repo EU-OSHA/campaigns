@@ -5616,6 +5616,7 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 	.pane-osha-newsletter-osha-newsletter-subscribe-extra{
 		margin-right: 30px;
     	margin-left: 30px;
+    	display: inline-block;
 		h2{
 			background-color: @color3;
 			background: url("../images/content/bg-campaign-partner.png") no-repeat left top;
@@ -5630,7 +5631,8 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 		#subscribe-extra{
 			font-weight: bold;
 			div form > div{
-				padding-bottom: 2em;
+				padding-bottom: 0em;
+				overflow: hidden;
 			}
 			input{
 				font-weight: normal;
@@ -5698,9 +5700,16 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 				display: none;
 			}
 			#edit-subscribe-details{
+				padding-left: 55px;
 				span{
 					margin-top: 7px;
     				margin-bottom: 3px;
+				}
+			}
+			@media only screen and (max-width : 992px) {
+				#edit-subscribe-details{
+					margin-top: 10px;
+					padding-left: 0px;
 				}
 			}
 		}
