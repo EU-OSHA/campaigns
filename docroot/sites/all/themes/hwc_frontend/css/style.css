@@ -7294,7 +7294,6 @@ header.navbar-default .campaigns-header .navbar-header #block-hwc-partner-hwc-pa
 }
 header.navbar-default .campaigns-header .navbar-header #block-search-form {
   clear: both;
-  margin-bottom: 15px;
 }
 header.navbar-default .campaigns-header .navbar-header #block-search-form button {
   color: transparent;
@@ -7770,6 +7769,26 @@ ul.tabs--primary.nav.nav-tabs > li.active > a:focus {
   margin-right: 6px;
   font-weight: normal;
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+.checkbox input[type=checkbox]:checked {
+  display: inline-block;
+  margin-left: -25px;
+  margin-top: 2px;
+  cursor: pointer;
+}
+.checkbox input[type=checkbox]:checked:before {
+  content: "\2713";
+  color: #003399;
+  padding: 0px 2px 0px 2px;
+  margin-right: 6px;
+  font-weight: normal;
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  margin-top: 0px;
+  display: block;
+  background-color: white;
+  height: 15px;
+  width: 13px;
+  line-height: 19px;
 }
 .radio {
   margin-bottom: 0.5em;
@@ -9592,6 +9611,7 @@ div[class*='node-'] .more-link {
   float: left;
   margin-top: 0.5em;
   margin-right: 2em;
+  color: #333;
 }
 .pane-hwc-practical-tool-hwc-practical-tool-listing #edit-content .form-type-radios.form-item-sort div {
   display: inline;
@@ -13769,7 +13789,7 @@ html:lang(mt) .get-involved-section .information-tailored .images-section .image
 }
 .page-get-your-certificate form.webform-client-form .form-item,
 .page-get-your-certificate form.webform-client-form .webform-component {
-  margin-bottom: 1em;
+  margin-bottom: 1em !important;
 }
 .page-get-your-certificate form.webform-client-form .form-control,
 .page-get-your-certificate form.webform-client-form .chosen-single span {
@@ -13801,6 +13821,14 @@ html:lang(mt) .get-involved-section .information-tailored .images-section .image
   margin-left: 0;
   width: 100%;
 }
+.page-get-your-certificate form.webform-client-form .captcha {
+  padding-bottom: 25px;
+}
+.page-get-your-certificate form.webform-client-form .help-block a {
+  font-style: italic;
+  font-weight: bold;
+  font-size: 1.25em;
+}
 .page-get-your-certificate form.webform-client-form .panel-body {
   padding-top: 0px;
   padding-bottom: 0px;
@@ -13809,10 +13837,12 @@ html:lang(mt) .get-involved-section .information-tailored .images-section .image
   position: relative;
   display: inline-block;
   width: 95%;
+  border: 1px solid #003399 !important;
+  box-shadow: none;
 }
 .page-get-your-certificate form.webform-client-form .form-select:after {
   width: 30px;
-  height: 32px;
+  height: 33px;
   display: block;
   content: '';
   position: absolute;
@@ -13937,6 +13967,10 @@ html:lang(mt) .get-involved-section .information-tailored .images-section .image
 }
 .contact-form.container div.form-group label {
   font-weight: bold;
+}
+.contact-form.container #edit-actions {
+  width: 100%;
+  margin-top: 30px;
 }
 .contact-form.container .form-type-select {
   position: relative;

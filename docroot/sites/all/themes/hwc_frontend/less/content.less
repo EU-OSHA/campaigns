@@ -205,6 +205,27 @@ ul.tabs--primary.nav.nav-tabs{
 			font-weight: normal;
 			font-family: @font-family-monospace;
 		}
+		input[type=checkbox]:checked {
+			display: inline-block;
+			margin-left: -25px;
+			margin-top: 2px;
+			cursor: pointer;
+			
+			&:before {
+				content: "\2713";
+				color: @text-color-2;
+				padding: 0px 2px 0px 2px;
+				margin-right: 6px;
+				font-weight: normal;
+				font-family: @font-family-monospace;
+				margin-top: 0px;
+				display: block;
+				background-color: white;
+				height: 15px;
+				width: 13px;
+    			line-height: 19px;
+			}
+		}
 	}
 	.radio{
 		margin-bottom: 0.5em;
@@ -1919,11 +1940,14 @@ ul.tabs--primary.nav.nav-tabs{
 				> label{
 					font-style: italic;
 					padding-right: 0;
+
 				}
 				label{
 					float: left;
 					margin-top: 0.5em;
 					margin-right: 2em;
+					color: #333;
+					
 				}
 				div{
 					display: inline;
@@ -5880,7 +5904,8 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 		margin-top: 1em;
 		margin-left: -@margin1;
 		.form-item, .webform-component {
-			margin-bottom: 1em;
+			margin-bottom: 1em !important;
+
 		}
 		.form-control, .chosen-single span{
 			color: @text-color-2;
@@ -5912,19 +5937,30 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 			margin-left: 0;
 			width: 100%;
 		}
-		
+		.captcha{
+			padding-bottom: 25px;
+		}
+		.help-block{
+			a{
+				font-style: italic;
+				font-weight: bold;
+				font-size: 1.25em;
+			}
+		}
 		.panel-body{
 			padding-top:0px;
 			padding-bottom: 0px;
 		}
-
+		
 		.form-select {
 			position: relative;
 			display: inline-block;
 			width: 95%;
+			border: 1px solid @bg-color-2 !important;
+			box-shadow: none;
 			&:after {
 				width: 30px;
-				height: 32px;
+				height: 33px;
 				display: block;
 				content: '';
 				position: absolute;
@@ -6062,6 +6098,10 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 		label{
 			font-weight: bold;
 		}
+	}
+	#edit-actions{
+		width: 100%;
+		margin-top: 30px;
 	}
 	.form-type-select {
 		position: relative;
