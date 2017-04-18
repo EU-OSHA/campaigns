@@ -57,6 +57,16 @@ function osha_contact_form_contact_site_form_alter(&$form, &$form_state){
   $form['mail']['#weight'] = 4;
   $form['country']['#weight'] = 5;
   $form['message']['#weight'] = 6;
+  if (isset($form['captcha'])) {
+    $form['captcha']['#weight'] = 7;
+  }
+  $form['disclaimer'] = [
+    '#type' => 'item',
+    '#markup' => l(t('Read the privacy policy'),
+      'sites/default/files/disclaimer-contact-us.pdf',
+      ['attributes' => ['target' => '_blank']]),
+    '#weight' => 8,
+  ];
   $form['#attributes']['class'][] = 'container';
 
   $form['#submit'][] = 'contact_form_send';
