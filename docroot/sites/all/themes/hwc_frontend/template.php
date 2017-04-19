@@ -356,12 +356,18 @@ function hwc_frontend_preprocess_node(&$vars) {
     $vars['content']['links']['node']['#links']['node-readmore']['title'] = t('See more');
   }
   $view_mode = $vars['view_mode'];
-  $vars['theme_hook_suggestions'][] = 'node__' . $view_mode;
-  $vars['theme_hook_suggestions'][] = 'node__' . $vars['node']->type . '__' . $view_mode;
-  $vars['theme_hook_suggestions'][] = 'node__' . $vars['node']->nid . '__' . $view_mode;
-  if (context_isset('context', 'segmentation_page')) {
-    $vars['theme_hook_suggestions'][] = 'node__article_segment';
+
+  // After latest bootstrap update, the templates suggestions are pref over ds layouts.
+  if (empty($vars['rendered_by_ds'])) {
+    $vars['theme_hook_suggestions'][] = 'node__' . $view_mode;
+    $vars['theme_hook_suggestions'][] = 'node__' . $vars['node']->type . '__' . $view_mode;
+    $vars['theme_hook_suggestions'][] = 'node__' . $vars['node']->nid . '__' . $view_mode;
+
+    if (context_isset('context', 'segmentation_page')) {
+      $vars['theme_hook_suggestions'][] = 'node__article_segment';
+    }
   }
+
   // Hide share widget
   $exclude_nid = array('129');
   if(in_array($vars['node']->nid, $exclude_nid)){

@@ -36,6 +36,11 @@ jQuery(document).ready(function() {
   		jQuery('#block-osha-newsletter-osha-newsletter-subscribe div.captcha').show();
 	});
 
+	/*adding color to "sort by" labels when is checked*/
+	jQuery(".pane-hwc-practical-tool-hwc-practical-tool-listing #edit-content .form-type-radios.form-item-sort input:checked").parent('label').css({'color':'#749b00','font-weight':'bold'});
+	
+
+
 	/*specific functions for tablet and/or mobile */
 	funcionesTabletMovil();
 
@@ -59,7 +64,7 @@ jQuery(document).ready(function() {
 		        jQuery('#navbar').removeClass('sticky-menu');
 		    }
 		});
-	}
+	};
 	
 
 	/************************** FUNCTIONS *******************************/
