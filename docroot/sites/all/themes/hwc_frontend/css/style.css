@@ -13963,14 +13963,22 @@ html:lang(mt) .get-involved-section .information-tailored .images-section .image
 .contact-form.container div.form-group {
   width: 50%;
   float: left;
-  margin-bottom: 1em;
+  margin-bottom: 0em;
 }
 .contact-form.container div.form-group label {
   font-weight: bold;
 }
+.contact-form.container .form-item {
+  margin-bottom: 10px !important;
+  min-height: 64px;
+}
+.contact-form.container #edit-disclaimer {
+  text-align: center;
+  width: 100%;
+  min-height: inherit;
+}
 .contact-form.container #edit-actions {
   width: 100%;
-  margin-top: 30px;
 }
 .contact-form.container .form-type-select {
   position: relative;
@@ -14006,6 +14014,7 @@ html:lang(mt) .get-involved-section .information-tailored .images-section .image
   cursor: pointer;
 }
 .contact-form.container button {
+  margin-bottom: 50px;
   width: 100%;
   background: #003399 url(../images/content/arrow-right-blue-bg-white.png) no-repeat right center;
 }
@@ -14013,6 +14022,7 @@ fieldset.captcha {
   clear: both;
   border: none;
   box-shadow: 0 0px 0px rgba(255, 255, 255, 0);
+  margin-bottom: 0px;
 }
 fieldset.captcha legend {
   display: none;
@@ -16859,10 +16869,20 @@ input#edit-field-image-und-0-upload::before {
     padding: 0 30px;
   }
   .contact-form.container div.form-group {
-    width: 63%;
+    width: 100%;
+  }
+  .contact-form.container div.form-group .form-control {
+    width: 100%;
   }
   .contact-form.container div.form-group textarea {
     width: 100%;
+  }
+  .contact-form.container .form-type-select {
+    width: 100%;
+  }
+  .contact-form.container .form-type-select:after {
+    right: 0%;
+    left: inherit;
   }
   /*End pag contact-form*/
   /*clases para toda la web*/
