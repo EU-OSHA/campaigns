@@ -1277,9 +1277,19 @@ header{
 .contact-form.container{
     padding: 0 @margin-tablet;
 	div.form-group{
-		width: 63%;
+		width: 100%;
+		.form-control{
+			width: 100%;
+		}
 		textarea{
 			width: 100%;
+		}
+	}
+	.form-type-select{
+		width: 100%;
+	  &:after{
+			right: 0%;
+			left: inherit;
 		}
 	}
 }
