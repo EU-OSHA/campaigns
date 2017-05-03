@@ -6094,14 +6094,24 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 	div.form-group{
 		width: 50%;
 		float: left;
-		margin-bottom: 1em;
+		margin-bottom: 0em;
+
 		label{
 			font-weight: bold;
 		}
 	}
+	.form-item{
+		margin-bottom: 10px !important;
+		min-height: 64px;
+	}
+	#edit-disclaimer{
+		text-align: center;
+		width: 100%;
+		min-height: inherit;
+	}
 	#edit-actions{
 		width: 100%;
-		margin-top: 30px;
+		//margin-top: 30px;
 	}
 	.form-type-select {
 		position: relative;
@@ -6137,6 +6147,7 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 		}
 	}
 	button{
+		margin-bottom: 50px;
 		width: 100%;
 		background: @bg-color-2 url(../images/content/arrow-right-blue-bg-white.png) no-repeat right center;
 	}
@@ -6145,6 +6156,7 @@ fieldset.captcha {
 	clear: both;
 	border: none;
 	box-shadow: 0 0px 0px rgba(255, 255, 255, 0);
+	margin-bottom: 0px;
 	legend{
 		display: none;
 	}
