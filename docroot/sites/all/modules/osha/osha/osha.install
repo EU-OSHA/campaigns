@@ -266,3 +266,10 @@ function osha_update_7014() {
   module_enable(['no_autocomplete']);
   variable_set('no_autocomplete_login_form', 1);
 }
+
+/**
+ * Enable csrf_checks module.
+ */
+function osha_update_7015() {
+  module_enable(['csrf_checks']);
+}
