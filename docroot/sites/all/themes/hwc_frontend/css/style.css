@@ -8150,6 +8150,7 @@ ul.tabs--primary.nav.nav-tabs > li.active > a:focus {
   width: auto;
   height: auto;
   max-height: 356px;
+  max-width: inherit;
 }
 #homepage_slider #num_slides > div div p {
   color: #ffffff;
