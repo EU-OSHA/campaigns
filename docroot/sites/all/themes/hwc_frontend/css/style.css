@@ -12428,8 +12428,8 @@ html:lang(mt) .get-involved-section .information-tailored .images-section .image
 .page-node-add-news .node-news-form .image-widget .image-widget-data span,
 .page-node-edit .node-news-form .image-widget .image-widget-data span {
   padding-right: 10px;
-  float: left;
   height: 35px;
+  width: inherit;
 }
 .page-node-add-events .node-events-form .image-widget .image-widget-data button,
 .page-node-add-news .node-events-form .image-widget .image-widget-data button,
@@ -12439,7 +12439,7 @@ html:lang(mt) .get-involved-section .information-tailored .images-section .image
 .page-node-edit .node-news-form .image-widget .image-widget-data button {
   float: left;
   height: 35px;
-  padding-top: 0;
+  padding-top: 8px;
   padding-bottom: 0;
 }
 .page-node-add-events .node-events-form .image-widget .image-widget-data div.form-type-textfield.form-item-field-image-und-0-title.form-item.form-group,
@@ -15215,6 +15215,18 @@ input#edit-field-image-und-0-upload::before {
 }
 .view-display-id-past_events {
   text-align: center!important;
+}
+/*.ui-dialog over sticky*/
+.ui-dialog {
+  z-index: 9999;
+}
+.ui-dialog .ui-dialog-titlebar-close:before {
+  content: "x";
+  line-height: 1px !important;
+  display: block;
+}
+.badge {
+  height: inherit !important;
 }
 /*Data visualisation – ageing & OSH*/
 .page-node-2494 .node-article,
@@ -19007,12 +19019,6 @@ input#edit-field-image-und-0-upload::before {
   .page-node-add-events .node-news-form .form-type-textfield,
   .page-node-add-news .node-news-form .form-type-textfield {
     max-width: 100%;
-  }
-  .page-node-add-events .node-events-form .form-file,
-  .page-node-add-news .node-events-form .form-file,
-  .page-node-add-events .node-news-form .form-file,
-  .page-node-add-news .node-news-form .form-file {
-    max-width: 80%;
   }
   .page-node-add-events .node-events-form .group-footer.col-md-12,
   .page-node-add-news .node-events-form .group-footer.col-md-12,
