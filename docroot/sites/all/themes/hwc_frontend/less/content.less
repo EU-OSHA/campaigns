@@ -509,6 +509,7 @@ ul.tabs--primary.nav.nav-tabs{
 							width: auto;
 							height: auto;
 							max-height: 356px;
+							max-width: inherit;
 						}
 					}
 					p{
@@ -4740,13 +4741,13 @@ html:lang(hu) , html:lang(nl), html:lang(mt) {
 				clear: both;
 				span{
 					padding-right: 10px;
-					float: left;
 					height: 35px;
+					width: inherit;
 				}
 				button{
 					float: left;
 					height: 35px;
-					padding-top: 0;
+					padding-top: 8px;
 					padding-bottom: 0;
 				}
 				div.form-type-textfield.form-item-field-image-und-0-title.form-item.form-group{
@@ -6796,6 +6797,20 @@ input#edit-field-image-und-0-upload::before {
 	text-align: center!important;
 }
 
+/*.ui-dialog over sticky*/
+.ui-dialog{
+	z-index: 9999;
+	.ui-dialog-titlebar-close{
+		&:before{
+			content: "x";
+			line-height: 1px !important;
+    		display: block;
+		}
+	}
+}
+.badge{
+	height: inherit !important;
+}
 
 /*Data visualisation – ageing & OSH*/
 .page-node-2494, .page-node-2043{
