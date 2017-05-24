@@ -378,8 +378,8 @@ function osha_publication_menu_case_studies_search_native($form_state) {
   $q->fields('a', array('nid', 'vid'));
   $q->condition('a.type', 'publication');
   $q->condition('a.status', 1);
-  $q->orderBy('a.changed', 'DESC');
   $q->condition('b.field_publication_type_tid', CASE_STUDY_TID);
+  $q->orderBy('a.changed', 'DESC');
   if (!empty($restrict)) {
     $q->condition('a.nid', $restrict, 'IN');
   }
@@ -387,8 +387,13 @@ function osha_publication_menu_case_studies_search_native($form_state) {
     $q->innerJoin('field_data_field_segment', 'fs', 'fs.entity_id = a.nid AND fs.revision_id = a.vid');
     $q->condition('fs.field_segment_tid', $relevant_for, 'IN');
   }
+
   $nids = $q->execute()->fetchCol();
   $nids = array_unique($nids);
+
+  if (empty($nids)) {
+    return array();
+  }
 
   // order case studies by publication_date field
   $q = db_select('field_data_field_publication_date', 'a');
