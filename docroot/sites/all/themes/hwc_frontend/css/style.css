@@ -16735,6 +16735,8 @@ input#edit-field-image-und-0-upload::before {
   .page-node-add-events .node-news-form #edit-save-preview,
   .page-node-add-news .node-news-form #edit-save-preview {
     margin-bottom: 1em !important;
+    margin-right: 30px;
+    margin-left: 30px;
   }
   .page-node-add-events .node-events-form #edit-actions #edit-send-for-approval,
   .page-node-add-news .node-events-form #edit-actions #edit-send-for-approval,
@@ -19019,6 +19021,14 @@ input#edit-field-image-und-0-upload::before {
   .page-node-add-events .node-news-form .form-type-textfield,
   .page-node-add-news .node-news-form .form-type-textfield {
     max-width: 100%;
+  }
+  .page-node-add-events .node-events-form #edit-save-preview,
+  .page-node-add-news .node-events-form #edit-save-preview,
+  .page-node-add-events .node-news-form #edit-save-preview,
+  .page-node-add-news .node-news-form #edit-save-preview {
+    margin-bottom: 1em !important;
+    margin-right: 15px;
+    margin-left: 15px;
   }
   .page-node-add-events .node-events-form .group-footer.col-md-12,
   .page-node-add-news .node-events-form .group-footer.col-md-12,
