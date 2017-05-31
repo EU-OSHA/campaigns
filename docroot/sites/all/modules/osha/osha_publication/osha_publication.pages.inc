@@ -359,7 +359,6 @@ function osha_publication_menu_case_studies_search_native($form_state) {
     $query->condition('field_publication_type', CASE_STUDY_TID);
     $query->keys($text);
     $query->fields(array('title_field', 'body:value'));
-    $query->sort('field_publication_date', 'DESC');
     $results = $server->search($query);
     if (!empty($results['results'])) {
       foreach ($results['results'] as $result) {
@@ -379,8 +378,8 @@ function osha_publication_menu_case_studies_search_native($form_state) {
   $q->fields('a', array('nid', 'vid'));
   $q->condition('a.type', 'publication');
   $q->condition('a.status', 1);
-  $q->orderBy('a.changed', 'DESC');
   $q->condition('b.field_publication_type_tid', CASE_STUDY_TID);
+  $q->orderBy('a.changed', 'DESC');
   if (!empty($restrict)) {
     $q->condition('a.nid', $restrict, 'IN');
   }
@@ -388,8 +387,21 @@ function osha_publication_menu_case_studies_search_native($form_state) {
     $q->innerJoin('field_data_field_segment', 'fs', 'fs.entity_id = a.nid AND fs.revision_id = a.vid');
     $q->condition('fs.field_segment_tid', $relevant_for, 'IN');
   }
+
   $nids = $q->execute()->fetchCol();
   $nids = array_unique($nids);
+
+  if (empty($nids)) {
+    return array();
+  }
+
+  // order case studies by publication_date field
+  $q = db_select('field_data_field_publication_date', 'a');
+  $q->fields('a', array('entity_id'));
+  $q->condition('entity_id', $nids, 'IN');
+  $q->orderBy('field_publication_date_value', 'DESC');
+  $nids = $q->execute()->fetchCol();
+
   $per_page = 5;
   $current_page = pager_default_initialize(count($nids), $per_page);
   $page = array_chunk($nids, $per_page, TRUE);

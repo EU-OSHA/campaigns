@@ -62,3 +62,10 @@ function hwc_partner_update_7007() {
 function hwc_partner_update_7008() {
   features_revert_module('hwc_partner');
 }
+
+/**
+ * MDR-1196 - Revert partner module.
+ */
+function hwc_partner_update_7009() {
+  features_revert_module('hwc_partner');
+}
