@@ -55,6 +55,40 @@ function osha_events_field_formatter_view($entity_type, $entity, $field, $instan
  * Implements hook_form_FORM_ID_alter().
  */
 function osha_events_form_events_node_form_alter(&$form, &$form_state) {
+  global $user;
+
+  $is_admin = count(array_intersect(array('administrator'), $user->roles));
+
+  if ($is_admin) {
+    $form['body'][LANGUAGE_NONE][0]['#required'] = FALSE;
+    $form['field_tags']['#access'] = TRUE;
+    $form['field_activity']['#access'] = TRUE;
+    $form['field_adonis']['#access'] = TRUE;
+    $form['field_unit_ref']['#access'] = TRUE;
+    $form['field_agency_role']['#access'] = TRUE;
+    $form['field_agency_initial_contact']['#access'] = TRUE;
+    $form['field_agency_rep_confirmed']['#access'] = TRUE;
+    $form['field_satisfaction_rate']['#access'] = TRUE;
+    $form['field_event_in_amp']['#access'] = TRUE;
+    $form['field_agency_contact_reply']['#access'] = TRUE;
+    $form['field_number_of_attendees']['#access'] = TRUE;
+    $form['field_color']['#access'] = TRUE;
+  } else {
+    $form['body'][LANGUAGE_NONE][0]['#required'] = TRUE;
+    $form['field_tags']['#access'] = FALSE;
+    $form['field_activity']['#access'] = FALSE;
+    $form['field_adonis']['#access'] = FALSE;
+    $form['field_unit_ref']['#access'] = FALSE;
+    $form['field_agency_role']['#access'] = FALSE;
+    $form['field_agency_initial_contact']['#access'] = FALSE;
+    $form['field_agency_rep_confirmed']['#access'] = FALSE;
+    $form['field_satisfaction_rate']['#access'] = FALSE;
+    $form['field_event_in_amp']['#access'] = FALSE;
+    $form['field_agency_contact_reply']['#access'] = FALSE;
+    $form['field_number_of_attendees']['#access'] = FALSE;
+    $form['field_color']['#access'] = FALSE;
+  }
+
   $form['#validate'][] = 'osha_events_form_validate';
   $form['actions']['#attributes']['class'] = array('container');
   // Activity field changes
@@ -231,12 +265,12 @@ function osha_events_date_popup_process_alter(&$element, &$form_state, $context)
   }
 
   if($element['#name'] == 'field_start_date[und][0][value]'){
-    $element['date']['#title'] = 'Starting date and time' .
+    $element['date']['#title'] = 'Starting date' .
       ' <span class="required-custom" title="'.t('This field is required.').'">*</span>';
   }
 
   if($element['#name'] == 'field_start_date[und][0][value2]'){
-    $element['date']['#title'] = 'Ending date and time' .
+    $element['date']['#title'] = 'Ending date' .
       ' <span class="required-custom" title="'.t('This field is required.').'">*</span>';
   }
 }
