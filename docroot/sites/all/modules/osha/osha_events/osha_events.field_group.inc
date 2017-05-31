@@ -21,7 +21,7 @@ function osha_events_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Contact',
-    'weight' => '21',
+    'weight' => '33',
     'children' => array(),
     'format_type' => 'fieldset',
     'format_settings' => array(

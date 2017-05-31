@@ -102,3 +102,82 @@ function osha_events_update_7006() {
 function osha_events_update_7007() {
   features_revert_module('osha_events');
 }
+
+/**
+ * Update event content type - cleanup osha dump
+ */
+function osha_events_update_7008() {
+  if (db_table_exists('field_data_field_for_the_web')) {
+    db_drop_table('field_data_field_for_the_web');
+  }
+  if (db_table_exists('field_revision_field_for_the_web')) {
+    db_drop_table('field_revision_field_for_the_web');
+  }
+  if (db_table_exists('field_data_field_adonis')) {
+    db_drop_table('field_data_field_adonis');
+  }
+  if (db_table_exists('field_revision_field_adonis')) {
+    db_drop_table('field_revision_field_adonis');
+  }
+  if (db_table_exists('field_data_field_unit_ref')) {
+    db_drop_table('field_data_field_unit_ref');
+  }
+  if (db_table_exists('field_revision_field_unit_ref')) {
+    db_drop_table('field_revision_field_unit_ref');
+  }
+  if (db_table_exists('field_data_field_agency_role')) {
+    db_drop_table('field_data_field_agency_role');
+  }
+  if (db_table_exists('field_revision_field_agency_role')) {
+    db_drop_table('field_revision_field_agency_role');
+  }
+  if (db_table_exists('field_data_field_agency_initial_contact')) {
+    db_drop_table('field_data_field_agency_initial_contact');
+  }
+  if (db_table_exists('field_revision_field_agency_initial_contact')) {
+    db_drop_table('field_revision_field_agency_initial_contact');
+  }
+  if (db_table_exists('field_data_field_agency_rep_confirmed')) {
+    db_drop_table('field_data_field_agency_rep_confirmed');
+  }
+  if (db_table_exists('field_revision_field_agency_rep_confirmed')) {
+    db_drop_table('field_revision_field_agency_rep_confirmed');
+  }
+  if (db_table_exists('field_data_field_satisfaction_rate')) {
+    db_drop_table('field_data_field_satisfaction_rate');
+  }
+  if (db_table_exists('field_revision_field_satisfaction_rate')) {
+    db_drop_table('field_revision_field_satisfaction_rate');
+  }
+  if (db_table_exists('field_data_field_event_in_amp')) {
+    db_drop_table('field_data_field_event_in_amp');
+  }
+  if (db_table_exists('field_revision_field_event_in_amp')) {
+    db_drop_table('field_revision_field_event_in_amp');
+  }
+  if (db_table_exists('field_data_field_agency_contact_reply')) {
+    db_drop_table('field_data_field_agency_contact_reply');
+  }
+  if (db_table_exists('field_revision_field_agency_contact_reply')) {
+    db_drop_table('field_revision_field_agency_contact_reply');
+  }
+  if (db_table_exists('field_data_field_number_of_attendees')) {
+    db_drop_table('field_data_field_number_of_attendees');
+  }
+  if (db_table_exists('field_revision_field_number_of_attendees')) {
+    db_drop_table('field_revision_field_number_of_attendees');
+  }
+  if (db_table_exists('field_data_field_color')) {
+    db_drop_table('field_data_field_color');
+  }
+  if (db_table_exists('field_revision_field_color')) {
+    db_drop_table('field_revision_field_color');
+  }
+}
+
+/**
+ * Revert osha_events.
+ */
+function osha_events_update_7009() {
+  features_revert_module('osha_events');
+}
