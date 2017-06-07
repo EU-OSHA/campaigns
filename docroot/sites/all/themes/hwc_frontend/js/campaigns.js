@@ -1,5 +1,15 @@
 jQuery(document).ready(function() {
 
+	/*adding color to search filter on checked*/
+	if(jQuery('label[for="edit-sort-by-search-api-relevance"] input').is(':checked')) {
+		jQuery('label[for="edit-sort-by-search-api-relevance"]').css({'color': '#749b00', 'font-weight': 'bolder'});
+	}
+	if(jQuery('label[for="edit-sort-by-field-publication-date"] input').is(':checked')) {
+		jQuery('label[for="edit-sort-by-field-publication-date"]').css({'color': '#749b00', 'font-weight': 'bolder'});
+	}
+	if(jQuery('label[for="edit-sort-by-title2"] input').is(':checked')) {
+		jQuery('label[for="edit-sort-by-title2"]').css({'color': '#749b00', 'font-weight': 'bolder'});
+	}
 
 	/*Fix the target _blank when we import the content of CORPORATE*/
 
