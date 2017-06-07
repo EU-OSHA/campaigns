@@ -9421,6 +9421,9 @@ div[class*='node-'] .more-link {
   color: #749b00;
   font-weight: bold;
 }
+.page-search .radio input[type=radio] {
+  display: none;
+}
 #ui-theme-basic-green.ui-menu {
   width: 250px;
   min-width: 250px;
