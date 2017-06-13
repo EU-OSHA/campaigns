@@ -1,0 +1,12 @@
+diff --git a/docroot/sites/all/modules/contrib/date/date_admin.inc b/docroot/sites/all/modules/contrib/date/date_admin.inc
+index 0e32fc5..cc5afb4 100644
+--- a/docroot/sites/all/modules/contrib/date/date_admin.inc
++++ b/docroot/sites/all/modules/contrib/date/date_admin.inc
+@@ -487,7 +487,6 @@ function _date_field_settings_form($field, $instance, $has_data) {
+     '#type' => 'checkbox',
+     '#title' => t('Required'),
+     '#default_value' => ((isset($settings['todate']) && $settings['todate'] === 'required') ? TRUE : FALSE),
+-    '#disabled' => $has_data,
+     '#states' => array(
+       'invisible' => array(
+         'input[name="field[settings][enddate_get]"]' => array('checked' => FALSE),

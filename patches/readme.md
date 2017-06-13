@@ -7,6 +7,11 @@ When patching a contrib module, the following steps should be followed:
 
 List of patches (most recent first)
 
+* date
+  * Collect end date required toggle is disabled after data entry
+  * patches/date/required_end_date-2581013-2.patch
+  * https://www.drupal.org/node/2581013
+
 * tmgmt
   * Compare cart against the database and refresh the session.
   * patches/tmgmt/tmgmt-cart-init-session-vs-db.patch
