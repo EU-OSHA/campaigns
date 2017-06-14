@@ -183,7 +183,7 @@ function osha_search_default_search_api_index() {
           "status" : 1,
           "weight" : "0",
           "settings" : {
-            "excluded_extensions" : "aif art avi bmp gif ico mov oga ogv png psd ra ram rgb flv",
+            "excluded_extensions" : "aif art avi bmp gif ico mov oga ogv png psd ra ram rgb flv webm mp4 wmv zip rar swf fla flv",
             "number_indexed" : "0"
           }
         },
