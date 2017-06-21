@@ -74,6 +74,9 @@ function osha_events_form_events_node_form_alter(&$form, &$form_state) {
     $form['field_number_of_attendees']['#access'] = TRUE;
     $form['field_color']['#access'] = TRUE;
   } else {
+    if (in_array(ROLE_CAMPAIGN_PARTNER, $user->roles)) {
+      $form['field_for_the_web']['#access'] = FALSE;
+    }
     $form['body'][LANGUAGE_NONE][0]['#required'] = TRUE;
     $form['field_tags']['#access'] = FALSE;
     $form['field_activity']['#access'] = FALSE;
