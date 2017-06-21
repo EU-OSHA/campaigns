@@ -487,7 +487,6 @@ function _date_field_settings_form($field, $instance, $has_data) {
     '#type' => 'checkbox',
     '#title' => t('Required'),
     '#default_value' => ((isset($settings['todate']) && $settings['todate'] === 'required') ? TRUE : FALSE),
-    '#disabled' => $has_data,
     '#states' => array(
       'invisible' => array(
         'input[name="field[settings][enddate_get]"]' => array('checked' => FALSE),
