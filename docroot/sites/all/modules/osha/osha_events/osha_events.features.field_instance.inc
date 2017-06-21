@@ -1769,7 +1769,7 @@ Grey - Only web or not attendance',
     'entity_type' => 'node',
     'field_name' => 'field_for_the_web',
     'label' => 'For the web / Public',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'entity_translation_sync' => FALSE,
       'user_register_form' => FALSE,
