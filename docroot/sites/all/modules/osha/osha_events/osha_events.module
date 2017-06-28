@@ -73,7 +73,11 @@ function osha_events_form_events_node_form_alter(&$form, &$form_state) {
     $form['field_agency_contact_reply']['#access'] = TRUE;
     $form['field_number_of_attendees']['#access'] = TRUE;
     $form['field_color']['#access'] = TRUE;
+    $form['field_show_in_ncw']['#access'] = TRUE;
   } else {
+    if (in_array(ROLE_CAMPAIGN_PARTNER, $user->roles)) {
+      $form['field_for_the_web']['#access'] = FALSE;
+    }
     $form['body'][LANGUAGE_NONE][0]['#required'] = TRUE;
     $form['field_tags']['#access'] = FALSE;
     $form['field_activity']['#access'] = FALSE;
@@ -87,6 +91,7 @@ function osha_events_form_events_node_form_alter(&$form, &$form_state) {
     $form['field_agency_contact_reply']['#access'] = FALSE;
     $form['field_number_of_attendees']['#access'] = FALSE;
     $form['field_color']['#access'] = FALSE;
+    $form['field_show_in_ncw']['#access'] = FALSE;
   }
 
   $form['#validate'][] = 'osha_events_form_validate';
@@ -203,6 +208,10 @@ function osha_events_form_views_exposed_form_alter(&$form, &$form_state) {
  */
 function osha_events_element_info_alter(&$type) {
   $type['date_popup']['#process'][] = 'osha_events_popup_date_process';
+
+  if (isset($type['link_field'])) {
+    $type['link_field']['#process'][] = 'osha_events_link_field_process';
+  }
 }
 
 /**
@@ -482,4 +491,18 @@ function theme_event_location($vars) {
     $output = '<div class="event-location-container">' . $output . '</div>';
   }
   return $output;
+}
+
+/**
+ * Change field label
+ */
+function osha_events_link_field_process($element, $form_state, $complete_form) {
+  switch ($element['#field_name']) {
+    case 'field_website_of_event':
+      $element['title']['#title'] = t('Website name');
+      $element['url']['#title'] = t('Website url');
+      break;
+  }
+
+  return $element;
 }

@@ -277,7 +277,7 @@ function osha_events_strongarm() {
           'weight' => '4',
         ),
         'xmlsitemap' => array(
-          'weight' => '34',
+          'weight' => '35',
         ),
       ),
       'display' => array(
