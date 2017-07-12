@@ -3089,7 +3089,7 @@ Grey - Only web or not attendance',
         'settings' => array(
           'field_formatter_class' => '',
         ),
-        'type' => 'link_url',
+        'type' => 'link_default',
         'weight' => 6,
       ),
       'highlights_item' => array(
