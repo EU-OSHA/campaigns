@@ -235,7 +235,7 @@ function tweet_feed_cron() {
                   ->execute();
       if ($result->rowCount() > 0) {
         $tdata = $result->fetchObject();
-        $hash = md5(serialize($tweet->text));
+        $hash = md5(serialize($tweet->full_text));
         // If our hashes are equal, we have nothing to update and can move along.
         if ($hash == $tdata->hash) {
           continue;
