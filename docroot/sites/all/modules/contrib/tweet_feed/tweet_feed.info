@@ -1,0 +1,19 @@
+name = Tweet Feed
+description = A Twitter integration module that pulls profiles of people and tweets who tweet according to search, list or user timeline.
+core = 7.x
+php = 5.3
+package = Other
+configure = admin/config/services/tweet_feed
+
+dependencies[] = oauth_common
+dependencies[] = entityreference
+dependencies[] = date
+dependencies[] = taxonomy
+dependencies[] = system(>=7.50)
+
+; Information added by Drupal.org packaging script on 2017-03-21
+version = "7.x-3.6"
+core = "7.x"
+project = "tweet_feed"
+datestamp = "1490129287"
+
