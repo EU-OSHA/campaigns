@@ -141,13 +141,27 @@ function osha_events_form_events_node_form_alter(&$form, &$form_state) {
  */
 function osha_events_form_validate($form, $form_state) {
   $values = $form_state['values'];
-  $start = $values['field_start_date'][LANGUAGE_NONE][0]['value'];
-  $end = $values['field_start_date'][LANGUAGE_NONE][0]['value2'];
-  if (!empty($start) || !empty($end)) {
-    $start = (!empty($start) && !is_array($start))? strtotime($start) : -9999999999; // Accept talking date
-    $end = (!empty($end) && !is_array($end)) ? strtotime($end) : 9999999999; // Accept talking date
-    if ($end == $start) {
-      $end = 9999999999; // End is empty ...
+  $start_date = $values['field_start_date'][LANGUAGE_NONE][0]['value'];
+  $end_date = $values['field_start_date'][LANGUAGE_NONE][0]['value2'];
+  if (!empty($start_date) || !empty($end_date)) {
+    // Accept talking date.
+    $start = (!empty($start_date) && !is_array($start_date)) ? strtotime($start_date) : -9999999999;
+    // Accept talking date. Fix talking date and end date.
+    if (!empty($end_date) && !is_array($end_date)) {
+      if (strlen($end_date) == 10) {
+        $end_date .= ' 23:59:59';
+      }
+      else {
+        $end_date = str_replace('00:00:00', '23:59:59', $end_date);
+      }
+      $end = strtotime($end_date);
+    }
+    else {
+      $end = 9999999999;
+    }
+    if ($end_date == $start_date) {
+      // End is empty ...
+      $end = 9999999999;
     }
     foreach ($values['field_schedule'][LANGUAGE_NONE] as $k => $row) {
       if (is_numeric($k) && !empty($row['field_talking_date'][LANGUAGE_NONE][0]['value'])) {
