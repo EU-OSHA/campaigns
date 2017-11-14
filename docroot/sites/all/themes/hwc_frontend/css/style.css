@@ -15039,6 +15039,16 @@ fieldset.captcha div {
 /*End aditional resources*/
 /* End Block: recommended-articles and recommended-resources */
 /*general classes*/
+article.node-3190 > .container,
+article.node-4509 > .container {
+  width: 100% !important;
+  padding-right: 0px;
+  padding-left: 0px;
+}
+article.node-3190 > .container iframe,
+article.node-4509 > .container iframe {
+  border: none;
+}
 .padding-href-button {
   /*css introduction button*/
   padding: 15px;
