@@ -1,0 +1,91 @@
+#
+# robots.txt
+#
+# This file is to prevent the crawling and indexing of certain parts
+# of your site by web crawlers and spiders run by sites like Yahoo!
+# and Google. By telling these "robots" where not to go on your site,
+# you save bandwidth and server resources.
+#
+# This file will be ignored unless it is at the root of your host:
+# Used:    http://example.com/robots.txt
+# Ignored: http://example.com/site/robots.txt
+#
+# For more information about the robots.txt standard, see:
+# http://www.robotstxt.org/robotstxt.html
+
+User-agent: *
+Crawl-delay: 10
+Disallow: /
+# CSS, JS, Images
+Allow: /previous/all-ages-2016/misc/*.css$
+Allow: /previous/all-ages-2016/misc/*.css?
+Allow: /previous/all-ages-2016/misc/*.js$
+Allow: /previous/all-ages-2016/misc/*.js?
+Allow: /previous/all-ages-2016/misc/*.gif
+Allow: /previous/all-ages-2016/misc/*.jpg
+Allow: /previous/all-ages-2016/misc/*.jpeg
+Allow: /previous/all-ages-2016/misc/*.png
+Allow: /previous/all-ages-2016/modules/*.css$
+Allow: /previous/all-ages-2016/modules/*.css?
+Allow: /previous/all-ages-2016/modules/*.js$
+Allow: /previous/all-ages-2016/modules/*.js?
+Allow: /previous/all-ages-2016/modules/*.gif
+Allow: /previous/all-ages-2016/modules/*.jpg
+Allow: /previous/all-ages-2016/modules/*.jpeg
+Allow: /previous/all-ages-2016/modules/*.png
+Allow: /previous/all-ages-2016/profiles/*.css$
+Allow: /previous/all-ages-2016/profiles/*.css?
+Allow: /previous/all-ages-2016/profiles/*.js$
+Allow: /previous/all-ages-2016/profiles/*.js?
+Allow: /previous/all-ages-2016/profiles/*.gif
+Allow: /previous/all-ages-2016/profiles/*.jpg
+Allow: /previous/all-ages-2016/profiles/*.jpeg
+Allow: /previous/all-ages-2016/profiles/*.png
+Allow: /previous/all-ages-2016/themes/*.css$
+Allow: /previous/all-ages-2016/themes/*.css?
+Allow: /previous/all-ages-2016/themes/*.js$
+Allow: /previous/all-ages-2016/themes/*.js?
+Allow: /previous/all-ages-2016/themes/*.gif
+Allow: /previous/all-ages-2016/themes/*.jpg
+Allow: /previous/all-ages-2016/themes/*.jpeg
+Allow: /previous/all-ages-2016/themes/*.png
+# Directories
+Disallow: /previous/all-ages-2016/includes/
+Disallow: /previous/all-ages-2016/misc/
+Disallow: /previous/all-ages-2016/modules/
+Disallow: /previous/all-ages-2016/profiles/
+Disallow: /previous/all-ages-2016/scripts/
+Disallow: /previous/all-ages-2016/themes/
+# Files
+Disallow: /previous/all-ages-2016/CHANGELOG.txt
+Disallow: /previous/all-ages-2016/cron.php
+Disallow: /previous/all-ages-2016/INSTALL.mysql.txt
+Disallow: /previous/all-ages-2016/INSTALL.pgsql.txt
+Disallow: /previous/all-ages-2016/INSTALL.sqlite.txt
+Disallow: /previous/all-ages-2016/install.php
+Disallow: /previous/all-ages-2016/INSTALL.txt
+Disallow: /previous/all-ages-2016/LICENSE.txt
+Disallow: /previous/all-ages-2016/MAINTAINERS.txt
+Disallow: /previous/all-ages-2016/update.php
+Disallow: /previous/all-ages-2016/UPGRADE.txt
+Disallow: /previous/all-ages-2016/xmlrpc.php
+# Paths (clean URLs)
+Disallow: /previous/all-ages-2016/admin/
+Disallow: /previous/all-ages-2016/comment/reply/
+Disallow: /previous/all-ages-2016/filter/tips/
+Disallow: /previous/all-ages-2016/node/add/
+Disallow: /previous/all-ages-2016/search/
+Disallow: /previous/all-ages-2016/user/register/
+Disallow: /previous/all-ages-2016/user/password/
+Disallow: /previous/all-ages-2016/user/login/
+Disallow: /previous/all-ages-2016/user/logout/
+# Paths (no clean URLs)
+Disallow: /previous/all-ages-2016/?q=admin/
+Disallow: /previous/all-ages-2016/?q=comment/reply/
+Disallow: /previous/all-ages-2016/?q=filter/tips/
+Disallow: /previous/all-ages-2016/?q=node/add/
+Disallow: /previous/all-ages-2016/?q=search/
+Disallow: /previous/all-ages-2016/?q=user/password/
+Disallow: /previous/all-ages-2016/?q=user/register/
+Disallow: /previous/all-ages-2016/?q=user/login/
+Disallow: /previous/all-ages-2016/?q=user/logout/

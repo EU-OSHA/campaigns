@@ -123,6 +123,10 @@ function osha_events_views_default_views() {
   $handler->display->display_options['sorts']['field_talking_date_value']['id'] = 'field_talking_date_value';
   $handler->display->display_options['sorts']['field_talking_date_value']['table'] = 'field_data_field_talking_date';
   $handler->display->display_options['sorts']['field_talking_date_value']['field'] = 'field_talking_date_value';
+  /* Sort criterion: Field collection item: Speech title (field_talking_title) */
+  $handler->display->display_options['sorts']['field_talking_title_value']['id'] = 'field_talking_title_value';
+  $handler->display->display_options['sorts']['field_talking_title_value']['table'] = 'field_data_field_talking_title';
+  $handler->display->display_options['sorts']['field_talking_title_value']['field'] = 'field_talking_title_value';
   /* Contextual filter: Content: Nid */
   $handler->display->display_options['arguments']['nid']['id'] = 'nid';
   $handler->display->display_options['arguments']['nid']['table'] = 'node';
@@ -989,7 +993,7 @@ function osha_events_views_default_views() {
   $handler->display->display_options['fields']['field_start_date_value2']['date_format'] = 'osha_day_only';
   $handler->display->display_options['fields']['field_start_date_value2']['second_date_format'] = 'year';
   $handler->display->display_options['fields']['field_start_date_value2']['link_to_entity'] = 0;
-  /* Field: Indexed Multilingual Content: Title */
+  /* Field: Indexed Multilingual Content: Organisation */
   $handler->display->display_options['fields']['title_field']['id'] = 'title_field';
   $handler->display->display_options['fields']['title_field']['table'] = 'search_api_index_default_multilingual_node_index';
   $handler->display->display_options['fields']['title_field']['field'] = 'title_field';
@@ -1259,7 +1263,7 @@ function osha_events_views_default_views() {
     'title_link' => '',
     'title_class' => 'city',
   );
-  /* Field: Indexed Multilingual Content: Title */
+  /* Field: Indexed Multilingual Content: Organisation */
   $handler->display->display_options['fields']['title_field']['id'] = 'title_field';
   $handler->display->display_options['fields']['title_field']['table'] = 'search_api_index_default_multilingual_node_index';
   $handler->display->display_options['fields']['title_field']['field'] = 'title_field';
@@ -1404,7 +1408,7 @@ function osha_events_views_default_views() {
     'multiple_to' => '',
     'osha_date_theme' => '',
   );
-  /* Field: Indexed Multilingual Content: Title */
+  /* Field: Indexed Multilingual Content: Organisation */
   $handler->display->display_options['fields']['title_field']['id'] = 'title_field';
   $handler->display->display_options['fields']['title_field']['table'] = 'search_api_index_default_multilingual_node_index';
   $handler->display->display_options['fields']['title_field']['field'] = 'title_field';
@@ -1545,7 +1549,7 @@ function osha_events_views_default_views() {
     'osha_date_theme' => 'with_time',
     'field_formatter_class' => '',
   );
-  /* Field: Indexed Multilingual Content: Title */
+  /* Field: Indexed Multilingual Content: Organisation */
   $handler->display->display_options['fields']['title_field']['id'] = 'title_field';
   $handler->display->display_options['fields']['title_field']['table'] = 'search_api_index_default_multilingual_node_index';
   $handler->display->display_options['fields']['title_field']['field'] = 'title_field';
@@ -1698,7 +1702,7 @@ function osha_events_views_default_views() {
     'osha_date_theme' => 'with_time',
     'field_formatter_class' => '',
   );
-  /* Field: Indexed Multilingual Content: Title */
+  /* Field: Indexed Multilingual Content: Organisation */
   $handler->display->display_options['fields']['title_field']['id'] = 'title_field';
   $handler->display->display_options['fields']['title_field']['table'] = 'search_api_index_default_multilingual_node_index';
   $handler->display->display_options['fields']['title_field']['field'] = 'title_field';
