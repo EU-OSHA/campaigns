@@ -414,7 +414,6 @@ abstract class AbstractNCWNodeMigration extends Migration {
     $map = $this->getMap();
     $source = $this->getSource();
     $removed = $map->getRowsNeedingUpdate(10000);
-    $to_be_removed = array();
     if (!empty($removed)) {
       if (strpos($this->arguments['machine_name'], 'tax_') === 0) {
         // TODO ?! Removing terms that don't exists anymore
@@ -426,18 +425,31 @@ abstract class AbstractNCWNodeMigration extends Migration {
           $url = $source->itemURL($to_remove->sourceid1);
           $curl = curl_init();
           curl_setopt($curl, CURLOPT_URL, $url);
-          curl_setopt($curl, CURLOPT_NOBODY, true);
+          curl_setopt($curl, CURLOPT_NOBODY, TRUE);
           curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
-          curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+          curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
           $result = curl_exec($curl);
           $info = curl_getinfo($curl);
           curl_close($curl);
-          // Remove only if 404
+          // Remove only if 404.
           if (!empty($info['http_code']) && $info['http_code'] == 404) {
             node_delete($to_remove->destid1);
             $this->getMap()->delete(array($to_remove->sourceid1));
             watchdog('osha_sites_migration', 'Deleting NODE that are not in the source anymore (@migration): !nids.',
               array('!nids' => $to_remove->destid1, '@migration' => $this->arguments['machine_name']), WATCHDOG_INFO);
+          }
+          else {
+            $nid = $to_remove->destid1;
+            if ($node = node_load($nid)) {
+              if ($node->status == 1) {
+                $node->status = 0;
+                node_save($node);
+                $this->currentMigration()->displayMessage(
+                  strtr('Unpublishing @type @title - not found in source anymore.', array('@type'=>$node->type, '@title' => $node->title)),
+                  'warning'
+                );
+              }
+            }
           }
         }
       }
