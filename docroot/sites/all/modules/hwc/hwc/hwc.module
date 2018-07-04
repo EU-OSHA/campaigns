@@ -9,6 +9,17 @@ define('ROLE_SUPERADMINISTRATOR', 'Superadministrators');
 define('SOLR_SEARCH_INDEX', 'default_multilingual_node_index');
 
 /**
+ * Implements hook_menu_alter().
+ */
+function hwc_menu_alter(&$items) {
+  $items['taxonomy/term/%taxonomy_term/feed']['page callback'] = 'hwc_disable_taxonomy_term_feed';
+}
+
+function hwc_disable_taxonomy_term_feed() {
+  drupal_not_found();
+}
+
+/**
  * Implements hook_permission().
  */
 function hwc_permission() {

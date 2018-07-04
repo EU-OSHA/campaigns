@@ -596,3 +596,10 @@ function hwc_update_7032() {
   ncw_migration_run_single('news');
   ncw_migration_run_single('events');
 }
+
+/**
+ * MDR-2015 Delete the access to taxonomy webpages.
+ */
+function hwc_update_7033() {
+  features_revert(array('hwc' => 'page_manager_handlers'));
+}
