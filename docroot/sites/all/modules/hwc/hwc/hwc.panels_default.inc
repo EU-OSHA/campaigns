@@ -32,6 +32,8 @@ function hwc_default_panels_mini() {
   $display->cache = array();
   $display->title = '';
   $display->uuid = 'c494b9a0-a840-455b-86f4-ac9aec9dfe8e';
+  $display->storage_type = 'panels_mini';
+  $display->storage_id = 'additional_resources';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
@@ -444,6 +446,8 @@ function hwc_default_panels_mini() {
   $display->cache = array();
   $display->title = '';
   $display->uuid = 'ae6050ef-5127-4bae-8469-6f6cbbeea21f';
+  $display->storage_type = 'panels_mini';
+  $display->storage_id = 'news_and_events';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();

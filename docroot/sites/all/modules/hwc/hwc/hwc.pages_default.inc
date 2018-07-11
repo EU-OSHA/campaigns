@@ -5,6 +5,33 @@
  */
 
 /**
+ * Implements hook_default_page_manager_handlers().
+ */
+function hwc_default_page_manager_handlers() {
+  $export = array();
+
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'term_view__other';
+  $handler->task = 'term_view';
+  $handler->subtask = '';
+  $handler->handler = 'http_response';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Other',
+    'contexts' => array(),
+    'relationships' => array(),
+    'code' => '404',
+    'destination' => '',
+    'name' => 'other',
+  );
+  $export['term_view__other'] = $handler;
+
+  return $export;
+}
+
+/**
  * Implements hook_default_page_manager_pages().
  */
 function hwc_default_page_manager_pages() {
@@ -84,6 +111,8 @@ Get your certificate of participation in the Healthy Workplaces Campaign',
   $display->cache = array();
   $display->title = 'Get your certificate of participation in the Healthy Workplaces Campaign';
   $display->uuid = '7094f568-dc86-496f-9cdf-6998ee08d501';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_get_your_certificate_page__panel_context_c40663c3-4cd7-4dc9-bd7d-b973c46fc933';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
