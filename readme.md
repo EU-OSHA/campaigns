@@ -1,7 +1,7 @@
-OSHA
+HWC16
 ====
 
-Build scripts and source code for the Osha project
+Build scripts and source code for the EU-OSHA project
 
 [![Build Status](http://ci.edw.ro/buildStatus/icon?job=php-osha)](http://ci.edw.ro/job/php-osha/)
 
