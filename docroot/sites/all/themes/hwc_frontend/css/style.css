@@ -10018,21 +10018,6 @@ article .hwc-share-widget ul {
   padding-left: 25px;
   display: block;
 }
-.hwc-share-widget ul li[id*="google-plus-"] {
-  background: url("../images/content/google-healthy.png") no-repeat;
-  margin-left: 10px;
-  width: 25px;
-  height: 25px;
-  display: inline-table;
-  overflow: hidden;
-  background-size: cover;
-}
-.hwc-share-widget ul li[id*="google-plus-"] a {
-  width: 25px;
-  height: 25px;
-  padding-left: 25px;
-  display: block;
-}
 .hwc-share-widget ul li[class="pull-right"] {
   background: url("../images/content/rss.png") no-repeat;
   margin-left: 10px;
@@ -12045,17 +12030,6 @@ html:lang(mt) .get-involved-section .information-tailored .images-section .image
   margin-bottom: 1em;
 }
 .node-type-partner .profile-4-cols-container-2 [class*="field-type-link"][class*="linkedin"] .field-item {
-  width: 280px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.node-type-partner .profile-4-cols-container-2 [class*="field-type-link"][class*="google-plus"] {
-  background: url("../images/content/googleplus.png") no-repeat left center;
-  padding-left: 50px;
-  margin-bottom: 1em;
-}
-.node-type-partner .profile-4-cols-container-2 [class*="field-type-link"][class*="google-plus"] .field-item {
   width: 280px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -18918,8 +18892,6 @@ input#edit-field-image-und-0-upload::before {
   .node-type-partner .profile-4-cols-container-2 [class*="field-type-link"][class*="youtube"],
   .profile-4-cols-container-2 [class*="field-type-link"][class*="linkedin"],
   .node-type-partner .profile-4-cols-container-2 [class*="field-type-link"][class*="linkedin"],
-  .profile-4-cols-container-2 [class*="field-type-link"][class*="google-plus"],
-  .node-type-partner .profile-4-cols-container-2 [class*="field-type-link"][class*="google-plus"],
   .profile-4-cols-container-2 [class*="field-type-link"][class*="pinterest"],
   .node-type-partner .profile-4-cols-container-2 [class*="field-type-link"][class*="pinterest"] {
     background-position: center top;
@@ -18937,8 +18909,6 @@ input#edit-field-image-und-0-upload::before {
   .node-type-partner .profile-4-cols-container-2 [class*="field-type-link"][class*="youtube"] .field-item,
   .profile-4-cols-container-2 [class*="field-type-link"][class*="linkedin"] .field-item,
   .node-type-partner .profile-4-cols-container-2 [class*="field-type-link"][class*="linkedin"] .field-item,
-  .profile-4-cols-container-2 [class*="field-type-link"][class*="google-plus"] .field-item,
-  .node-type-partner .profile-4-cols-container-2 [class*="field-type-link"][class*="google-plus"] .field-item,
   .profile-4-cols-container-2 [class*="field-type-link"][class*="pinterest"] .field-item,
   .node-type-partner .profile-4-cols-container-2 [class*="field-type-link"][class*="pinterest"] .field-item {
     width: auto;
