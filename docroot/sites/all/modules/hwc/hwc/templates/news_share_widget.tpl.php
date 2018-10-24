@@ -61,13 +61,6 @@ $twitter_url = str_replace('https://', '', $twitter_url);
     <li class="label">
       <?php print t('Share'); ?>
     </li>
-    <li id="google-plus-<?php print $node->nid; ?>" class="napo-share-widget-button napo-share-widget-google-plus">
-      <a onclick="window.open(this.href, 'hwc-share', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"
-         href="https://plus.google.com/share?url=<?php print $url; ?>">Google+</a>
-    </li>
-    <li class="label">
-      <?php print t('Share'); ?>
-    </li>
     <?php if (!$rss_hide): ?>
       <li class="label label-rss pull-right">
         <?php print t('RSS'); ?>
@@ -134,9 +127,6 @@ if (!empty($node->path['alias'])) {
                 });
                 $('#facebook-share-button-<?php print $node->nid; ?> a').click(function(event) {
                     _paq.push(['trackEvent', 'Share', 'Facebook', '<?php print $event_name ?>', '<?php print $event_val ?>']);
-                });
-                $('#google-plus-<?php print $node->nid; ?> a').click(function(event) {
-                    _paq.push(['trackEvent', 'Share', 'Google+', '<?php print $event_name ?>', '<?php print $event_val ?>']);
                 });
             }
         });
