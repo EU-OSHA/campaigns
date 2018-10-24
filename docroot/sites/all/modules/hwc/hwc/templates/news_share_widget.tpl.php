@@ -61,9 +61,6 @@ $twitter_url = str_replace('https://', '', $twitter_url);
     <li class="label">
       <?php print t('Share'); ?>
     </li>
-    <li class="label">
-      <?php print t('Share'); ?>
-    </li>
     <?php if (!$rss_hide): ?>
       <li class="label label-rss pull-right">
         <?php print t('RSS'); ?>
