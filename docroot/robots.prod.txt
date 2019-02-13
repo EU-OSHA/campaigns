@@ -89,3 +89,4 @@ Disallow: /previous/all-ages-2016/?q=user/password/
 Disallow: /previous/all-ages-2016/?q=user/register/
 Disallow: /previous/all-ages-2016/?q=user/login/
 Disallow: /previous/all-ages-2016/?q=user/logout/
+Disallow: /previous/all-ages-2016/*/events/*
