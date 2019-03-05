@@ -10,6 +10,8 @@ var Drupal = Drupal || {};
 (function($, Drupal){
   "use strict";
 
+  var $document = $(document);
+
   Drupal.behaviors.bootstrap = {
     attach: function(context) {
       // Provide some Bootstrap tab/Drupal integration.
@@ -79,7 +81,7 @@ var Drupal = Drupal || {};
       if (settings.bootstrap && settings.bootstrap.popoverEnabled) {
         var $currentPopover = $();
         if (settings.bootstrap.popoverOptions.triggerAutoclose) {
-          $(document).on('click', function (e) {
+          $document.on('click', function (e) {
             if ($currentPopover.length && !$(e.target).is('[data-toggle=popover]') && $(e.target).parents('.popover.in').length === 0) {
               $currentPopover.popover('hide');
               $currentPopover = $();
