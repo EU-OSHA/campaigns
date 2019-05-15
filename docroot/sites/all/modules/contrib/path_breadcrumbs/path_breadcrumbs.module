@@ -325,7 +325,7 @@ function path_breadcrumbs_breadcrumb($variables) {
 
     // Provide a navigational heading to give context for breadcrumb links to
     // screen-reader users. Make the heading invisible with .element-invisible.
-    $output = '<h2 class="element-invisible">' . t('You are here') . '</h2>';
+    $output = '<div class="element-invisible">' . t('You are here') . '</div>';
 
     // Hide breadcrumb navigation if it contains only one element.
     $hide_single_breadcrumb = variable_get('path_breadcrumbs_hide_single_breadcrumb', 0);
@@ -452,7 +452,7 @@ function path_breadcrumbs_breadcrumb($variables) {
     }
 
     // Get breadcrumb delimiter and wrap it into <span> for customization.
-    $delimiter = variable_get('path_breadcrumbs_delimiter', '»');
+    $delimiter = check_plain(variable_get('path_breadcrumbs_delimiter', '»'));
     $delimiter = '<span class="delimiter">' . trim($delimiter) . '</span>';
 
     $classes = array('breadcrumb');

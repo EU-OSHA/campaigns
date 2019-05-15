@@ -224,7 +224,7 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::ping().
+   * {@inheritdoc}
    */
   public function ping($timeout = 2) {
     $start = microtime(TRUE);
@@ -251,28 +251,28 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::setSoftCommit().
+   * {@inheritdoc}
    */
   public function setSoftCommit($soft_commit) {
     $this->soft_commit = (bool) $soft_commit;
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::getSoftCommit().
+   * {@inheritdoc}
    */
   public function getSoftCommit() {
     return $this->soft_commit;
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::setStreamContext().
+   * {@inheritdoc}
    */
   public function setStreamContext($stream_context) {
     $this->stream_context = $stream_context;
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::getStreamContext().
+   * {@inheritdoc}
    */
   public function getStreamContext() {
     return $this->stream_context;
@@ -333,6 +333,9 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
 
   /**
    * Sets $this->luke with the metadata about the index from admin/luke.
+   *
+   * @param int $num_terms
+   *   (optional) The number of "top terms" to return.
    */
   protected function setLuke($num_terms = 0) {
     if (empty($this->luke[$num_terms])) {
@@ -360,18 +363,21 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::getFields().
+   * {@inheritdoc}
    */
   public function getFields($num_terms = 0) {
     $fields = array();
-    foreach ($this->getLuke($num_terms)->fields as $name => $info) {
-      $fields[$name] = new SearchApiSolrField($info);
+    $luke_data = $this->getLuke($num_terms);
+    if (isset($luke_data->fields)) {
+      foreach ($luke_data->fields as $name => $info) {
+        $fields[$name] = new SearchApiSolrField($info);
+      }
     }
     return $fields;
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::getLuke().
+   * {@inheritdoc}
    */
   public function getLuke($num_terms = 0) {
     if (!isset($this->luke[$num_terms])) {
@@ -381,7 +387,7 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::getSolrVersion().
+   * {@inheritdoc}
    */
   public function getSolrVersion() {
     // Allow for overrides by the user.
@@ -392,7 +398,7 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
     $system_info = $this->getSystemInfo();
     // Get our solr version number
     if (isset($system_info->lucene->{'solr-spec-version'})) {
-      return $system_info->lucene->{'solr-spec-version'}[0];
+      return (int) $system_info->lucene->{'solr-spec-version'};
     }
     return 0;
   }
@@ -430,7 +436,7 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::getStats().
+   * {@inheritdoc}
    */
   public function getStats() {
     if (!isset($this->stats)) {
@@ -440,7 +446,7 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::getStatsSummary().
+   * {@inheritdoc}
    */
   public function getStatsSummary() {
     $stats = $this->getStats();
@@ -506,11 +512,10 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::clearCache().
+   * {@inheritdoc}
    */
   public function clearCache() {
     if ($cid = $this->getCacheId()) {
-      cache_clear_all($cid, 'cache_search_api_solr', TRUE);
       cache_clear_all($cid, 'cache_search_api_solr', TRUE);
     }
     $this->luke = array();
@@ -545,7 +550,7 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::makeServletRequest().
+   * {@inheritdoc}
    */
   public function makeServletRequest($servlet, array $params = array(), array $options = array()) {
     // Add default params.
@@ -561,7 +566,19 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
   }
 
   /**
-   * Central method for making a GET operation against this Solr Server
+   * Sends a GET request to the Solr server.
+   *
+   * @param string $url
+   *   The URL to which the request should be sent.
+   * @param array $options
+   *   Additional options for the request, as recognized by
+   *   drupal_http_request().
+   *
+   * @return object
+   *   The HTTP response, as returned by drupal_http_request().
+   *
+   * @throws SearchApiException
+   *   If an error occurs, either during sending or on the server side.
    */
   protected function sendRawGet($url, array $options = array()) {
     $options['method'] = 'GET';
@@ -571,7 +588,19 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
   }
 
   /**
-   * Central method for making a POST operation against this Solr Server
+   * Sends a PUT request to the Solr server.
+   *
+   * @param string $url
+   *   The URL to which the request should be sent.
+   * @param array $options
+   *   Additional options for the request, as recognized by
+   *   drupal_http_request().
+   *
+   * @return object
+   *   The HTTP response, as returned by drupal_http_request().
+   *
+   * @throws SearchApiException
+   *   If an error occurs, either during sending or on the server side.
    */
   protected function sendRawPost($url, array $options = array()) {
     $options['method'] = 'POST';
@@ -588,6 +617,15 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
    * Sends an HTTP request to Solr.
    *
    * This is just a wrapper around drupal_http_request().
+   *
+   * @param string $url
+   *   The URL to which the request should be sent.
+   * @param array $options
+   *   Additional options for the request, as recognized by
+   *   drupal_http_request().
+   *
+   * @return object
+   *   The HTTP response, as returned by drupal_http_request().
    */
   protected function makeHttpRequest($url, array $options = array()) {
     if (empty($options['method']) || $options['method'] == 'GET' || $options['method'] == 'HEAD') {
@@ -603,6 +641,7 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
 
     $result = drupal_http_request($url, $options);
 
+    $result->status_message = isset($result->status_message) ? $result->status_message : '';
     if (!isset($result->code) || $result->code < 0) {
       $result->code = 0;
       $result->status_message = 'Request failed';
@@ -630,12 +669,12 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::escape().
+   * {@inheritdoc}
    */
   public static function escape($value, $version = 0) {
     $replacements = array();
 
-    $specials = array('+', '-', '&&', '||', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':', "\\");
+    $specials = array('+', '-', '&&', '||', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':', "\\", 'AND', 'OR', 'NOT');
     // Solr 4.x introduces regular expressions, making the slash also a special
     // character.
     if ($version >= 4) {
@@ -650,7 +689,7 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::escapePhrase().
+   * {@inheritdoc}
    */
   public static function escapePhrase($value) {
     $replacements['"'] = '\"';
@@ -659,14 +698,14 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::phrase().
+   * {@inheritdoc}
    */
   public static function phrase($value) {
     return '"' . self::escapePhrase($value) . '"';
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::escapeFieldName().
+   * {@inheritdoc}
    */
   public static function escapeFieldName($value) {
     $value = str_replace(':', '\:', $value);
@@ -684,6 +723,7 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
    *   Additional query string to append to the URL.
    *
    * @return string
+   *   The complete URL.
    */
   protected function constructUrl($servlet, array $params = array(), $added_query_string = NULL) {
     // PHP's built in http_build_query() doesn't give us the format Solr wants.
@@ -703,14 +743,14 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::getBaseUrl().
+   * {@inheritdoc}
    */
   public function getBaseUrl() {
     return $this->base_url;
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::setBaseUrl().
+   * {@inheritdoc}
    */
   public function setBaseUrl($url) {
     $this->base_url = $url;
@@ -718,9 +758,9 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::update().
+   * {@inheritdoc}
    */
-  public function update($rawPost, $timeout = FALSE) {
+  public function update($rawPost, $timeout = 3600) {
     if (empty($this->update_url)) {
       // Store the URL in an instance variable since many updates may be sent
       // via a single instance of this class.
@@ -734,7 +774,7 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::addDocuments().
+   * {@inheritdoc}
    */
   public function addDocuments(array $documents, $overwrite = NULL, $commitWithin = NULL) {
     $attr = '';
@@ -758,21 +798,21 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::commit().
+   * {@inheritdoc}
    */
   public function commit($waitSearcher = TRUE, $timeout = 3600) {
     return $this->optimizeOrCommit('commit', $waitSearcher, $timeout);
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::deleteById().
+   * {@inheritdoc}
    */
   public function deleteById($id, $timeout = 3600) {
     return $this->deleteByMultipleIds(array($id), $timeout);
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::deleteByMultipleIds().
+   * {@inheritdoc}
    */
   public function deleteByMultipleIds(array $ids, $timeout = 3600) {
     $rawPost = '<delete>';
@@ -786,7 +826,7 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::deleteByQuery().
+   * {@inheritdoc}
    */
   public function deleteByQuery($rawQuery, $timeout = 3600) {
     $rawPost = '<delete><query>' . htmlspecialchars($rawQuery, ENT_NOQUOTES, 'UTF-8') . '</query></delete>';
@@ -795,14 +835,14 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
   }
 
   /**
-   * Implements SearchApiSolrConnectionInterface::optimize().
+   * {@inheritdoc}
    */
   public function optimize($waitSearcher = TRUE, $timeout = 3600) {
     return $this->optimizeOrCommit('optimize', $waitSearcher, $timeout);
   }
 
   /**
-   * Sends an commit or optimize command to the Solr server.
+   * Sends a commit or optimize command to the Solr server.
    *
    * Will be synchronous unless $waitSearcher is set to FALSE.
    *
@@ -900,36 +940,24 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
       // search keys here. (With our normal service class, empty keys won't be
       // set, but another module using this connection class might do that.)
       unset($params['q'], $params['qf']);
-
-      // If we have filters set (which will nearly always be the case, since we
-      // have to filter by index), move them to the q.alt parameter where
-      // possible.
-      if (!empty($params['fq'])) {
-        $qalt = array();
-        foreach ($params['fq'] as $i => $fq) {
-          // Tagged filters cannot be moved to q.alt.
-          if ($fq[0] !== '{') {
-            $qalt[] = "($fq)";
-            unset($params['fq'][$i]);
-          }
-        }
-        if ($qalt) {
-          $params['q.alt'] = implode(' ', $qalt);
-        }
-        if (empty($params['fq'])) {
-          unset($params['fq']);
-        }
-      }
     }
 
     // Build the HTTP query string. We have our own method for that since PHP's
     // built-in http_build_query() doesn't give us the format Solr wants.
     $queryString = $this->httpBuildQuery($params);
 
+    if (!empty($this->options['log_query'])) {
+      watchdog('search_api_solr', 'Query: @query', array('@query' => $queryString), WATCHDOG_DEBUG);
+    }
+
     if ($method == 'GET' || $method == 'AUTO') {
       $searchUrl = $this->constructUrl(self::SEARCH_SERVLET, array(), $queryString);
       if ($method == 'GET' || strlen($searchUrl) <= variable_get('search_api_solr_http_get_max_length', 4000)) {
-        return $this->sendRawGet($searchUrl);
+        $response = $this->sendRawGet($searchUrl);
+        if (!empty($this->options['log_response'])) {
+          $this->logResponse($response);
+        }
+        return $response;
       }
     }
 
@@ -937,7 +965,28 @@ class SearchApiSolrConnection implements SearchApiSolrConnectionInterface {
     $searchUrl = $this->constructUrl(self::SEARCH_SERVLET);
     $options['data'] = $queryString;
     $options['headers']['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
-    return $this->sendRawPost($searchUrl, $options);
+    $response = $this->sendRawPost($searchUrl, $options);
+
+    if (!empty($this->options['log_response'])) {
+      $this->logResponse($response);
+    }
+
+    return $response;
+  }
+
+  /**
+   * Logs a Solr response object.
+   *
+   * @param object $response
+   *   The response received from Solr.
+   */
+  protected function logResponse($response) {
+    $data = $response->code . ' ' . $response->status_message . "\n" . print_r($response->response, TRUE);
+    watchdog('search_api_solr', 'Response: <div style="white-space: pre-wrap;">@response</div>', array('@response' => $data), WATCHDOG_DEBUG);
+
+    if (!empty($response->facet_counts)) {
+      watchdog('search_api_solr', 'Facets: <div style="white-space: pre-wrap;">@facets</div>', array('@facets' => print_r($response->facet_counts, TRUE)), WATCHDOG_DEBUG);
+    }
   }
 
 }
